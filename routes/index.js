@@ -573,6 +573,96 @@ router.post('/warehouse/auth/logout',          warehouseUser.logout);
 router.get( '/warehouse/auth/me',              protectWarehouse, warehouseUser.getMe);
 router.put( '/warehouse/auth/change-password', protectWarehouse, warehouseUser.changePassword);
 
+// ── Sprint 10B: Inventory Management ─────────────────────────────────────────
+const grn             = require('../controllers/grnController');
+const inventory       = require('../controllers/inventoryController');
+const invTxn          = require('../controllers/inventoryTransactionController');
+const batch           = require('../controllers/batchController');
+const serial          = require('../controllers/serialController');
+const stockAdj        = require('../controllers/stockAdjustmentController');
+const cycleCount      = require('../controllers/cycleCountController');
+const stockRes        = require('../controllers/stockReservationController');
+const { requireWarehouseRole } = require('../middleware/warehouseAuth');
+
+// Admin: GRN
+router.get(  '/admin/grn',                           protect, admin, grn.getGRNs);
+router.post( '/admin/grn',                           protect, admin, grn.createGRN);
+router.get(  '/admin/grn/stats',                     protect, admin, grn.getGRNStats);
+router.get(  '/admin/grn/:id',                       protect, admin, grn.getGRNById);
+router.put(  '/admin/grn/:id',                       protect, admin, grn.updateGRN);
+router.put(  '/admin/grn/:id/submit',                protect, admin, grn.submitGRN);
+router.put(  '/admin/grn/:id/start-receiving',       protect, admin, grn.startReceiving);
+router.put(  '/admin/grn/:id/quality-check',         protect, admin, grn.qualityCheck);
+router.put(  '/admin/grn/:id/complete',              protect, admin, grn.completeGRN);
+router.put(  '/admin/grn/:id/cancel',                protect, admin, grn.cancelGRN);
+
+// Admin: Inventory
+router.get(  '/admin/inventory/dashboard',           protect, admin, inventory.getDashboard);
+router.get(  '/admin/inventory/low-stock',           protect, admin, inventory.getLowStock);
+router.get(  '/admin/inventory/out-of-stock',        protect, admin, inventory.getOutOfStock);
+router.get(  '/admin/inventory/valuation',           protect, admin, inventory.getValuation);
+router.get(  '/admin/inventory',                     protect, admin, inventory.getInventory);
+router.get(  '/admin/inventory/:id',                 protect, admin, inventory.getInventoryById);
+router.put(  '/admin/inventory/:id/thresholds',      protect, admin, inventory.updateThresholds);
+
+// Admin: Inventory Transactions
+router.get(  '/admin/inventory/transactions',        protect, admin, invTxn.getTransactions);
+router.get(  '/admin/inventory/transactions/stock-ledger', protect, admin, invTxn.getStockLedger);
+router.get(  '/admin/inventory/transactions/movement-report', protect, admin, invTxn.getMovementReport);
+router.get(  '/admin/inventory/transactions/:id',    protect, admin, invTxn.getTransactionById);
+
+// Admin: Batches
+router.get(  '/admin/inventory/batches/expiring',    protect, admin, batch.getExpiringBatches);
+router.get(  '/admin/inventory/batches',             protect, admin, batch.getBatches);
+router.post( '/admin/inventory/batches',             protect, admin, batch.createBatch);
+router.get(  '/admin/inventory/batches/:id',         protect, admin, batch.getBatchById);
+router.put(  '/admin/inventory/batches/:id',         protect, admin, batch.updateBatch);
+
+// Admin: Serial Numbers
+router.get(  '/admin/inventory/serials/by-product',  protect, admin, serial.getSerialsByProduct);
+router.get(  '/admin/inventory/serials',             protect, admin, serial.getSerials);
+router.post( '/admin/inventory/serials',             protect, admin, serial.createSerial);
+router.get(  '/admin/inventory/serials/:id',         protect, admin, serial.getSerialById);
+router.put(  '/admin/inventory/serials/:id',         protect, admin, serial.updateSerial);
+
+// Admin: Stock Adjustments
+router.get(  '/admin/inventory/adjustments',         protect, admin, stockAdj.getAdjustments);
+router.post( '/admin/inventory/adjustments',         protect, admin, stockAdj.createAdjustment);
+router.get(  '/admin/inventory/adjustments/:id',     protect, admin, stockAdj.getAdjustmentById);
+router.put(  '/admin/inventory/adjustments/:id/approve', protect, admin, stockAdj.approveAdjustment);
+router.put(  '/admin/inventory/adjustments/:id/reject',  protect, admin, stockAdj.rejectAdjustment);
+
+// Admin: Cycle Counts
+router.get(  '/admin/inventory/cycle-counts',        protect, admin, cycleCount.getCycleCounts);
+router.post( '/admin/inventory/cycle-counts',        protect, admin, cycleCount.createCycleCount);
+router.get(  '/admin/inventory/cycle-counts/:id',    protect, admin, cycleCount.getCycleCountById);
+router.put(  '/admin/inventory/cycle-counts/:id/start',    protect, admin, cycleCount.startCycleCount);
+router.put(  '/admin/inventory/cycle-counts/:id/items',    protect, admin, cycleCount.updateItems);
+router.put(  '/admin/inventory/cycle-counts/:id/complete', protect, admin, cycleCount.completeCycleCount);
+router.put(  '/admin/inventory/cycle-counts/:id/approve',  protect, admin, cycleCount.approveCycleCount);
+
+// Admin: Stock Reservations
+router.get(  '/admin/inventory/reservations/dashboard', protect, admin, stockRes.getReservationDashboard);
+router.get(  '/admin/inventory/reservations',        protect, admin, stockRes.getReservations);
+router.post( '/admin/inventory/reservations',        protect, admin, stockRes.createReservation);
+router.put(  '/admin/inventory/reservations/:id/release',  protect, admin, stockRes.releaseReservation);
+router.put(  '/admin/inventory/reservations/:id/fulfill',  protect, admin, stockRes.fulfillReservation);
+
+// Warehouse portal: Inventory
+router.get(  '/warehouse/inventory',                 protectWarehouse, inventory.warehouseGetInventory);
+
+// Warehouse portal: GRN
+router.get(  '/warehouse/grn',                       protectWarehouse, grn.warehouseGetGRNs);
+router.put(  '/warehouse/grn/:id/complete',          protectWarehouse, grn.warehouseCompleteGRN);
+
+// Warehouse portal: Stock Adjustments
+router.post( '/warehouse/adjustments',               protectWarehouse, stockAdj.warehouseCreateAdjustment);
+router.get(  '/warehouse/adjustments',               protectWarehouse, stockAdj.getAdjustments);
+
+// Warehouse portal: Cycle Counts
+router.get(  '/warehouse/cycle-counts',              protectWarehouse, cycleCount.warehouseGetCycleCounts);
+router.put(  '/warehouse/cycle-counts/:id/items',    protectWarehouse, cycleCount.warehouseUpdateCycleCount);
+
 // ── Sprint 9F: Audit Log ──────────────────────────────────────────────────────
 const audit    = require('../controllers/auditController');
 const AuditLog = require('../models/AuditLog');
