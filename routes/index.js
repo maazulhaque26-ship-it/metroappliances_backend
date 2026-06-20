@@ -522,6 +522,57 @@ router.put(   '/admin/bi/targets/:id',              protect, admin, target.updat
 router.delete('/admin/bi/targets/:id',              protect, admin, target.deleteTarget);
 router.get(   '/admin/bi/targets/:id/achievement',  protect, admin, target.getAchievement);
 
+// ── Sprint 10A: Warehouse Foundation ──────────────────────────────────────────
+const warehouse         = require('../controllers/warehouseController');
+const warehouseZone     = require('../controllers/warehouseZoneController');
+const warehouseLocation = require('../controllers/warehouseLocationController');
+const warehouseUser     = require('../controllers/warehouseUserController');
+const warehouseSettings = require('../controllers/warehouseSettingsController');
+const { protectWarehouse } = require('../middleware/warehouseAuth');
+
+// Admin: Warehouse management
+router.get(   '/admin/warehouse/dashboard',              protect, admin, warehouse.getWarehouseDashboard);
+router.get(   '/admin/warehouses',                       protect, admin, warehouse.getWarehouses);
+router.post(  '/admin/warehouses',                       protect, admin, warehouse.createWarehouse);
+router.get(   '/admin/warehouses/:id',                   protect, admin, warehouse.getWarehouseById);
+router.put(   '/admin/warehouses/:id',                   protect, admin, warehouse.updateWarehouse);
+router.delete('/admin/warehouses/:id',                   protect, admin, warehouse.deleteWarehouse);
+
+// Admin: Zones
+router.get(   '/admin/warehouse-zones',                  protect, admin, warehouseZone.getZones);
+router.post(  '/admin/warehouse-zones',                  protect, admin, warehouseZone.createZone);
+router.get(   '/admin/warehouse-zones/:id',              protect, admin, warehouseZone.getZoneById);
+router.put(   '/admin/warehouse-zones/:id',              protect, admin, warehouseZone.updateZone);
+router.put(   '/admin/warehouse-zones/:id/toggle',       protect, admin, warehouseZone.toggleZone);
+router.delete('/admin/warehouse-zones/:id',              protect, admin, warehouseZone.deleteZone);
+
+// Admin: Storage locations
+router.get(   '/admin/warehouse-locations',              protect, admin, warehouseLocation.getLocations);
+router.post(  '/admin/warehouse-locations',              protect, admin, warehouseLocation.createLocation);
+router.post(  '/admin/warehouse-locations/bulk',         protect, admin, warehouseLocation.bulkCreateLocations);
+router.get(   '/admin/warehouse-locations/:id',          protect, admin, warehouseLocation.getLocationById);
+router.put(   '/admin/warehouse-locations/:id',          protect, admin, warehouseLocation.updateLocation);
+router.delete('/admin/warehouse-locations/:id',          protect, admin, warehouseLocation.deleteLocation);
+
+// Admin: Warehouse users
+router.get(   '/admin/warehouse-users',                  protect, admin, warehouseUser.getWarehouseUsers);
+router.post(  '/admin/warehouse-users',                  protect, admin, warehouseUser.createWarehouseUser);
+router.get(   '/admin/warehouse-users/:id',              protect, admin, warehouseUser.getWarehouseUserById);
+router.put(   '/admin/warehouse-users/:id',              protect, admin, warehouseUser.updateWarehouseUser);
+router.put(   '/admin/warehouse-users/:id/toggle',       protect, admin, warehouseUser.toggleWarehouseUserStatus);
+router.delete('/admin/warehouse-users/:id',              protect, admin, warehouseUser.deleteWarehouseUser);
+router.put(   '/admin/warehouse-users/:id/password',     protect, admin, warehouseUser.resetWarehouseUserPassword);
+
+// Admin: Warehouse settings (per warehouse)
+router.get(   '/admin/warehouse-settings/:warehouseId',  protect, admin, warehouseSettings.getSettings);
+router.put(   '/admin/warehouse-settings/:warehouseId',  protect, admin, warehouseSettings.updateSettings);
+
+// Warehouse user portal (isolated auth — type:'warehouse' JWT)
+router.post('/warehouse/auth/login',           warehouseUser.login);
+router.post('/warehouse/auth/logout',          warehouseUser.logout);
+router.get( '/warehouse/auth/me',              protectWarehouse, warehouseUser.getMe);
+router.put( '/warehouse/auth/change-password', protectWarehouse, warehouseUser.changePassword);
+
 // ── Sprint 9F: Audit Log ──────────────────────────────────────────────────────
 const audit    = require('../controllers/auditController');
 const AuditLog = require('../models/AuditLog');

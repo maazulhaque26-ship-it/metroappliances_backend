@@ -24,6 +24,7 @@ const PERMISSIONS = {
     admins:      ['read','create','edit','delete'],
     targets:     ['read','create','edit','delete'],
     territories: ['read','create','edit','delete'],
+    warehouse:   ['read','create','edit','delete','approve','export'],
   },
   admin: {
     dealers:     ['read','create','edit','approve','export'],
@@ -40,6 +41,7 @@ const PERMISSIONS = {
     admins:      [],
     targets:     ['read','create','edit'],
     territories: ['read','create','edit'],
+    warehouse:   ['read','create','edit','delete','export'],
   },
   sales_manager: {
     dealers:     ['read','export'],
@@ -56,6 +58,7 @@ const PERMISSIONS = {
     admins:      [],
     targets:     ['read','create','edit','delete'],
     territories: ['read','create','edit'],
+    warehouse:   [],
   },
   finance_manager: {
     dealers:     ['read','export'],
@@ -72,6 +75,7 @@ const PERMISSIONS = {
     admins:      [],
     targets:     ['read'],
     territories: [],
+    warehouse:   ['read'],
   },
   marketing_manager: {
     dealers:     ['read'],
@@ -88,6 +92,7 @@ const PERMISSIONS = {
     admins:      [],
     targets:     ['read'],
     territories: [],
+    warehouse:   [],
   },
   dealer_manager: {
     dealers:     ['read','edit','approve','export'],
@@ -104,6 +109,7 @@ const PERMISSIONS = {
     admins:      [],
     targets:     ['read'],
     territories: [],
+    warehouse:   [],
   },
   support_manager: {
     dealers:     ['read'],
@@ -120,6 +126,7 @@ const PERMISSIONS = {
     admins:      [],
     targets:     [],
     territories: [],
+    warehouse:   [],
   },
   moderator: {
     dealers:     ['read'],
@@ -136,6 +143,7 @@ const PERMISSIONS = {
     admins:      [],
     targets:     ['read'],
     territories: ['read'],
+    warehouse:   [],
   },
 };
 
