@@ -9,6 +9,7 @@ import {
   FiMail, FiList, FiShield, FiLayout, FiImage, FiArrowUpRight,
   FiChevronRight, FiChevronDown, FiAward, FiBook, FiHash,
   FiZap, FiLayers, FiTarget, FiRadio, FiMessageSquare, FiBriefcase,
+  FiBarChart2, FiTrendingUp, FiMap, FiActivity, FiDownload, FiSliders,
 } from 'react-icons/fi';
 import Logo from '../../components/ui/Logo';
 
@@ -90,6 +91,26 @@ const NAV_GROUPS = [
       { label: 'Visit Reports',   path: '/admin/visit-reports',      icon: FiList,        roles: ['admin', 'super_admin'] },
       { label: 'Agent Tasks',     path: '/admin/agent-tasks',        icon: FiHash,        roles: ['admin', 'super_admin'] },
       { label: 'Assignments',     path: '/admin/agent-assignments',  icon: FiBriefcase,   roles: ['admin', 'super_admin'] },
+    ],
+  },
+  {
+    label: 'BI & Analytics',
+    items: [
+      { label: 'BI Dashboard',        path: '/admin/bi/dashboard',    icon: FiBarChart2, roles: ['admin', 'super_admin'] },
+      { label: 'Revenue Analytics',   path: '/admin/bi/revenue',      icon: FiTrendingUp, roles: ['admin', 'super_admin'] },
+      { label: 'Sales Dashboard',     path: '/admin/bi/sales',        icon: FiShoppingBag, roles: ['admin', 'super_admin'] },
+      { label: 'Agent Performance',   path: '/admin/bi/agents',       icon: FiUsers,      roles: ['admin', 'super_admin'] },
+      { label: 'Dealer Analytics',    path: '/admin/bi/dealers',      icon: FiBriefcase,  roles: ['admin', 'super_admin'] },
+      { label: 'Territory Analytics', path: '/admin/bi/territories',  icon: FiMap,        roles: ['admin', 'super_admin'] },
+      { label: 'Lead Funnel',         path: '/admin/bi/leads',        icon: FiActivity,   roles: ['admin', 'super_admin'] },
+      { label: 'Reports & Export',    path: '/admin/bi/reports',      icon: FiDownload,   roles: ['admin', 'super_admin'] },
+      { label: 'Targets',             path: '/admin/bi/targets',      icon: FiSliders,    roles: ['admin', 'super_admin'] },
+    ],
+  },
+  {
+    label: 'Enterprise',
+    items: [
+      { label: 'Audit Log', path: '/admin/audit-log', icon: FiShield, roles: ['admin', 'super_admin'] },
     ],
   },
   {

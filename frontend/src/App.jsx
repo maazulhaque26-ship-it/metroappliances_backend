@@ -12,6 +12,7 @@ import { HeroSkeleton } from './components/ui/Skeleton';
 import { CookieConsent } from './components/ui/CookieConsent';
 import AnnouncementBar from './components/ui/AnnouncementBar';
 import MarketingPopup from './components/ui/MarketingPopup';
+import OfflineBanner from './components/ui/OfflineBanner';
 import { trackPageView } from './utils/analytics';
 
 // ── Eager-loaded pages (critical path) ──────────────────────────────────────
@@ -118,6 +119,20 @@ const AdminLeads         = lazy(() => import('./pages/admin/AdminLeads'));
 const AdminVisitReports  = lazy(() => import('./pages/admin/AdminVisitReports'));
 const AdminTasks         = lazy(() => import('./pages/admin/AdminTasks'));
 const AdminAssignments   = lazy(() => import('./pages/admin/AdminAssignments'));
+
+// ── Sprint 9F: Enterprise Hardening ─────────────────────────────────────────
+const AdminAuditLog = lazy(() => import('./pages/admin/AdminAuditLog'));
+
+// ── Sprint 9E: BI & Analytics Pages ──────────────────────────────────────────
+const AdminBIDashboard        = lazy(() => import('./pages/admin/AdminBIDashboard'));
+const AdminRevenueAnalytics   = lazy(() => import('./pages/admin/AdminRevenueAnalytics'));
+const AdminSalesDashboard     = lazy(() => import('./pages/admin/AdminSalesDashboard'));
+const AdminAgentPerformance   = lazy(() => import('./pages/admin/AdminAgentPerformance'));
+const AdminDealerAnalytics    = lazy(() => import('./pages/admin/AdminDealerAnalytics'));
+const AdminTerritoryAnalytics = lazy(() => import('./pages/admin/AdminTerritoryAnalytics'));
+const AdminLeadFunnel         = lazy(() => import('./pages/admin/AdminLeadFunnel'));
+const AdminReports            = lazy(() => import('./pages/admin/AdminReports'));
+const AdminTargets            = lazy(() => import('./pages/admin/AdminTargets'));
 
 // ── Guards ────────────────────────────────────────────────────────────────────
 function PrivateRoute({ children }) {
@@ -347,6 +362,20 @@ export default function App() {
         <Route path="/admin/agent-tasks"           element={<AdminRoute><AdminTasks /></AdminRoute>} />
         <Route path="/admin/agent-assignments"     element={<AdminRoute><AdminAssignments /></AdminRoute>} />
 
+        {/* Sprint 9F: Enterprise Hardening */}
+        <Route path="/admin/audit-log"       element={<AdminRoute><AdminAuditLog /></AdminRoute>} />
+
+        {/* Sprint 9E: BI & Analytics */}
+        <Route path="/admin/bi/dashboard"    element={<AdminRoute><AdminBIDashboard /></AdminRoute>} />
+        <Route path="/admin/bi/revenue"      element={<AdminRoute><AdminRevenueAnalytics /></AdminRoute>} />
+        <Route path="/admin/bi/sales"        element={<AdminRoute><AdminSalesDashboard /></AdminRoute>} />
+        <Route path="/admin/bi/agents"       element={<AdminRoute><AdminAgentPerformance /></AdminRoute>} />
+        <Route path="/admin/bi/dealers"      element={<AdminRoute><AdminDealerAnalytics /></AdminRoute>} />
+        <Route path="/admin/bi/territories"  element={<AdminRoute><AdminTerritoryAnalytics /></AdminRoute>} />
+        <Route path="/admin/bi/leads"        element={<AdminRoute><AdminLeadFunnel /></AdminRoute>} />
+        <Route path="/admin/bi/reports"      element={<AdminRoute><AdminReports /></AdminRoute>} />
+        <Route path="/admin/bi/targets"      element={<AdminRoute><AdminTargets /></AdminRoute>} />
+
         {/* Sprint 9D: Agent Portal (isolated auth) */}
         <Route path="/agent/login"   element={<PageWrapper><SalesAgentLogin /></PageWrapper>} />
         <Route path="/agent" element={<AgentRoute><AgentLayout /></AgentRoute>}>
@@ -364,6 +393,7 @@ export default function App() {
     </Suspense>
     <CookieConsent />
     <MarketingPopup />
+    <OfflineBanner />
     </>
   );
 }
