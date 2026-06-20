@@ -86,4 +86,12 @@ leadSchema.pre('save', async function (next) {
   next();
 });
 
+// Sprint 9F: Indexes for common query patterns
+leadSchema.index({ assignedAgent: 1, isDeleted: 1 });
+leadSchema.index({ territory:     1, isDeleted: 1 });
+leadSchema.index({ stage:         1, isDeleted: 1 });
+leadSchema.index({ createdAt:    -1 });
+leadSchema.index({ nextFollowUpDate: 1, isDeleted: 1 });
+leadSchema.index({ 'stage': 1, 'assignedAgent': 1, isDeleted: 1 });
+
 module.exports = mongoose.model('Lead', leadSchema);

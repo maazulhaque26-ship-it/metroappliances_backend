@@ -57,4 +57,10 @@ visitReportSchema.pre('save', async function (next) {
   next();
 });
 
+// Sprint 9F: Indexes
+visitReportSchema.index({ agent:  1, createdAt: -1 });
+visitReportSchema.index({ dealer: 1, createdAt: -1 });
+visitReportSchema.index({ lead:   1 });
+visitReportSchema.index({ createdAt: -1 });
+
 module.exports = mongoose.model('VisitReport', visitReportSchema);

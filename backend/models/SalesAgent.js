@@ -70,4 +70,9 @@ salesAgentSchema.methods.matchPassword = function (plain) {
   return bcrypt.compare(plain, this.password);
 };
 
+// Sprint 9F: Indexes
+salesAgentSchema.index({ status:    1, isDeleted: 1 });
+salesAgentSchema.index({ territory: 1, isDeleted: 1 });
+salesAgentSchema.index({ createdAt: -1 });
+
 module.exports = mongoose.model('SalesAgent', salesAgentSchema);

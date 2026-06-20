@@ -34,4 +34,8 @@ territorySchema.pre('save', async function (next) {
   next();
 });
 
+// Sprint 9F: Indexes
+territorySchema.index({ isActive: 1, isDeleted: 1 });
+territorySchema.index({ primaryAgent: 1 });
+
 module.exports = mongoose.model('Territory', territorySchema);

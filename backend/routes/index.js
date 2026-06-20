@@ -504,4 +504,63 @@ router.post(  '/admin/assignments',                protect, admin, assignment.cr
 router.post(  '/admin/assignments/:id/transfer',   protect, admin, assignment.transferAssignment);
 router.put(   '/admin/assignments/:id/deactivate', protect, admin, assignment.deactivateAssignment);
 
+// ── Sprint 9E: BI & Analytics ─────────────────────────────────────────────────
+const bi     = require('../controllers/biController');
+const target = require('../controllers/targetController');
+
+router.get('/admin/bi/overview',              protect, admin, bi.getOverview);
+router.get('/admin/bi/revenue',               protect, admin, bi.getRevenue);
+router.get('/admin/bi/agents',                protect, admin, bi.getAgentPerformance);
+router.get('/admin/bi/dealers',               protect, admin, bi.getDealerAnalytics);
+router.get('/admin/bi/territories',           protect, admin, bi.getTerritoryAnalytics);
+router.get('/admin/bi/leads',                 protect, admin, bi.getLeadFunnel);
+router.get('/admin/bi/export/:type',          protect, admin, bi.exportData);
+
+router.get(   '/admin/bi/targets',                  protect, admin, target.getTargets);
+router.post(  '/admin/bi/targets',                  protect, admin, target.createTarget);
+router.put(   '/admin/bi/targets/:id',              protect, admin, target.updateTarget);
+router.delete('/admin/bi/targets/:id',              protect, admin, target.deleteTarget);
+router.get(   '/admin/bi/targets/:id/achievement',  protect, admin, target.getAchievement);
+
+// ── Sprint 9F: Audit Log ──────────────────────────────────────────────────────
+const audit    = require('../controllers/auditController');
+const AuditLog = require('../models/AuditLog');
+
+router.get('/admin/audit-logs',                          protect, admin, audit.getLogs);
+router.get('/admin/audit-logs/meta',                     protect, admin, audit.getMeta);
+router.get('/admin/audit-logs/entity/:entity/:entityId', protect, admin, audit.getEntityTimeline);
+
+// Global admin mutation interceptor — fires after auth, records all non-GET admin actions.
+// Wraps res.json with setImmediate so it never blocks the response to the client.
+router.use('/admin', (req, res, next) => {
+  if (!req.user || ['GET', 'HEAD', 'OPTIONS'].includes(req.method)) return next();
+  const originalJson = res.json.bind(res);
+  res.json = function (body) {
+    if (body?.success !== false) {
+      setImmediate(async () => {
+        try {
+          const segments = req.path.replace(/^\//, '').split('/').filter(Boolean);
+          const entity   = (segments[0] || 'unknown').replace(/-/g, '_');
+          const action   = `${req.method}_${entity.toUpperCase()}`;
+          await AuditLog.create({
+            admin:       req.user._id,
+            adminName:   req.user.name  || '',
+            adminEmail:  req.user.email || '',
+            adminRole:   req.user.role  || '',
+            action,
+            entity,
+            entityId:    req.params.id || undefined,
+            entityLabel: String(body?.data?.name || body?.data?.email || body?.data?.businessName || req.params.id || '').slice(0, 200),
+            changes:     { before: null, after: body?.data || null },
+            ip:          String(req.headers['x-forwarded-for'] || req.ip || '').split(',')[0].trim().slice(0, 100),
+            userAgent:   String(req.get('User-Agent') || '').slice(0, 300),
+          });
+        } catch (_) { /* audit errors never surface to client */ }
+      });
+    }
+    return originalJson(body);
+  };
+  next();
+});
+
 module.exports = router;

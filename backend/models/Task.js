@@ -42,4 +42,9 @@ taskSchema.pre('save', async function (next) {
   next();
 });
 
+// Sprint 9F: Indexes
+taskSchema.index({ agent: 1, status: 1 });
+taskSchema.index({ dueDate: 1, status: 1 });
+taskSchema.index({ createdAt: -1 });
+
 module.exports = mongoose.model('Task', taskSchema);
