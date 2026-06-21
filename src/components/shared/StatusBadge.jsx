@@ -88,6 +88,23 @@ const PRESETS = {
   responded:          { bg: '#EDE9FE', color: '#5B21B6' },
   declined:           { bg: '#FEE2E2', color: '#991B1B' },
   selected:           { bg: '#D1FAE5', color: '#065F46' },
+  // Sprint 10D — Dispatch/Picking statuses
+  picking:            { bg: '#FEF3C7', color: '#92400E' },
+  picked:             { bg: '#D1FAE5', color: '#065F46' },
+  packing:            { bg: '#DBEAFE', color: '#1E40AF' },
+  packed:             { bg: '#EDE9FE', color: '#5B21B6' },
+  ready:              { bg: '#D1FAE5', color: '#065F46' },
+  assigned:           { bg: '#DBEAFE', color: '#1E40AF' },
+  dispatched:         { bg: '#CFFAFE', color: '#0E7490' },
+  in_transit:         { bg: '#DBEAFE', color: '#1E40AF' },
+  out_for_delivery:   { bg: '#FEF3C7', color: '#92400E' },
+  failed:             { bg: '#FEE2E2', color: '#991B1B' },
+  // Shipment additional
+  in_progress:        { bg: '#DBEAFE', color: '#1E40AF' },
+  // Challan
+  generated:          { bg: '#DBEAFE', color: '#1E40AF' },
+  // Transfer
+  received:           { bg: '#EDE9FE', color: '#5B21B6' },
 };
 
 export default function StatusBadge({ status, label, size = 'sm' }) {

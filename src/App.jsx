@@ -179,6 +179,21 @@ const SupplierDocuments     = lazy(() => import('./pages/supplier/SupplierDocume
 const SupplierNotifications = lazy(() => import('./pages/supplier/SupplierNotifications'));
 const SupplierProfile       = lazy(() => import('./pages/supplier/SupplierProfile'));
 
+// ── Sprint 10D: Enterprise Dispatch & Logistics — Admin pages ────────────────
+const AdminLogisticsDashboard = lazy(() => import('./pages/admin/AdminLogisticsDashboard'));
+const AdminDispatchQueue      = lazy(() => import('./pages/admin/AdminDispatchQueue'));
+const AdminShipmentList       = lazy(() => import('./pages/admin/AdminShipmentList'));
+const AdminCourierManagement  = lazy(() => import('./pages/admin/AdminCourierManagement'));
+const AdminStockTransfers     = lazy(() => import('./pages/admin/AdminStockTransfers'));
+const AdminDeliveryChallans   = lazy(() => import('./pages/admin/AdminDeliveryChallans'));
+
+// ── Sprint 10D: Warehouse Portal logistics pages ──────────────────────────────
+const WarehousePickingList      = lazy(() => import('./pages/warehouse/WarehousePickingList'));
+const WarehousePacking          = lazy(() => import('./pages/warehouse/WarehousePacking'));
+const WarehouseDispatch         = lazy(() => import('./pages/warehouse/WarehouseDispatch'));
+const WarehouseTransfers        = lazy(() => import('./pages/warehouse/WarehouseTransfers'));
+const WarehouseShipmentTracking = lazy(() => import('./pages/warehouse/WarehouseShipmentTracking'));
+
 // ── Sprint 9E: BI & Analytics Pages ──────────────────────────────────────────
 const AdminBIDashboard        = lazy(() => import('./pages/admin/AdminBIDashboard'));
 const AdminRevenueAnalytics   = lazy(() => import('./pages/admin/AdminRevenueAnalytics'));
@@ -462,12 +477,18 @@ export default function App() {
         {/* Sprint 10B: Warehouse Portal (isolated auth — type:'warehouse' JWT) */}
         <Route path="/warehouse/login" element={<PageWrapper><WarehouseLogin /></PageWrapper>} />
         <Route path="/warehouse" element={<WarehouseRoute><WarehouseLayout /></WarehouseRoute>}>
-          <Route path="dashboard"   element={<WarehouseDashboard />} />
-          <Route path="inventory"   element={<WarehouseInventoryLookup />} />
-          <Route path="receive"     element={<WarehouseReceiveStock />} />
-          <Route path="grn"         element={<WarehouseReceiveStock />} />
-          <Route path="cycle-count" element={<WarehouseCycleCount />} />
-          <Route path="adjustments" element={<WarehouseAdjustment />} />
+          <Route path="dashboard"         element={<WarehouseDashboard />} />
+          <Route path="inventory"         element={<WarehouseInventoryLookup />} />
+          <Route path="receive"           element={<WarehouseReceiveStock />} />
+          <Route path="grn"               element={<WarehouseReceiveStock />} />
+          <Route path="cycle-count"       element={<WarehouseCycleCount />} />
+          <Route path="adjustments"       element={<WarehouseAdjustment />} />
+          {/* Sprint 10D: Logistics */}
+          <Route path="picking"           element={<WarehousePickingList />} />
+          <Route path="packing"           element={<WarehousePacking />} />
+          <Route path="dispatch"          element={<WarehouseDispatch />} />
+          <Route path="transfers"         element={<WarehouseTransfers />} />
+          <Route path="shipment-tracking" element={<WarehouseShipmentTracking />} />
         </Route>
 
         {/* Sprint 10C: Procurement & Vendor Management — Admin */}
@@ -495,6 +516,18 @@ export default function App() {
           <Route path="notifications" element={<SupplierNotifications />} />
           <Route path="profile"       element={<SupplierProfile />} />
         </Route>
+
+        {/* Sprint 10D: Logistics — Admin */}
+        <Route path="/admin/logistics"                  element={<AdminRoute><AdminLogisticsDashboard /></AdminRoute>} />
+        <Route path="/admin/logistics/dispatches"       element={<AdminRoute><AdminDispatchQueue /></AdminRoute>} />
+        <Route path="/admin/logistics/dispatches/:id"   element={<AdminRoute><AdminDispatchQueue /></AdminRoute>} />
+        <Route path="/admin/logistics/shipments"        element={<AdminRoute><AdminShipmentList /></AdminRoute>} />
+        <Route path="/admin/logistics/shipments/:id"    element={<AdminRoute><AdminShipmentList /></AdminRoute>} />
+        <Route path="/admin/logistics/couriers"         element={<AdminRoute><AdminCourierManagement /></AdminRoute>} />
+        <Route path="/admin/logistics/transfers"        element={<AdminRoute><AdminStockTransfers /></AdminRoute>} />
+        <Route path="/admin/logistics/challans"         element={<AdminRoute><AdminDeliveryChallans /></AdminRoute>} />
+
+        {/* Sprint 10D: Warehouse Portal logistics pages */}
 
         {/* Sprint 9E: BI & Analytics */}
         <Route path="/admin/bi/dashboard"    element={<AdminRoute><AdminBIDashboard /></AdminRoute>} />

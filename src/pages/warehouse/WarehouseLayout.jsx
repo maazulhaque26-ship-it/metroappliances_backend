@@ -5,15 +5,22 @@ import { warehouseLogout } from '../../redux/slices/warehouseAuthSlice';
 import {
   FiHome, FiPackage, FiFileText, FiRefreshCw,
   FiSliders, FiLogOut, FiMenu, FiX, FiUser,
+  FiList, FiBox, FiTruck, FiRepeat, FiRadio,
 } from 'react-icons/fi';
 
 const NAV_ITEMS = [
-  { label: 'Dashboard',       path: '/warehouse/dashboard',    icon: FiHome },
-  { label: 'Inventory',       path: '/warehouse/inventory',    icon: FiPackage },
-  { label: 'Receive Stock',   path: '/warehouse/receive',      icon: FiFileText },
-  { label: 'GRN Processing',  path: '/warehouse/grn',          icon: FiFileText },
-  { label: 'Cycle Count',     path: '/warehouse/cycle-count',  icon: FiRefreshCw },
-  { label: 'Adjustments',     path: '/warehouse/adjustments',  icon: FiSliders },
+  { label: 'Dashboard',       path: '/warehouse/dashboard',         icon: FiHome },
+  { label: 'Inventory',       path: '/warehouse/inventory',         icon: FiPackage },
+  { label: 'Receive Stock',   path: '/warehouse/receive',           icon: FiFileText },
+  { label: 'GRN Processing',  path: '/warehouse/grn',               icon: FiFileText },
+  { label: 'Cycle Count',     path: '/warehouse/cycle-count',       icon: FiRefreshCw },
+  { label: 'Adjustments',     path: '/warehouse/adjustments',       icon: FiSliders },
+  // Sprint 10D: Logistics
+  { label: 'Picking Lists',   path: '/warehouse/picking',           icon: FiList },
+  { label: 'Packing',         path: '/warehouse/packing',           icon: FiBox },
+  { label: 'Dispatch',        path: '/warehouse/dispatch',          icon: FiTruck },
+  { label: 'Transfers',       path: '/warehouse/transfers',         icon: FiRefreshCw },
+  { label: 'Shipment Track',  path: '/warehouse/shipment-tracking', icon: FiRadio },
 ];
 
 const activeStyle = { color: '#FF7A00', background: 'rgba(255,122,0,0.1)', fontWeight: 700 };

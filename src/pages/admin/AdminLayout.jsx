@@ -148,6 +148,17 @@ const NAV_GROUPS = [
     ],
   },
   {
+    label: 'Logistics',
+    items: [
+      { label: 'Logistics Dash',  path: '/admin/logistics',             icon: FiTrendingUp, roles: ['admin', 'super_admin'] },
+      { label: 'Dispatch Queue',  path: '/admin/logistics/dispatches',  icon: FiBox,        roles: ['admin', 'super_admin'] },
+      { label: 'Shipments',       path: '/admin/logistics/shipments',   icon: FiPackage,    roles: ['admin', 'super_admin'] },
+      { label: 'Couriers',        path: '/admin/logistics/couriers',    icon: FiZap,        roles: ['admin', 'super_admin'] },
+      { label: 'Stock Transfers', path: '/admin/logistics/transfers',   icon: FiRefreshCw,  roles: ['admin', 'super_admin'] },
+      { label: 'Del. Challans',   path: '/admin/logistics/challans',    icon: FiFileText,   roles: ['admin', 'super_admin'] },
+    ],
+  },
+  {
     label: 'Enterprise',
     items: [
       { label: 'Audit Log', path: '/admin/audit-log', icon: FiShield, roles: ['admin', 'super_admin'] },
