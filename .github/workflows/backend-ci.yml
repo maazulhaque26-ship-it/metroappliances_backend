@@ -2,14 +2,25 @@ name: Backend CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, master, develop]
   pull_request:
-    branches: [main]
+    branches: [main, master]
 
 jobs:
   validate:
-    name: Install · Lint · Syntax Check
+    name: Install · Lint · Syntax Check · Test
     runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:7
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.runCommand({ping:1})' --quiet"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Checkout
@@ -28,13 +39,13 @@ jobs:
         run: npm run lint --if-present
 
       # Syntax-check every JS file in the project without starting the server.
-      # Catches missing requires, SyntaxErrors, and typos before they reach prod.
       - name: Syntax check — all JS files
         run: |
           echo "Checking syntax of all JS files..."
           find . -name "*.js" \
             -not -path "*/node_modules/*" \
             -not -path "*/.git/*" \
+            -not -path "*/scripts/*" \
             | xargs -I{} node --check {} \
             && echo "All files passed syntax check."
 
@@ -58,3 +69,10 @@ jobs:
           grep -q "^uploads/" .gitignore || \
             (echo "ERROR: uploads/ is NOT in .gitignore" && exit 1)
           echo "uploads/ is gitignored ✓"
+
+      - name: Run tests
+        run: npm test
+        env:
+          MONGO_TEST_URI: mongodb://localhost:27017/metro_test
+          JWT_SECRET: ci-test-secret-not-for-production
+          NODE_ENV: test

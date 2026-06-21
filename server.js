@@ -96,7 +96,23 @@ app.use(cors({
 // ─── Security & Logging ───────────────────────────────────────────────────────
 app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' },
-  contentSecurityPolicy: false,
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc:      ["'self'"],
+      baseUri:         ["'self'"],
+      scriptSrc:       ["'self'", "https://www.googletagmanager.com", "https://www.google-analytics.com"],
+      styleSrc:        ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc:         ["'self'", "https://fonts.gstatic.com", "data:"],
+      imgSrc:          ["'self'", "data:", "blob:", "https://res.cloudinary.com", "https://images.cloudinary.com", "https://www.google-analytics.com"],
+      connectSrc:      ["'self'", "https:", "wss:", "https://www.google-analytics.com"],
+      mediaSrc:        ["'self'", "https://res.cloudinary.com"],
+      objectSrc:       ["'none'"],
+      frameSrc:        ["'none'"],
+      frameAncestors:  ["'none'"],
+      formAction:      ["'self'"],
+      upgradeInsecureRequests: [],
+    },
+  },
 }));
 app.use(morgan('dev'));
 app.use(cookieParser());
@@ -141,6 +157,10 @@ app.use('/api/auth/login',                 authLimiter);
 app.use('/api/dealer/auth/register',       authLimiter);
 app.use('/api/dealer/auth/login',          authLimiter);
 app.use('/api/dealer/auth/forgot-password', authLimiter);
+// Agent / Warehouse / Supplier login — same brute-force protection
+app.use('/api/agent/auth/login',           authLimiter);
+app.use('/api/warehouse/auth/login',       authLimiter);
+app.use('/api/supplier/auth/login',        authLimiter);
 app.use('/api',                            apiLimiter, dbGuard, routes);
 
 // ─── 404 ──────────────────────────────────────────────────────────────────────
