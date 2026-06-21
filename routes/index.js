@@ -1044,4 +1044,104 @@ router.get(  '/warehouse/replenishment/tasks/:id',       protectWarehouse, reple
 // Warehouse portal — Alerts
 router.get(  '/warehouse/alerts',                        protectWarehouse, alertCtrl.getAlerts);
 
+// ─── Sprint 11A: After Sales Service ─────────────────────────────────────────
+const { protectTechnician } = require('../middleware/technicianAuth');
+const techAuthCtrl    = require('../controllers/technicianAuthController');
+const techCtrl        = require('../controllers/technicianController');
+const srCtrl          = require('../controllers/serviceRequestController');
+const warrantyCtrl    = require('../controllers/warrantyController');
+const spareCtrl       = require('../controllers/sparePartController');
+const dispatchCtrl    = require('../controllers/serviceDispatchController');
+const svcReportCtrl   = require('../controllers/serviceReportController');
+
+// Technician Auth
+router.post('/technician/auth/login',                    techAuthCtrl.loginTechnician);
+router.get( '/technician/auth/me',                       protectTechnician, techAuthCtrl.getTechnicianProfile);
+router.put( '/technician/auth/profile',                  protectTechnician, techAuthCtrl.updateTechnicianProfile);
+router.put( '/technician/auth/availability',             protectTechnician, techAuthCtrl.updateAvailability);
+router.put( '/technician/auth/location',                 protectTechnician, techAuthCtrl.updateLocation);
+
+// Technician Portal — Jobs
+router.get( '/technician/jobs',                          protectTechnician, srCtrl.getTechnicianJobs);
+router.get( '/technician/jobs/:id',                      protectTechnician, srCtrl.getTechnicianJobDetail);
+router.put( '/technician/jobs/:id/status',               protectTechnician, srCtrl.updateJobStatus);
+router.post('/technician/jobs/:id/photos',               protectTechnician, srCtrl.uploadJobPhotos);
+router.post('/technician/jobs/:id/signature',            protectTechnician, srCtrl.saveCustomerSignature);
+
+// Technician Portal — Spare Parts
+router.post('/technician/parts/:id/consume',             protectTechnician, spareCtrl.consumePart);
+
+// Admin — Technician Management
+router.post('/admin/technicians',                        protect, admin, techCtrl.createTechnician);
+router.get( '/admin/technicians',                        protect, admin, techCtrl.getTechnicians);
+router.get( '/admin/technicians/stats',                  protect, admin, techCtrl.getTechnicianStats);
+router.get( '/admin/technicians/:id',                    protect, admin, techCtrl.getTechnician);
+router.put( '/admin/technicians/:id',                    protect, admin, techCtrl.updateTechnician);
+router.delete('/admin/technicians/:id',                  protect, admin, techCtrl.deleteTechnician);
+router.post('/admin/technicians/:id/reset-password',     protect, admin, techCtrl.resetTechnicianPassword);
+router.post('/admin/technicians/:id/token',              protect, superAdmin, techCtrl.generateTechnicianToken);
+router.get( '/admin/technicians/:id/workload',           protect, admin, techCtrl.getTechnicianWorkload);
+
+// Admin — Service Requests
+router.get( '/admin/service/dashboard',                  protect, admin, srCtrl.getServiceDashboard);
+router.get( '/admin/service/requests',                   protect, admin, srCtrl.getServiceRequests);
+router.get( '/admin/service/requests/:id',               protect, admin, srCtrl.getServiceRequest);
+router.put( '/admin/service/requests/:id/status',        protect, admin, srCtrl.updateServiceRequestStatus);
+router.put( '/admin/service/requests/:id/assign',        protect, admin, srCtrl.assignTechnician);
+router.put( '/admin/service/requests/:id/escalate',      protect, admin, srCtrl.escalateServiceRequest);
+router.post('/admin/service/requests/:id/comment',       protect, admin, srCtrl.addComment);
+
+// Admin — Dispatch
+router.get( '/admin/service/dispatch/board',             protect, admin, dispatchCtrl.getDispatchBoard);
+router.get( '/admin/service/dispatch/:serviceRequestId/recommendations', protect, admin, dispatchCtrl.getDispatchRecommendations);
+router.post('/admin/service/dispatch/:serviceRequestId/auto-assign',     protect, admin, dispatchCtrl.autoAssign);
+
+// Admin — Warranty
+router.post('/admin/warranty',                           protect, admin, warrantyCtrl.createWarranty);
+router.get( '/admin/warranty',                           protect, admin, warrantyCtrl.getWarranties);
+router.get( '/admin/warranty/stats',                     protect, admin, warrantyCtrl.getWarrantyStats);
+router.get( '/admin/warranty/:id',                       protect, admin, warrantyCtrl.getWarranty);
+router.put( '/admin/warranty/:id/activate',              protect, admin, warrantyCtrl.activateWarranty);
+router.put( '/admin/warranty/:id/transfer',              protect, admin, warrantyCtrl.transferWarranty);
+router.put( '/admin/warranty/:id/void',                  protect, admin, warrantyCtrl.voidWarranty);
+
+// Admin — AMC Contracts
+router.post('/admin/amc',                                protect, admin, warrantyCtrl.createAMC);
+router.get( '/admin/amc',                                protect, admin, warrantyCtrl.getAMCContracts);
+router.get( '/admin/amc/stats',                          protect, admin, warrantyCtrl.getAMCStats);
+router.get( '/admin/amc/:id',                            protect, admin, warrantyCtrl.getAMCContract);
+router.put( '/admin/amc/:id/activate',                   protect, admin, warrantyCtrl.activateAMC);
+router.post('/admin/amc/:id/visit',                      protect, admin, warrantyCtrl.scheduleAMCVisit);
+
+// Admin — Spare Parts
+router.post('/admin/spare-parts',                        protect, admin, spareCtrl.createSparePart);
+router.get( '/admin/spare-parts',                        protect, admin, spareCtrl.getSpareParts);
+router.get( '/admin/spare-parts/stats',                  protect, admin, spareCtrl.getSparePartStats);
+router.get( '/admin/spare-parts/categories',             protect, admin, spareCtrl.getCategories);
+router.get( '/admin/spare-parts/:id',                    protect, admin, spareCtrl.getSparePart);
+router.put( '/admin/spare-parts/:id',                    protect, admin, spareCtrl.updateSparePart);
+router.delete('/admin/spare-parts/:id',                  protect, admin, spareCtrl.deleteSparePart);
+router.put( '/admin/spare-parts/:id/stock',              protect, admin, spareCtrl.adjustStock);
+
+// Admin — Service Reports
+router.get( '/admin/service/reports/summary',            protect, admin, svcReportCtrl.getServiceSummaryReport);
+router.get( '/admin/service/reports/technician-performance', protect, admin, svcReportCtrl.getTechnicianPerformanceReport);
+router.get( '/admin/service/reports/ftfr',               protect, admin, svcReportCtrl.getFTFRReport);
+router.get( '/admin/service/reports/warranty-claims',    protect, admin, svcReportCtrl.getWarrantyClaimsReport);
+router.get( '/admin/service/reports/csat',               protect, admin, svcReportCtrl.getCSATReport);
+router.get( '/admin/service/reports/parts-consumption',  protect, admin, svcReportCtrl.getPartsConsumptionReport);
+router.get( '/admin/service/reports/sla',                protect, admin, svcReportCtrl.getSLAReport);
+router.get( '/admin/service/reports/amc-revenue',        protect, admin, svcReportCtrl.getAMCRevenueReport);
+
+// Customer — Service Requests
+router.post('/service/requests',                         protect, srCtrl.raiseServiceRequest);
+router.get( '/service/requests',                         protect, srCtrl.getMyServiceRequests);
+router.get( '/service/requests/:id',                     protect, srCtrl.trackServiceRequest);
+router.post('/service/requests/:id/feedback',            protect, srCtrl.submitFeedback);
+
+// Customer — Warranty & AMC status
+router.get( '/service/warranty',                         protect, warrantyCtrl.getMyWarranties);
+router.get( '/service/warranty/check/:serialNumber',     protect, warrantyCtrl.checkWarrantyBySerial);
+router.get( '/service/amc',                              protect, warrantyCtrl.getMyAMCContracts);
+
 module.exports = router;
