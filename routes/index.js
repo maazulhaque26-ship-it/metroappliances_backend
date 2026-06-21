@@ -804,4 +804,73 @@ router.use('/admin', (req, res, next) => {
   next();
 });
 
+// ── Sprint 10D: Enterprise Dispatch & Logistics Engine ────────────────────────
+const dispatch        = require('../controllers/dispatchController');
+const shipment        = require('../controllers/shipmentController');
+const stockTransfer   = require('../controllers/stockTransferController');
+const challan         = require('../controllers/deliveryChallanController');
+const logisticsDash   = require('../controllers/logisticsDashboardController');
+
+// Admin — Logistics Dashboard & Reports
+router.get(  '/admin/logistics/dashboard',              protect, admin, logisticsDash.getDashboard);
+router.get(  '/admin/logistics/reports',                protect, admin, logisticsDash.getLogisticsReports);
+
+// Admin — Dispatch Management
+router.get(  '/admin/logistics/dispatches',             protect, admin, dispatch.listDispatches);
+router.post( '/admin/logistics/dispatches',             protect, admin, dispatch.createDispatch);
+router.get(  '/admin/logistics/dispatches/:id',         protect, admin, dispatch.getDispatchById);
+router.put(  '/admin/logistics/dispatches/:id/assign-picker', protect, admin, dispatch.assignPicker);
+router.put(  '/admin/logistics/dispatches/:id/status',  protect, admin, dispatch.updateDispatchStatus);
+router.put(  '/admin/logistics/dispatches/:id/cancel',  protect, admin, dispatch.cancelDispatch);
+
+// Admin — Shipment Management
+router.get(  '/admin/logistics/shipments',              protect, admin, shipment.getShipments);
+router.post( '/admin/logistics/shipments',              protect, admin, shipment.createShipment);
+router.get(  '/admin/logistics/shipments/:id',          protect, admin, shipment.getShipmentById);
+router.put(  '/admin/logistics/shipments/:id/status',   protect, admin, shipment.updateShipmentStatus);
+router.post( '/admin/logistics/shipments/:id/tracking-event', protect, admin, shipment.addTrackingEvent);
+
+// Admin — Courier Management
+router.get(  '/admin/logistics/couriers',               protect, admin, shipment.getCouriers);
+router.post( '/admin/logistics/couriers',               protect, admin, shipment.createCourier);
+router.get(  '/admin/logistics/couriers/:id',           protect, admin, shipment.getCourierById);
+router.put(  '/admin/logistics/couriers/:id',           protect, admin, shipment.updateCourier);
+router.delete('/admin/logistics/couriers/:id',          protect, admin, shipment.deleteCourier);
+
+// Admin — Stock Transfers
+router.get(  '/admin/logistics/transfers',              protect, admin, stockTransfer.getTransfers);
+router.post( '/admin/logistics/transfers',              protect, admin, stockTransfer.createTransfer);
+router.get(  '/admin/logistics/transfers/:id',          protect, admin, stockTransfer.getTransferById);
+router.put(  '/admin/logistics/transfers/:id/submit',   protect, admin, stockTransfer.submitTransfer);
+router.put(  '/admin/logistics/transfers/:id/approve',  protect, admin, stockTransfer.approveTransfer);
+router.put(  '/admin/logistics/transfers/:id/reject',   protect, admin, stockTransfer.rejectTransfer);
+router.put(  '/admin/logistics/transfers/:id/complete', protect, admin, stockTransfer.completeTransfer);
+router.put(  '/admin/logistics/transfers/:id/cancel',   protect, admin, stockTransfer.cancelTransfer);
+
+// Admin — Delivery Challans
+router.get(  '/admin/logistics/challans',               protect, admin, challan.getChallans);
+router.post( '/admin/logistics/challans/generate',      protect, admin, challan.generateChallan);
+router.get(  '/admin/logistics/challans/:id',           protect, admin, challan.getChallanById);
+router.put(  '/admin/logistics/challans/:id',           protect, admin, challan.updateChallan);
+
+// Warehouse portal — Picking Lists
+router.get(  '/warehouse/picking-lists',                protectWarehouse, dispatch.warehouseGetPickingLists);
+router.get(  '/warehouse/picking-lists/:id',            protectWarehouse, dispatch.warehouseGetPickingList);
+router.put(  '/warehouse/picking-lists/:id/start',      protectWarehouse, dispatch.warehouseStartPicking);
+router.put(  '/warehouse/picking-lists/:id/items',      protectWarehouse, dispatch.warehouseUpdatePickedQty);
+router.put(  '/warehouse/picking-lists/:id/complete',   protectWarehouse, dispatch.warehouseCompletePicking);
+
+// Warehouse portal — Packing
+router.post( '/warehouse/packages',                     protectWarehouse, dispatch.warehouseCreatePackage);
+router.get(  '/warehouse/dispatches/ready',             protectWarehouse, dispatch.warehouseGetReadyDispatches);
+
+// Warehouse portal — Shipment Tracking
+router.get(  '/warehouse/shipments',                    protectWarehouse, shipment.warehouseGetShipments);
+router.get(  '/warehouse/shipments/:id/tracking',       protectWarehouse, shipment.warehouseGetShipmentTracking);
+
+// Warehouse portal — Stock Transfers
+router.get(  '/warehouse/transfers',                    protectWarehouse, stockTransfer.warehouseGetTransfers);
+router.put(  '/warehouse/transfers/:id/ship',           protectWarehouse, stockTransfer.warehouseShipTransfer);
+router.put(  '/warehouse/transfers/:id/receive',        protectWarehouse, stockTransfer.warehouseReceiveTransfer);
+
 module.exports = router;
