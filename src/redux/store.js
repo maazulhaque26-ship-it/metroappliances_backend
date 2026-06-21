@@ -4,6 +4,7 @@ import dealerAuthReducer from './slices/dealerAuthSlice';
 import agentAuthReducer from './slices/agentAuthSlice';
 import warehouseAuthReducer from './slices/warehouseAuthSlice';
 import supplierAuthReducer  from './slices/supplierAuthSlice';
+import technicianAuthReducer from './slices/technicianAuthSlice';
 import { cartReducer, wishlistReducer, productsReducer } from './slices/shopSlices';
 import settingsReducer from './slices/settingsSlice';
 import compareReducer from './slices/compareSlice';
@@ -17,6 +18,7 @@ const store = configureStore({
     agentAuth:      agentAuthReducer,
     warehouseAuth:  warehouseAuthReducer,
     supplierAuth:   supplierAuthReducer,
+    technicianAuth: technicianAuthReducer,
     cart:           cartReducer,
     wishlist:       wishlistReducer,
     products:       productsReducer,

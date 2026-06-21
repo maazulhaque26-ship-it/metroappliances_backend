@@ -11,7 +11,7 @@ import {
   FiZap, FiLayers, FiTarget, FiRadio, FiMessageSquare, FiBriefcase,
   FiBarChart2, FiTrendingUp, FiMap, FiMapPin, FiActivity, FiDownload, FiSliders,
   FiBox, FiDatabase, FiRefreshCw, FiAlertTriangle, FiFileText, FiClipboard,
-  FiCamera, FiCpu, FiThermometer, FiWifi,
+  FiCamera, FiCpu, FiThermometer, FiWifi, FiTool,
 } from 'react-icons/fi';
 import Logo from '../../components/ui/Logo';
 
@@ -181,6 +181,17 @@ const NAV_GROUPS = [
       { label: 'Alert Center',       path: '/admin/iot/alerts',         icon: FiAlertTriangle,  roles: ['admin', 'super_admin'] },
       { label: 'Automation Rules',   path: '/admin/iot/automation',     icon: FiZap,            roles: ['admin', 'super_admin'] },
       { label: 'Replenishment',      path: '/admin/iot/replenishment',  icon: FiPackage,        roles: ['admin', 'super_admin'] },
+    ],
+  },
+  {
+    label: 'After Sales Service',
+    items: [
+      { label: 'Service Dashboard', path: '/admin/service',               icon: FiTool,        roles: ['admin', 'super_admin'] },
+      { label: 'Service Requests',  path: '/admin/service/requests',      icon: FiClipboard,   roles: ['admin', 'super_admin'] },
+      { label: 'Technicians',       path: '/admin/service/technicians',   icon: FiUsers,       roles: ['admin', 'super_admin'] },
+      { label: 'Warranty & AMC',    path: '/admin/service/warranty',      icon: FiShield,      roles: ['admin', 'super_admin'] },
+      { label: 'Spare Parts',       path: '/admin/service/spare-parts',   icon: FiPackage,     roles: ['admin', 'super_admin'] },
+      { label: 'Service Reports',   path: '/admin/service/reports',       icon: FiBarChart2,   roles: ['admin', 'super_admin'] },
     ],
   },
   {

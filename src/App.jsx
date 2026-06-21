@@ -230,6 +230,21 @@ const WarehouseMobilePutaway   = lazy(() => import('./pages/warehouse/WarehouseM
 const WarehouseMobileBinLookup = lazy(() => import('./pages/warehouse/WarehouseMobileBinLookup'));
 const WarehouseMobileReturns   = lazy(() => import('./pages/warehouse/WarehouseMobileReturns'));
 
+// ── Sprint 11A: After Sales Service — Admin + Technician Portal pages ────────
+const AdminServiceDashboard    = lazy(() => import('./pages/admin/AdminServiceDashboard'));
+const AdminServiceRequests     = lazy(() => import('./pages/admin/AdminServiceRequests'));
+const AdminServiceRequestDetail= lazy(() => import('./pages/admin/AdminServiceRequestDetail'));
+const AdminTechnicians11A      = lazy(() => import('./pages/admin/AdminTechnicians'));
+const AdminWarranty            = lazy(() => import('./pages/admin/AdminWarranty'));
+const AdminSpareParts          = lazy(() => import('./pages/admin/AdminSpareParts'));
+const AdminServiceReports      = lazy(() => import('./pages/admin/AdminServiceReports'));
+const TechnicianLogin          = lazy(() => import('./pages/technician/TechnicianLogin'));
+const TechnicianLayout         = lazy(() => import('./pages/technician/TechnicianLayout'));
+const TechnicianDashboard      = lazy(() => import('./pages/technician/TechnicianDashboard'));
+const TechnicianJobs           = lazy(() => import('./pages/technician/TechnicianJobs'));
+const TechnicianJobDetail      = lazy(() => import('./pages/technician/TechnicianJobDetail'));
+const TechnicianProfile        = lazy(() => import('./pages/technician/TechnicianProfile'));
+
 // ── Guards ────────────────────────────────────────────────────────────────────
 function PrivateRoute({ children }) {
   const { token } = useSelector(s => s.auth);
@@ -272,6 +287,14 @@ function SupplierRoute({ children }) {
   const { token, supplierUser } = useSelector(s => s.supplierAuth);
   if (!token) return <Navigate to="/supplier/login" replace />;
   if (supplierUser?.status !== 'active') return <Navigate to="/supplier/login" replace />;
+  return children;
+}
+
+// Technician route guard — reads technicianAuth slice (type:'technician' JWT)
+function TechnicianRoute({ children }) {
+  const { token, technician } = useSelector(s => s.technicianAuth);
+  if (!token) return <Navigate to="/technician/login" replace />;
+  if (technician?.status !== 'active') return <Navigate to="/technician/login" replace />;
   return children;
 }
 
@@ -598,6 +621,24 @@ export default function App() {
           <Route path="visits/:id"          element={<AgentVisitDetail />} />
           <Route path="tasks"               element={<AgentTasks />} />
           <Route path="profile"             element={<AgentProfile />} />
+        </Route>
+
+        {/* Sprint 11A: After Sales Service — Admin pages */}
+        <Route path="/admin/service"                     element={<AdminRoute><AdminServiceDashboard /></AdminRoute>} />
+        <Route path="/admin/service/requests"            element={<AdminRoute><AdminServiceRequests /></AdminRoute>} />
+        <Route path="/admin/service/requests/:id"        element={<AdminRoute><AdminServiceRequestDetail /></AdminRoute>} />
+        <Route path="/admin/service/technicians"         element={<AdminRoute><AdminTechnicians11A /></AdminRoute>} />
+        <Route path="/admin/service/warranty"            element={<AdminRoute><AdminWarranty /></AdminRoute>} />
+        <Route path="/admin/service/spare-parts"         element={<AdminRoute><AdminSpareParts /></AdminRoute>} />
+        <Route path="/admin/service/reports"             element={<AdminRoute><AdminServiceReports /></AdminRoute>} />
+
+        {/* Sprint 11A: Technician Portal (isolated auth — type:'technician' JWT) */}
+        <Route path="/technician/login" element={<PageWrapper><TechnicianLogin /></PageWrapper>} />
+        <Route path="/technician" element={<TechnicianRoute><TechnicianLayout /></TechnicianRoute>}>
+          <Route path="dashboard" element={<TechnicianDashboard />} />
+          <Route path="jobs"      element={<TechnicianJobs />} />
+          <Route path="jobs/:id"  element={<TechnicianJobDetail />} />
+          <Route path="profile"   element={<TechnicianProfile />} />
         </Route>
 
       </Routes>

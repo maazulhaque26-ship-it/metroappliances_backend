@@ -105,6 +105,27 @@ const PRESETS = {
   generated:          { bg: '#DBEAFE', color: '#1E40AF' },
   // Transfer
   received:           { bg: '#EDE9FE', color: '#5B21B6' },
+  // Sprint 11A — Service Request statuses
+  open:               { bg: '#DBEAFE', color: '#1E40AF' },
+  verified:           { bg: '#EDE9FE', color: '#5B21B6' },
+  warranty_check:     { bg: '#FEF3C7', color: '#92400E' },
+  accepted:           { bg: '#CFFAFE', color: '#0E7490' },
+  travelling:         { bg: '#DBEAFE', color: '#1E40AF' },
+  reached:            { bg: '#EDE9FE', color: '#5B21B6' },
+  diagnosis:          { bg: '#FEF3C7', color: '#92400E' },
+  repair:             { bg: '#FFF7ED', color: '#9A3412' },
+  testing:            { bg: '#DBEAFE', color: '#1E40AF' },
+  awaiting_confirmation: { bg: '#FEF3C7', color: '#92400E' },
+  closed:             { bg: '#D1FAE5', color: '#065F46' },
+  escalated:          { bg: '#FEE2E2', color: '#991B1B' },
+  reopened:           { bg: '#FEF3C7', color: '#92400E' },
+  // Warranty/AMC statuses
+  amc_active:         { bg: '#D1FAE5', color: '#065F46' },
+  pending_activation: { bg: '#FEF3C7', color: '#92400E' },
+  transferred:        { bg: '#EDE9FE', color: '#5B21B6' },
+  void:               { bg: '#F3F4F6', color: '#6B7280' },
+  renewal_due:        { bg: '#FEF3C7', color: '#92400E' },
+  on_leave:           { bg: '#DBEAFE', color: '#1E40AF' },
 };
 
 export default function StatusBadge({ status, label, size = 'sm' }) {
