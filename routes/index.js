@@ -663,6 +663,106 @@ router.get(  '/warehouse/adjustments',               protectWarehouse, stockAdj.
 router.get(  '/warehouse/cycle-counts',              protectWarehouse, cycleCount.warehouseGetCycleCounts);
 router.put(  '/warehouse/cycle-counts/:id/items',    protectWarehouse, cycleCount.warehouseUpdateCycleCount);
 
+// ── Sprint 10C: Procurement & Vendor Management ───────────────────────────────
+const vendorCtrl    = require('../controllers/vendorController');
+const supplierAuth  = require('../controllers/supplierAuthController');
+const prCtrl        = require('../controllers/purchaseRequisitionController');
+const rfqCtrl       = require('../controllers/rfqController');
+const poCtrl        = require('../controllers/purchaseOrderController');
+const procDash      = require('../controllers/procurementDashboardController');
+const procReport    = require('../controllers/procurementReportController');
+const supplierPortal = require('../controllers/supplierPortalController');
+const { protectSupplier } = require('../middleware/supplierAuth');
+
+// Admin — Vendor Management
+router.get(  '/admin/vendors',                           protect, admin, vendorCtrl.getVendors);
+router.post( '/admin/vendors',                           protect, admin, vendorCtrl.createVendor);
+router.get(  '/admin/vendors/dashboard',                 protect, admin, procDash.getDashboard);
+router.get(  '/admin/vendors/approval-queue',            protect, admin, procDash.getApprovalQueue);
+router.get(  '/admin/vendors/:id',                       protect, admin, vendorCtrl.getVendorById);
+router.put(  '/admin/vendors/:id',                       protect, admin, vendorCtrl.updateVendor);
+router.delete('/admin/vendors/:id',                      protect, admin, vendorCtrl.deleteVendor);
+router.put(  '/admin/vendors/:id/approve',               protect, admin, vendorCtrl.approveVendor);
+router.put(  '/admin/vendors/:id/blacklist',             protect, admin, vendorCtrl.blacklistVendor);
+router.get(  '/admin/vendors/:id/performance',           protect, admin, vendorCtrl.getVendorPerformance);
+router.post( '/admin/vendors/:id/contacts',              protect, admin, vendorCtrl.addContact);
+router.post( '/admin/vendors/:id/addresses',             protect, admin, vendorCtrl.addAddress);
+router.post( '/admin/vendors/:id/bank-accounts',         protect, admin, vendorCtrl.addBankAccount);
+router.post( '/admin/vendors/:id/documents',             protect, admin, vendorCtrl.addDocument);
+router.put(  '/admin/vendors/:id/documents/:docId/verify', protect, admin, vendorCtrl.verifyDocument);
+router.post( '/admin/vendors/:id/contracts',             protect, admin, vendorCtrl.addContract);
+router.post( '/admin/vendors/:id/ratings',               protect, admin, vendorCtrl.addRating);
+router.post( '/admin/vendors/:id/categories',            protect, admin, vendorCtrl.addCategory);
+
+// Admin — Supplier Portal Users
+router.get(  '/admin/supplier-users',                    protect, admin, supplierAuth.getSupplierUsers);
+router.post( '/admin/supplier-users',                    protect, admin, supplierAuth.createSupplierUser);
+router.put(  '/admin/supplier-users/:userId',            protect, admin, supplierAuth.updateSupplierUser);
+
+// Admin — Purchase Requisitions
+router.get(  '/admin/procurement/requisitions',          protect, admin, prCtrl.getRequisitions);
+router.post( '/admin/procurement/requisitions',          protect, admin, prCtrl.createRequisition);
+router.get(  '/admin/procurement/requisitions/:id',      protect, admin, prCtrl.getRequisitionById);
+router.put(  '/admin/procurement/requisitions/:id',      protect, admin, prCtrl.updateRequisition);
+router.put(  '/admin/procurement/requisitions/:id/submit',  protect, admin, prCtrl.submitRequisition);
+router.put(  '/admin/procurement/requisitions/:id/approve', protect, admin, prCtrl.approveRequisition);
+router.put(  '/admin/procurement/requisitions/:id/reject',  protect, admin, prCtrl.rejectRequisition);
+router.put(  '/admin/procurement/requisitions/:id/cancel',  protect, admin, prCtrl.cancelRequisition);
+
+// Admin — RFQ
+router.get(  '/admin/procurement/rfq',                   protect, admin, rfqCtrl.getRFQs);
+router.post( '/admin/procurement/rfq',                   protect, admin, rfqCtrl.createRFQ);
+router.get(  '/admin/procurement/rfq/:id',               protect, admin, rfqCtrl.getRFQById);
+router.put(  '/admin/procurement/rfq/:id',               protect, admin, rfqCtrl.updateRFQ);
+router.put(  '/admin/procurement/rfq/:id/publish',       protect, admin, rfqCtrl.publishRFQ);
+router.put(  '/admin/procurement/rfq/:id/close',         protect, admin, rfqCtrl.closeRFQ);
+router.put(  '/admin/procurement/rfq/:id/cancel',        protect, admin, rfqCtrl.cancelRFQ);
+router.put(  '/admin/procurement/rfq/:id/award/:vendorId', protect, admin, rfqCtrl.awardRFQ);
+router.put(  '/admin/procurement/rfq/:id/quotations/:vendorId', protect, admin, rfqCtrl.recordQuotation);
+
+// Admin — Purchase Orders
+router.get(  '/admin/procurement/orders',                protect, admin, poCtrl.getPOs);
+router.post( '/admin/procurement/orders',                protect, admin, poCtrl.createPO);
+router.get(  '/admin/procurement/orders/:id',            protect, admin, poCtrl.getPOById);
+router.put(  '/admin/procurement/orders/:id',            protect, admin, poCtrl.updatePO);
+router.put(  '/admin/procurement/orders/:id/submit',     protect, admin, poCtrl.submitPO);
+router.put(  '/admin/procurement/orders/:id/approve',    protect, admin, poCtrl.approvePO);
+router.put(  '/admin/procurement/orders/:id/reject',     protect, admin, poCtrl.rejectPO);
+router.put(  '/admin/procurement/orders/:id/release',    protect, admin, poCtrl.releasePO);
+router.put(  '/admin/procurement/orders/:id/send',       protect, admin, poCtrl.sendPO);
+router.put(  '/admin/procurement/orders/:id/cancel',     protect, admin, poCtrl.cancelPO);
+router.put(  '/admin/procurement/orders/:id/complete',   protect, admin, poCtrl.completePO);
+
+// Admin — Procurement Reports
+router.get(  '/admin/procurement/reports/spend',             protect, admin, procReport.getSpendReport);
+router.get(  '/admin/procurement/reports/vendor-performance',protect, admin, procReport.getVendorPerformanceReport);
+router.get(  '/admin/procurement/reports/open-orders',       protect, admin, procReport.getOpenOrdersReport);
+router.get(  '/admin/procurement/reports/delivery-delays',   protect, admin, procReport.getDeliveryDelaysReport);
+router.get(  '/admin/procurement/reports/supplier-ratings',  protect, admin, procReport.getSupplierRatingsReport);
+
+// Supplier Portal — Auth (public)
+router.post( '/supplier/auth/login',                     supplierAuth.login);
+router.post( '/supplier/auth/logout',                    supplierAuth.logout);
+router.get(  '/supplier/auth/me',                        protectSupplier, supplierAuth.me);
+
+// Supplier Portal — Dashboard
+router.get(  '/supplier/dashboard',                      protectSupplier, supplierPortal.getDashboard);
+
+// Supplier Portal — Purchase Orders
+router.get(  '/supplier/orders',                         protectSupplier, supplierPortal.getMyOrders);
+router.get(  '/supplier/orders/:id',                     protectSupplier, supplierPortal.getOrderDetail);
+router.put(  '/supplier/orders/:id/acknowledge',         protectSupplier, supplierPortal.acknowledgeOrder);
+router.put(  '/supplier/orders/:id/accept',              protectSupplier, supplierPortal.acceptOrder);
+router.put(  '/supplier/orders/:id/reject',              protectSupplier, supplierPortal.rejectOrder);
+
+// Supplier Portal — RFQ
+router.get(  '/supplier/rfq',                            protectSupplier, supplierPortal.getMyRFQs);
+router.put(  '/supplier/rfq/:id/quote',                  protectSupplier, rfqCtrl.supplierSubmitQuote);
+
+// Supplier Portal — Profile
+router.get(  '/supplier/profile',                        protectSupplier, supplierPortal.getProfile);
+router.put(  '/supplier/profile',                        protectSupplier, supplierPortal.updateProfile);
+
 // ── Sprint 9F: Audit Log ──────────────────────────────────────────────────────
 const audit    = require('../controllers/auditController');
 const AuditLog = require('../models/AuditLog');
