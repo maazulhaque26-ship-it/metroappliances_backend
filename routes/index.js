@@ -873,4 +873,58 @@ router.get(  '/warehouse/transfers',                    protectWarehouse, stockT
 router.put(  '/warehouse/transfers/:id/ship',           protectWarehouse, stockTransfer.warehouseShipTransfer);
 router.put(  '/warehouse/transfers/:id/receive',        protectWarehouse, stockTransfer.warehouseReceiveTransfer);
 
+// ── Sprint 10E: Barcode & Scanning Engine ─────────────────────────────────────
+const barcodeCtrl    = require('../controllers/barcodeController');
+const scanCtrl       = require('../controllers/scanController');
+const putawayCtrl    = require('../controllers/putawayController');
+const warehouseMap   = require('../controllers/warehouseMapController');
+
+// Admin — Barcode Engine
+router.get(  '/admin/barcodes',                          protect, admin, barcodeCtrl.getBarcodes);
+router.post( '/admin/barcodes/generate',                 protect, admin, barcodeCtrl.generateBarcode);
+router.post( '/admin/barcodes/assign',                   protect, admin, barcodeCtrl.assignBarcode);
+router.post( '/admin/barcodes/validate',                 protect, admin, barcodeCtrl.validateBarcode);
+router.post( '/admin/barcodes/qr',                       protect, admin, barcodeCtrl.generateQR);
+router.get(  '/admin/barcodes/stats',                    protect, admin, barcodeCtrl.getBarcodeStats);
+router.get(  '/admin/barcodes/lookup/:value',            protect, admin, barcodeCtrl.lookupBarcode);
+router.get(  '/admin/barcodes/entity/:entityType/:entityId', protect, admin, barcodeCtrl.getBarcodesByEntity);
+router.put(  '/admin/barcodes/:id/deactivate',           protect, admin, barcodeCtrl.deactivateBarcode);
+router.post( '/admin/barcodes/:id/print',                protect, admin, barcodeCtrl.recordPrint);
+
+// Admin — Scanner Activity
+router.get(  '/admin/scan-logs',                         protect, admin, scanCtrl.getScanLogs);
+router.get(  '/admin/scan-logs/activity',                protect, admin, scanCtrl.getScanActivity);
+router.get(  '/admin/scan-logs/report',                  protect, admin, scanCtrl.getScanReport);
+router.post( '/admin/scan-logs/scan',                    protect, admin, scanCtrl.processScan);
+
+// Admin — Warehouse Map
+router.get(  '/admin/warehouse-map/:warehouseId',        protect, admin, warehouseMap.getWarehouseMapData);
+router.get(  '/admin/warehouse-map/:warehouseId/search', protect, admin, warehouseMap.searchBin);
+router.get(  '/admin/warehouse-map/:warehouseId/utilization', protect, admin, warehouseMap.getBinUtilizationReport);
+
+// Admin — Smart Putaway
+router.post( '/admin/putaway/recommend',                 protect, admin, putawayCtrl.getPutawayRecommendations);
+router.post( '/admin/putaway/confirm',                   protect, admin, putawayCtrl.confirmPutaway);
+router.get(  '/admin/putaway/bin/:binId',                protect, admin, putawayCtrl.getBinContents);
+
+// Warehouse portal — Scanner
+router.post( '/warehouse/scan',                          protectWarehouse, scanCtrl.warehouseScan);
+router.get(  '/warehouse/scan-logs',                     protectWarehouse, scanCtrl.getScanLogs);
+
+// Warehouse portal — Putaway
+router.post( '/warehouse/putaway/recommend',             protectWarehouse, putawayCtrl.getPutawayRecommendations);
+router.post( '/warehouse/putaway/confirm',               protectWarehouse, putawayCtrl.confirmPutaway);
+router.get(  '/warehouse/putaway/bin/:binId',            protectWarehouse, putawayCtrl.getBinContents);
+
+// Warehouse portal — Bin Lookup
+router.get(  '/warehouse/bins/:warehouseId/search',      protectWarehouse, warehouseMap.searchBin);
+router.get(  '/warehouse/bins/:binId/contents',          protectWarehouse, putawayCtrl.getBinContents);
+
+// Warehouse portal — Barcode lookup
+router.get(  '/warehouse/barcodes/lookup/:value',        protectWarehouse, barcodeCtrl.lookupBarcode);
+router.post( '/warehouse/barcodes/validate',             protectWarehouse, barcodeCtrl.validateBarcode);
+
+// Public barcode lookup (for QR code scan from product packaging — no auth required)
+router.get(  '/barcode/lookup/:value',                   barcodeCtrl.lookupBarcode);
+
 module.exports = router;
