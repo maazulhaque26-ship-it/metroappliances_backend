@@ -232,6 +232,22 @@ const NAV_GROUPS = [
     ],
   },
   {
+    label: 'MRP',
+    items: [
+      { label: 'MRP Dashboard',          path: '/admin/mrp',                        icon: FiBarChart2,    roles: ['admin', 'super_admin'] },
+      { label: 'MRP Runs',               path: '/admin/mrp/runs',                   icon: FiActivity,     roles: ['admin', 'super_admin'] },
+      { label: 'Material Requirements',  path: '/admin/mrp/requirements',           icon: FiDatabase,     roles: ['admin', 'super_admin'] },
+      { label: 'Shortages',              path: '/admin/mrp/shortages',              icon: FiAlertTriangle,roles: ['admin', 'super_admin'] },
+      { label: 'Reservations',           path: '/admin/mrp/reservations',           icon: FiBox,          roles: ['admin', 'super_admin'] },
+      { label: 'Purchase Suggestions',   path: '/admin/mrp/purchase-suggestions',   icon: FiShoppingBag,  roles: ['admin', 'super_admin'] },
+      { label: 'Production Suggestions', path: '/admin/mrp/production-suggestions', icon: FiCpu,          roles: ['admin', 'super_admin'] },
+      { label: 'Demand Forecast',        path: '/admin/mrp/forecasts',              icon: FiTrendingUp,   roles: ['admin', 'super_admin'] },
+      { label: 'Inventory Projection',   path: '/admin/mrp/projections',            icon: FiRefreshCw,    roles: ['admin', 'super_admin'] },
+      { label: 'Safety Stock',           path: '/admin/mrp/safety-stock',           icon: FiShield,       roles: ['admin', 'super_admin'] },
+      { label: 'MRP Reports',            path: '/admin/mrp/reports',                icon: FiFileText,     roles: ['admin', 'super_admin'] },
+    ],
+  },
+  {
     label: 'Enterprise',
     items: [
       { label: 'Audit Log', path: '/admin/audit-log', icon: FiShield, roles: ['admin', 'super_admin'] },

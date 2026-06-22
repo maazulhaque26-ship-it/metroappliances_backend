@@ -265,6 +265,20 @@ const AdminBOMDetail              = lazy(() => import('./pages/admin/AdminBOMDet
 const AdminProductionOrders       = lazy(() => import('./pages/admin/AdminProductionOrders'));
 const AdminProductionOrderDetail  = lazy(() => import('./pages/admin/AdminProductionOrderDetail'));
 
+// ── Sprint 12C: Enterprise MRP ───────────────────────────────────────────────
+const AdminMRPDashboard          = lazy(() => import('./pages/admin/AdminMRPDashboard'));
+const AdminMRPRuns               = lazy(() => import('./pages/admin/AdminMRPRuns'));
+const AdminMRPRunDetail          = lazy(() => import('./pages/admin/AdminMRPRunDetail'));
+const AdminMaterialRequirements  = lazy(() => import('./pages/admin/AdminMaterialRequirements'));
+const AdminMRPReservations       = lazy(() => import('./pages/admin/AdminMRPReservations'));
+const AdminMRPShortages          = lazy(() => import('./pages/admin/AdminMRPShortages'));
+const AdminInventoryProjection   = lazy(() => import('./pages/admin/AdminInventoryProjection'));
+const AdminDemandForecast        = lazy(() => import('./pages/admin/AdminDemandForecast'));
+const AdminPurchaseSuggestions   = lazy(() => import('./pages/admin/AdminPurchaseSuggestions'));
+const AdminProductionSuggestions = lazy(() => import('./pages/admin/AdminProductionSuggestions'));
+const AdminSafetyStock           = lazy(() => import('./pages/admin/AdminSafetyStock'));
+const AdminMRPReports            = lazy(() => import('./pages/admin/AdminMRPReports'));
+
 // ── Sprint 12B: Enterprise Production Planning & Scheduling ─────────────────
 const AdminManufacturingPlanningDashboard = lazy(() => import('./pages/admin/AdminManufacturingPlanningDashboard'));
 const AdminProductionPlans                = lazy(() => import('./pages/admin/AdminProductionPlans'));
@@ -759,6 +773,20 @@ export default function App() {
         <Route path="/admin/manufacturing/planning/reports"            element={<AdminRoute><AdminPlanningReports /></AdminRoute>} />
         <Route path="/admin/manufacturing/planning/settings"           element={<AdminRoute><AdminPlanningSettings /></AdminRoute>} />
         <Route path="/admin/manufacturing/planning/scheduling"         element={<AdminRoute><AdminSchedulingBoard /></AdminRoute>} />
+
+        {/* Sprint 12C: Enterprise MRP — Admin */}
+        <Route path="/admin/mrp"                          element={<AdminRoute><AdminMRPDashboard /></AdminRoute>} />
+        <Route path="/admin/mrp/runs"                     element={<AdminRoute><AdminMRPRuns /></AdminRoute>} />
+        <Route path="/admin/mrp/runs/:id"                 element={<AdminRoute><AdminMRPRunDetail /></AdminRoute>} />
+        <Route path="/admin/mrp/requirements"             element={<AdminRoute><AdminMaterialRequirements /></AdminRoute>} />
+        <Route path="/admin/mrp/reservations"             element={<AdminRoute><AdminMRPReservations /></AdminRoute>} />
+        <Route path="/admin/mrp/shortages"                element={<AdminRoute><AdminMRPShortages /></AdminRoute>} />
+        <Route path="/admin/mrp/projections"              element={<AdminRoute><AdminInventoryProjection /></AdminRoute>} />
+        <Route path="/admin/mrp/forecasts"                element={<AdminRoute><AdminDemandForecast /></AdminRoute>} />
+        <Route path="/admin/mrp/purchase-suggestions"     element={<AdminRoute><AdminPurchaseSuggestions /></AdminRoute>} />
+        <Route path="/admin/mrp/production-suggestions"   element={<AdminRoute><AdminProductionSuggestions /></AdminRoute>} />
+        <Route path="/admin/mrp/safety-stock"             element={<AdminRoute><AdminSafetyStock /></AdminRoute>} />
+        <Route path="/admin/mrp/reports"                  element={<AdminRoute><AdminMRPReports /></AdminRoute>} />
 
         {/* Sprint 11C: Installation Engineer Portal (isolated auth — type:'engineer' JWT, green) */}
         <Route path="/engineer/login" element={<PageWrapper><EngineerLogin /></PageWrapper>} />
