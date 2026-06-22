@@ -1225,4 +1225,72 @@ router.put( '/admin/product-registrations/:id/invalidate', protect, admin, prodR
 router.put( '/admin/product-registrations/:id/activate-warranty', protect, admin, prodRegCtrl.activateWarrantyForRegistration);
 router.put( '/admin/product-registrations/:id/transfer', protect, admin, prodRegCtrl.transferOwnership);
 
+// ─── Sprint 12A: Manufacturing ERP Foundation ────────────────────────────────
+const factoryCtrl    = require('../controllers/factoryController');
+const workCenterCtrl = require('../controllers/workCenterController');
+const machineCtrl    = require('../controllers/machineController');
+const shiftCtrl      = require('../controllers/shiftController');
+const bomCtrl        = require('../controllers/bomController');
+const prodCtrl       = require('../controllers/productionController');
+const prodDashCtrl   = require('../controllers/productionDashboardController');
+
+// Manufacturing Dashboard
+router.get( '/admin/manufacturing/dashboard',         protect, admin, prodDashCtrl.getDashboard);
+router.get( '/admin/manufacturing/trend',             protect, admin, prodDashCtrl.getProductionTrend);
+router.get( '/admin/manufacturing/oee',               protect, admin, prodDashCtrl.getOEEReport);
+router.get( '/admin/manufacturing/shift-performance', protect, admin, prodDashCtrl.getShiftPerformance);
+
+// Factories
+router.post(   '/admin/factories',     protect, admin, factoryCtrl.createFactory);
+router.get(    '/admin/factories',     protect, admin, factoryCtrl.getFactories);
+router.get(    '/admin/factories/:id', protect, admin, factoryCtrl.getFactory);
+router.put(    '/admin/factories/:id', protect, admin, factoryCtrl.updateFactory);
+router.delete( '/admin/factories/:id', protect, admin, factoryCtrl.deleteFactory);
+
+// Work Centers
+router.post(   '/admin/work-centers',      protect, admin, workCenterCtrl.createWorkCenter);
+router.get(    '/admin/work-centers',      protect, admin, workCenterCtrl.getWorkCenters);
+router.get(    '/admin/work-centers/:id',  protect, admin, workCenterCtrl.getWorkCenter);
+router.put(    '/admin/work-centers/:id',  protect, admin, workCenterCtrl.updateWorkCenter);
+router.delete( '/admin/work-centers/:id',  protect, admin, workCenterCtrl.deleteWorkCenter);
+
+// Machines
+router.post(   '/admin/machines',                  protect, admin, machineCtrl.createMachine);
+router.get(    '/admin/machines',                  protect, admin, machineCtrl.getMachines);
+router.get(    '/admin/machines/:id',              protect, admin, machineCtrl.getMachine);
+router.put(    '/admin/machines/:id',              protect, admin, machineCtrl.updateMachine);
+router.delete( '/admin/machines/:id',              protect, admin, machineCtrl.deleteMachine);
+router.patch(  '/admin/machines/:id/status',       protect, admin, machineCtrl.updateMachineStatus);
+router.post(   '/admin/machines/:id/maintenance',  protect, admin, machineCtrl.logMaintenance);
+
+// Shifts
+router.post(   '/admin/shifts',     protect, admin, shiftCtrl.createShift);
+router.get(    '/admin/shifts',     protect, admin, shiftCtrl.getShifts);
+router.get(    '/admin/shifts/:id', protect, admin, shiftCtrl.getShift);
+router.put(    '/admin/shifts/:id', protect, admin, shiftCtrl.updateShift);
+router.delete( '/admin/shifts/:id', protect, admin, shiftCtrl.deleteShift);
+
+// Bill of Materials
+router.post(   '/admin/bom',                    protect, admin, bomCtrl.createBOM);
+router.get(    '/admin/bom',                    protect, admin, bomCtrl.getBOMs);
+router.get(    '/admin/bom/product/:productId', protect, admin, bomCtrl.getBOMByProduct);
+router.get(    '/admin/bom/:id',                protect, admin, bomCtrl.getBOM);
+router.put(    '/admin/bom/:id',                protect, admin, bomCtrl.updateBOM);
+router.delete( '/admin/bom/:id',                protect, admin, bomCtrl.deleteBOM);
+router.patch(  '/admin/bom/:id/approve',        protect, admin, bomCtrl.approveBOM);
+router.post(   '/admin/bom/:id/clone',          protect, admin, bomCtrl.cloneBOM);
+
+// Production Orders
+router.post(   '/admin/production-orders',                       protect, admin, prodCtrl.createOrder);
+router.get(    '/admin/production-orders',                       protect, admin, prodCtrl.getOrders);
+router.get(    '/admin/production-orders/:id',                   protect, admin, prodCtrl.getOrder);
+router.put(    '/admin/production-orders/:id',                   protect, admin, prodCtrl.updateOrder);
+router.delete( '/admin/production-orders/:id',                   protect, admin, prodCtrl.deleteOrder);
+router.patch(  '/admin/production-orders/:id/start',             protect, admin, prodCtrl.startOrder);
+router.patch(  '/admin/production-orders/:id/pause',             protect, admin, prodCtrl.pauseOrder);
+router.patch(  '/admin/production-orders/:id/complete',          protect, admin, prodCtrl.completeOrder);
+router.patch(  '/admin/production-orders/:id/cancel',            protect, admin, prodCtrl.cancelOrder);
+router.post(   '/admin/production-orders/:id/batches',           protect, admin, prodCtrl.createBatch);
+router.put(    '/admin/production-orders/:id/batches/:batchId',  protect, admin, prodCtrl.updateBatch);
+
 module.exports = router;
