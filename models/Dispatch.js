@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { dateStamp, nextSequence } = require('../utils/logisticsHelpers');
 
 const dispatchItemSchema = new mongoose.Schema({
   product:         { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
@@ -81,18 +82,15 @@ const dispatchSchema = new mongoose.Schema({
 
 dispatchSchema.pre('save', async function (next) {
   if (!this.dispatchNumber) {
-    const d   = new Date();
-    const pad = n => String(n).padStart(2, '0');
-    const ds  = `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
-    const count = await mongoose.model('Dispatch').countDocuments({ dispatchNumber: { $regex: `^DSP-${ds}` } });
-    this.dispatchNumber = `DSP-${ds}-${String(count + 1).padStart(4, '0')}`;
+    const ds = dateStamp();
+    const seq = await nextSequence(mongoose.connection, `dispatch:${ds}`);
+    this.dispatchNumber = `DSP-${ds}-${String(seq).padStart(4, '0')}`;
   }
   next();
 });
 
 dispatchSchema.index({ status: 1, isDeleted: 1 });
 dispatchSchema.index({ warehouse: 1, status: 1 });
-dispatchSchema.index({ dispatchNumber: 1 });
 dispatchSchema.index({ createdAt: -1 });
 
 module.exports = mongoose.model('Dispatch', dispatchSchema);

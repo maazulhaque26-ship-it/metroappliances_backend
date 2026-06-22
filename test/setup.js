@@ -14,7 +14,7 @@
  *   module.exports = {
  *     testEnvironment: 'node',
  *     setupFilesAfterFramework: ['./test/setup.js'],
- *     testMatch: ['**/__tests__/**/*.test.js'],
+ *     testMatch: ['test files under __tests__ ending in .test.js'],
  *   };
  */
 const mongoose = require('mongoose');

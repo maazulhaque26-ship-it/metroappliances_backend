@@ -5,7 +5,23 @@
 const mongoose = require('mongoose');
 const AuditLog = require('../models/AuditLog');
 
-// Requires setup.js wiring in jest.config.js
+const MONGO_URI = process.env.MONGO_TEST_URI || 'mongodb://localhost:27017/metro_test_audit';
+
+beforeAll(async () => {
+  await mongoose.connect(MONGO_URI);
+});
+
+afterAll(async () => {
+  await mongoose.connection.dropDatabase();
+  await mongoose.connection.close();
+});
+
+afterEach(async () => {
+  const collections = mongoose.connection.collections;
+  for (const key of Object.keys(collections)) {
+    await collections[key].deleteMany({});
+  }
+});
 
 describe('AuditLog model', () => {
   it('creates a valid audit log entry', async () => {

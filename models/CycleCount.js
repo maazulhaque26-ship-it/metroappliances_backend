@@ -52,6 +52,5 @@ cycleCountSchema.index({ warehouse: 1, status: 1, isDeleted: 1 });
 cycleCountSchema.index({ warehouse: 1, isDeleted: 1 });
 cycleCountSchema.index({ status: 1, isDeleted: 1 });
 cycleCountSchema.index({ createdAt: -1 });
-cycleCountSchema.index({ countNumber: 1 });
 
 module.exports = mongoose.model('CycleCount', cycleCountSchema);

@@ -1,6 +1,20 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+const pad = (value, length = 4) => String(value).padStart(length, '0');
+const dateStamp = () => {
+  const currentDate = new Date();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getDate()).padStart(2, '0');
+  return `${currentDate.getFullYear()}${month}${day}`;
+};
+
+const buildApprovalChain = () => [
+  { step: 1, role: 'purchase_manager', status: 'pending' },
+  { step: 2, role: 'finance', status: 'pending' },
+  { step: 3, role: 'admin', status: 'pending' },
+];
+
 const poItemSchema = new Schema({
   product:              { type: Schema.Types.ObjectId, ref: 'Product' },
   productName:          { type: String, required: true },
@@ -64,8 +78,21 @@ const purchaseOrderSchema = new Schema({
 
 purchaseOrderSchema.index({ vendor: 1, isDeleted: 1 });
 purchaseOrderSchema.index({ status: 1, isDeleted: 1 });
-purchaseOrderSchema.index({ poNumber: 1 });
 purchaseOrderSchema.index({ vendor: 1, status: 1, createdAt: -1 });
 purchaseOrderSchema.index({ createdAt: -1 });
+
+purchaseOrderSchema.pre('save', async function (next) {
+  if (!this.poNumber) {
+    const prefix = `PO-${dateStamp()}-`;
+    const count = await this.constructor.countDocuments({ poNumber: { $regex: `^${prefix}` } });
+    this.poNumber = `${prefix}${pad(count + 1)}`;
+  }
+
+  if (!this.approvalSteps?.length) {
+    this.approvalSteps = buildApprovalChain();
+  }
+
+  next();
+});
 
 module.exports = mongoose.model('PurchaseOrder', purchaseOrderSchema);

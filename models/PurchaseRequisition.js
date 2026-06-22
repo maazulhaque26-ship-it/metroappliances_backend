@@ -1,6 +1,20 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+const pad = (value, length = 4) => String(value).padStart(length, '0');
+const dateStamp = () => {
+  const currentDate = new Date();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getDate()).padStart(2, '0');
+  return `${currentDate.getFullYear()}${month}${day}`;
+};
+
+const buildApprovalChain = () => [
+  { step: 1, role: 'purchase_manager', status: 'pending' },
+  { step: 2, role: 'finance', status: 'pending' },
+  { step: 3, role: 'admin', status: 'pending' },
+];
+
 const prItemSchema = new Schema({
   product:         { type: Schema.Types.ObjectId, ref: 'Product' },
   productName:     { type: String, required: true },
@@ -46,7 +60,20 @@ const purchaseRequisitionSchema = new Schema({
 
 purchaseRequisitionSchema.index({ status: 1, isDeleted: 1 });
 purchaseRequisitionSchema.index({ requestedBy: 1, isDeleted: 1 });
-purchaseRequisitionSchema.index({ prNumber: 1 });
 purchaseRequisitionSchema.index({ createdAt: -1 });
+
+purchaseRequisitionSchema.pre('save', async function (next) {
+  if (!this.prNumber) {
+    const prefix = `PR-${dateStamp()}-`;
+    const count = await this.constructor.countDocuments({ prNumber: { $regex: `^${prefix}` } });
+    this.prNumber = `${prefix}${pad(count + 1)}`;
+  }
+
+  if (!this.approvalSteps?.length) {
+    this.approvalSteps = buildApprovalChain();
+  }
+
+  next();
+});
 
 module.exports = mongoose.model('PurchaseRequisition', purchaseRequisitionSchema);

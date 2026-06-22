@@ -41,6 +41,5 @@ const stockAdjustmentSchema = new Schema({
 stockAdjustmentSchema.index({ warehouse: 1, status: 1, isDeleted: 1 });
 stockAdjustmentSchema.index({ status: 1, isDeleted: 1 });
 stockAdjustmentSchema.index({ createdAt: -1 });
-stockAdjustmentSchema.index({ adjustmentNumber: 1 });
 
 module.exports = mongoose.model('StockAdjustment', stockAdjustmentSchema);

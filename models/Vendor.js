@@ -1,6 +1,13 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+const pad = (value, length = 4) => String(value).padStart(length, '0');
+const monthStamp = () => {
+  const currentDate = new Date();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  return `${currentDate.getFullYear()}${month}`;
+};
+
 const vendorSchema = new Schema({
   vendorCode:      { type: String, unique: true, sparse: true },
   companyName:     { type: String, required: true, trim: true },
@@ -10,7 +17,12 @@ const vendorSchema = new Schema({
   panNumber:       { type: String, trim: true, uppercase: true },
   msmeNumber:      { type: String, trim: true },
   cinNumber:       { type: String, trim: true, uppercase: true },
-  email:           { type: String, trim: true, lowercase: true },
+  email:           {
+    type: String,
+    trim: true,
+    lowercase: true,
+    match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email address'],
+  },
   phone:           { type: String, trim: true },
   mobile:          { type: String, trim: true },
   website:         { type: String, trim: true },
@@ -34,8 +46,16 @@ const vendorSchema = new Schema({
 
 vendorSchema.index({ companyName: 1, isDeleted: 1 });
 vendorSchema.index({ status: 1, isDeleted: 1 });
-vendorSchema.index({ vendorCode: 1 });
 vendorSchema.index({ gstNumber: 1 });
 vendorSchema.index({ createdAt: -1 });
+
+vendorSchema.pre('save', async function (next) {
+  if (!this.vendorCode) {
+    const prefix = `VND-${monthStamp()}-`;
+    const count = await this.constructor.countDocuments({ vendorCode: { $regex: `^${prefix}` } });
+    this.vendorCode = `${prefix}${pad(count + 1)}`;
+  }
+  next();
+});
 
 module.exports = mongoose.model('Vendor', vendorSchema);

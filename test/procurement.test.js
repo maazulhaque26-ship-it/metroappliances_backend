@@ -3,21 +3,27 @@
  * Run: cd backend && npx jest test/procurement.test.js --forceExit
  */
 const mongoose = require('mongoose');
+const { MongoMemoryServer } = require('mongodb-memory-server');
 require('dotenv').config();
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/ecommerce-test';
+let mongod;
 
 beforeAll(async () => {
-  await mongoose.connect(MONGO_URI);
+  mongod = await MongoMemoryServer.create();
+  await mongoose.connect(mongod.getUri());
 });
 
 afterAll(async () => {
-  // Clean up test documents
-  await mongoose.connection.db.collection('vendors').deleteMany({ companyName: /^TEST_/ });
-  await mongoose.connection.db.collection('purchaserequisitions').deleteMany({ title: /^TEST_/ });
-  await mongoose.connection.db.collection('rfqs').deleteMany({ title: /^TEST_/ });
-  await mongoose.connection.db.collection('purchaseorders').deleteMany({ notes: 'test-procurement-suite' });
-  await mongoose.disconnect();
+  await mongoose.connection.dropDatabase();
+  await mongoose.connection.close();
+  await mongod.stop();
+});
+
+afterEach(async () => {
+  const collections = mongoose.connection.collections;
+  for (const key of Object.keys(collections)) {
+    await collections[key].deleteMany({});
+  }
 });
 
 // ── Vendor ────────────────────────────────────────────────────────────────────

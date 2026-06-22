@@ -177,6 +177,10 @@ describe('CycleCount model', () => {
 describe('SerialNumber model', () => {
   const SerialNumber = require('../models/SerialNumber');
 
+  beforeAll(async () => {
+    await SerialNumber.createIndexes();
+  });
+
   it('creates a serial number in in_stock status', async () => {
     const productId   = new mongoose.Types.ObjectId();
     const warehouseId = new mongoose.Types.ObjectId();

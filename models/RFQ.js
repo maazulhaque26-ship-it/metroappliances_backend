@@ -1,6 +1,14 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+const pad = (value, length = 4) => String(value).padStart(length, '0');
+const dateStamp = () => {
+  const currentDate = new Date();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getDate()).padStart(2, '0');
+  return `${currentDate.getFullYear()}${month}${day}`;
+};
+
 const rfqItemSchema = new Schema({
   product:        { type: Schema.Types.ObjectId, ref: 'Product' },
   productName:    { type: String, required: true },
@@ -58,8 +66,16 @@ const rfqSchema = new Schema({
 }, { timestamps: true });
 
 rfqSchema.index({ status: 1, isDeleted: 1 });
-rfqSchema.index({ rfqNumber: 1 });
 rfqSchema.index({ purchaseRequisition: 1 });
 rfqSchema.index({ createdAt: -1 });
+
+rfqSchema.pre('save', async function (next) {
+  if (!this.rfqNumber) {
+    const prefix = `RFQ-${dateStamp()}-`;
+    const count = await this.constructor.countDocuments({ rfqNumber: { $regex: `^${prefix}` } });
+    this.rfqNumber = `${prefix}${pad(count + 1)}`;
+  }
+  next();
+});
 
 module.exports = mongoose.model('RFQ', rfqSchema);

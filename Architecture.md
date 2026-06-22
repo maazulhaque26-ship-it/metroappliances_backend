@@ -35,7 +35,7 @@ ecommerce-app/
 
 ---
 
-## Authentication — 5 JWT Stacks
+## Authentication — 8 JWT Stacks
 
 All stacks share the same `JWT_SECRET`. Each middleware verifies `decoded.type` to prevent cross-portal token reuse.
 
@@ -46,8 +46,10 @@ All stacks share the same `JWT_SECRET`. Each middleware verifies `decoded.type` 
 | Sales Agent | `type: 'agent'` | `middleware/agentAuth.js` | `POST /api/agent/auth/login` |
 | Warehouse | `type: 'warehouse'` | `middleware/warehouseAuth.js` | `POST /api/warehouse/auth/login` |
 | Supplier | `type: 'supplier'` | `middleware/supplierAuth.js` | `POST /api/supplier/auth/login` |
+| Technician | `type: 'technician'` | `middleware/technicianAuth.js` | `POST /api/technician/auth/login` |
+| Engineer | `type: 'engineer'` | `middleware/engineerAuth.js` | `POST /api/engineer/auth/login` |
 
-All six auth login endpoints receive `authLimiter` (10 req / 15 min) before hitting `apiLimiter`.
+All auth login endpoints receive `authLimiter` (10 req / 15 min) before hitting `apiLimiter`.
 
 ---
 
@@ -61,6 +63,8 @@ All six auth login endpoints receive `authLimiter` (10 req / 15 min) before hitt
 | Sales agent | `/agent` | `/api/agent/` | CRM + visit tracking |
 | Warehouse portal | `/warehouse` | `/api/warehouse/` | WMS operations |
 | Supplier portal | `/supplier` | `/api/supplier/` | Procurement & deliveries |
+| Technician portal | `/technician` | `/api/technician/` | Service jobs |
+| Installation engineer portal | `/engineer` | `/api/engineer/` | Installation jobs |
 
 ---
 
@@ -120,6 +124,10 @@ Redux Toolkit store with 11 slices: `auth`, `cart`, `wishlist`, `products`, `ord
 | 10B | Inventory management (8 models, adjustInventory() engine, 11 admin pages) |
 | 10C | Procurement & vendor management (13 models, supplier JWT stack) |
 | 10D | Dispatch & logistics (9 models, GST challan, delivery challan print) |
+| 11A | After-sales service foundation |
+| 11B | Technician portal, service automation, reporting |
+| 11C | Installation management and product registration |
+| 11D | Platform stabilization, deterministic tests, CI syntax, duplicate-index cleanup |
 
 ---
 

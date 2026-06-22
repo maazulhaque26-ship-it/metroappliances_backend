@@ -270,7 +270,10 @@ describe('AMCContract model', () => {
 // ─── SparePart model ──────────────────────────────────────────────────────────
 describe('SparePart model', () => {
   let SparePart;
-  beforeAll(() => { SparePart = require('../models/SparePart'); });
+  beforeAll(async () => {
+    SparePart = require('../models/SparePart');
+    await SparePart.createIndexes();
+  });
 
   it('creates a spare part with required fields', async () => {
     const part = await SparePart.create({

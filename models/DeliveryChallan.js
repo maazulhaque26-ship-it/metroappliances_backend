@@ -69,7 +69,6 @@ deliveryChallanSchema.pre('save', async function (next) {
   next();
 });
 
-deliveryChallanSchema.index({ challanNumber: 1 });
 deliveryChallanSchema.index({ dispatch: 1 });
 deliveryChallanSchema.index({ createdAt: -1 });
 

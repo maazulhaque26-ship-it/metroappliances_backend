@@ -6,6 +6,16 @@ const dateStamp = () => {
   return `${d.getFullYear()}${z(d.getMonth() + 1)}${z(d.getDate())}`;
 };
 
+const nextSequence = async (connection, key) => {
+  const result = await connection.collection('counters').findOneAndUpdate(
+    { _id: key },
+    { $inc: { seq: 1 } },
+    { upsert: true, returnDocument: 'after' }
+  );
+
+  return result.seq || result.value?.seq;
+};
+
 const numberInWords = (num) => {
   const a = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
   const b = ['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
@@ -37,4 +47,4 @@ const paginateQuery = async (Model, filter, options = {}) => {
 const respOk  = (res, data, message = 'Success', code = 200) => res.status(code).json({ success: true, message, data });
 const respErr = (res, message = 'Error', code = 400) => res.status(code).json({ success: false, message });
 
-module.exports = { pad, dateStamp, numberInWords, paginateQuery, respOk, respErr };
+module.exports = { pad, dateStamp, nextSequence, numberInWords, paginateQuery, respOk, respErr };

@@ -7,6 +7,24 @@ const Warehouse     = require('../models/Warehouse');
 const WarehouseZone = require('../models/WarehouseZone');
 const WarehouseUser = require('../models/WarehouseUser');
 
+const MONGO_URI = process.env.MONGO_TEST_URI || 'mongodb://localhost:27017/metro_test_warehouse';
+
+beforeAll(async () => {
+  await mongoose.connect(MONGO_URI);
+});
+
+afterAll(async () => {
+  await mongoose.connection.dropDatabase();
+  await mongoose.connection.close();
+});
+
+afterEach(async () => {
+  const collections = mongoose.connection.collections;
+  for (const key of Object.keys(collections)) {
+    await collections[key].deleteMany({});
+  }
+});
+
 describe('Warehouse model', () => {
   it('creates a valid warehouse', async () => {
     const wh = await Warehouse.create({

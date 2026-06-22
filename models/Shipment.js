@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { dateStamp, nextSequence } = require('../utils/logisticsHelpers');
 
 const trackingEventSchema = new mongoose.Schema({
   status:      { type: String, required: true },
@@ -70,11 +71,9 @@ const shipmentSchema = new mongoose.Schema({
 
 shipmentSchema.pre('save', async function (next) {
   if (!this.shipmentNumber) {
-    const d   = new Date();
-    const pad = n => String(n).padStart(2, '0');
-    const ds  = `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
-    const count = await mongoose.model('Shipment').countDocuments({ shipmentNumber: { $regex: `^SHP-${ds}` } });
-    this.shipmentNumber = `SHP-${ds}-${String(count + 1).padStart(4, '0')}`;
+    const ds = dateStamp();
+    const seq = await nextSequence(mongoose.connection, `shipment:${ds}`);
+    this.shipmentNumber = `SHP-${ds}-${String(seq).padStart(4, '0')}`;
   }
   next();
 });

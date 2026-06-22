@@ -53,7 +53,6 @@ const grnSchema = new Schema({
 grnSchema.index({ warehouse: 1, isDeleted: 1 });
 grnSchema.index({ status: 1, isDeleted: 1 });
 grnSchema.index({ createdAt: -1 });
-grnSchema.index({ grnNumber: 1 });
 grnSchema.index({ warehouse: 1, status: 1, createdAt: -1 });
 
 module.exports = mongoose.model('GRN', grnSchema);
