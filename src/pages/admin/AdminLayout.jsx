@@ -11,7 +11,7 @@ import {
   FiZap, FiLayers, FiTarget, FiRadio, FiMessageSquare, FiBriefcase,
   FiBarChart2, FiTrendingUp, FiMap, FiMapPin, FiActivity, FiDownload, FiSliders,
   FiBox, FiDatabase, FiRefreshCw, FiAlertTriangle, FiFileText, FiClipboard,
-  FiCamera, FiCpu, FiThermometer, FiWifi, FiTool,
+  FiCamera, FiCpu, FiThermometer, FiWifi, FiTool, FiClock,
 } from 'react-icons/fi';
 import Logo from '../../components/ui/Logo';
 
@@ -202,6 +202,18 @@ const NAV_GROUPS = [
       { label: 'Engineers',              path: '/admin/installation-engineers',       icon: FiUsers,     roles: ['admin', 'super_admin'] },
       { label: 'Product Registrations',  path: '/admin/product-registrations',        icon: FiPackage,   roles: ['admin', 'super_admin'] },
       { label: 'Install Reports',        path: '/admin/installation/reports',         icon: FiBarChart2, roles: ['admin', 'super_admin'] },
+    ],
+  },
+  {
+    label: 'Manufacturing',
+    items: [
+      { label: 'MFG Dashboard',     path: '/admin/manufacturing',                icon: FiCpu,       roles: ['admin', 'super_admin'] },
+      { label: 'Factories',         path: '/admin/manufacturing/factories',       icon: FiMapPin,    roles: ['admin', 'super_admin'] },
+      { label: 'Work Centers',      path: '/admin/manufacturing/work-centers',    icon: FiLayers,    roles: ['admin', 'super_admin'] },
+      { label: 'Machines',          path: '/admin/manufacturing/machines',        icon: FiTool,      roles: ['admin', 'super_admin'] },
+      { label: 'Shift Planner',     path: '/admin/manufacturing/shifts',          icon: FiClock,     roles: ['admin', 'super_admin'] },
+      { label: 'Bill of Materials', path: '/admin/manufacturing/bom',             icon: FiList,      roles: ['admin', 'super_admin'] },
+      { label: 'Production Orders', path: '/admin/manufacturing/orders',          icon: FiClipboard, roles: ['admin', 'super_admin'] },
     ],
   },
   {

@@ -254,6 +254,17 @@ const AdminInstallationEngineers      = lazy(() => import('./pages/admin/AdminIn
 const AdminProductRegistrations       = lazy(() => import('./pages/admin/AdminProductRegistrations'));
 const AdminInstallationReports        = lazy(() => import('./pages/admin/AdminInstallationReports'));
 
+// ── Sprint 12A: Manufacturing ERP Foundation — Admin pages ───────────────────
+const AdminManufacturingDashboard = lazy(() => import('./pages/admin/AdminManufacturingDashboard'));
+const AdminFactories              = lazy(() => import('./pages/admin/AdminFactories'));
+const AdminWorkCenters            = lazy(() => import('./pages/admin/AdminWorkCenters'));
+const AdminMachines               = lazy(() => import('./pages/admin/AdminMachines'));
+const AdminShiftPlanner           = lazy(() => import('./pages/admin/AdminShiftPlanner'));
+const AdminBOMList                = lazy(() => import('./pages/admin/AdminBOMList'));
+const AdminBOMDetail              = lazy(() => import('./pages/admin/AdminBOMDetail'));
+const AdminProductionOrders       = lazy(() => import('./pages/admin/AdminProductionOrders'));
+const AdminProductionOrderDetail  = lazy(() => import('./pages/admin/AdminProductionOrderDetail'));
+
 // ── Sprint 11B: Customer Service Portal ──────────────────────────────────────
 const CustomerServiceRequests  = lazy(() => import('./pages/customer/CustomerServiceRequests'));
 const CustomerRaiseComplaint   = lazy(() => import('./pages/customer/CustomerRaiseComplaint'));
@@ -711,6 +722,17 @@ export default function App() {
         <Route path="/admin/installation-engineers"    element={<AdminRoute><AdminInstallationEngineers /></AdminRoute>} />
         <Route path="/admin/product-registrations"     element={<AdminRoute><AdminProductRegistrations /></AdminRoute>} />
         <Route path="/admin/installation/reports"      element={<AdminRoute><AdminInstallationReports /></AdminRoute>} />
+
+        {/* Sprint 12A: Manufacturing ERP Foundation — Admin */}
+        <Route path="/admin/manufacturing"               element={<AdminRoute><AdminManufacturingDashboard /></AdminRoute>} />
+        <Route path="/admin/manufacturing/factories"     element={<AdminRoute><AdminFactories /></AdminRoute>} />
+        <Route path="/admin/manufacturing/work-centers"  element={<AdminRoute><AdminWorkCenters /></AdminRoute>} />
+        <Route path="/admin/manufacturing/machines"      element={<AdminRoute><AdminMachines /></AdminRoute>} />
+        <Route path="/admin/manufacturing/shifts"        element={<AdminRoute><AdminShiftPlanner /></AdminRoute>} />
+        <Route path="/admin/manufacturing/bom"           element={<AdminRoute><AdminBOMList /></AdminRoute>} />
+        <Route path="/admin/manufacturing/bom/:id"       element={<AdminRoute><AdminBOMDetail /></AdminRoute>} />
+        <Route path="/admin/manufacturing/orders"        element={<AdminRoute><AdminProductionOrders /></AdminRoute>} />
+        <Route path="/admin/manufacturing/orders/:id"    element={<AdminRoute><AdminProductionOrderDetail /></AdminRoute>} />
 
         {/* Sprint 11C: Installation Engineer Portal (isolated auth — type:'engineer' JWT, green) */}
         <Route path="/engineer/login" element={<PageWrapper><EngineerLogin /></PageWrapper>} />

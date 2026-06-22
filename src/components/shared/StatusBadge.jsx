@@ -140,6 +140,14 @@ const PRESETS = {
   // Sprint 11C — Engineer availability
   engineer_active:    { bg: '#D1FAE5', color: '#065F46' },
   engineer_inactive:  { bg: '#F3F4F6', color: '#6B7280' },
+  // Sprint 12A — Manufacturing ERP
+  scheduled:          { bg: '#EDE9FE', color: '#5B21B6' },
+  paused:             { bg: '#FEF3C7', color: '#92400E' },
+  running:            { bg: '#D1FAE5', color: '#065F46' },
+  idle:               { bg: '#F3F4F6', color: '#6B7280' },
+  breakdown:          { bg: '#FEE2E2', color: '#991B1B' },
+  decommissioned:     { bg: '#F3F4F6', color: '#374151' },
+  obsolete:           { bg: '#F3F4F6', color: '#9CA3AF' },
 };
 
 export default function StatusBadge({ status, label, size = 'sm' }) {
