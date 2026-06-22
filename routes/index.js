@@ -1354,4 +1354,74 @@ router.post(   '/admin/planning-scenarios',      protect, admin, planDashCtrl.cr
 router.put(    '/admin/planning-scenarios/:id',  protect, admin, planDashCtrl.updateScenario);
 router.delete( '/admin/planning-scenarios/:id',  protect, admin, planDashCtrl.deleteScenario);
 
+// ─── Sprint 12C: Enterprise MRP ──────────────────────────────────────────────
+const mrpCtrl        = require('../controllers/mrpController');
+const matReqCtrl     = require('../controllers/materialRequirementController');
+const mrpResCtrl     = require('../controllers/mrpReservationController');
+const forecastCtrl   = require('../controllers/forecastController');
+const projCtrl       = require('../controllers/inventoryProjectionController');
+const shortageCtrl   = require('../controllers/shortageController');
+const recCtrl        = require('../controllers/recommendationController');
+const mrpDashCtrl    = require('../controllers/mrpDashboardController');
+const ssCtrl         = require('../controllers/safetyStockController');
+
+// MRP Dashboard & Reports
+router.get( '/admin/mrp/dashboard',                  protect, admin, mrpDashCtrl.getDashboard);
+router.get( '/admin/mrp/reports/shortages',          protect, admin, mrpDashCtrl.getShortageReport);
+router.get( '/admin/mrp/reports/inventory-risk',     protect, admin, mrpDashCtrl.getInventoryRiskReport);
+router.get( '/admin/mrp/reports/forecast-accuracy',  protect, admin, mrpDashCtrl.getForecastAccuracyReport);
+
+// MRP Runs
+router.post(  '/admin/mrp/runs',            protect, admin, mrpCtrl.runMRP);
+router.get(   '/admin/mrp/runs',            protect, admin, mrpCtrl.getMRPRuns);
+router.get(   '/admin/mrp/runs/:id',        protect, admin, mrpCtrl.getMRPRun);
+router.patch( '/admin/mrp/runs/:id/cancel', protect, admin, mrpCtrl.cancelRun);
+
+// Material Requirements
+router.get( '/admin/mrp/requirements',                         protect, admin, matReqCtrl.getRequirements);
+router.get( '/admin/mrp/requirements/:id',                     protect, admin, matReqCtrl.getRequirement);
+router.get( '/admin/mrp/runs/:mrpRunId/requirements',          protect, admin, matReqCtrl.getRequirementsByRun);
+
+// MRP Reservations
+router.get(   '/admin/mrp/reservations',            protect, admin, mrpResCtrl.getReservations);
+router.get(   '/admin/mrp/reservations/:id',        protect, admin, mrpResCtrl.getReservation);
+router.patch( '/admin/mrp/reservations/:id/release',protect, admin, mrpResCtrl.releaseReservation);
+
+// Shortages
+router.get(   '/admin/mrp/shortages',              protect, admin, shortageCtrl.getShortages);
+router.get(   '/admin/mrp/shortages/:id',          protect, admin, shortageCtrl.getShortage);
+router.patch( '/admin/mrp/shortages/:id/resolve',  protect, admin, shortageCtrl.resolveShortage);
+router.patch( '/admin/mrp/shortages/:id/ignore',   protect, admin, shortageCtrl.ignoreShortage);
+
+// Recommendations
+router.get(   '/admin/mrp/recommendations',              protect, admin, recCtrl.getRecommendations);
+router.get(   '/admin/mrp/recommendations/:id',          protect, admin, recCtrl.getRecommendation);
+router.patch( '/admin/mrp/recommendations/:id/accept',   protect, admin, recCtrl.acceptRecommendation);
+router.patch( '/admin/mrp/recommendations/:id/reject',   protect, admin, recCtrl.rejectRecommendation);
+
+// Purchase Suggestions
+router.get(   '/admin/mrp/purchase-suggestions',              protect, admin, recCtrl.getPurchaseSuggestions);
+router.patch( '/admin/mrp/purchase-suggestions/:id/approve',  protect, admin, recCtrl.approvePurchaseSuggestion);
+router.patch( '/admin/mrp/purchase-suggestions/:id/reject',   protect, admin, recCtrl.rejectPurchaseSuggestion);
+
+// Demand Forecasts
+router.get(    '/admin/mrp/forecasts',              protect, admin, forecastCtrl.getForecasts);
+router.post(   '/admin/mrp/forecasts',              protect, admin, forecastCtrl.createForecast);
+router.get(    '/admin/mrp/forecasts/:id',          protect, admin, forecastCtrl.getForecast);
+router.put(    '/admin/mrp/forecasts/:id',          protect, admin, forecastCtrl.updateForecast);
+router.patch(  '/admin/mrp/forecasts/:id/approve',  protect, admin, forecastCtrl.approveForecast);
+router.delete( '/admin/mrp/forecasts/:id',          protect, admin, forecastCtrl.deleteForecast);
+
+// Inventory Projections
+router.get( '/admin/mrp/projections',                    protect, admin, projCtrl.getProjections);
+router.get( '/admin/mrp/projections/:id',                protect, admin, projCtrl.getProjection);
+router.get( '/admin/mrp/runs/:mrpRunId/projections',     protect, admin, projCtrl.getProjectionsByRun);
+
+// Safety Stock Rules
+router.get(    '/admin/mrp/safety-stock',      protect, admin, ssCtrl.getRules);
+router.post(   '/admin/mrp/safety-stock',      protect, admin, ssCtrl.createRule);
+router.get(    '/admin/mrp/safety-stock/:id',  protect, admin, ssCtrl.getRule);
+router.put(    '/admin/mrp/safety-stock/:id',  protect, admin, ssCtrl.updateRule);
+router.delete( '/admin/mrp/safety-stock/:id',  protect, admin, ssCtrl.deleteRule);
+
 module.exports = router;
