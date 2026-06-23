@@ -298,6 +298,23 @@ const AdminScrapManagement    = lazy(() => import('./pages/admin/AdminScrapManag
 const AdminReworkManagement   = lazy(() => import('./pages/admin/AdminReworkManagement'));
 const AdminMESReports         = lazy(() => import('./pages/admin/AdminMESReports'));
 
+// ── Sprint 12E: Enterprise QMS ───────────────────────────────────────────────
+const AdminQMSDashboard        = lazy(() => import('./pages/admin/AdminQMSDashboard'));
+const AdminInspectionPlans     = lazy(() => import('./pages/admin/AdminInspectionPlans'));
+const AdminInspectionLots      = lazy(() => import('./pages/admin/AdminInspectionLots'));
+const AdminInspectionDetail    = lazy(() => import('./pages/admin/AdminInspectionDetail'));
+const AdminCertificates        = lazy(() => import('./pages/admin/AdminCertificates'));
+const AdminCAPA                = lazy(() => import('./pages/admin/AdminCAPA'));
+const AdminCAPADetail          = lazy(() => import('./pages/admin/AdminCAPADetail'));
+const AdminNonConformance      = lazy(() => import('./pages/admin/AdminNonConformance'));
+const AdminAuditPrograms       = lazy(() => import('./pages/admin/AdminAuditPrograms'));
+const AdminAudits              = lazy(() => import('./pages/admin/AdminAudits'));
+const AdminCalibrationDashboard = lazy(() => import('./pages/admin/AdminCalibrationDashboard'));
+const AdminGaugeManagement     = lazy(() => import('./pages/admin/AdminGaugeManagement'));
+const AdminSupplierQuality     = lazy(() => import('./pages/admin/AdminSupplierQuality'));
+const AdminQualityReports      = lazy(() => import('./pages/admin/AdminQualityReports'));
+const AdminDocumentControl     = lazy(() => import('./pages/admin/AdminDocumentControl'));
+
 // ── Sprint 12B: Enterprise Production Planning & Scheduling ─────────────────
 const AdminManufacturingPlanningDashboard = lazy(() => import('./pages/admin/AdminManufacturingPlanningDashboard'));
 const AdminProductionPlans                = lazy(() => import('./pages/admin/AdminProductionPlans'));
@@ -825,6 +842,23 @@ export default function App() {
         <Route path="/admin/mes/scrap"                    element={<AdminRoute><AdminScrapManagement /></AdminRoute>} />
         <Route path="/admin/mes/rework"                   element={<AdminRoute><AdminReworkManagement /></AdminRoute>} />
         <Route path="/admin/mes/reports"                  element={<AdminRoute><AdminMESReports /></AdminRoute>} />
+
+        {/* Sprint 12E: Enterprise QMS */}
+        <Route path="/admin/qms"                          element={<AdminRoute><AdminQMSDashboard /></AdminRoute>} />
+        <Route path="/admin/qms/inspection-plans"         element={<AdminRoute><AdminInspectionPlans /></AdminRoute>} />
+        <Route path="/admin/qms/inspection-lots"          element={<AdminRoute><AdminInspectionLots /></AdminRoute>} />
+        <Route path="/admin/qms/inspection-lots/:id"      element={<AdminRoute><AdminInspectionDetail /></AdminRoute>} />
+        <Route path="/admin/qms/certificates"             element={<AdminRoute><AdminCertificates /></AdminRoute>} />
+        <Route path="/admin/qms/capas"                    element={<AdminRoute><AdminCAPA /></AdminRoute>} />
+        <Route path="/admin/qms/capas/:id"                element={<AdminRoute><AdminCAPADetail /></AdminRoute>} />
+        <Route path="/admin/qms/non-conformance"          element={<AdminRoute><AdminNonConformance /></AdminRoute>} />
+        <Route path="/admin/qms/audit-programs"           element={<AdminRoute><AdminAuditPrograms /></AdminRoute>} />
+        <Route path="/admin/qms/audits"                   element={<AdminRoute><AdminAudits /></AdminRoute>} />
+        <Route path="/admin/qms/calibration"              element={<AdminRoute><AdminCalibrationDashboard /></AdminRoute>} />
+        <Route path="/admin/qms/gauges"                   element={<AdminRoute><AdminGaugeManagement /></AdminRoute>} />
+        <Route path="/admin/qms/supplier-quality"         element={<AdminRoute><AdminSupplierQuality /></AdminRoute>} />
+        <Route path="/admin/qms/reports"                  element={<AdminRoute><AdminQualityReports /></AdminRoute>} />
+        <Route path="/admin/qms/documents"                element={<AdminRoute><AdminDocumentControl /></AdminRoute>} />
 
         {/* Sprint 11C: Installation Engineer Portal (isolated auth — type:'engineer' JWT, green) */}
         <Route path="/engineer/login" element={<PageWrapper><EngineerLogin /></PageWrapper>} />

@@ -269,6 +269,24 @@ const NAV_GROUPS = [
     ],
   },
   {
+    label: 'QMS',
+    items: [
+      { label: 'QMS Dashboard',         path: '/admin/qms',                        icon: FiShield,       roles: ['admin', 'super_admin'] },
+      { label: 'Inspection Plans',      path: '/admin/qms/inspection-plans',       icon: FiClipboard,    roles: ['admin', 'super_admin'] },
+      { label: 'Inspection Lots',       path: '/admin/qms/inspection-lots',        icon: FiList,         roles: ['admin', 'super_admin'] },
+      { label: 'Certificates',          path: '/admin/qms/certificates',           icon: FiAward,        roles: ['admin', 'super_admin'] },
+      { label: 'CAPA',                  path: '/admin/qms/capas',                  icon: FiAlertTriangle,roles: ['admin', 'super_admin'] },
+      { label: 'Non-Conformance',       path: '/admin/qms/non-conformance',        icon: FiAlertTriangle,roles: ['admin', 'super_admin'] },
+      { label: 'Audit Programs',        path: '/admin/qms/audit-programs',         icon: FiCalendar,     roles: ['admin', 'super_admin'] },
+      { label: 'Quality Audits',        path: '/admin/qms/audits',                 icon: FiClipboard,    roles: ['admin', 'super_admin'] },
+      { label: 'Calibration',           path: '/admin/qms/calibration',            icon: FiTool,         roles: ['admin', 'super_admin'] },
+      { label: 'Gauge Management',      path: '/admin/qms/gauges',                 icon: FiSliders,      roles: ['admin', 'super_admin'] },
+      { label: 'Supplier Quality',      path: '/admin/qms/supplier-quality',       icon: FiUsers,        roles: ['admin', 'super_admin'] },
+      { label: 'Quality Reports',       path: '/admin/qms/reports',                icon: FiBarChart2,    roles: ['admin', 'super_admin'] },
+      { label: 'Document Control',      path: '/admin/qms/documents',              icon: FiFileText,     roles: ['admin', 'super_admin'] },
+    ],
+  },
+  {
     label: 'Enterprise',
     items: [
       { label: 'Audit Log', path: '/admin/audit-log', icon: FiShield, roles: ['admin', 'super_admin'] },
