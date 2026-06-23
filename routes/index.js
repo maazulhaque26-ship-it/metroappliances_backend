@@ -1732,7 +1732,7 @@ router.post( '/admin/qms/documents/:docId/revisions',      protect, admin, docCt
 // ── Sprint 12F: Enterprise Asset Management (EAM / CMMS) ─────────────────────
 const assetCtrl   = require('../controllers/assetController');
 const maintCtrl   = require('../controllers/maintenanceController');
-const woCtrl      = require('../controllers/maintenanceWorkOrderController');
+const eamWoCtrl   = require('../controllers/maintenanceWorkOrderController');
 const schedCtrl   = require('../controllers/maintenanceScheduleController');
 const cmCtrl      = require('../controllers/conditionMonitoringController');
 const meterCtrl   = require('../controllers/meterController');
@@ -1834,14 +1834,14 @@ router.put(    '/admin/eam/vendor-services/:id',           protect, admin, maint
 router.delete( '/admin/eam/vendor-services/:id',           protect, admin, maintCtrl.deleteVendorService);
 
 // Maintenance Work Orders
-router.get(    '/admin/eam/work-orders',                   protect, admin, woCtrl.getWorkOrders);
-router.post(   '/admin/eam/work-orders',                   protect, admin, woCtrl.createWorkOrder);
-router.get(    '/admin/eam/work-orders/:id',               protect, admin, woCtrl.getWorkOrder);
-router.put(    '/admin/eam/work-orders/:id',               protect, admin, woCtrl.updateWorkOrder);
-router.delete( '/admin/eam/work-orders/:id',               protect, admin, woCtrl.deleteWorkOrder);
-router.patch(  '/admin/eam/work-orders/:id/transition',    protect, admin, woCtrl.transitionWorkOrder);
-router.get(    '/admin/eam/work-orders/:id/parts',         protect, admin, woCtrl.getWorkOrderParts);
-router.post(   '/admin/eam/work-orders/:id/parts',         protect, admin, woCtrl.addWorkOrderPart);
+router.get(    '/admin/eam/work-orders',                   protect, admin, eamWoCtrl.getWorkOrders);
+router.post(   '/admin/eam/work-orders',                   protect, admin, eamWoCtrl.createWorkOrder);
+router.get(    '/admin/eam/work-orders/:id',               protect, admin, eamWoCtrl.getWorkOrder);
+router.put(    '/admin/eam/work-orders/:id',               protect, admin, eamWoCtrl.updateWorkOrder);
+router.delete( '/admin/eam/work-orders/:id',               protect, admin, eamWoCtrl.deleteWorkOrder);
+router.patch(  '/admin/eam/work-orders/:id/transition',    protect, admin, eamWoCtrl.transitionWorkOrder);
+router.get(    '/admin/eam/work-orders/:id/parts',         protect, admin, eamWoCtrl.getWorkOrderParts);
+router.post(   '/admin/eam/work-orders/:id/parts',         protect, admin, eamWoCtrl.addWorkOrderPart);
 
 // Work Order Tasks
 router.get(    '/admin/eam/work-orders/:workOrderId/tasks',protect, admin, maintCtrl.getTasks);
@@ -1850,11 +1850,11 @@ router.put(    '/admin/eam/tasks/:id',                     protect, admin, maint
 router.delete( '/admin/eam/tasks/:id',                     protect, admin, maintCtrl.deleteTask);
 
 // Maintenance Requests
-router.get(    '/admin/eam/requests',                      protect, admin, woCtrl.getRequests);
-router.post(   '/admin/eam/requests',                      protect, admin, woCtrl.createRequest);
-router.get(    '/admin/eam/requests/:id',                  protect, admin, woCtrl.getRequest);
-router.put(    '/admin/eam/requests/:id',                  protect, admin, woCtrl.updateRequest);
-router.patch(  '/admin/eam/requests/:id/convert',          protect, admin, woCtrl.convertRequestToWorkOrder);
+router.get(    '/admin/eam/requests',                      protect, admin, eamWoCtrl.getRequests);
+router.post(   '/admin/eam/requests',                      protect, admin, eamWoCtrl.createRequest);
+router.get(    '/admin/eam/requests/:id',                  protect, admin, eamWoCtrl.getRequest);
+router.put(    '/admin/eam/requests/:id',                  protect, admin, eamWoCtrl.updateRequest);
+router.patch(  '/admin/eam/requests/:id/convert',          protect, admin, eamWoCtrl.convertRequestToWorkOrder);
 
 // Maintenance Schedules
 router.get(    '/admin/eam/schedules',                     protect, admin, schedCtrl.getSchedules);
@@ -2044,6 +2044,336 @@ router.put(  '/admin/finance/exchange-rates/:id',          protect, admin, finSe
 router.get(  '/admin/finance/opening-balances',            protect, admin, finSetCtrl.getOpeningBalances);
 router.post( '/admin/finance/opening-balances',            protect, admin, finSetCtrl.createOpeningBalance);
 router.put(  '/admin/finance/opening-balances/:id',        protect, admin, finSetCtrl.updateOpeningBalance);
+
+// ─── Sprint 13B: Enterprise Accounts Payable ──────────────────────────────────
+const apDashCtrl      = require('../controllers/accountsPayableDashboardController');
+const vendorBillCtrl  = require('../controllers/vendorBillController');
+const vendorPmtCtrl   = require('../controllers/vendorPaymentController');
+const vendorLedCtrl   = require('../controllers/vendorLedgerController');
+const agingCtrl       = require('../controllers/agingController');
+const pmtRunCtrl      = require('../controllers/paymentRunController');
+const invMatchCtrl    = require('../controllers/invoiceMatchController');
+
+// AP Dashboard
+router.get('/admin/accounts-payable/dashboard',                      protect, admin, apDashCtrl.getDashboard);
+router.get('/admin/accounts-payable/dashboard/aging-summary',        protect, admin, apDashCtrl.getAgingSummary);
+router.get('/admin/accounts-payable/dashboard/top-vendors',          protect, admin, apDashCtrl.getTopVendorsByPayable);
+router.get('/admin/accounts-payable/dashboard/gst-credit-summary',   protect, admin, apDashCtrl.getGSTCreditSummary);
+
+// Vendor Bills
+router.get(   '/admin/accounts-payable/bills',               protect, admin, vendorBillCtrl.getBills);
+router.post(  '/admin/accounts-payable/bills',               protect, admin, vendorBillCtrl.createBill);
+router.get(   '/admin/accounts-payable/bills/:id',           protect, admin, vendorBillCtrl.getBill);
+router.put(   '/admin/accounts-payable/bills/:id',           protect, admin, vendorBillCtrl.updateBill);
+router.delete('/admin/accounts-payable/bills/:id',           protect, admin, vendorBillCtrl.deleteBill);
+router.post(  '/admin/accounts-payable/bills/:id/submit',    protect, admin, vendorBillCtrl.submitBill);
+router.post(  '/admin/accounts-payable/bills/:id/approve',   protect, admin, vendorBillCtrl.approveBill);
+router.post(  '/admin/accounts-payable/bills/:id/reject',    protect, admin, vendorBillCtrl.rejectBill);
+router.post(  '/admin/accounts-payable/bills/:id/post-gl',   protect, admin, vendorBillCtrl.postBillToGL);
+
+// Vendor Payments
+router.get(   '/admin/accounts-payable/payments',                  protect, admin, vendorPmtCtrl.getPayments);
+router.post(  '/admin/accounts-payable/payments',                  protect, admin, vendorPmtCtrl.createPayment);
+router.get(   '/admin/accounts-payable/payments/allocations',      protect, admin, vendorPmtCtrl.getAllocations);
+router.get(   '/admin/accounts-payable/payments/:id',              protect, admin, vendorPmtCtrl.getPayment);
+router.put(   '/admin/accounts-payable/payments/:id',              protect, admin, vendorPmtCtrl.updatePayment);
+router.delete('/admin/accounts-payable/payments/:id',              protect, admin, vendorPmtCtrl.deletePayment);
+router.post(  '/admin/accounts-payable/payments/:id/approve',      protect, admin, vendorPmtCtrl.approvePayment);
+router.post(  '/admin/accounts-payable/payments/:id/post',         protect, admin, vendorPmtCtrl.postPayment);
+router.post(  '/admin/accounts-payable/payments/:id/reverse',      protect, admin, vendorPmtCtrl.reversePayment);
+
+// Vendor Ledger
+router.get('/admin/accounts-payable/ledger',                       protect, admin, vendorLedCtrl.getLedger);
+router.get('/admin/accounts-payable/ledger/statement',             protect, admin, vendorLedCtrl.getAccountStatement);
+router.get('/admin/accounts-payable/ledger/:id',                   protect, admin, vendorLedCtrl.getLedgerEntry);
+
+// Vendor Statements
+router.get(   '/admin/accounts-payable/statements',                protect, admin, vendorLedCtrl.getStatements);
+router.post(  '/admin/accounts-payable/statements/generate',       protect, admin, vendorLedCtrl.generateStatement);
+router.get(   '/admin/accounts-payable/statements/:id',            protect, admin, vendorLedCtrl.getStatement);
+router.delete('/admin/accounts-payable/statements/:id',            protect, admin, vendorLedCtrl.deleteStatement);
+
+// Aging
+router.get( '/admin/accounts-payable/aging/report',                protect, admin, agingCtrl.getAgingReport);
+router.post('/admin/accounts-payable/aging/snapshot',              protect, admin, agingCtrl.saveAgingSnapshot);
+router.get( '/admin/accounts-payable/aging/snapshots',             protect, admin, agingCtrl.getAgingSnapshots);
+router.get( '/admin/accounts-payable/aging/snapshots/:id',         protect, admin, agingCtrl.getAgingSnapshot);
+
+// Payment Runs
+router.get(   '/admin/accounts-payable/payment-runs',              protect, admin, pmtRunCtrl.getPaymentRuns);
+router.post(  '/admin/accounts-payable/payment-runs',              protect, admin, pmtRunCtrl.createPaymentRun);
+router.get(   '/admin/accounts-payable/payment-runs/:id',          protect, admin, pmtRunCtrl.getPaymentRun);
+router.post(  '/admin/accounts-payable/payment-runs/:id/propose',  protect, admin, pmtRunCtrl.proposePaymentRun);
+router.post(  '/admin/accounts-payable/payment-runs/:id/approve',  protect, admin, pmtRunCtrl.approvePaymentRun);
+router.post(  '/admin/accounts-payable/payment-runs/:id/execute',  protect, admin, pmtRunCtrl.executePaymentRun);
+router.post(  '/admin/accounts-payable/payment-runs/:id/cancel',   protect, admin, pmtRunCtrl.cancelPaymentRun);
+router.delete('/admin/accounts-payable/payment-runs/:id',          protect, admin, pmtRunCtrl.deletePaymentRun);
+
+// Payment Batches
+router.get('/admin/accounts-payable/payment-batches',              protect, admin, pmtRunCtrl.getPaymentBatches);
+router.get('/admin/accounts-payable/payment-batches/:id',          protect, admin, pmtRunCtrl.getPaymentBatch);
+
+// Payment Advice
+router.get(  '/admin/accounts-payable/payment-advices',            protect, admin, pmtRunCtrl.getPaymentAdvices);
+router.post( '/admin/accounts-payable/payment-advices',            protect, admin, pmtRunCtrl.createPaymentAdvice);
+router.get(  '/admin/accounts-payable/payment-advices/:id',        protect, admin, pmtRunCtrl.getPaymentAdvice);
+
+// Invoice Matching (3-way match)
+router.get(  '/admin/accounts-payable/invoice-matches',            protect, admin, invMatchCtrl.getMatches);
+router.post( '/admin/accounts-payable/invoice-matches/perform',    protect, admin, invMatchCtrl.performMatch);
+router.get(  '/admin/accounts-payable/invoice-matches/:id',        protect, admin, invMatchCtrl.getMatch);
+router.post( '/admin/accounts-payable/invoice-matches/:id/resolve',protect, admin, invMatchCtrl.resolveMatch);
+router.delete('/admin/accounts-payable/invoice-matches/:id',       protect, admin, invMatchCtrl.deleteMatch);
+
+// Vendor Invoices
+router.get(   '/admin/accounts-payable/vendor-invoices',                 protect, admin, invMatchCtrl.getVendorInvoices);
+router.post(  '/admin/accounts-payable/vendor-invoices',                 protect, admin, invMatchCtrl.createVendorInvoice);
+router.get(   '/admin/accounts-payable/vendor-invoices/:id',             protect, admin, invMatchCtrl.getVendorInvoice);
+router.put(   '/admin/accounts-payable/vendor-invoices/:id',             protect, admin, invMatchCtrl.updateVendorInvoice);
+router.post(  '/admin/accounts-payable/vendor-invoices/:id/convert',     protect, admin, invMatchCtrl.convertInvoiceToBill);
+router.delete('/admin/accounts-payable/vendor-invoices/:id',             protect, admin, invMatchCtrl.deleteVendorInvoice);
+
+// Debit Notes
+const DebitNote    = require('../models/DebitNote');
+const APCreditNote = require('../models/APCreditNote');
+const GSTInputCredit  = require('../models/GSTInputCredit');
+const PaymentSchedule = require('../models/PaymentSchedule');
+const WithholdingTax  = require('../models/WithholdingTax');
+const PaymentTerm     = require('../models/PaymentTerm');
+const VendorSettlement = require('../models/VendorSettlement');
+const PaymentApproval  = require('../models/PaymentApproval');
+const { paginated: pg13b, created: cr13b, ok: ok13b, notFound: nf13b, serverError: se13b, fail: fail13b, noContent: nc13b } = require('../utils/response');
+
+router.get('/admin/accounts-payable/debit-notes', protect, admin, async (req, res) => {
+  try {
+    const { page = 1, limit = 20, vendor, status } = req.query;
+    const q = { isDeleted: false };
+    if (vendor) q.vendor = vendor;
+    if (status) q.status = status;
+    const [data, total] = await Promise.all([DebitNote.find(q).sort({ createdAt: -1 }).populate('vendor','name').skip((page-1)*limit).limit(Number(limit)).lean(), DebitNote.countDocuments(q)]);
+    return pg13b(res, data, total, page, limit);
+  } catch(e) { return se13b(res, e); }
+});
+router.post('/admin/accounts-payable/debit-notes', protect, admin, async (req, res) => {
+  try { const doc = await DebitNote.create({...req.body, createdBy: req.admin._id}); return cr13b(res, doc, 'Debit note created'); }
+  catch(e) { return se13b(res, e); }
+});
+router.get('/admin/accounts-payable/debit-notes/:id', protect, admin, async (req, res) => {
+  try { const doc = await DebitNote.findOne({_id: req.params.id, isDeleted: false}).populate('vendor','name email'); if(!doc) return nf13b(res,'Debit Note'); return ok13b(res, doc); }
+  catch(e) { return se13b(res, e); }
+});
+router.put('/admin/accounts-payable/debit-notes/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await DebitNote.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Debit Note');
+    if(!['draft'].includes(doc.status)) return fail13b(res,'Only draft debit notes can be edited');
+    Object.assign(doc, req.body); await doc.save(); return ok13b(res, doc, 'Updated');
+  } catch(e) { return se13b(res, e); }
+});
+router.delete('/admin/accounts-payable/debit-notes/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await DebitNote.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Debit Note');
+    if(!['draft','cancelled'].includes(doc.status)) return fail13b(res,'Cannot delete');
+    doc.isDeleted = true; await doc.save(); return nc13b(res,'Debit note deleted');
+  } catch(e) { return se13b(res, e); }
+});
+
+// Credit Notes
+router.get('/admin/accounts-payable/credit-notes', protect, admin, async (req, res) => {
+  try {
+    const { page = 1, limit = 20, vendor, status } = req.query;
+    const q = { isDeleted: false };
+    if (vendor) q.vendor = vendor;
+    if (status) q.status = status;
+    const [data, total] = await Promise.all([APCreditNote.find(q).sort({ createdAt: -1 }).populate('vendor','name').skip((page-1)*limit).limit(Number(limit)).lean(), APCreditNote.countDocuments(q)]);
+    return pg13b(res, data, total, page, limit);
+  } catch(e) { return se13b(res, e); }
+});
+router.post('/admin/accounts-payable/credit-notes', protect, admin, async (req, res) => {
+  try { const doc = await APCreditNote.create({...req.body, createdBy: req.admin._id}); return cr13b(res, doc, 'Credit note created'); }
+  catch(e) { return se13b(res, e); }
+});
+router.get('/admin/accounts-payable/credit-notes/:id', protect, admin, async (req, res) => {
+  try { const doc = await APCreditNote.findOne({_id: req.params.id, isDeleted: false}).populate('vendor','name email'); if(!doc) return nf13b(res,'Credit Note'); return ok13b(res, doc); }
+  catch(e) { return se13b(res, e); }
+});
+router.put('/admin/accounts-payable/credit-notes/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await APCreditNote.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Credit Note');
+    if(!['draft'].includes(doc.status)) return fail13b(res,'Only draft credit notes can be edited');
+    Object.assign(doc, req.body); await doc.save(); return ok13b(res, doc, 'Updated');
+  } catch(e) { return se13b(res, e); }
+});
+router.delete('/admin/accounts-payable/credit-notes/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await APCreditNote.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Credit Note');
+    if(!['draft','cancelled'].includes(doc.status)) return fail13b(res,'Cannot delete');
+    doc.isDeleted = true; await doc.save(); return nc13b(res,'Credit note deleted');
+  } catch(e) { return se13b(res, e); }
+});
+
+// GST Input Credit
+router.get('/admin/accounts-payable/gst-input-credit', protect, admin, async (req, res) => {
+  try {
+    const { page = 1, limit = 20, vendor, reconciliationStatus, gstCategory } = req.query;
+    const q = { isDeleted: false };
+    if (vendor) q.vendor = vendor;
+    if (reconciliationStatus) q.reconciliationStatus = reconciliationStatus;
+    if (gstCategory) q.gstCategory = gstCategory;
+    const [data, total] = await Promise.all([GSTInputCredit.find(q).sort({ billDate: -1 }).populate('vendor','name').skip((page-1)*limit).limit(Number(limit)).lean(), GSTInputCredit.countDocuments(q)]);
+    return pg13b(res, data, total, page, limit);
+  } catch(e) { return se13b(res, e); }
+});
+router.post('/admin/accounts-payable/gst-input-credit', protect, admin, async (req, res) => {
+  try { const doc = await GSTInputCredit.create({...req.body}); return cr13b(res, doc, 'GST input credit created'); }
+  catch(e) { return se13b(res, e); }
+});
+router.put('/admin/accounts-payable/gst-input-credit/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await GSTInputCredit.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'GST Input Credit');
+    Object.assign(doc, req.body); await doc.save(); return ok13b(res, doc, 'Updated');
+  } catch(e) { return se13b(res, e); }
+});
+
+// Payment Schedules
+router.get('/admin/accounts-payable/payment-schedules', protect, admin, async (req, res) => {
+  try {
+    const { page = 1, limit = 20, vendor, status } = req.query;
+    const q = { isDeleted: false };
+    if (vendor) q.vendor = vendor;
+    if (status) q.status = status;
+    const [data, total] = await Promise.all([PaymentSchedule.find(q).sort({ scheduledDate: 1 }).populate('vendor','name').skip((page-1)*limit).limit(Number(limit)).lean(), PaymentSchedule.countDocuments(q)]);
+    return pg13b(res, data, total, page, limit);
+  } catch(e) { return se13b(res, e); }
+});
+router.post('/admin/accounts-payable/payment-schedules', protect, admin, async (req, res) => {
+  try { const doc = await PaymentSchedule.create({...req.body, createdBy: req.admin._id}); return cr13b(res, doc, 'Payment schedule created'); }
+  catch(e) { return se13b(res, e); }
+});
+router.get('/admin/accounts-payable/payment-schedules/:id', protect, admin, async (req, res) => {
+  try { const doc = await PaymentSchedule.findOne({_id: req.params.id, isDeleted: false}).populate('vendor','name'); if(!doc) return nf13b(res,'Payment Schedule'); return ok13b(res, doc); }
+  catch(e) { return se13b(res, e); }
+});
+router.put('/admin/accounts-payable/payment-schedules/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await PaymentSchedule.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Payment Schedule');
+    if(!['scheduled','approved'].includes(doc.status)) return fail13b(res,'Cannot edit this schedule');
+    Object.assign(doc, req.body); await doc.save(); return ok13b(res, doc, 'Updated');
+  } catch(e) { return se13b(res, e); }
+});
+router.delete('/admin/accounts-payable/payment-schedules/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await PaymentSchedule.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Payment Schedule');
+    doc.isDeleted = true; await doc.save(); return nc13b(res,'Deleted');
+  } catch(e) { return se13b(res, e); }
+});
+
+// Withholding Tax (TDS)
+router.get('/admin/accounts-payable/withholding-taxes', protect, admin, async (req, res) => {
+  try { const data = await WithholdingTax.find({ isDeleted: false, isActive: true }).sort({ taxCode: 1 }).lean(); return ok13b(res, data); }
+  catch(e) { return se13b(res, e); }
+});
+router.post('/admin/accounts-payable/withholding-taxes', protect, admin, async (req, res) => {
+  try { const doc = await WithholdingTax.create({...req.body}); return cr13b(res, doc, 'Withholding tax created'); }
+  catch(e) { return se13b(res, e); }
+});
+router.put('/admin/accounts-payable/withholding-taxes/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await WithholdingTax.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Withholding Tax');
+    Object.assign(doc, req.body); await doc.save(); return ok13b(res, doc, 'Updated');
+  } catch(e) { return se13b(res, e); }
+});
+router.delete('/admin/accounts-payable/withholding-taxes/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await WithholdingTax.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Withholding Tax');
+    doc.isDeleted = true; await doc.save(); return nc13b(res,'Deleted');
+  } catch(e) { return se13b(res, e); }
+});
+
+// Payment Terms
+router.get('/admin/accounts-payable/payment-terms', protect, admin, async (req, res) => {
+  try { const data = await PaymentTerm.find({ isDeleted: false }).sort({ termCode: 1 }).lean(); return ok13b(res, data); }
+  catch(e) { return se13b(res, e); }
+});
+router.post('/admin/accounts-payable/payment-terms', protect, admin, async (req, res) => {
+  try { const doc = await PaymentTerm.create({...req.body}); return cr13b(res, doc, 'Payment term created'); }
+  catch(e) { return se13b(res, e); }
+});
+router.put('/admin/accounts-payable/payment-terms/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await PaymentTerm.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Payment Term');
+    Object.assign(doc, req.body); await doc.save(); return ok13b(res, doc, 'Updated');
+  } catch(e) { return se13b(res, e); }
+});
+router.delete('/admin/accounts-payable/payment-terms/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await PaymentTerm.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Payment Term');
+    doc.isDeleted = true; await doc.save(); return nc13b(res,'Deleted');
+  } catch(e) { return se13b(res, e); }
+});
+
+// Vendor Settlements
+router.get('/admin/accounts-payable/settlements', protect, admin, async (req, res) => {
+  try {
+    const { page = 1, limit = 20, vendor, status } = req.query;
+    const q = { isDeleted: false };
+    if (vendor) q.vendor = vendor;
+    if (status) q.status = status;
+    const [data, total] = await Promise.all([VendorSettlement.find(q).sort({ settlementDate: -1 }).populate('vendor','name').skip((page-1)*limit).limit(Number(limit)).lean(), VendorSettlement.countDocuments(q)]);
+    return pg13b(res, data, total, page, limit);
+  } catch(e) { return se13b(res, e); }
+});
+router.post('/admin/accounts-payable/settlements', protect, admin, async (req, res) => {
+  try { const doc = await VendorSettlement.create({...req.body, createdBy: req.admin._id}); return cr13b(res, doc, 'Settlement created'); }
+  catch(e) { return se13b(res, e); }
+});
+router.get('/admin/accounts-payable/settlements/:id', protect, admin, async (req, res) => {
+  try { const doc = await VendorSettlement.findOne({_id: req.params.id, isDeleted: false}).populate('vendor','name email'); if(!doc) return nf13b(res,'Settlement'); return ok13b(res, doc); }
+  catch(e) { return se13b(res, e); }
+});
+
+// Payment Approvals
+router.get('/admin/accounts-payable/payment-approvals', protect, admin, async (req, res) => {
+  try {
+    const { page = 1, limit = 20, status } = req.query;
+    const q = { isDeleted: false };
+    if (status) q.status = status;
+    const [data, total] = await Promise.all([PaymentApproval.find(q).sort({ createdAt: -1 }).populate('vendor','name').populate('requestedBy','name').skip((page-1)*limit).limit(Number(limit)).lean(), PaymentApproval.countDocuments(q)]);
+    return pg13b(res, data, total, page, limit);
+  } catch(e) { return se13b(res, e); }
+});
+router.post('/admin/accounts-payable/payment-approvals', protect, admin, async (req, res) => {
+  try { const doc = await PaymentApproval.create({...req.body, requestedBy: req.admin._id}); return cr13b(res, doc, 'Approval request created'); }
+  catch(e) { return se13b(res, e); }
+});
+router.post('/admin/accounts-payable/payment-approvals/:id/approve', protect, admin, async (req, res) => {
+  try {
+    const doc = await PaymentApproval.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Payment Approval');
+    doc.status = 'approved'; doc.completedAt = new Date();
+    doc.approvers.push({ level: doc.approvalLevel, user: req.admin._id, userName: req.admin.name, action: 'approved', actionDate: new Date(), comments: req.body.comments || '' });
+    await doc.save(); return ok13b(res, doc, 'Approved');
+  } catch(e) { return se13b(res, e); }
+});
+router.post('/admin/accounts-payable/payment-approvals/:id/reject', protect, admin, async (req, res) => {
+  try {
+    const doc = await PaymentApproval.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Payment Approval');
+    doc.status = 'rejected'; doc.rejectionReason = req.body.reason || ''; doc.completedAt = new Date();
+    doc.approvers.push({ level: doc.approvalLevel, user: req.admin._id, userName: req.admin.name, action: 'rejected', actionDate: new Date(), comments: req.body.reason || '' });
+    await doc.save(); return ok13b(res, doc, 'Rejected');
+  } catch(e) { return se13b(res, e); }
+});
 
 module.exports = router;
 

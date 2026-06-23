@@ -196,3 +196,5 @@ exports.reverseJournal = async (req, res) => {
     return created(res, reversal, 'Journal reversed');
   } catch (e) { return serverError(res, e); }
 };
+
+exports.postJournalToLedger = postJournalToLedger;
