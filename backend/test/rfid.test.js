@@ -78,7 +78,7 @@ describe('Bulk scan duplicate detection', () => {
 
 describe('RFIDTag model', () => {
   let RFIDTag;
-  beforeAll(() => { RFIDTag = require('../models/RFIDTag'); });
+  beforeAll(async () => { RFIDTag = require('../models/RFIDTag'); await RFIDTag.createIndexes(); });
 
   it('creates a tag with required fields', async () => {
     const tag = await RFIDTag.create({

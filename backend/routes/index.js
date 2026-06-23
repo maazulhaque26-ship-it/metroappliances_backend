@@ -1225,4 +1225,1937 @@ router.put( '/admin/product-registrations/:id/invalidate', protect, admin, prodR
 router.put( '/admin/product-registrations/:id/activate-warranty', protect, admin, prodRegCtrl.activateWarrantyForRegistration);
 router.put( '/admin/product-registrations/:id/transfer', protect, admin, prodRegCtrl.transferOwnership);
 
+// ─── Sprint 12A: Manufacturing ERP Foundation ────────────────────────────────
+const factoryCtrl    = require('../controllers/factoryController');
+const workCenterCtrl = require('../controllers/workCenterController');
+const machineCtrl    = require('../controllers/machineController');
+const shiftCtrl      = require('../controllers/shiftController');
+const bomCtrl        = require('../controllers/bomController');
+const prodCtrl       = require('../controllers/productionController');
+const prodDashCtrl   = require('../controllers/productionDashboardController');
+
+// Manufacturing Dashboard
+router.get( '/admin/manufacturing/dashboard',         protect, admin, prodDashCtrl.getDashboard);
+router.get( '/admin/manufacturing/trend',             protect, admin, prodDashCtrl.getProductionTrend);
+router.get( '/admin/manufacturing/oee',               protect, admin, prodDashCtrl.getOEEReport);
+router.get( '/admin/manufacturing/shift-performance', protect, admin, prodDashCtrl.getShiftPerformance);
+
+// Factories
+router.post(   '/admin/factories',     protect, admin, factoryCtrl.createFactory);
+router.get(    '/admin/factories',     protect, admin, factoryCtrl.getFactories);
+router.get(    '/admin/factories/:id', protect, admin, factoryCtrl.getFactory);
+router.put(    '/admin/factories/:id', protect, admin, factoryCtrl.updateFactory);
+router.delete( '/admin/factories/:id', protect, admin, factoryCtrl.deleteFactory);
+
+// Work Centers
+router.post(   '/admin/work-centers',      protect, admin, workCenterCtrl.createWorkCenter);
+router.get(    '/admin/work-centers',      protect, admin, workCenterCtrl.getWorkCenters);
+router.get(    '/admin/work-centers/:id',  protect, admin, workCenterCtrl.getWorkCenter);
+router.put(    '/admin/work-centers/:id',  protect, admin, workCenterCtrl.updateWorkCenter);
+router.delete( '/admin/work-centers/:id',  protect, admin, workCenterCtrl.deleteWorkCenter);
+
+// Machines
+router.post(   '/admin/machines',                  protect, admin, machineCtrl.createMachine);
+router.get(    '/admin/machines',                  protect, admin, machineCtrl.getMachines);
+router.get(    '/admin/machines/:id',              protect, admin, machineCtrl.getMachine);
+router.put(    '/admin/machines/:id',              protect, admin, machineCtrl.updateMachine);
+router.delete( '/admin/machines/:id',              protect, admin, machineCtrl.deleteMachine);
+router.patch(  '/admin/machines/:id/status',       protect, admin, machineCtrl.updateMachineStatus);
+router.post(   '/admin/machines/:id/maintenance',  protect, admin, machineCtrl.logMaintenance);
+
+// Shifts
+router.post(   '/admin/shifts',     protect, admin, shiftCtrl.createShift);
+router.get(    '/admin/shifts',     protect, admin, shiftCtrl.getShifts);
+router.get(    '/admin/shifts/:id', protect, admin, shiftCtrl.getShift);
+router.put(    '/admin/shifts/:id', protect, admin, shiftCtrl.updateShift);
+router.delete( '/admin/shifts/:id', protect, admin, shiftCtrl.deleteShift);
+
+// Bill of Materials
+router.post(   '/admin/bom',                    protect, admin, bomCtrl.createBOM);
+router.get(    '/admin/bom',                    protect, admin, bomCtrl.getBOMs);
+router.get(    '/admin/bom/product/:productId', protect, admin, bomCtrl.getBOMByProduct);
+router.get(    '/admin/bom/:id',                protect, admin, bomCtrl.getBOM);
+router.put(    '/admin/bom/:id',                protect, admin, bomCtrl.updateBOM);
+router.delete( '/admin/bom/:id',                protect, admin, bomCtrl.deleteBOM);
+router.patch(  '/admin/bom/:id/approve',        protect, admin, bomCtrl.approveBOM);
+router.post(   '/admin/bom/:id/clone',          protect, admin, bomCtrl.cloneBOM);
+
+// Production Orders
+router.post(   '/admin/production-orders',                       protect, admin, prodCtrl.createOrder);
+router.get(    '/admin/production-orders',                       protect, admin, prodCtrl.getOrders);
+router.get(    '/admin/production-orders/:id',                   protect, admin, prodCtrl.getOrder);
+router.put(    '/admin/production-orders/:id',                   protect, admin, prodCtrl.updateOrder);
+router.delete( '/admin/production-orders/:id',                   protect, admin, prodCtrl.deleteOrder);
+router.patch(  '/admin/production-orders/:id/start',             protect, admin, prodCtrl.startOrder);
+router.patch(  '/admin/production-orders/:id/pause',             protect, admin, prodCtrl.pauseOrder);
+router.patch(  '/admin/production-orders/:id/complete',          protect, admin, prodCtrl.completeOrder);
+router.patch(  '/admin/production-orders/:id/cancel',            protect, admin, prodCtrl.cancelOrder);
+router.post(   '/admin/production-orders/:id/batches',           protect, admin, prodCtrl.createBatch);
+router.put(    '/admin/production-orders/:id/batches/:batchId',  protect, admin, prodCtrl.updateBatch);
+
+// ─── Sprint 12B: Enterprise Production Planning & Scheduling ─────────────────
+const planCtrl      = require('../controllers/productionPlanController');
+const capPlanCtrl   = require('../controllers/capacityPlanController');
+const calCtrl       = require('../controllers/calendarController');
+const planDashCtrl  = require('../controllers/planningDashboardController');
+
+// Planning Dashboard & Forecasts
+router.get( '/admin/planning/dashboard',            protect, admin, planDashCtrl.getDashboard);
+router.get( '/admin/planning/schedule-adherence',   protect, admin, planDashCtrl.getScheduleAdherence);
+router.get( '/admin/planning/capacity-forecast',    protect, admin, planDashCtrl.getCapacityForecast);
+router.get( '/admin/planning/resource-utilization', protect, admin, planDashCtrl.getResourceUtilization);
+
+// Production Plans
+router.post(   '/admin/production-plans',              protect, admin, planCtrl.createPlan);
+router.get(    '/admin/production-plans',              protect, admin, planCtrl.getPlans);
+router.get(    '/admin/production-plans/:id',          protect, admin, planCtrl.getPlan);
+router.put(    '/admin/production-plans/:id',          protect, admin, planCtrl.updatePlan);
+router.delete( '/admin/production-plans/:id',          protect, admin, planCtrl.deletePlan);
+router.patch(  '/admin/production-plans/:id/submit',   protect, admin, planCtrl.submitPlan);
+router.patch(  '/admin/production-plans/:id/review',   protect, admin, planCtrl.reviewPlan);
+router.patch(  '/admin/production-plans/:id/approve',  protect, admin, planCtrl.approvePlan);
+router.patch(  '/admin/production-plans/:id/release',  protect, admin, planCtrl.releasePlan);
+router.patch(  '/admin/production-plans/:id/cancel',   protect, admin, planCtrl.cancelPlan);
+router.post(   '/admin/production-plans/:id/clone',    protect, admin, planCtrl.clonePlan);
+
+// Capacity Planning
+router.get(  '/admin/capacity-planning/analysis',         protect, admin, capPlanCtrl.getCapacityAnalysis);
+router.get(  '/admin/capacity-planning/factory/:factoryId', protect, admin, capPlanCtrl.getFactoryCapacity);
+router.get(  '/admin/capacity-planning/bottlenecks',      protect, admin, capPlanCtrl.getBottlenecks);
+router.get(  '/admin/capacity-planning',                  protect, admin, capPlanCtrl.getCapacityPlans);
+router.post( '/admin/capacity-planning',                  protect, admin, capPlanCtrl.createCapacityPlan);
+router.put(  '/admin/capacity-planning/:id',              protect, admin, capPlanCtrl.updateCapacityPlan);
+
+// Machine Calendar
+router.get(  '/admin/machine-calendar',       protect, admin, calCtrl.getMachineCalendar);
+router.get(  '/admin/machine-calendar/bulk',  protect, admin, calCtrl.getMachineCalendarBulk);
+router.post( '/admin/machine-calendar',       protect, admin, calCtrl.setMachineAvailability);
+
+// Production Calendar
+router.get(  '/admin/production-calendar',           protect, admin, calCtrl.getProductionCalendar);
+router.post( '/admin/production-calendar',           protect, admin, calCtrl.setProductionDay);
+router.post( '/admin/production-calendar/generate',  protect, admin, calCtrl.generateCalendar);
+
+// Holiday Calendar
+router.get(    '/admin/holidays',      protect, admin, calCtrl.getHolidays);
+router.post(   '/admin/holidays',      protect, admin, calCtrl.createHoliday);
+router.put(    '/admin/holidays/:id',  protect, admin, calCtrl.updateHoliday);
+router.delete( '/admin/holidays/:id',  protect, admin, calCtrl.deleteHoliday);
+
+// Planning Constraints
+router.get(    '/admin/planning-constraints',      protect, admin, calCtrl.getConstraints);
+router.post(   '/admin/planning-constraints',      protect, admin, calCtrl.createConstraint);
+router.put(    '/admin/planning-constraints/:id',  protect, admin, calCtrl.updateConstraint);
+router.delete( '/admin/planning-constraints/:id',  protect, admin, calCtrl.deleteConstraint);
+
+// Planning Scenarios
+router.get(    '/admin/planning-scenarios',      protect, admin, planDashCtrl.getScenarios);
+router.post(   '/admin/planning-scenarios',      protect, admin, planDashCtrl.createScenario);
+router.put(    '/admin/planning-scenarios/:id',  protect, admin, planDashCtrl.updateScenario);
+router.delete( '/admin/planning-scenarios/:id',  protect, admin, planDashCtrl.deleteScenario);
+
+// ─── Sprint 12C: Enterprise MRP ──────────────────────────────────────────────
+const mrpCtrl        = require('../controllers/mrpController');
+const matReqCtrl     = require('../controllers/materialRequirementController');
+const mrpResCtrl     = require('../controllers/mrpReservationController');
+const forecastCtrl   = require('../controllers/forecastController');
+const projCtrl       = require('../controllers/inventoryProjectionController');
+const shortageCtrl   = require('../controllers/shortageController');
+const recCtrl        = require('../controllers/recommendationController');
+const mrpDashCtrl    = require('../controllers/mrpDashboardController');
+const ssCtrl         = require('../controllers/safetyStockController');
+
+// MRP Dashboard & Reports
+router.get( '/admin/mrp/dashboard',                  protect, admin, mrpDashCtrl.getDashboard);
+router.get( '/admin/mrp/reports/shortages',          protect, admin, mrpDashCtrl.getShortageReport);
+router.get( '/admin/mrp/reports/inventory-risk',     protect, admin, mrpDashCtrl.getInventoryRiskReport);
+router.get( '/admin/mrp/reports/forecast-accuracy',  protect, admin, mrpDashCtrl.getForecastAccuracyReport);
+
+// MRP Runs
+router.post(  '/admin/mrp/runs',            protect, admin, mrpCtrl.runMRP);
+router.get(   '/admin/mrp/runs',            protect, admin, mrpCtrl.getMRPRuns);
+router.get(   '/admin/mrp/runs/:id',        protect, admin, mrpCtrl.getMRPRun);
+router.patch( '/admin/mrp/runs/:id/cancel', protect, admin, mrpCtrl.cancelRun);
+
+// Material Requirements
+router.get( '/admin/mrp/requirements',                         protect, admin, matReqCtrl.getRequirements);
+router.get( '/admin/mrp/requirements/:id',                     protect, admin, matReqCtrl.getRequirement);
+router.get( '/admin/mrp/runs/:mrpRunId/requirements',          protect, admin, matReqCtrl.getRequirementsByRun);
+
+// MRP Reservations
+router.get(   '/admin/mrp/reservations',            protect, admin, mrpResCtrl.getReservations);
+router.get(   '/admin/mrp/reservations/:id',        protect, admin, mrpResCtrl.getReservation);
+router.patch( '/admin/mrp/reservations/:id/release',protect, admin, mrpResCtrl.releaseReservation);
+
+// Shortages
+router.get(   '/admin/mrp/shortages',              protect, admin, shortageCtrl.getShortages);
+router.get(   '/admin/mrp/shortages/:id',          protect, admin, shortageCtrl.getShortage);
+router.patch( '/admin/mrp/shortages/:id/resolve',  protect, admin, shortageCtrl.resolveShortage);
+router.patch( '/admin/mrp/shortages/:id/ignore',   protect, admin, shortageCtrl.ignoreShortage);
+
+// Recommendations
+router.get(   '/admin/mrp/recommendations',              protect, admin, recCtrl.getRecommendations);
+router.get(   '/admin/mrp/recommendations/:id',          protect, admin, recCtrl.getRecommendation);
+router.patch( '/admin/mrp/recommendations/:id/accept',   protect, admin, recCtrl.acceptRecommendation);
+router.patch( '/admin/mrp/recommendations/:id/reject',   protect, admin, recCtrl.rejectRecommendation);
+
+// Purchase Suggestions
+router.get(   '/admin/mrp/purchase-suggestions',              protect, admin, recCtrl.getPurchaseSuggestions);
+router.patch( '/admin/mrp/purchase-suggestions/:id/approve',  protect, admin, recCtrl.approvePurchaseSuggestion);
+router.patch( '/admin/mrp/purchase-suggestions/:id/reject',   protect, admin, recCtrl.rejectPurchaseSuggestion);
+
+// Demand Forecasts
+router.get(    '/admin/mrp/forecasts',              protect, admin, forecastCtrl.getForecasts);
+router.post(   '/admin/mrp/forecasts',              protect, admin, forecastCtrl.createForecast);
+router.get(    '/admin/mrp/forecasts/:id',          protect, admin, forecastCtrl.getForecast);
+router.put(    '/admin/mrp/forecasts/:id',          protect, admin, forecastCtrl.updateForecast);
+router.patch(  '/admin/mrp/forecasts/:id/approve',  protect, admin, forecastCtrl.approveForecast);
+router.delete( '/admin/mrp/forecasts/:id',          protect, admin, forecastCtrl.deleteForecast);
+
+// Inventory Projections
+router.get( '/admin/mrp/projections',                    protect, admin, projCtrl.getProjections);
+router.get( '/admin/mrp/projections/:id',                protect, admin, projCtrl.getProjection);
+router.get( '/admin/mrp/runs/:mrpRunId/projections',     protect, admin, projCtrl.getProjectionsByRun);
+
+// Safety Stock Rules
+router.get(    '/admin/mrp/safety-stock',      protect, admin, ssCtrl.getRules);
+router.post(   '/admin/mrp/safety-stock',      protect, admin, ssCtrl.createRule);
+router.get(    '/admin/mrp/safety-stock/:id',  protect, admin, ssCtrl.getRule);
+router.put(    '/admin/mrp/safety-stock/:id',  protect, admin, ssCtrl.updateRule);
+router.delete( '/admin/mrp/safety-stock/:id',  protect, admin, ssCtrl.deleteRule);
+
+// ─── Sprint 12D: Enterprise MES ──────────────────────────────────────────────
+const woCtrl       = require('../controllers/workOrderController');
+const execCtrl     = require('../controllers/executionController');
+const qualCtrl     = require('../controllers/qualityController');
+const oeeCtrl      = require('../controllers/oeeController');
+const dtCtrl       = require('../controllers/downtimeController');
+const toolCtrl     = require('../controllers/toolController');
+const opCtrl       = require('../controllers/operatorController');
+const laborCtrl    = require('../controllers/laborController');
+const mesDashCtrl  = require('../controllers/mesDashboardController');
+
+// MES Dashboard & Reports
+router.get( '/admin/mes/dashboard',                protect, admin, mesDashCtrl.getDashboard);
+router.get( '/admin/mes/reports/production-trend', protect, admin, mesDashCtrl.getProductionTrend);
+router.get( '/admin/mes/reports/oee-trend',        protect, admin, mesDashCtrl.getOEETrend);
+router.get( '/admin/mes/reports/downtime-analysis',protect, admin, mesDashCtrl.getDowntimeAnalysis);
+router.get( '/admin/mes/reports/quality-trend',    protect, admin, mesDashCtrl.getQualityTrend);
+router.get( '/admin/mes/reports/labor',            protect, admin, mesDashCtrl.getLaborReport);
+router.get( '/admin/mes/events',                   protect, admin, mesDashCtrl.getProductionEvents);
+
+// Work Orders
+router.get(    '/admin/mes/work-orders',                       protect, admin, woCtrl.getWorkOrders);
+router.post(   '/admin/mes/work-orders',                       protect, admin, woCtrl.createWorkOrder);
+router.get(    '/admin/mes/work-orders/:id',                   protect, admin, woCtrl.getWorkOrder);
+router.put(    '/admin/mes/work-orders/:id',                   protect, admin, woCtrl.updateWorkOrder);
+router.delete( '/admin/mes/work-orders/:id',                   protect, admin, woCtrl.deleteWorkOrder);
+router.patch(  '/admin/mes/work-orders/:id/release',           protect, admin, woCtrl.releaseWorkOrder);
+router.patch(  '/admin/mes/work-orders/:id/start',             protect, admin, woCtrl.startWorkOrder);
+router.patch(  '/admin/mes/work-orders/:id/pause',             protect, admin, woCtrl.pauseWorkOrder);
+router.patch(  '/admin/mes/work-orders/:id/complete',          protect, admin, woCtrl.completeWorkOrder);
+router.patch(  '/admin/mes/work-orders/:id/cancel',            protect, admin, woCtrl.cancelWorkOrder);
+
+// Work Order Operations
+router.post( '/admin/mes/work-orders/:id/operations',                    protect, admin, woCtrl.createOperation);
+router.put(  '/admin/mes/work-orders/:id/operations/:opId',              protect, admin, woCtrl.updateOperation);
+router.patch('/admin/mes/work-orders/:id/operations/:opId/complete',     protect, admin, woCtrl.completeOperation);
+
+// Production Execution
+router.get(  '/admin/mes/executions',                  protect, admin, execCtrl.getExecutions);
+router.post( '/admin/mes/executions/start',            protect, admin, execCtrl.startExecution);
+router.get(  '/admin/mes/executions/:id',              protect, admin, execCtrl.getExecution);
+router.put(  '/admin/mes/executions/:id',              protect, admin, execCtrl.updateExecution);
+router.patch('/admin/mes/executions/:id/pause',        protect, admin, execCtrl.pauseExecution);
+router.patch('/admin/mes/executions/:id/complete',     protect, admin, execCtrl.completeExecution);
+
+// Operation Executions
+router.get(  '/admin/mes/operation-executions',        protect, admin, execCtrl.getOperationExecutions);
+router.post( '/admin/mes/operation-executions',        protect, admin, execCtrl.recordOperationExecution);
+
+// Quality – Inspections
+router.get(    '/admin/mes/quality/inspections',       protect, admin, qualCtrl.getInspections);
+router.post(   '/admin/mes/quality/inspections',       protect, admin, qualCtrl.createInspection);
+router.get(    '/admin/mes/quality/inspections/:id',   protect, admin, qualCtrl.getInspection);
+router.put(    '/admin/mes/quality/inspections/:id',   protect, admin, qualCtrl.updateInspection);
+router.delete( '/admin/mes/quality/inspections/:id',   protect, admin, qualCtrl.deleteInspection);
+
+// Quality – Checkpoints
+router.get(    '/admin/mes/quality/checkpoints',       protect, admin, qualCtrl.getCheckpoints);
+router.post(   '/admin/mes/quality/checkpoints',       protect, admin, qualCtrl.createCheckpoint);
+router.put(    '/admin/mes/quality/checkpoints/:id',   protect, admin, qualCtrl.updateCheckpoint);
+router.delete( '/admin/mes/quality/checkpoints/:id',   protect, admin, qualCtrl.deleteCheckpoint);
+
+// Quality – Defects
+router.get( '/admin/mes/quality/defects',              protect, admin, qualCtrl.getDefects);
+router.post('/admin/mes/quality/defects',              protect, admin, qualCtrl.createDefect);
+router.get( '/admin/mes/quality/defects/:id',          protect, admin, qualCtrl.getDefect);
+router.put( '/admin/mes/quality/defects/:id',          protect, admin, qualCtrl.updateDefect);
+
+// Quality – Scrap
+router.get( '/admin/mes/quality/scrap',                protect, admin, qualCtrl.getScrap);
+router.post('/admin/mes/quality/scrap',                protect, admin, qualCtrl.createScrap);
+router.put( '/admin/mes/quality/scrap/:id',            protect, admin, qualCtrl.updateScrap);
+
+// Quality – Rework
+router.get( '/admin/mes/quality/rework',               protect, admin, qualCtrl.getRework);
+router.post('/admin/mes/quality/rework',               protect, admin, qualCtrl.createRework);
+router.put( '/admin/mes/quality/rework/:id',           protect, admin, qualCtrl.updateRework);
+
+// OEE
+router.get(  '/admin/mes/oee',                         protect, admin, oeeCtrl.getOEERecords);
+router.post( '/admin/mes/oee',                         protect, admin, oeeCtrl.recordOEE);
+router.get(  '/admin/mes/oee/summary',                 protect, admin, oeeCtrl.getOEESummary);
+router.get(  '/admin/mes/oee/:id',                     protect, admin, oeeCtrl.getOEERecord);
+
+// Machine Runtime
+router.get( '/admin/mes/machine-runtime',              protect, admin, oeeCtrl.getMachineRuntimes);
+router.get( '/admin/mes/machine-runtime/:id',          protect, admin, oeeCtrl.getMachineRuntime);
+router.put( '/admin/mes/machine-runtime/:id',          protect, admin, oeeCtrl.updateMachineRuntime);
+
+// Downtime
+router.get(    '/admin/mes/downtime',                         protect, admin, dtCtrl.getDowntimes);
+router.post(   '/admin/mes/downtime',                         protect, admin, dtCtrl.createDowntime);
+router.get(    '/admin/mes/downtime/:id',                     protect, admin, dtCtrl.getDowntime);
+router.patch(  '/admin/mes/downtime/:id/resolve',             protect, admin, dtCtrl.resolveDowntime);
+router.delete( '/admin/mes/downtime/:id',                     protect, admin, dtCtrl.deleteDowntime);
+
+// Downtime Reasons
+router.get(    '/admin/mes/downtime-reasons',          protect, admin, dtCtrl.getDowntimeReasons);
+router.post(   '/admin/mes/downtime-reasons',          protect, admin, dtCtrl.createDowntimeReason);
+router.put(    '/admin/mes/downtime-reasons/:id',      protect, admin, dtCtrl.updateDowntimeReason);
+router.delete( '/admin/mes/downtime-reasons/:id',      protect, admin, dtCtrl.deleteDowntimeReason);
+
+// Maintenance Triggers
+router.get(    '/admin/mes/maintenance-triggers',      protect, admin, dtCtrl.getMaintenanceTriggers);
+router.post(   '/admin/mes/maintenance-triggers',      protect, admin, dtCtrl.createMaintenanceTrigger);
+router.get(    '/admin/mes/maintenance-triggers/:id',  protect, admin, dtCtrl.getMaintenanceTrigger);
+router.put(    '/admin/mes/maintenance-triggers/:id',  protect, admin, dtCtrl.updateMaintenanceTrigger);
+router.delete( '/admin/mes/maintenance-triggers/:id',  protect, admin, dtCtrl.deleteMaintenanceTrigger);
+
+// Tools
+router.get(    '/admin/mes/tools',                     protect, admin, toolCtrl.getTools);
+router.post(   '/admin/mes/tools',                     protect, admin, toolCtrl.createTool);
+router.get(    '/admin/mes/tools/:id',                 protect, admin, toolCtrl.getTool);
+router.put(    '/admin/mes/tools/:id',                 protect, admin, toolCtrl.updateTool);
+router.delete( '/admin/mes/tools/:id',                 protect, admin, toolCtrl.deleteTool);
+
+// Tool Usage
+router.get(  '/admin/mes/tool-usage',                  protect, admin, toolCtrl.getToolUsages);
+router.post( '/admin/mes/tool-usage/start',            protect, admin, toolCtrl.startToolUsage);
+router.patch('/admin/mes/tool-usage/:id/end',          protect, admin, toolCtrl.endToolUsage);
+
+// Tool Calibration
+router.get( '/admin/mes/tool-calibrations',            protect, admin, toolCtrl.getCalibrations);
+router.post('/admin/mes/tool-calibrations',            protect, admin, toolCtrl.createCalibration);
+
+// Operators – Shifts
+router.get(    '/admin/mes/operator-shifts',           protect, admin, opCtrl.getShiftAssignments);
+router.post(   '/admin/mes/operator-shifts',           protect, admin, opCtrl.assignShift);
+router.put(    '/admin/mes/operator-shifts/:id',       protect, admin, opCtrl.updateShiftAssignment);
+router.delete( '/admin/mes/operator-shifts/:id',       protect, admin, opCtrl.deleteShiftAssignment);
+
+// Operators – Attendance
+router.get(  '/admin/mes/attendance',                  protect, admin, opCtrl.getAttendance);
+router.post( '/admin/mes/attendance',                  protect, admin, opCtrl.recordAttendance);
+router.patch('/admin/mes/attendance/:id/clock-out',    protect, admin, opCtrl.clockOut);
+
+// Operators – Skills
+router.get(    '/admin/mes/operator-skills',           protect, admin, opCtrl.getSkills);
+router.post(   '/admin/mes/operator-skills',           protect, admin, opCtrl.addSkill);
+router.put(    '/admin/mes/operator-skills/:id',       protect, admin, opCtrl.updateSkill);
+router.delete( '/admin/mes/operator-skills/:id',       protect, admin, opCtrl.deleteSkill);
+
+// Labor Tracking
+router.get(    '/admin/mes/labor',                     protect, admin, laborCtrl.getLaborEntries);
+router.post(   '/admin/mes/labor',                     protect, admin, laborCtrl.createLaborEntry);
+router.get(    '/admin/mes/labor/summary',             protect, admin, laborCtrl.getLaborSummary);
+router.get(    '/admin/mes/labor/:id',                 protect, admin, laborCtrl.getLaborEntry);
+router.put(    '/admin/mes/labor/:id',                 protect, admin, laborCtrl.updateLaborEntry);
+router.delete( '/admin/mes/labor/:id',                 protect, admin, laborCtrl.deleteLaborEntry);
+
+// ── Sprint 12E: Enterprise QMS ────────────────────────────────────────────────
+const inspCtrl   = require('../controllers/inspectionPlanController');
+const capaCtrl   = require('../controllers/capaController');
+const qmsAuditCtrl = require('../controllers/qmsAuditController');
+const gaugeCtrl  = require('../controllers/gaugeController');
+const sqCtrl     = require('../controllers/supplierQualityController');
+const certCtrl   = require('../controllers/certificateController');
+const qmsDashCtrl = require('../controllers/qmsDashboardController');
+const docCtrl    = require('../controllers/documentController');
+
+// QMS Dashboard
+router.get('/admin/qms/dashboard',               protect, admin, qmsDashCtrl.getDashboard);
+router.get('/admin/qms/dashboard/inspection-trend', protect, admin, qmsDashCtrl.getInspectionTrend);
+router.get('/admin/qms/dashboard/capa-trend',    protect, admin, qmsDashCtrl.getCAPATrend);
+router.get('/admin/qms/dashboard/ncr-analysis',  protect, admin, qmsDashCtrl.getNCRAnalysis);
+router.get('/admin/qms/dashboard/audit-summary', protect, admin, qmsDashCtrl.getAuditSummary);
+router.get('/admin/qms/dashboard/calibration-summary', protect, admin, qmsDashCtrl.getCalibrationSummary);
+router.get('/admin/qms/dashboard/supplier-quality-summary', protect, admin, qmsDashCtrl.getSupplierQualitySummary);
+
+// Inspection Plans
+router.get(    '/admin/qms/inspection-plans',              protect, admin, inspCtrl.getInspectionPlans);
+router.post(   '/admin/qms/inspection-plans',              protect, admin, inspCtrl.createInspectionPlan);
+router.get(    '/admin/qms/inspection-plans/:id',          protect, admin, inspCtrl.getInspectionPlan);
+router.put(    '/admin/qms/inspection-plans/:id',          protect, admin, inspCtrl.updateInspectionPlan);
+router.delete( '/admin/qms/inspection-plans/:id',          protect, admin, inspCtrl.deleteInspectionPlan);
+
+// Inspection Characteristics (nested under plans)
+router.get(    '/admin/qms/inspection-plans/:planId/characteristics', protect, admin, inspCtrl.getCharacteristics);
+router.post(   '/admin/qms/inspection-plans/:planId/characteristics', protect, admin, inspCtrl.createCharacteristic);
+router.put(    '/admin/qms/inspection-plans/:planId/characteristics/:charId', protect, admin, inspCtrl.updateCharacteristic);
+router.delete( '/admin/qms/inspection-plans/:planId/characteristics/:charId', protect, admin, inspCtrl.deleteCharacteristic);
+
+// Inspection Methods
+router.get(    '/admin/qms/inspection-methods',            protect, admin, inspCtrl.getInspectionMethods);
+router.post(   '/admin/qms/inspection-methods',            protect, admin, inspCtrl.createInspectionMethod);
+router.put(    '/admin/qms/inspection-methods/:id',        protect, admin, inspCtrl.updateInspectionMethod);
+router.delete( '/admin/qms/inspection-methods/:id',        protect, admin, inspCtrl.deleteInspectionMethod);
+
+// Inspection Lots
+router.get(    '/admin/qms/inspection-lots',               protect, admin, inspCtrl.getInspectionLots);
+router.post(   '/admin/qms/inspection-lots',               protect, admin, inspCtrl.createInspectionLot);
+router.get(    '/admin/qms/inspection-lots/:id',           protect, admin, inspCtrl.getInspectionLot);
+router.put(    '/admin/qms/inspection-lots/:id',           protect, admin, inspCtrl.updateInspectionLot);
+router.delete( '/admin/qms/inspection-lots/:id',           protect, admin, inspCtrl.deleteInspectionLot);
+
+// Inspection Results
+router.post(   '/admin/qms/inspection-results',            protect, admin, inspCtrl.createInspectionResult);
+router.put(    '/admin/qms/inspection-results/:id',        protect, admin, inspCtrl.updateInspectionResult);
+router.delete( '/admin/qms/inspection-results/:id',        protect, admin, inspCtrl.deleteInspectionResult);
+
+// Quality Certificates
+router.get(    '/admin/qms/certificates',                  protect, admin, certCtrl.getCertificates);
+router.post(   '/admin/qms/certificates',                  protect, admin, certCtrl.createCertificate);
+router.get(    '/admin/qms/certificates/:id',              protect, admin, certCtrl.getCertificate);
+router.put(    '/admin/qms/certificates/:id',              protect, admin, certCtrl.updateCertificate);
+router.delete( '/admin/qms/certificates/:id',              protect, admin, certCtrl.deleteCertificate);
+router.patch(  '/admin/qms/certificates/:id/issue',        protect, admin, certCtrl.issueCertificate);
+router.patch(  '/admin/qms/certificates/:id/revoke',       protect, admin, certCtrl.revokeCertificate);
+
+// CAPA
+router.get(    '/admin/qms/capas',                         protect, admin, capaCtrl.getCAPAs);
+router.post(   '/admin/qms/capas',                         protect, admin, capaCtrl.createCAPA);
+router.get(    '/admin/qms/capas/:id',                     protect, admin, capaCtrl.getCAPA);
+router.put(    '/admin/qms/capas/:id',                     protect, admin, capaCtrl.updateCAPA);
+router.delete( '/admin/qms/capas/:id',                     protect, admin, capaCtrl.deleteCAPA);
+
+// NC Reports
+router.get(    '/admin/qms/nc-reports',                    protect, admin, capaCtrl.getNCReports);
+router.post(   '/admin/qms/nc-reports',                    protect, admin, capaCtrl.createNCReport);
+router.get(    '/admin/qms/nc-reports/:id',                protect, admin, capaCtrl.getNCReport);
+router.put(    '/admin/qms/nc-reports/:id',                protect, admin, capaCtrl.updateNCReport);
+router.delete( '/admin/qms/nc-reports/:id',                protect, admin, capaCtrl.deleteNCReport);
+
+// Root Cause Analysis
+router.get(  '/admin/qms/rca',                             protect, admin, capaCtrl.getRCAs);
+router.post( '/admin/qms/rca',                             protect, admin, capaCtrl.createRCA);
+router.put(  '/admin/qms/rca/:id',                         protect, admin, capaCtrl.updateRCA);
+
+// Corrective Actions
+router.get(  '/admin/qms/corrective-actions',              protect, admin, capaCtrl.getCorrectiveActions);
+router.post( '/admin/qms/corrective-actions',              protect, admin, capaCtrl.createCorrectiveAction);
+router.put(  '/admin/qms/corrective-actions/:id',          protect, admin, capaCtrl.updateCorrectiveAction);
+
+// Preventive Actions
+router.get(  '/admin/qms/preventive-actions',              protect, admin, capaCtrl.getPreventiveActions);
+router.post( '/admin/qms/preventive-actions',              protect, admin, capaCtrl.createPreventiveAction);
+router.put(  '/admin/qms/preventive-actions/:id',          protect, admin, capaCtrl.updatePreventiveAction);
+
+// Audit Programs
+router.get(    '/admin/qms/audit-programs',                protect, admin, qmsAuditCtrl.getAuditPrograms);
+router.post(   '/admin/qms/audit-programs',                protect, admin, qmsAuditCtrl.createAuditProgram);
+router.get(    '/admin/qms/audit-programs/:id',            protect, admin, qmsAuditCtrl.getAuditProgram);
+router.put(    '/admin/qms/audit-programs/:id',            protect, admin, qmsAuditCtrl.updateAuditProgram);
+router.delete( '/admin/qms/audit-programs/:id',            protect, admin, qmsAuditCtrl.deleteAuditProgram);
+
+// Quality Audits
+router.get(    '/admin/qms/audits',                        protect, admin, qmsAuditCtrl.getQualityAudits);
+router.post(   '/admin/qms/audits',                        protect, admin, qmsAuditCtrl.createQualityAudit);
+router.get(    '/admin/qms/audits/:id',                    protect, admin, qmsAuditCtrl.getQualityAudit);
+router.put(    '/admin/qms/audits/:id',                    protect, admin, qmsAuditCtrl.updateQualityAudit);
+router.delete( '/admin/qms/audits/:id',                    protect, admin, qmsAuditCtrl.deleteQualityAudit);
+
+// Audit Findings
+router.get(    '/admin/qms/audit-findings',                protect, admin, qmsAuditCtrl.getAuditFindings);
+router.post(   '/admin/qms/audit-findings',                protect, admin, qmsAuditCtrl.createAuditFinding);
+router.put(    '/admin/qms/audit-findings/:id',            protect, admin, qmsAuditCtrl.updateAuditFinding);
+router.delete( '/admin/qms/audit-findings/:id',            protect, admin, qmsAuditCtrl.deleteAuditFinding);
+
+// Gauges
+router.get(    '/admin/qms/gauges',                        protect, admin, gaugeCtrl.getGauges);
+router.post(   '/admin/qms/gauges',                        protect, admin, gaugeCtrl.createGauge);
+router.get(    '/admin/qms/gauges/:id',                    protect, admin, gaugeCtrl.getGauge);
+router.put(    '/admin/qms/gauges/:id',                    protect, admin, gaugeCtrl.updateGauge);
+router.delete( '/admin/qms/gauges/:id',                    protect, admin, gaugeCtrl.deleteGauge);
+router.get(    '/admin/qms/gauges/:gaugeId/history',       protect, admin, gaugeCtrl.getGaugeHistory);
+
+// Calibration Records
+router.get(  '/admin/qms/calibration-records',             protect, admin, gaugeCtrl.getCalibrationRecords);
+router.post( '/admin/qms/calibration-records',             protect, admin, gaugeCtrl.createCalibrationRecord);
+router.get(  '/admin/qms/calibration-records/:id',         protect, admin, gaugeCtrl.getCalibrationRecord);
+
+// Calibration Schedules
+router.get(  '/admin/qms/calibration-schedules',           protect, admin, gaugeCtrl.getCalibrationSchedules);
+router.post( '/admin/qms/calibration-schedules',           protect, admin, gaugeCtrl.createCalibrationSchedule);
+router.put(  '/admin/qms/calibration-schedules/:id',       protect, admin, gaugeCtrl.updateCalibrationSchedule);
+
+// Supplier Quality
+router.get(    '/admin/qms/supplier-quality',              protect, admin, sqCtrl.getSupplierQualityRecords);
+router.post(   '/admin/qms/supplier-quality',              protect, admin, sqCtrl.createSupplierQualityRecord);
+router.get(    '/admin/qms/supplier-quality/:id',          protect, admin, sqCtrl.getSupplierQualityRecord);
+router.put(    '/admin/qms/supplier-quality/:id',          protect, admin, sqCtrl.updateSupplierQualityRecord);
+router.delete( '/admin/qms/supplier-quality/:id',          protect, admin, sqCtrl.deleteSupplierQualityRecord);
+router.get(    '/admin/qms/supplier-quality/scorecard/:vendorId', protect, admin, sqCtrl.getSupplierScorecard);
+
+// Quality Alerts
+router.get(  '/admin/qms/quality-alerts',                  protect, admin, sqCtrl.getQualityAlerts);
+router.post( '/admin/qms/quality-alerts',                  protect, admin, sqCtrl.createQualityAlert);
+router.put(  '/admin/qms/quality-alerts/:id',              protect, admin, sqCtrl.updateQualityAlert);
+router.patch('/admin/qms/quality-alerts/:id/acknowledge',  protect, admin, sqCtrl.acknowledgeAlert);
+router.patch('/admin/qms/quality-alerts/:id/resolve',      protect, admin, sqCtrl.resolveAlert);
+
+// Document Control
+router.get(    '/admin/qms/documents',                     protect, admin, docCtrl.getDocuments);
+router.post(   '/admin/qms/documents',                     protect, admin, docCtrl.createDocument);
+router.get(    '/admin/qms/documents/:id',                 protect, admin, docCtrl.getDocument);
+router.put(    '/admin/qms/documents/:id',                 protect, admin, docCtrl.updateDocument);
+router.delete( '/admin/qms/documents/:id',                 protect, admin, docCtrl.deleteDocument);
+router.patch(  '/admin/qms/documents/:id/approve',         protect, admin, docCtrl.approveDocument);
+router.patch(  '/admin/qms/documents/:id/activate',        protect, admin, docCtrl.activateDocument);
+router.patch(  '/admin/qms/documents/:id/obsolete',        protect, admin, docCtrl.obsoleteDocument);
+
+// Revisions
+router.get(  '/admin/qms/documents/:docId/revisions',      protect, admin, docCtrl.getRevisions);
+router.post( '/admin/qms/documents/:docId/revisions',      protect, admin, docCtrl.createRevision);
+
+// ── Sprint 12F: Enterprise Asset Management (EAM / CMMS) ─────────────────────
+const assetCtrl   = require('../controllers/assetController');
+const maintCtrl   = require('../controllers/maintenanceController');
+const eamWoCtrl   = require('../controllers/maintenanceWorkOrderController');
+const schedCtrl   = require('../controllers/maintenanceScheduleController');
+const cmCtrl      = require('../controllers/conditionMonitoringController');
+const meterCtrl   = require('../controllers/meterController');
+const brkCtrl     = require('../controllers/breakdownController');
+const eamDashCtrl = require('../controllers/maintenanceDashboardController');
+
+// EAM Dashboard
+router.get('/admin/eam/dashboard',                         protect, admin, eamDashCtrl.getDashboard);
+router.get('/admin/eam/asset-reliability',                 protect, admin, eamDashCtrl.getAssetReliability);
+router.get('/admin/eam/maintenance-trend',                 protect, admin, eamDashCtrl.getMaintenanceTrend);
+router.get('/admin/eam/breakdown-analysis',                protect, admin, eamDashCtrl.getBreakdownAnalysis);
+router.get('/admin/eam/cost-analysis',                     protect, admin, eamDashCtrl.getCostAnalysis);
+
+// Assets
+router.get(    '/admin/eam/assets',                        protect, admin, assetCtrl.getAssets);
+router.post(   '/admin/eam/assets',                        protect, admin, assetCtrl.createAsset);
+router.get(    '/admin/eam/assets/:id',                    protect, admin, assetCtrl.getAsset);
+router.put(    '/admin/eam/assets/:id',                    protect, admin, assetCtrl.updateAsset);
+router.delete( '/admin/eam/assets/:id',                    protect, admin, assetCtrl.deleteAsset);
+
+// Asset hierarchy (before /:id to avoid route conflict)
+router.get(    '/admin/eam/assets/:assetId/hierarchy',     protect, admin, assetCtrl.getHierarchy);
+router.put(    '/admin/eam/assets/:assetId/hierarchy',     protect, admin, assetCtrl.upsertHierarchy);
+
+// Asset documents
+router.get(    '/admin/eam/assets/:assetId/documents',     protect, admin, assetCtrl.getDocuments);
+router.post(   '/admin/eam/assets/:assetId/documents',     protect, admin, assetCtrl.addDocument);
+router.delete( '/admin/eam/asset-documents/:id',           protect, admin, assetCtrl.deleteDocument);
+
+// Asset depreciation
+router.get(    '/admin/eam/assets/:assetId/depreciation',  protect, admin, assetCtrl.getDepreciation);
+router.post(   '/admin/eam/assets/:assetId/depreciation',  protect, admin, assetCtrl.createDepreciation);
+
+// Asset warranties
+router.get(    '/admin/eam/assets/:assetId/warranties',    protect, admin, assetCtrl.getWarranties);
+router.post(   '/admin/eam/assets/:assetId/warranties',    protect, admin, assetCtrl.createWarranty);
+router.put(    '/admin/eam/asset-warranties/:id',          protect, admin, assetCtrl.updateWarranty);
+
+// Asset lifecycle
+router.get(    '/admin/eam/assets/:assetId/lifecycle',     protect, admin, assetCtrl.getLifecycle);
+router.post(   '/admin/eam/assets/:assetId/lifecycle',     protect, admin, assetCtrl.addLifecycleEvent);
+
+// Asset Categories
+router.get(    '/admin/eam/asset-categories',              protect, admin, assetCtrl.getCategories);
+router.post(   '/admin/eam/asset-categories',              protect, admin, assetCtrl.createCategory);
+router.put(    '/admin/eam/asset-categories/:id',          protect, admin, assetCtrl.updateCategory);
+router.delete( '/admin/eam/asset-categories/:id',          protect, admin, assetCtrl.deleteCategory);
+
+// Asset Locations
+router.get(    '/admin/eam/asset-locations',               protect, admin, assetCtrl.getLocations);
+router.post(   '/admin/eam/asset-locations',               protect, admin, assetCtrl.createLocation);
+router.put(    '/admin/eam/asset-locations/:id',           protect, admin, assetCtrl.updateLocation);
+router.delete( '/admin/eam/asset-locations/:id',           protect, admin, assetCtrl.deleteLocation);
+
+// Maintenance Plans
+router.get(    '/admin/eam/maintenance-plans',             protect, admin, maintCtrl.getPlans);
+router.post(   '/admin/eam/maintenance-plans',             protect, admin, maintCtrl.createPlan);
+router.get(    '/admin/eam/maintenance-plans/:id',         protect, admin, maintCtrl.getPlan);
+router.put(    '/admin/eam/maintenance-plans/:id',         protect, admin, maintCtrl.updatePlan);
+router.delete( '/admin/eam/maintenance-plans/:id',         protect, admin, maintCtrl.deletePlan);
+
+// Maintenance Checklists
+router.get(    '/admin/eam/checklists',                    protect, admin, maintCtrl.getChecklists);
+router.post(   '/admin/eam/checklists',                    protect, admin, maintCtrl.createChecklist);
+router.put(    '/admin/eam/checklists/:id',                protect, admin, maintCtrl.updateChecklist);
+router.delete( '/admin/eam/checklists/:id',                protect, admin, maintCtrl.deleteChecklist);
+
+// Maintenance History
+router.get(    '/admin/eam/maintenance-history',           protect, admin, maintCtrl.getHistory);
+router.get(    '/admin/eam/assets/:assetId/history',       protect, admin, maintCtrl.getHistory);
+router.post(   '/admin/eam/maintenance-history',           protect, admin, maintCtrl.createHistoryEntry);
+
+// Preventive Maintenance
+router.get(    '/admin/eam/preventive',                    protect, admin, maintCtrl.getPreventive);
+router.post(   '/admin/eam/preventive',                    protect, admin, maintCtrl.createPreventive);
+router.put(    '/admin/eam/preventive/:id',                protect, admin, maintCtrl.updatePreventive);
+
+// Predictive Maintenance
+router.get(    '/admin/eam/predictive',                    protect, admin, maintCtrl.getPredictive);
+router.post(   '/admin/eam/predictive',                    protect, admin, maintCtrl.createPredictive);
+router.put(    '/admin/eam/predictive/:id',                protect, admin, maintCtrl.updatePredictive);
+
+// Maintenance Planner
+router.get(    '/admin/eam/planners',                      protect, admin, maintCtrl.getPlanners);
+router.post(   '/admin/eam/planners',                      protect, admin, maintCtrl.createPlanner);
+router.get(    '/admin/eam/planners/:id',                  protect, admin, maintCtrl.getPlanner);
+router.put(    '/admin/eam/planners/:id',                  protect, admin, maintCtrl.updatePlanner);
+router.delete( '/admin/eam/planners/:id',                  protect, admin, maintCtrl.deletePlanner);
+
+// Maintenance Log
+router.get(    '/admin/eam/maintenance-logs',              protect, admin, maintCtrl.getLogs);
+router.post(   '/admin/eam/maintenance-logs',              protect, admin, maintCtrl.createLog);
+router.put(    '/admin/eam/maintenance-logs/:id',          protect, admin, maintCtrl.updateLog);
+
+// Vendor Maintenance Services
+router.get(    '/admin/eam/vendor-services',               protect, admin, maintCtrl.getVendorServices);
+router.post(   '/admin/eam/vendor-services',               protect, admin, maintCtrl.createVendorService);
+router.put(    '/admin/eam/vendor-services/:id',           protect, admin, maintCtrl.updateVendorService);
+router.delete( '/admin/eam/vendor-services/:id',           protect, admin, maintCtrl.deleteVendorService);
+
+// Maintenance Work Orders
+router.get(    '/admin/eam/work-orders',                   protect, admin, eamWoCtrl.getWorkOrders);
+router.post(   '/admin/eam/work-orders',                   protect, admin, eamWoCtrl.createWorkOrder);
+router.get(    '/admin/eam/work-orders/:id',               protect, admin, eamWoCtrl.getWorkOrder);
+router.put(    '/admin/eam/work-orders/:id',               protect, admin, eamWoCtrl.updateWorkOrder);
+router.delete( '/admin/eam/work-orders/:id',               protect, admin, eamWoCtrl.deleteWorkOrder);
+router.patch(  '/admin/eam/work-orders/:id/transition',    protect, admin, eamWoCtrl.transitionWorkOrder);
+router.get(    '/admin/eam/work-orders/:id/parts',         protect, admin, eamWoCtrl.getWorkOrderParts);
+router.post(   '/admin/eam/work-orders/:id/parts',         protect, admin, eamWoCtrl.addWorkOrderPart);
+
+// Work Order Tasks
+router.get(    '/admin/eam/work-orders/:workOrderId/tasks',protect, admin, maintCtrl.getTasks);
+router.post(   '/admin/eam/work-orders/:workOrderId/tasks',protect, admin, maintCtrl.createTask);
+router.put(    '/admin/eam/tasks/:id',                     protect, admin, maintCtrl.updateTask);
+router.delete( '/admin/eam/tasks/:id',                     protect, admin, maintCtrl.deleteTask);
+
+// Maintenance Requests
+router.get(    '/admin/eam/requests',                      protect, admin, eamWoCtrl.getRequests);
+router.post(   '/admin/eam/requests',                      protect, admin, eamWoCtrl.createRequest);
+router.get(    '/admin/eam/requests/:id',                  protect, admin, eamWoCtrl.getRequest);
+router.put(    '/admin/eam/requests/:id',                  protect, admin, eamWoCtrl.updateRequest);
+router.patch(  '/admin/eam/requests/:id/convert',          protect, admin, eamWoCtrl.convertRequestToWorkOrder);
+
+// Maintenance Schedules
+router.get(    '/admin/eam/schedules',                     protect, admin, schedCtrl.getSchedules);
+router.post(   '/admin/eam/schedules',                     protect, admin, schedCtrl.createSchedule);
+router.get(    '/admin/eam/schedules/:id',                 protect, admin, schedCtrl.getSchedule);
+router.put(    '/admin/eam/schedules/:id',                 protect, admin, schedCtrl.updateSchedule);
+router.delete( '/admin/eam/schedules/:id',                 protect, admin, schedCtrl.deleteSchedule);
+router.patch(  '/admin/eam/schedules/:id/complete',        protect, admin, schedCtrl.completeSchedule);
+router.post(   '/admin/eam/schedules/mark-overdue',        protect, admin, schedCtrl.markScheduleOverdue);
+
+// Maintenance Contracts
+router.get(    '/admin/eam/contracts',                     protect, admin, schedCtrl.getContracts);
+router.post(   '/admin/eam/contracts',                     protect, admin, schedCtrl.createContract);
+router.get(    '/admin/eam/contracts/:id',                 protect, admin, schedCtrl.getContract);
+router.put(    '/admin/eam/contracts/:id',                 protect, admin, schedCtrl.updateContract);
+router.delete( '/admin/eam/contracts/:id',                 protect, admin, schedCtrl.deleteContract);
+
+// Condition Monitoring
+router.get(    '/admin/eam/condition-monitors',            protect, admin, cmCtrl.getMonitors);
+router.post(   '/admin/eam/condition-monitors',            protect, admin, cmCtrl.createMonitor);
+router.get(    '/admin/eam/condition-monitors/:id',        protect, admin, cmCtrl.getMonitor);
+router.put(    '/admin/eam/condition-monitors/:id',        protect, admin, cmCtrl.updateMonitor);
+router.delete( '/admin/eam/condition-monitors/:id',        protect, admin, cmCtrl.deleteMonitor);
+router.post(   '/admin/eam/condition-monitors/:id/reading',protect, admin, cmCtrl.addReading);
+
+// Risk Assessments
+router.get(    '/admin/eam/risk-assessments',              protect, admin, cmCtrl.getRiskAssessments);
+router.post(   '/admin/eam/risk-assessments',              protect, admin, cmCtrl.createRiskAssessment);
+router.put(    '/admin/eam/risk-assessments/:id',          protect, admin, cmCtrl.updateRiskAssessment);
+router.delete( '/admin/eam/risk-assessments/:id',          protect, admin, cmCtrl.deleteRiskAssessment);
+
+// Asset Calibrations (EAM - distinct from QMS gauge calibrations)
+router.get(    '/admin/eam/asset-calibrations',            protect, admin, cmCtrl.getAssetCalibrations);
+router.post(   '/admin/eam/asset-calibrations',            protect, admin, cmCtrl.createAssetCalibration);
+router.put(    '/admin/eam/asset-calibrations/:id',        protect, admin, cmCtrl.updateAssetCalibration);
+router.delete( '/admin/eam/asset-calibrations/:id',        protect, admin, cmCtrl.deleteAssetCalibration);
+
+// Asset Meters
+router.get(    '/admin/eam/meters',                        protect, admin, meterCtrl.getMeters);
+router.post(   '/admin/eam/meters',                        protect, admin, meterCtrl.createMeter);
+router.get(    '/admin/eam/meters/:id',                    protect, admin, meterCtrl.getMeter);
+router.put(    '/admin/eam/meters/:id',                    protect, admin, meterCtrl.updateMeter);
+router.delete( '/admin/eam/meters/:id',                    protect, admin, meterCtrl.deleteMeter);
+router.get(    '/admin/eam/meters/:meterId/readings',      protect, admin, meterCtrl.getReadings);
+router.post(   '/admin/eam/meters/:meterId/readings',      protect, admin, meterCtrl.addReading);
+
+// Breakdowns
+router.get(    '/admin/eam/breakdowns',                    protect, admin, brkCtrl.getBreakdowns);
+router.post(   '/admin/eam/breakdowns',                    protect, admin, brkCtrl.createBreakdown);
+router.get(    '/admin/eam/breakdowns/:id',                protect, admin, brkCtrl.getBreakdown);
+router.put(    '/admin/eam/breakdowns/:id',                protect, admin, brkCtrl.updateBreakdown);
+router.delete( '/admin/eam/breakdowns/:id',                protect, admin, brkCtrl.deleteBreakdown);
+router.patch(  '/admin/eam/breakdowns/:id/resolve',        protect, admin, brkCtrl.resolveBreakdown);
+
+// Failure Analysis
+router.get(    '/admin/eam/failure-analyses',              protect, admin, brkCtrl.getFailureAnalyses);
+router.post(   '/admin/eam/failure-analyses',              protect, admin, brkCtrl.createFailureAnalysis);
+router.put(    '/admin/eam/failure-analyses/:id',          protect, admin, brkCtrl.updateFailureAnalysis);
+router.delete( '/admin/eam/failure-analyses/:id',          protect, admin, brkCtrl.deleteFailureAnalysis);
+
+// ── Sprint 13A: Enterprise Finance & General Ledger ───────────────────────────
+const coaCtrl      = require('../controllers/coaController');
+const journalCtrl  = require('../controllers/journalController');
+const ledgerCtrl   = require('../controllers/ledgerController');
+const fiscalCtrl   = require('../controllers/fiscalController');
+const postingCtrl  = require('../controllers/postingController');
+const reportCtrl   = require('../controllers/reportController');
+const finDashCtrl  = require('../controllers/financeDashboardController');
+const finSetCtrl   = require('../controllers/financeSettingsController');
+
+// Finance Dashboard
+router.get( '/admin/finance/dashboard',                    protect, admin, finDashCtrl.getDashboard);
+router.get( '/admin/finance/dashboard/account-breakdown',  protect, admin, finDashCtrl.getAccountTypeBreakdown);
+router.get( '/admin/finance/dashboard/top-accounts',       protect, admin, finDashCtrl.getTopAccounts);
+
+// Chart of Accounts
+router.get(   '/admin/finance/accounts/tree',              protect, admin, coaCtrl.getAccountTree);
+router.get(   '/admin/finance/accounts',                   protect, admin, coaCtrl.getAccounts);
+router.post(  '/admin/finance/accounts',                   protect, admin, coaCtrl.createAccount);
+router.get(   '/admin/finance/accounts/:id',               protect, admin, coaCtrl.getAccount);
+router.put(   '/admin/finance/accounts/:id',               protect, admin, coaCtrl.updateAccount);
+router.delete('/admin/finance/accounts/:id',               protect, admin, coaCtrl.deleteAccount);
+
+// Account Groups
+router.get(   '/admin/finance/account-groups',             protect, admin, coaCtrl.getGroups);
+router.post(  '/admin/finance/account-groups',             protect, admin, coaCtrl.createGroup);
+router.put(   '/admin/finance/account-groups/:id',         protect, admin, coaCtrl.updateGroup);
+router.delete('/admin/finance/account-groups/:id',         protect, admin, coaCtrl.deleteGroup);
+
+// Journal Entries
+router.get(   '/admin/finance/journals',                   protect, admin, journalCtrl.getJournals);
+router.post(  '/admin/finance/journals',                   protect, admin, journalCtrl.createJournal);
+router.get(   '/admin/finance/journals/:id',               protect, admin, journalCtrl.getJournal);
+router.put(   '/admin/finance/journals/:id',               protect, admin, journalCtrl.updateJournal);
+router.delete('/admin/finance/journals/:id',               protect, admin, journalCtrl.deleteJournal);
+router.patch( '/admin/finance/journals/:id/post',          protect, admin, journalCtrl.postJournal);
+router.post(  '/admin/finance/journals/:id/reverse',       protect, admin, journalCtrl.reverseJournal);
+
+// General Ledger
+router.get( '/admin/finance/ledger',                       protect, admin, ledgerCtrl.getLedgerEntries);
+router.get( '/admin/finance/ledger/balances',              protect, admin, ledgerCtrl.getLedgerBalances);
+router.get( '/admin/finance/ledger/accounts/:accountId/statement', protect, admin, ledgerCtrl.getAccountStatement);
+
+// Fiscal Years
+router.get(   '/admin/finance/fiscal-years',               protect, admin, fiscalCtrl.getFiscalYears);
+router.post(  '/admin/finance/fiscal-years',               protect, admin, fiscalCtrl.createFiscalYear);
+router.get(   '/admin/finance/fiscal-years/:id',           protect, admin, fiscalCtrl.getFiscalYear);
+router.put(   '/admin/finance/fiscal-years/:id',           protect, admin, fiscalCtrl.updateFiscalYear);
+router.delete('/admin/finance/fiscal-years/:id',           protect, admin, fiscalCtrl.deleteFiscalYear);
+router.patch( '/admin/finance/fiscal-years/:id/close',     protect, admin, fiscalCtrl.closeFiscalYear);
+router.patch( '/admin/finance/fiscal-years/:id/lock',      protect, admin, fiscalCtrl.lockFiscalYear);
+
+// Accounting Periods
+router.get(  '/admin/finance/periods',                     protect, admin, fiscalCtrl.getPeriods);
+router.post( '/admin/finance/periods',                     protect, admin, fiscalCtrl.createPeriod);
+router.put(  '/admin/finance/periods/:id',                 protect, admin, fiscalCtrl.updatePeriod);
+router.patch('/admin/finance/periods/:id/close',           protect, admin, fiscalCtrl.closePeriod);
+router.patch('/admin/finance/periods/:id/lock',            protect, admin, fiscalCtrl.lockPeriod);
+
+// Posting Rules
+router.get(   '/admin/finance/posting-rules',              protect, admin, postingCtrl.getRules);
+router.post(  '/admin/finance/posting-rules',              protect, admin, postingCtrl.createRule);
+router.put(   '/admin/finance/posting-rules/:id',          protect, admin, postingCtrl.updateRule);
+router.delete('/admin/finance/posting-rules/:id',          protect, admin, postingCtrl.deleteRule);
+
+// Posting Templates
+router.get(   '/admin/finance/posting-templates',          protect, admin, postingCtrl.getTemplates);
+router.post(  '/admin/finance/posting-templates',          protect, admin, postingCtrl.createTemplate);
+router.put(   '/admin/finance/posting-templates/:id',      protect, admin, postingCtrl.updateTemplate);
+router.delete('/admin/finance/posting-templates/:id',      protect, admin, postingCtrl.deleteTemplate);
+
+// Voucher Series
+router.get(  '/admin/finance/voucher-series',              protect, admin, postingCtrl.getVoucherSeries);
+router.post( '/admin/finance/voucher-series',              protect, admin, postingCtrl.createVoucherSeries);
+router.put(  '/admin/finance/voucher-series/:id',          protect, admin, postingCtrl.updateVoucherSeries);
+
+// Vouchers
+router.get(   '/admin/finance/vouchers',                   protect, admin, postingCtrl.getVouchers);
+router.post(  '/admin/finance/vouchers',                   protect, admin, postingCtrl.createVoucher);
+router.get(   '/admin/finance/vouchers/:id',               protect, admin, postingCtrl.getVoucher);
+router.put(   '/admin/finance/vouchers/:id',               protect, admin, postingCtrl.updateVoucher);
+router.delete('/admin/finance/vouchers/:id',               protect, admin, postingCtrl.deleteVoucher);
+
+// Cost Centers
+router.get(   '/admin/finance/cost-centers',               protect, admin, postingCtrl.getCostCenters);
+router.post(  '/admin/finance/cost-centers',               protect, admin, postingCtrl.createCostCenter);
+router.put(   '/admin/finance/cost-centers/:id',           protect, admin, postingCtrl.updateCostCenter);
+router.delete('/admin/finance/cost-centers/:id',           protect, admin, postingCtrl.deleteCostCenter);
+
+// Profit Centers
+router.get(   '/admin/finance/profit-centers',             protect, admin, postingCtrl.getProfitCenters);
+router.post(  '/admin/finance/profit-centers',             protect, admin, postingCtrl.createProfitCenter);
+router.put(   '/admin/finance/profit-centers/:id',         protect, admin, postingCtrl.updateProfitCenter);
+router.delete('/admin/finance/profit-centers/:id',         protect, admin, postingCtrl.deleteProfitCenter);
+
+// Accounting Dimensions
+router.get(  '/admin/finance/dimensions',                  protect, admin, postingCtrl.getDimensions);
+router.post( '/admin/finance/dimensions',                  protect, admin, postingCtrl.createDimension);
+router.put(  '/admin/finance/dimensions/:id',              protect, admin, postingCtrl.updateDimension);
+
+// Financial Reports
+router.get(  '/admin/finance/reports/trial-balance',       protect, admin, reportCtrl.getTrialBalance);
+router.post( '/admin/finance/reports/trial-balance/save',  protect, admin, reportCtrl.saveTrialBalanceSnapshot);
+router.get(  '/admin/finance/reports/balance-sheet',       protect, admin, reportCtrl.getBalanceSheet);
+router.get(  '/admin/finance/reports/profit-and-loss',     protect, admin, reportCtrl.getProfitAndLoss);
+router.get(  '/admin/finance/reports/cash-book',           protect, admin, reportCtrl.getCashBook);
+router.get(  '/admin/finance/reports/bank-book',           protect, admin, reportCtrl.getBankBook);
+router.get(  '/admin/finance/reports/journal-book',        protect, admin, reportCtrl.getJournalBook);
+router.get(  '/admin/finance/reports/day-book',            protect, admin, reportCtrl.getDayBook);
+
+// Financial Settings
+router.get( '/admin/finance/settings',                     protect, admin, finSetCtrl.getSettings);
+router.put( '/admin/finance/settings',                     protect, admin, finSetCtrl.updateSettings);
+
+// Currencies
+router.get(   '/admin/finance/currencies',                 protect, admin, finSetCtrl.getCurrencies);
+router.post(  '/admin/finance/currencies',                 protect, admin, finSetCtrl.createCurrency);
+router.put(   '/admin/finance/currencies/:id',             protect, admin, finSetCtrl.updateCurrency);
+router.delete('/admin/finance/currencies/:id',             protect, admin, finSetCtrl.deleteCurrency);
+
+// Exchange Rates
+router.get(  '/admin/finance/exchange-rates',              protect, admin, finSetCtrl.getExchangeRates);
+router.post( '/admin/finance/exchange-rates',              protect, admin, finSetCtrl.createExchangeRate);
+router.put(  '/admin/finance/exchange-rates/:id',          protect, admin, finSetCtrl.updateExchangeRate);
+
+// Opening Balances
+router.get(  '/admin/finance/opening-balances',            protect, admin, finSetCtrl.getOpeningBalances);
+router.post( '/admin/finance/opening-balances',            protect, admin, finSetCtrl.createOpeningBalance);
+router.put(  '/admin/finance/opening-balances/:id',        protect, admin, finSetCtrl.updateOpeningBalance);
+
+// ─── Sprint 13B: Enterprise Accounts Payable ──────────────────────────────────
+const apDashCtrl      = require('../controllers/accountsPayableDashboardController');
+const vendorBillCtrl  = require('../controllers/vendorBillController');
+const vendorPmtCtrl   = require('../controllers/vendorPaymentController');
+const vendorLedCtrl   = require('../controllers/vendorLedgerController');
+const agingCtrl       = require('../controllers/agingController');
+const pmtRunCtrl      = require('../controllers/paymentRunController');
+const invMatchCtrl    = require('../controllers/invoiceMatchController');
+
+// AP Dashboard
+router.get('/admin/accounts-payable/dashboard',                      protect, admin, apDashCtrl.getDashboard);
+router.get('/admin/accounts-payable/dashboard/aging-summary',        protect, admin, apDashCtrl.getAgingSummary);
+router.get('/admin/accounts-payable/dashboard/top-vendors',          protect, admin, apDashCtrl.getTopVendorsByPayable);
+router.get('/admin/accounts-payable/dashboard/gst-credit-summary',   protect, admin, apDashCtrl.getGSTCreditSummary);
+
+// Vendor Bills
+router.get(   '/admin/accounts-payable/bills',               protect, admin, vendorBillCtrl.getBills);
+router.post(  '/admin/accounts-payable/bills',               protect, admin, vendorBillCtrl.createBill);
+router.get(   '/admin/accounts-payable/bills/:id',           protect, admin, vendorBillCtrl.getBill);
+router.put(   '/admin/accounts-payable/bills/:id',           protect, admin, vendorBillCtrl.updateBill);
+router.delete('/admin/accounts-payable/bills/:id',           protect, admin, vendorBillCtrl.deleteBill);
+router.post(  '/admin/accounts-payable/bills/:id/submit',    protect, admin, vendorBillCtrl.submitBill);
+router.post(  '/admin/accounts-payable/bills/:id/approve',   protect, admin, vendorBillCtrl.approveBill);
+router.post(  '/admin/accounts-payable/bills/:id/reject',    protect, admin, vendorBillCtrl.rejectBill);
+router.post(  '/admin/accounts-payable/bills/:id/post-gl',   protect, admin, vendorBillCtrl.postBillToGL);
+
+// Vendor Payments
+router.get(   '/admin/accounts-payable/payments',                  protect, admin, vendorPmtCtrl.getPayments);
+router.post(  '/admin/accounts-payable/payments',                  protect, admin, vendorPmtCtrl.createPayment);
+router.get(   '/admin/accounts-payable/payments/allocations',      protect, admin, vendorPmtCtrl.getAllocations);
+router.get(   '/admin/accounts-payable/payments/:id',              protect, admin, vendorPmtCtrl.getPayment);
+router.put(   '/admin/accounts-payable/payments/:id',              protect, admin, vendorPmtCtrl.updatePayment);
+router.delete('/admin/accounts-payable/payments/:id',              protect, admin, vendorPmtCtrl.deletePayment);
+router.post(  '/admin/accounts-payable/payments/:id/approve',      protect, admin, vendorPmtCtrl.approvePayment);
+router.post(  '/admin/accounts-payable/payments/:id/post',         protect, admin, vendorPmtCtrl.postPayment);
+router.post(  '/admin/accounts-payable/payments/:id/reverse',      protect, admin, vendorPmtCtrl.reversePayment);
+
+// Vendor Ledger
+router.get('/admin/accounts-payable/ledger',                       protect, admin, vendorLedCtrl.getLedger);
+router.get('/admin/accounts-payable/ledger/statement',             protect, admin, vendorLedCtrl.getAccountStatement);
+router.get('/admin/accounts-payable/ledger/:id',                   protect, admin, vendorLedCtrl.getLedgerEntry);
+
+// Vendor Statements
+router.get(   '/admin/accounts-payable/statements',                protect, admin, vendorLedCtrl.getStatements);
+router.post(  '/admin/accounts-payable/statements/generate',       protect, admin, vendorLedCtrl.generateStatement);
+router.get(   '/admin/accounts-payable/statements/:id',            protect, admin, vendorLedCtrl.getStatement);
+router.delete('/admin/accounts-payable/statements/:id',            protect, admin, vendorLedCtrl.deleteStatement);
+
+// Aging
+router.get( '/admin/accounts-payable/aging/report',                protect, admin, agingCtrl.getAgingReport);
+router.post('/admin/accounts-payable/aging/snapshot',              protect, admin, agingCtrl.saveAgingSnapshot);
+router.get( '/admin/accounts-payable/aging/snapshots',             protect, admin, agingCtrl.getAgingSnapshots);
+router.get( '/admin/accounts-payable/aging/snapshots/:id',         protect, admin, agingCtrl.getAgingSnapshot);
+
+// Payment Runs
+router.get(   '/admin/accounts-payable/payment-runs',              protect, admin, pmtRunCtrl.getPaymentRuns);
+router.post(  '/admin/accounts-payable/payment-runs',              protect, admin, pmtRunCtrl.createPaymentRun);
+router.get(   '/admin/accounts-payable/payment-runs/:id',          protect, admin, pmtRunCtrl.getPaymentRun);
+router.post(  '/admin/accounts-payable/payment-runs/:id/propose',  protect, admin, pmtRunCtrl.proposePaymentRun);
+router.post(  '/admin/accounts-payable/payment-runs/:id/approve',  protect, admin, pmtRunCtrl.approvePaymentRun);
+router.post(  '/admin/accounts-payable/payment-runs/:id/execute',  protect, admin, pmtRunCtrl.executePaymentRun);
+router.post(  '/admin/accounts-payable/payment-runs/:id/cancel',   protect, admin, pmtRunCtrl.cancelPaymentRun);
+router.delete('/admin/accounts-payable/payment-runs/:id',          protect, admin, pmtRunCtrl.deletePaymentRun);
+
+// Payment Batches
+router.get('/admin/accounts-payable/payment-batches',              protect, admin, pmtRunCtrl.getPaymentBatches);
+router.get('/admin/accounts-payable/payment-batches/:id',          protect, admin, pmtRunCtrl.getPaymentBatch);
+
+// Payment Advice
+router.get(  '/admin/accounts-payable/payment-advices',            protect, admin, pmtRunCtrl.getPaymentAdvices);
+router.post( '/admin/accounts-payable/payment-advices',            protect, admin, pmtRunCtrl.createPaymentAdvice);
+router.get(  '/admin/accounts-payable/payment-advices/:id',        protect, admin, pmtRunCtrl.getPaymentAdvice);
+
+// Invoice Matching (3-way match)
+router.get(  '/admin/accounts-payable/invoice-matches',            protect, admin, invMatchCtrl.getMatches);
+router.post( '/admin/accounts-payable/invoice-matches/perform',    protect, admin, invMatchCtrl.performMatch);
+router.get(  '/admin/accounts-payable/invoice-matches/:id',        protect, admin, invMatchCtrl.getMatch);
+router.post( '/admin/accounts-payable/invoice-matches/:id/resolve',protect, admin, invMatchCtrl.resolveMatch);
+router.delete('/admin/accounts-payable/invoice-matches/:id',       protect, admin, invMatchCtrl.deleteMatch);
+
+// Vendor Invoices
+router.get(   '/admin/accounts-payable/vendor-invoices',                 protect, admin, invMatchCtrl.getVendorInvoices);
+router.post(  '/admin/accounts-payable/vendor-invoices',                 protect, admin, invMatchCtrl.createVendorInvoice);
+router.get(   '/admin/accounts-payable/vendor-invoices/:id',             protect, admin, invMatchCtrl.getVendorInvoice);
+router.put(   '/admin/accounts-payable/vendor-invoices/:id',             protect, admin, invMatchCtrl.updateVendorInvoice);
+router.post(  '/admin/accounts-payable/vendor-invoices/:id/convert',     protect, admin, invMatchCtrl.convertInvoiceToBill);
+router.delete('/admin/accounts-payable/vendor-invoices/:id',             protect, admin, invMatchCtrl.deleteVendorInvoice);
+
+// Debit Notes
+const DebitNote    = require('../models/DebitNote');
+const APCreditNote = require('../models/APCreditNote');
+const GSTInputCredit  = require('../models/GSTInputCredit');
+const PaymentSchedule = require('../models/PaymentSchedule');
+const WithholdingTax  = require('../models/WithholdingTax');
+const PaymentTerm     = require('../models/PaymentTerm');
+const VendorSettlement = require('../models/VendorSettlement');
+const PaymentApproval  = require('../models/PaymentApproval');
+const { paginated: pg13b, created: cr13b, ok: ok13b, notFound: nf13b, serverError: se13b, fail: fail13b, noContent: nc13b } = require('../utils/response');
+
+router.get('/admin/accounts-payable/debit-notes', protect, admin, async (req, res) => {
+  try {
+    const { page = 1, limit = 20, vendor, status } = req.query;
+    const q = { isDeleted: false };
+    if (vendor) q.vendor = vendor;
+    if (status) q.status = status;
+    const [data, total] = await Promise.all([DebitNote.find(q).sort({ createdAt: -1 }).populate('vendor','name').skip((page-1)*limit).limit(Number(limit)).lean(), DebitNote.countDocuments(q)]);
+    return pg13b(res, data, total, page, limit);
+  } catch(e) { return se13b(res, e); }
+});
+router.post('/admin/accounts-payable/debit-notes', protect, admin, async (req, res) => {
+  try { const doc = await DebitNote.create({...req.body, createdBy: req.admin._id}); return cr13b(res, doc, 'Debit note created'); }
+  catch(e) { return se13b(res, e); }
+});
+router.get('/admin/accounts-payable/debit-notes/:id', protect, admin, async (req, res) => {
+  try { const doc = await DebitNote.findOne({_id: req.params.id, isDeleted: false}).populate('vendor','name email'); if(!doc) return nf13b(res,'Debit Note'); return ok13b(res, doc); }
+  catch(e) { return se13b(res, e); }
+});
+router.put('/admin/accounts-payable/debit-notes/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await DebitNote.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Debit Note');
+    if(!['draft'].includes(doc.status)) return fail13b(res,'Only draft debit notes can be edited');
+    Object.assign(doc, req.body); await doc.save(); return ok13b(res, doc, 'Updated');
+  } catch(e) { return se13b(res, e); }
+});
+router.delete('/admin/accounts-payable/debit-notes/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await DebitNote.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Debit Note');
+    if(!['draft','cancelled'].includes(doc.status)) return fail13b(res,'Cannot delete');
+    doc.isDeleted = true; await doc.save(); return nc13b(res,'Debit note deleted');
+  } catch(e) { return se13b(res, e); }
+});
+
+// Credit Notes
+router.get('/admin/accounts-payable/credit-notes', protect, admin, async (req, res) => {
+  try {
+    const { page = 1, limit = 20, vendor, status } = req.query;
+    const q = { isDeleted: false };
+    if (vendor) q.vendor = vendor;
+    if (status) q.status = status;
+    const [data, total] = await Promise.all([APCreditNote.find(q).sort({ createdAt: -1 }).populate('vendor','name').skip((page-1)*limit).limit(Number(limit)).lean(), APCreditNote.countDocuments(q)]);
+    return pg13b(res, data, total, page, limit);
+  } catch(e) { return se13b(res, e); }
+});
+router.post('/admin/accounts-payable/credit-notes', protect, admin, async (req, res) => {
+  try { const doc = await APCreditNote.create({...req.body, createdBy: req.admin._id}); return cr13b(res, doc, 'Credit note created'); }
+  catch(e) { return se13b(res, e); }
+});
+router.get('/admin/accounts-payable/credit-notes/:id', protect, admin, async (req, res) => {
+  try { const doc = await APCreditNote.findOne({_id: req.params.id, isDeleted: false}).populate('vendor','name email'); if(!doc) return nf13b(res,'Credit Note'); return ok13b(res, doc); }
+  catch(e) { return se13b(res, e); }
+});
+router.put('/admin/accounts-payable/credit-notes/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await APCreditNote.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Credit Note');
+    if(!['draft'].includes(doc.status)) return fail13b(res,'Only draft credit notes can be edited');
+    Object.assign(doc, req.body); await doc.save(); return ok13b(res, doc, 'Updated');
+  } catch(e) { return se13b(res, e); }
+});
+router.delete('/admin/accounts-payable/credit-notes/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await APCreditNote.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Credit Note');
+    if(!['draft','cancelled'].includes(doc.status)) return fail13b(res,'Cannot delete');
+    doc.isDeleted = true; await doc.save(); return nc13b(res,'Credit note deleted');
+  } catch(e) { return se13b(res, e); }
+});
+
+// GST Input Credit
+router.get('/admin/accounts-payable/gst-input-credit', protect, admin, async (req, res) => {
+  try {
+    const { page = 1, limit = 20, vendor, reconciliationStatus, gstCategory } = req.query;
+    const q = { isDeleted: false };
+    if (vendor) q.vendor = vendor;
+    if (reconciliationStatus) q.reconciliationStatus = reconciliationStatus;
+    if (gstCategory) q.gstCategory = gstCategory;
+    const [data, total] = await Promise.all([GSTInputCredit.find(q).sort({ billDate: -1 }).populate('vendor','name').skip((page-1)*limit).limit(Number(limit)).lean(), GSTInputCredit.countDocuments(q)]);
+    return pg13b(res, data, total, page, limit);
+  } catch(e) { return se13b(res, e); }
+});
+router.post('/admin/accounts-payable/gst-input-credit', protect, admin, async (req, res) => {
+  try { const doc = await GSTInputCredit.create({...req.body}); return cr13b(res, doc, 'GST input credit created'); }
+  catch(e) { return se13b(res, e); }
+});
+router.put('/admin/accounts-payable/gst-input-credit/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await GSTInputCredit.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'GST Input Credit');
+    Object.assign(doc, req.body); await doc.save(); return ok13b(res, doc, 'Updated');
+  } catch(e) { return se13b(res, e); }
+});
+
+// Payment Schedules
+router.get('/admin/accounts-payable/payment-schedules', protect, admin, async (req, res) => {
+  try {
+    const { page = 1, limit = 20, vendor, status } = req.query;
+    const q = { isDeleted: false };
+    if (vendor) q.vendor = vendor;
+    if (status) q.status = status;
+    const [data, total] = await Promise.all([PaymentSchedule.find(q).sort({ scheduledDate: 1 }).populate('vendor','name').skip((page-1)*limit).limit(Number(limit)).lean(), PaymentSchedule.countDocuments(q)]);
+    return pg13b(res, data, total, page, limit);
+  } catch(e) { return se13b(res, e); }
+});
+router.post('/admin/accounts-payable/payment-schedules', protect, admin, async (req, res) => {
+  try { const doc = await PaymentSchedule.create({...req.body, createdBy: req.admin._id}); return cr13b(res, doc, 'Payment schedule created'); }
+  catch(e) { return se13b(res, e); }
+});
+router.get('/admin/accounts-payable/payment-schedules/:id', protect, admin, async (req, res) => {
+  try { const doc = await PaymentSchedule.findOne({_id: req.params.id, isDeleted: false}).populate('vendor','name'); if(!doc) return nf13b(res,'Payment Schedule'); return ok13b(res, doc); }
+  catch(e) { return se13b(res, e); }
+});
+router.put('/admin/accounts-payable/payment-schedules/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await PaymentSchedule.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Payment Schedule');
+    if(!['scheduled','approved'].includes(doc.status)) return fail13b(res,'Cannot edit this schedule');
+    Object.assign(doc, req.body); await doc.save(); return ok13b(res, doc, 'Updated');
+  } catch(e) { return se13b(res, e); }
+});
+router.delete('/admin/accounts-payable/payment-schedules/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await PaymentSchedule.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Payment Schedule');
+    doc.isDeleted = true; await doc.save(); return nc13b(res,'Deleted');
+  } catch(e) { return se13b(res, e); }
+});
+
+// Withholding Tax (TDS)
+router.get('/admin/accounts-payable/withholding-taxes', protect, admin, async (req, res) => {
+  try { const data = await WithholdingTax.find({ isDeleted: false, isActive: true }).sort({ taxCode: 1 }).lean(); return ok13b(res, data); }
+  catch(e) { return se13b(res, e); }
+});
+router.post('/admin/accounts-payable/withholding-taxes', protect, admin, async (req, res) => {
+  try { const doc = await WithholdingTax.create({...req.body}); return cr13b(res, doc, 'Withholding tax created'); }
+  catch(e) { return se13b(res, e); }
+});
+router.put('/admin/accounts-payable/withholding-taxes/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await WithholdingTax.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Withholding Tax');
+    Object.assign(doc, req.body); await doc.save(); return ok13b(res, doc, 'Updated');
+  } catch(e) { return se13b(res, e); }
+});
+router.delete('/admin/accounts-payable/withholding-taxes/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await WithholdingTax.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Withholding Tax');
+    doc.isDeleted = true; await doc.save(); return nc13b(res,'Deleted');
+  } catch(e) { return se13b(res, e); }
+});
+
+// Payment Terms
+router.get('/admin/accounts-payable/payment-terms', protect, admin, async (req, res) => {
+  try { const data = await PaymentTerm.find({ isDeleted: false }).sort({ termCode: 1 }).lean(); return ok13b(res, data); }
+  catch(e) { return se13b(res, e); }
+});
+router.post('/admin/accounts-payable/payment-terms', protect, admin, async (req, res) => {
+  try { const doc = await PaymentTerm.create({...req.body}); return cr13b(res, doc, 'Payment term created'); }
+  catch(e) { return se13b(res, e); }
+});
+router.put('/admin/accounts-payable/payment-terms/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await PaymentTerm.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Payment Term');
+    Object.assign(doc, req.body); await doc.save(); return ok13b(res, doc, 'Updated');
+  } catch(e) { return se13b(res, e); }
+});
+router.delete('/admin/accounts-payable/payment-terms/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await PaymentTerm.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Payment Term');
+    doc.isDeleted = true; await doc.save(); return nc13b(res,'Deleted');
+  } catch(e) { return se13b(res, e); }
+});
+
+// Vendor Settlements
+router.get('/admin/accounts-payable/settlements', protect, admin, async (req, res) => {
+  try {
+    const { page = 1, limit = 20, vendor, status } = req.query;
+    const q = { isDeleted: false };
+    if (vendor) q.vendor = vendor;
+    if (status) q.status = status;
+    const [data, total] = await Promise.all([VendorSettlement.find(q).sort({ settlementDate: -1 }).populate('vendor','name').skip((page-1)*limit).limit(Number(limit)).lean(), VendorSettlement.countDocuments(q)]);
+    return pg13b(res, data, total, page, limit);
+  } catch(e) { return se13b(res, e); }
+});
+router.post('/admin/accounts-payable/settlements', protect, admin, async (req, res) => {
+  try { const doc = await VendorSettlement.create({...req.body, createdBy: req.admin._id}); return cr13b(res, doc, 'Settlement created'); }
+  catch(e) { return se13b(res, e); }
+});
+router.get('/admin/accounts-payable/settlements/:id', protect, admin, async (req, res) => {
+  try { const doc = await VendorSettlement.findOne({_id: req.params.id, isDeleted: false}).populate('vendor','name email'); if(!doc) return nf13b(res,'Settlement'); return ok13b(res, doc); }
+  catch(e) { return se13b(res, e); }
+});
+
+// Payment Approvals
+router.get('/admin/accounts-payable/payment-approvals', protect, admin, async (req, res) => {
+  try {
+    const { page = 1, limit = 20, status } = req.query;
+    const q = { isDeleted: false };
+    if (status) q.status = status;
+    const [data, total] = await Promise.all([PaymentApproval.find(q).sort({ createdAt: -1 }).populate('vendor','name').populate('requestedBy','name').skip((page-1)*limit).limit(Number(limit)).lean(), PaymentApproval.countDocuments(q)]);
+    return pg13b(res, data, total, page, limit);
+  } catch(e) { return se13b(res, e); }
+});
+router.post('/admin/accounts-payable/payment-approvals', protect, admin, async (req, res) => {
+  try { const doc = await PaymentApproval.create({...req.body, requestedBy: req.admin._id}); return cr13b(res, doc, 'Approval request created'); }
+  catch(e) { return se13b(res, e); }
+});
+router.post('/admin/accounts-payable/payment-approvals/:id/approve', protect, admin, async (req, res) => {
+  try {
+    const doc = await PaymentApproval.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Payment Approval');
+    doc.status = 'approved'; doc.completedAt = new Date();
+    doc.approvers.push({ level: doc.approvalLevel, user: req.admin._id, userName: req.admin.name, action: 'approved', actionDate: new Date(), comments: req.body.comments || '' });
+    await doc.save(); return ok13b(res, doc, 'Approved');
+  } catch(e) { return se13b(res, e); }
+});
+router.post('/admin/accounts-payable/payment-approvals/:id/reject', protect, admin, async (req, res) => {
+  try {
+    const doc = await PaymentApproval.findOne({_id: req.params.id, isDeleted: false});
+    if(!doc) return nf13b(res,'Payment Approval');
+    doc.status = 'rejected'; doc.rejectionReason = req.body.reason || ''; doc.completedAt = new Date();
+    doc.approvers.push({ level: doc.approvalLevel, user: req.admin._id, userName: req.admin.name, action: 'rejected', actionDate: new Date(), comments: req.body.reason || '' });
+    await doc.save(); return ok13b(res, doc, 'Rejected');
+  } catch(e) { return se13b(res, e); }
+});
+
+// ── Sprint 13C: Enterprise Accounts Receivable ────────────────────────────────
+const arDashCtrl     = require('../controllers/accountsReceivableDashboardController');
+const custInvCtrl    = require('../controllers/customerInvoiceController');
+const custRcptCtrl   = require('../controllers/customerReceiptController');
+const custLedCtrl    = require('../controllers/customerLedgerController');
+const custAgingCtrl  = require('../controllers/customerAgingController');
+const collCtrl       = require('../controllers/collectionController');
+const creditCtrl     = require('../controllers/creditController');
+
+const CustomerInvoice    = require('../models/CustomerInvoice');
+const CustomerReceipt    = require('../models/CustomerReceipt');
+const CustomerAdvance    = require('../models/CustomerAdvance');
+const ReceiptAllocation  = require('../models/ReceiptAllocation');
+const CustomerAging      = require('../models/CustomerAging');
+const CustomerLedger     = require('../models/CustomerLedger');
+const CustomerStatement  = require('../models/CustomerStatement');
+const CustomerCreditLimit   = require('../models/CustomerCreditLimit');
+const CustomerCreditReview  = require('../models/CustomerCreditReview');
+const CollectionActivity = require('../models/CollectionActivity');
+const CollectionReminder = require('../models/CollectionReminder');
+const PromiseToPay       = require('../models/PromiseToPay');
+const BadDebt            = require('../models/BadDebt');
+const WriteOff           = require('../models/WriteOff');
+const ReceiptBatch       = require('../models/ReceiptBatch');
+const ReceiptVoucher     = require('../models/ReceiptVoucher');
+const SalesRegister      = require('../models/SalesRegister');
+const ReceiptRegister    = require('../models/ReceiptRegister');
+const ARSetting          = require('../models/ARSetting');
+const CollectionRule     = require('../models/CollectionRule');
+
+const { paginated: pg13c, created: cr13c, ok: ok13c, notFound: nf13c, serverError: se13c, fail: fail13c, noContent: nc13c } = require('../utils/response');
+
+// AR Dashboard
+router.get('/admin/accounts-receivable/dashboard',                    protect, admin, arDashCtrl.getDashboard);
+router.get('/admin/accounts-receivable/dashboard/aging-summary',      protect, admin, arDashCtrl.getAgingSummary);
+router.get('/admin/accounts-receivable/dashboard/top-customers',      protect, admin, arDashCtrl.getTopCustomersByReceivable);
+router.get('/admin/accounts-receivable/dashboard/credit-exposure',    protect, admin, arDashCtrl.getCreditExposure);
+
+// Customer Invoices
+router.get(   '/admin/accounts-receivable/invoices',               protect, admin, custInvCtrl.getInvoices);
+router.post(  '/admin/accounts-receivable/invoices',               protect, admin, custInvCtrl.createInvoice);
+router.get(   '/admin/accounts-receivable/invoices/:id',           protect, admin, custInvCtrl.getInvoice);
+router.put(   '/admin/accounts-receivable/invoices/:id',           protect, admin, custInvCtrl.updateInvoice);
+router.delete('/admin/accounts-receivable/invoices/:id',           protect, admin, custInvCtrl.deleteInvoice);
+router.post(  '/admin/accounts-receivable/invoices/:id/submit',    protect, admin, custInvCtrl.submitInvoice);
+router.post(  '/admin/accounts-receivable/invoices/:id/approve',   protect, admin, custInvCtrl.approveInvoice);
+router.post(  '/admin/accounts-receivable/invoices/:id/reject',    protect, admin, custInvCtrl.rejectInvoice);
+router.post(  '/admin/accounts-receivable/invoices/:id/post-gl',   protect, admin, custInvCtrl.postInvoiceToGL);
+
+// Customer Receipts
+router.get(   '/admin/accounts-receivable/receipts',                    protect, admin, custRcptCtrl.getReceipts);
+router.post(  '/admin/accounts-receivable/receipts',                    protect, admin, custRcptCtrl.createReceipt);
+router.get(   '/admin/accounts-receivable/receipts/allocations',        protect, admin, custRcptCtrl.getAllocations);
+router.get(   '/admin/accounts-receivable/receipts/:id',                protect, admin, custRcptCtrl.getReceipt);
+router.put(   '/admin/accounts-receivable/receipts/:id',                protect, admin, custRcptCtrl.updateReceipt);
+router.delete('/admin/accounts-receivable/receipts/:id',                protect, admin, custRcptCtrl.deleteReceipt);
+router.post(  '/admin/accounts-receivable/receipts/:id/post',           protect, admin, custRcptCtrl.postReceipt);
+router.post(  '/admin/accounts-receivable/receipts/:id/reverse',        protect, admin, custRcptCtrl.reverseReceipt);
+router.post(  '/admin/accounts-receivable/receipts/:id/allocate',       protect, admin, custRcptCtrl.allocateReceipt);
+
+// Customer Advances
+router.get('/admin/accounts-receivable/advances', protect, admin, async (req, res) => {
+  try {
+    const { page = 1, limit = 20, customer, status } = req.query;
+    const q = { isDeleted: false };
+    if (customer) q.customer = customer;
+    if (status)   q.status   = status;
+    const [data, total] = await Promise.all([CustomerAdvance.find(q).sort({ advanceDate: -1 }).populate('customer','name').skip((page-1)*limit).limit(Number(limit)).lean(), CustomerAdvance.countDocuments(q)]);
+    return pg13c(res, data, total, page, limit);
+  } catch(e) { return se13c(res, e); }
+});
+router.post('/admin/accounts-receivable/advances', protect, admin, async (req, res) => {
+  try { const doc = await CustomerAdvance.create({...req.body, createdBy: req.admin._id}); return cr13c(res, doc, 'Advance created'); }
+  catch(e) { return se13c(res, e); }
+});
+router.get('/admin/accounts-receivable/advances/:id', protect, admin, async (req, res) => {
+  try { const doc = await CustomerAdvance.findOne({_id:req.params.id, isDeleted:false}).populate('customer','name email'); if(!doc) return nf13c(res,'Customer Advance'); return ok13c(res, doc); }
+  catch(e) { return se13c(res, e); }
+});
+
+// Customer Ledger
+router.get('/admin/accounts-receivable/ledger',              protect, admin, custLedCtrl.getLedger);
+router.get('/admin/accounts-receivable/ledger/statement',    protect, admin, custLedCtrl.getAccountStatement);
+router.get('/admin/accounts-receivable/ledger/:id',          protect, admin, custLedCtrl.getLedgerEntry);
+
+// Customer Statements
+router.get(   '/admin/accounts-receivable/statements',            protect, admin, custLedCtrl.getStatements);
+router.post(  '/admin/accounts-receivable/statements/generate',   protect, admin, custLedCtrl.generateStatement);
+router.get(   '/admin/accounts-receivable/statements/:id',        protect, admin, custLedCtrl.getStatement);
+router.delete('/admin/accounts-receivable/statements/:id',        protect, admin, custLedCtrl.deleteStatement);
+
+// Customer Aging
+router.get( '/admin/accounts-receivable/aging/report',            protect, admin, custAgingCtrl.getAgingReport);
+router.post('/admin/accounts-receivable/aging/snapshot',          protect, admin, custAgingCtrl.saveAgingSnapshot);
+router.get( '/admin/accounts-receivable/aging/snapshots',         protect, admin, custAgingCtrl.getAgingSnapshots);
+router.get( '/admin/accounts-receivable/aging/snapshots/:id',     protect, admin, custAgingCtrl.getAgingSnapshot);
+
+// Collection Activities
+router.get(   '/admin/accounts-receivable/collections/activities',          protect, admin, collCtrl.getActivities);
+router.post(  '/admin/accounts-receivable/collections/activities',          protect, admin, collCtrl.createActivity);
+router.get(   '/admin/accounts-receivable/collections/activities/:id',      protect, admin, collCtrl.getActivity);
+router.put(   '/admin/accounts-receivable/collections/activities/:id',      protect, admin, collCtrl.updateActivity);
+router.delete('/admin/accounts-receivable/collections/activities/:id',      protect, admin, collCtrl.deleteActivity);
+
+// Collection Reminders
+router.get(  '/admin/accounts-receivable/collections/reminders',            protect, admin, collCtrl.getReminders);
+router.post( '/admin/accounts-receivable/collections/reminders',            protect, admin, collCtrl.createReminder);
+router.post( '/admin/accounts-receivable/collections/reminders/:id/send',   protect, admin, collCtrl.sendReminder);
+router.delete('/admin/accounts-receivable/collections/reminders/:id',       protect, admin, collCtrl.deleteReminder);
+
+// Promise to Pay
+router.get(  '/admin/accounts-receivable/collections/promises',             protect, admin, collCtrl.getPromises);
+router.post( '/admin/accounts-receivable/collections/promises',             protect, admin, collCtrl.createPromise);
+router.put(  '/admin/accounts-receivable/collections/promises/:id',         protect, admin, collCtrl.updatePromise);
+
+// Write-Offs
+router.get(  '/admin/accounts-receivable/write-offs',                       protect, admin, collCtrl.getWriteOffs);
+router.post( '/admin/accounts-receivable/write-offs',                       protect, admin, collCtrl.createWriteOff);
+router.post( '/admin/accounts-receivable/write-offs/:id/approve',           protect, admin, collCtrl.approveWriteOff);
+router.post( '/admin/accounts-receivable/write-offs/:id/post-gl',           protect, admin, collCtrl.postWriteOff);
+
+// Bad Debt
+router.get(  '/admin/accounts-receivable/bad-debts',                        protect, admin, collCtrl.getBadDebts);
+router.post( '/admin/accounts-receivable/bad-debts',                        protect, admin, collCtrl.createBadDebt);
+router.post( '/admin/accounts-receivable/bad-debts/:id/approve',            protect, admin, collCtrl.approveBadDebt);
+router.post( '/admin/accounts-receivable/bad-debts/:id/post-gl',            protect, admin, collCtrl.postBadDebt);
+
+// Credit Limits
+router.get(   '/admin/accounts-receivable/credit/limits',                   protect, admin, creditCtrl.getCreditLimits);
+router.post(  '/admin/accounts-receivable/credit/limits',                   protect, admin, creditCtrl.createCreditLimit);
+router.get(   '/admin/accounts-receivable/credit/limits/customer/:customerId', protect, admin, creditCtrl.getCreditLimitByCustomer);
+router.get(   '/admin/accounts-receivable/credit/limits/:id',               protect, admin, creditCtrl.getCreditLimit);
+router.put(   '/admin/accounts-receivable/credit/limits/:id',               protect, admin, creditCtrl.updateCreditLimit);
+router.delete('/admin/accounts-receivable/credit/limits/:id',               protect, admin, creditCtrl.deleteCreditLimit);
+router.post(  '/admin/accounts-receivable/credit/limits/:id/block',         protect, admin, creditCtrl.blockCustomer);
+router.post(  '/admin/accounts-receivable/credit/limits/:id/unblock',       protect, admin, creditCtrl.unblockCustomer);
+
+// Credit Reviews
+router.get(  '/admin/accounts-receivable/credit/reviews',                   protect, admin, creditCtrl.getReviews);
+router.post( '/admin/accounts-receivable/credit/reviews',                   protect, admin, creditCtrl.createReview);
+router.post( '/admin/accounts-receivable/credit/reviews/:id/approve',       protect, admin, creditCtrl.approveReview);
+router.post( '/admin/accounts-receivable/credit/reviews/:id/reject',        protect, admin, creditCtrl.rejectReview);
+
+// Receipt Batches
+router.get('/admin/accounts-receivable/receipt-batches', protect, admin, async (req, res) => {
+  try {
+    const { page = 1, limit = 20, status } = req.query;
+    const q = { isDeleted: false };
+    if (status) q.status = status;
+    const [data, total] = await Promise.all([ReceiptBatch.find(q).sort({ batchDate: -1 }).skip((page-1)*limit).limit(Number(limit)).lean(), ReceiptBatch.countDocuments(q)]);
+    return pg13c(res, data, total, page, limit);
+  } catch(e) { return se13c(res, e); }
+});
+router.post('/admin/accounts-receivable/receipt-batches', protect, admin, async (req, res) => {
+  try { const doc = await ReceiptBatch.create({...req.body, processedBy: req.admin._id}); return cr13c(res, doc, 'Batch created'); }
+  catch(e) { return se13c(res, e); }
+});
+router.get('/admin/accounts-receivable/receipt-batches/:id', protect, admin, async (req, res) => {
+  try { const doc = await ReceiptBatch.findOne({_id:req.params.id, isDeleted:false}); if(!doc) return nf13c(res,'Receipt Batch'); return ok13c(res, doc); }
+  catch(e) { return se13c(res, e); }
+});
+router.put('/admin/accounts-receivable/receipt-batches/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await ReceiptBatch.findOne({_id:req.params.id, isDeleted:false});
+    if(!doc) return nf13c(res,'Receipt Batch');
+    Object.assign(doc, req.body); await doc.save(); return ok13c(res, doc, 'Batch updated');
+  } catch(e) { return se13c(res, e); }
+});
+
+// Receipt Vouchers
+router.get('/admin/accounts-receivable/receipt-vouchers', protect, admin, async (req, res) => {
+  try {
+    const { page = 1, limit = 20, customer, status } = req.query;
+    const q = { isDeleted: false };
+    if (customer) q.customer = customer;
+    if (status)   q.status   = status;
+    const [data, total] = await Promise.all([ReceiptVoucher.find(q).sort({ voucherDate: -1 }).populate('customer','name').skip((page-1)*limit).limit(Number(limit)).lean(), ReceiptVoucher.countDocuments(q)]);
+    return pg13c(res, data, total, page, limit);
+  } catch(e) { return se13c(res, e); }
+});
+router.post('/admin/accounts-receivable/receipt-vouchers', protect, admin, async (req, res) => {
+  try { const doc = await ReceiptVoucher.create({...req.body, createdBy: req.admin._id}); return cr13c(res, doc, 'Voucher created'); }
+  catch(e) { return se13c(res, e); }
+});
+router.get('/admin/accounts-receivable/receipt-vouchers/:id', protect, admin, async (req, res) => {
+  try { const doc = await ReceiptVoucher.findOne({_id:req.params.id, isDeleted:false}).populate('customer','name email'); if(!doc) return nf13c(res,'Receipt Voucher'); return ok13c(res, doc); }
+  catch(e) { return se13c(res, e); }
+});
+
+// Sales Register
+router.get('/admin/accounts-receivable/sales-register', protect, admin, async (req, res) => {
+  try {
+    const { page = 1, limit = 20, customer, startDate, endDate } = req.query;
+    const q = { isDeleted: false };
+    if (customer) q.customer = customer;
+    if (startDate || endDate) { q.invoiceDate = {}; if(startDate) q.invoiceDate.$gte = new Date(startDate); if(endDate) q.invoiceDate.$lte = new Date(endDate); }
+    const [data, total] = await Promise.all([SalesRegister.find(q).sort({ invoiceDate: -1 }).populate('customer','name').skip((page-1)*limit).limit(Number(limit)).lean(), SalesRegister.countDocuments(q)]);
+    return pg13c(res, data, total, page, limit);
+  } catch(e) { return se13c(res, e); }
+});
+
+// Receipt Register
+router.get('/admin/accounts-receivable/receipt-register', protect, admin, async (req, res) => {
+  try {
+    const { page = 1, limit = 20, customer, startDate, endDate } = req.query;
+    const q = { isDeleted: false };
+    if (customer) q.customer = customer;
+    if (startDate || endDate) { q.receiptDate = {}; if(startDate) q.receiptDate.$gte = new Date(startDate); if(endDate) q.receiptDate.$lte = new Date(endDate); }
+    const [data, total] = await Promise.all([ReceiptRegister.find(q).sort({ receiptDate: -1 }).populate('customer','name').skip((page-1)*limit).limit(Number(limit)).lean(), ReceiptRegister.countDocuments(q)]);
+    return pg13c(res, data, total, page, limit);
+  } catch(e) { return se13c(res, e); }
+});
+
+// AR Settings
+router.get('/admin/accounts-receivable/settings', protect, admin, async (req, res) => {
+  try { const data = await ARSetting.find({ isDeleted: false }).lean(); return ok13c(res, data); }
+  catch(e) { return se13c(res, e); }
+});
+router.put('/admin/accounts-receivable/settings/:key', protect, admin, async (req, res) => {
+  try {
+    const doc = await ARSetting.findOneAndUpdate({ key: req.params.key }, { $set: { value: req.body.value, description: req.body.description } }, { upsert: true, new: true });
+    return ok13c(res, doc, 'Setting updated');
+  } catch(e) { return se13c(res, e); }
+});
+
+// Collection Rules
+router.get('/admin/accounts-receivable/collection-rules', protect, admin, async (req, res) => {
+  try { const data = await CollectionRule.find({ isDeleted: false, isActive: true }).sort({ priority: 1 }).lean(); return ok13c(res, data); }
+  catch(e) { return se13c(res, e); }
+});
+router.post('/admin/accounts-receivable/collection-rules', protect, admin, async (req, res) => {
+  try { const doc = await CollectionRule.create(req.body); return cr13c(res, doc, 'Collection rule created'); }
+  catch(e) { return se13c(res, e); }
+});
+router.put('/admin/accounts-receivable/collection-rules/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await CollectionRule.findOne({_id:req.params.id, isDeleted:false});
+    if(!doc) return nf13c(res,'Collection Rule');
+    Object.assign(doc, req.body); await doc.save(); return ok13c(res, doc, 'Updated');
+  } catch(e) { return se13c(res, e); }
+});
+router.delete('/admin/accounts-receivable/collection-rules/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await CollectionRule.findOne({_id:req.params.id, isDeleted:false});
+    if(!doc) return nf13c(res,'Collection Rule');
+    doc.isDeleted = true; await doc.save(); return nc13c(res,'Deleted');
+  } catch(e) { return se13c(res, e); }
+});
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SPRINT 13D — Enterprise Tax & Compliance Engine
+// ═══════════════════════════════════════════════════════════════════════════════
+const TaxCode             = require('../models/TaxCode');
+const TaxRate             = require('../models/TaxRate');
+const TaxGroup            = require('../models/TaxGroup');
+const TaxJurisdiction     = require('../models/TaxJurisdiction');
+const TaxRule             = require('../models/TaxRule');
+const TaxExemption        = require('../models/TaxExemption');
+const TaxConfiguration    = require('../models/TaxConfiguration');
+const taxDashCtrl         = require('../controllers/taxDashboardController');
+const gstCtrl             = require('../controllers/gstController');
+const tdsCtrl             = require('../controllers/tdsController');
+const complianceCtrl      = require('../controllers/complianceController');
+const einvoiceCtrl        = require('../controllers/einvoiceController');
+const ewayBillCtrl        = require('../controllers/ewayBillController');
+const taxReportCtrl       = require('../controllers/taxReportController');
+
+const { paginated: pgT, created: crT, ok: okT, notFound: nfT, serverError: seT, noContent: ncT } = require('../utils/response');
+
+// ── Tax Dashboard ─────────────────────────────────────────────────────────────
+router.get('/admin/tax/dashboard',            protect, admin, taxDashCtrl.getDashboard);
+router.get('/admin/tax/compliance-status',    protect, admin, taxDashCtrl.getComplianceStatus);
+
+// ── Tax Codes ─────────────────────────────────────────────────────────────────
+router.get('/admin/tax/codes', protect, admin, async (req, res) => {
+  try {
+    const q = { isDeleted: false };
+    if (req.query.taxType) q.taxType = req.query.taxType;
+    if (req.query.isActive !== undefined) q.isActive = req.query.isActive === 'true';
+    const data = await TaxCode.find(q).sort({ code: 1 });
+    return okT(res, data);
+  } catch(e) { return seT(res, e); }
+});
+router.post('/admin/tax/codes', protect, admin, async (req, res) => {
+  try { const doc = await TaxCode.create(req.body); return crT(res, doc, 'Tax code created'); }
+  catch(e) { return seT(res, e); }
+});
+router.put('/admin/tax/codes/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await TaxCode.findOneAndUpdate({ _id: req.params.id, isDeleted: false }, req.body, { new: true });
+    if (!doc) return nfT(res, 'Tax code');
+    return okT(res, doc);
+  } catch(e) { return seT(res, e); }
+});
+router.delete('/admin/tax/codes/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await TaxCode.findOneAndUpdate({ _id: req.params.id }, { isDeleted: true }, { new: true });
+    if (!doc) return nfT(res, 'Tax code');
+    return res.status(204).send();
+  } catch(e) { return seT(res, e); }
+});
+
+// ── Tax Rates ─────────────────────────────────────────────────────────────────
+router.get('/admin/tax/rates', protect, admin, async (req, res) => {
+  try {
+    const q = { isDeleted: false };
+    if (req.query.taxCode) q.taxCode = req.query.taxCode;
+    if (req.query.isActive !== undefined) q.isActive = req.query.isActive === 'true';
+    const data = await TaxRate.find(q).sort({ effectiveFrom: -1 }).populate('taxCode','code name taxType');
+    return okT(res, data);
+  } catch(e) { return seT(res, e); }
+});
+router.post('/admin/tax/rates', protect, admin, async (req, res) => {
+  try { const doc = await TaxRate.create(req.body); return crT(res, doc, 'Tax rate created'); }
+  catch(e) { return seT(res, e); }
+});
+router.put('/admin/tax/rates/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await TaxRate.findOneAndUpdate({ _id: req.params.id, isDeleted: false }, req.body, { new: true });
+    if (!doc) return nfT(res, 'Tax rate');
+    return okT(res, doc);
+  } catch(e) { return seT(res, e); }
+});
+
+// ── Tax Groups ────────────────────────────────────────────────────────────────
+router.get('/admin/tax/groups', protect, admin, async (req, res) => {
+  try {
+    const data = await TaxGroup.find({ isDeleted: false }).sort({ name: 1 }).populate('taxCodes','code name');
+    return okT(res, data);
+  } catch(e) { return seT(res, e); }
+});
+router.post('/admin/tax/groups', protect, admin, async (req, res) => {
+  try { const doc = await TaxGroup.create(req.body); return crT(res, doc, 'Tax group created'); }
+  catch(e) { return seT(res, e); }
+});
+router.put('/admin/tax/groups/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await TaxGroup.findOneAndUpdate({ _id: req.params.id, isDeleted: false }, req.body, { new: true });
+    if (!doc) return nfT(res, 'Tax group');
+    return okT(res, doc);
+  } catch(e) { return seT(res, e); }
+});
+
+// ── Tax Jurisdictions ─────────────────────────────────────────────────────────
+router.get('/admin/tax/jurisdictions', protect, admin, async (req, res) => {
+  try { const data = await TaxJurisdiction.find({ isDeleted: false }).sort({ stateCode: 1 }); return okT(res, data); }
+  catch(e) { return seT(res, e); }
+});
+router.post('/admin/tax/jurisdictions', protect, admin, async (req, res) => {
+  try { const doc = await TaxJurisdiction.create(req.body); return crT(res, doc, 'Jurisdiction created'); }
+  catch(e) { return seT(res, e); }
+});
+router.put('/admin/tax/jurisdictions/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await TaxJurisdiction.findOneAndUpdate({ _id: req.params.id, isDeleted: false }, req.body, { new: true });
+    if (!doc) return nfT(res, 'Tax jurisdiction');
+    return okT(res, doc);
+  } catch(e) { return seT(res, e); }
+});
+
+// ── Tax Rules ─────────────────────────────────────────────────────────────────
+router.get('/admin/tax/rules', protect, admin, async (req, res) => {
+  try {
+    const q = { isDeleted: false };
+    if (req.query.taxType)     q.taxType     = req.query.taxType;
+    if (req.query.isActive !== undefined) q.isActive = req.query.isActive === 'true';
+    const data = await TaxRule.find(q).sort({ priority: 1 });
+    return okT(res, data);
+  } catch(e) { return seT(res, e); }
+});
+router.post('/admin/tax/rules', protect, admin, async (req, res) => {
+  try { const doc = await TaxRule.create(req.body); return crT(res, doc, 'Tax rule created'); }
+  catch(e) { return seT(res, e); }
+});
+router.put('/admin/tax/rules/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await TaxRule.findOneAndUpdate({ _id: req.params.id, isDeleted: false }, req.body, { new: true });
+    if (!doc) return nfT(res, 'Tax rule');
+    return okT(res, doc);
+  } catch(e) { return seT(res, e); }
+});
+
+// ── Tax Exemptions ────────────────────────────────────────────────────────────
+router.get('/admin/tax/exemptions', protect, admin, async (req, res) => {
+  try {
+    const { page = 1, limit = 20, exemptionType, isActive } = req.query;
+    const q = { isDeleted: false };
+    if (exemptionType) q.exemptionType = exemptionType;
+    if (isActive !== undefined) q.isActive = isActive === 'true';
+    const [data, total] = await Promise.all([
+      TaxExemption.find(q).sort({ createdAt: -1 }).skip((page-1)*limit).limit(Number(limit)),
+      TaxExemption.countDocuments(q),
+    ]);
+    return pgT(res, data, total, page, limit);
+  } catch(e) { return seT(res, e); }
+});
+router.post('/admin/tax/exemptions', protect, admin, async (req, res) => {
+  try { const doc = await TaxExemption.create(req.body); return crT(res, doc, 'Tax exemption created'); }
+  catch(e) { return seT(res, e); }
+});
+router.put('/admin/tax/exemptions/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await TaxExemption.findOneAndUpdate({ _id: req.params.id, isDeleted: false }, req.body, { new: true });
+    if (!doc) return nfT(res, 'Tax exemption');
+    return okT(res, doc);
+  } catch(e) { return seT(res, e); }
+});
+router.delete('/admin/tax/exemptions/:id', protect, admin, async (req, res) => {
+  try {
+    const doc = await TaxExemption.findOneAndUpdate({ _id: req.params.id }, { isDeleted: true }, { new: true });
+    if (!doc) return nfT(res, 'Tax exemption');
+    return res.status(204).send();
+  } catch(e) { return seT(res, e); }
+});
+
+// ── Tax Configuration ─────────────────────────────────────────────────────────
+router.get('/admin/tax/configuration', protect, admin, async (req, res) => {
+  try {
+    const q = {};
+    if (req.query.category) q.category = req.query.category;
+    const data = await TaxConfiguration.find(q).sort({ category: 1, key: 1 });
+    return okT(res, data);
+  } catch(e) { return seT(res, e); }
+});
+router.put('/admin/tax/configuration/:key', protect, admin, async (req, res) => {
+  try {
+    const doc = await TaxConfiguration.findOneAndUpdate(
+      { key: req.params.key },
+      { $set: { value: req.body.value, description: req.body.description, category: req.body.category } },
+      { upsert: true, new: true },
+    );
+    return okT(res, doc, 'Configuration updated');
+  } catch(e) { return seT(res, e); }
+});
+
+// ── GST Registrations ─────────────────────────────────────────────────────────
+router.get('/admin/tax/gst/registrations',           protect, admin, gstCtrl.getRegistrations);
+router.post('/admin/tax/gst/registrations',          protect, admin, gstCtrl.createRegistration);
+router.put('/admin/tax/gst/registrations/:id',       protect, admin, gstCtrl.updateRegistration);
+router.delete('/admin/tax/gst/registrations/:id',    protect, admin, gstCtrl.deleteRegistration);
+
+// ── GST Returns ───────────────────────────────────────────────────────────────
+router.get('/admin/tax/gst/returns',                 protect, admin, gstCtrl.getReturns);
+router.post('/admin/tax/gst/returns',                protect, admin, gstCtrl.createReturn);
+router.get('/admin/tax/gst/returns/:id',             protect, admin, gstCtrl.getReturn);
+router.put('/admin/tax/gst/returns/:id',             protect, admin, gstCtrl.updateReturn);
+router.post('/admin/tax/gst/returns/:id/file',       protect, admin, gstCtrl.fileReturn);
+router.delete('/admin/tax/gst/returns/:id',          protect, admin, gstCtrl.deleteReturn);
+
+// ── GST Invoices ──────────────────────────────────────────────────────────────
+router.get('/admin/tax/gst/invoices',                protect, admin, gstCtrl.getGSTInvoices);
+router.post('/admin/tax/gst/invoices',               protect, admin, gstCtrl.createGSTInvoice);
+router.put('/admin/tax/gst/invoices/:id',            protect, admin, gstCtrl.updateGSTInvoice);
+
+// ── GST Adjustments ───────────────────────────────────────────────────────────
+router.get('/admin/tax/gst/adjustments',             protect, admin, gstCtrl.getAdjustments);
+router.post('/admin/tax/gst/adjustments',            protect, admin, gstCtrl.createAdjustment);
+router.post('/admin/tax/gst/adjustments/:id/approve',protect, admin, gstCtrl.approveAdjustment);
+
+// ── ITC Ledger ────────────────────────────────────────────────────────────────
+router.get('/admin/tax/gst/itc-ledger',              protect, admin, gstCtrl.getITCLedger);
+router.post('/admin/tax/gst/itc-ledger',             protect, admin, gstCtrl.createITCEntry);
+
+// ── Output Tax Ledger ─────────────────────────────────────────────────────────
+router.get('/admin/tax/gst/output-tax-ledger',       protect, admin, gstCtrl.getOutputTaxLedger);
+router.post('/admin/tax/gst/output-tax-ledger',      protect, admin, gstCtrl.createOutputTaxEntry);
+
+// ── GST Settlements ───────────────────────────────────────────────────────────
+router.get('/admin/tax/gst/settlements',             protect, admin, gstCtrl.getSettlements);
+router.post('/admin/tax/gst/settlements',            protect, admin, gstCtrl.createSettlement);
+router.get('/admin/tax/gst/settlements/:id',         protect, admin, gstCtrl.getSettlement);
+router.post('/admin/tax/gst/settlements/:id/settle', protect, admin, gstCtrl.settleGST);
+
+// ── ITC Register (AP module) ──────────────────────────────────────────────────
+router.get('/admin/tax/gst/itc-register',            protect, admin, gstCtrl.getInputCreditRegister);
+
+// ── TDS Sections ──────────────────────────────────────────────────────────────
+router.get('/admin/tax/tds/sections',                protect, admin, tdsCtrl.getSections);
+router.post('/admin/tax/tds/sections',               protect, admin, tdsCtrl.createSection);
+router.put('/admin/tax/tds/sections/:id',            protect, admin, tdsCtrl.updateSection);
+
+// ── TDS Rates ─────────────────────────────────────────────────────────────────
+router.get('/admin/tax/tds/rates',                   protect, admin, tdsCtrl.getRates);
+router.post('/admin/tax/tds/rates',                  protect, admin, tdsCtrl.createRate);
+
+// ── TDS Deductions ────────────────────────────────────────────────────────────
+router.get('/admin/tax/tds/deductions',              protect, admin, tdsCtrl.getDeductions);
+router.post('/admin/tax/tds/deductions',             protect, admin, tdsCtrl.createDeduction);
+router.get('/admin/tax/tds/deductions/:id',          protect, admin, tdsCtrl.getDeduction);
+router.put('/admin/tax/tds/deductions/:id',          protect, admin, tdsCtrl.updateDeduction);
+router.delete('/admin/tax/tds/deductions/:id',       protect, admin, tdsCtrl.deleteDeduction);
+
+// ── TDS Deposits ──────────────────────────────────────────────────────────────
+router.get('/admin/tax/tds/deposits',                protect, admin, tdsCtrl.getDeposits);
+router.post('/admin/tax/tds/deposits',               protect, admin, tdsCtrl.createDeposit);
+router.post('/admin/tax/tds/deposits/:id/acknowledge', protect, admin, tdsCtrl.acknowledgeDeposit);
+
+// ── TDS Certificates ──────────────────────────────────────────────────────────
+router.get('/admin/tax/tds/certificates',            protect, admin, tdsCtrl.getCertificates);
+router.post('/admin/tax/tds/certificates',           protect, admin, tdsCtrl.createCertificate);
+router.post('/admin/tax/tds/certificates/:id/issue', protect, admin, tdsCtrl.issueCertificate);
+router.delete('/admin/tax/tds/certificates/:id',     protect, admin, tdsCtrl.deleteCertificate);
+
+// ── Compliance Calendar ───────────────────────────────────────────────────────
+router.get('/admin/tax/compliance/calendars',        protect, admin, complianceCtrl.getCalendars);
+router.post('/admin/tax/compliance/calendars',       protect, admin, complianceCtrl.createCalendar);
+router.put('/admin/tax/compliance/calendars/:id',    protect, admin, complianceCtrl.updateCalendar);
+router.delete('/admin/tax/compliance/calendars/:id', protect, admin, complianceCtrl.deleteCalendar);
+
+// ── Compliance Tasks ──────────────────────────────────────────────────────────
+router.get('/admin/tax/compliance/tasks',                   protect, admin, complianceCtrl.getTasks);
+router.post('/admin/tax/compliance/tasks',                  protect, admin, complianceCtrl.createTask);
+router.get('/admin/tax/compliance/tasks/reminders',         protect, admin, complianceCtrl.getReminders);
+router.get('/admin/tax/compliance/tasks/:id',               protect, admin, complianceCtrl.getTask);
+router.put('/admin/tax/compliance/tasks/:id',               protect, admin, complianceCtrl.updateTask);
+router.post('/admin/tax/compliance/tasks/:id/complete',     protect, admin, complianceCtrl.completeTask);
+router.delete('/admin/tax/compliance/tasks/:id',            protect, admin, complianceCtrl.deleteTask);
+
+// ── Tax Audits ────────────────────────────────────────────────────────────────
+router.get('/admin/tax/compliance/audits',           protect, admin, complianceCtrl.getAudits);
+router.post('/admin/tax/compliance/audits',          protect, admin, complianceCtrl.createAudit);
+router.put('/admin/tax/compliance/audits/:id',       protect, admin, complianceCtrl.updateAudit);
+
+// ── E-Invoice ─────────────────────────────────────────────────────────────────
+router.get('/admin/tax/einvoice',                    protect, admin, einvoiceCtrl.getEInvoices);
+router.post('/admin/tax/einvoice',                   protect, admin, einvoiceCtrl.createEInvoice);
+router.get('/admin/tax/einvoice/:id',                protect, admin, einvoiceCtrl.getEInvoice);
+router.post('/admin/tax/einvoice/:id/generate-irn', protect, admin, einvoiceCtrl.generateIRN);
+router.post('/admin/tax/einvoice/:id/cancel',        protect, admin, einvoiceCtrl.cancelEInvoice);
+router.delete('/admin/tax/einvoice/:id',             protect, admin, einvoiceCtrl.deleteEInvoice);
+
+// ── E-Way Bill ────────────────────────────────────────────────────────────────
+router.get('/admin/tax/ewaybill',                    protect, admin, ewayBillCtrl.getEWayBills);
+router.post('/admin/tax/ewaybill',                   protect, admin, ewayBillCtrl.createEWayBill);
+router.get('/admin/tax/ewaybill/:id',                protect, admin, ewayBillCtrl.getEWayBill);
+router.post('/admin/tax/ewaybill/:id/generate',      protect, admin, ewayBillCtrl.generateEWB);
+router.put('/admin/tax/ewaybill/:id/transport',      protect, admin, ewayBillCtrl.updateTransport);
+router.post('/admin/tax/ewaybill/:id/cancel',        protect, admin, ewayBillCtrl.cancelEWayBill);
+router.delete('/admin/tax/ewaybill/:id',             protect, admin, ewayBillCtrl.deleteEWayBill);
+
+// ── Tax Reports ───────────────────────────────────────────────────────────────
+router.get('/admin/tax/reports/gstr1',               protect, admin, taxReportCtrl.getGSTR1Summary);
+router.get('/admin/tax/reports/gstr3b',              protect, admin, taxReportCtrl.getGSTR3BSummary);
+router.get('/admin/tax/reports/itc-register',        protect, admin, taxReportCtrl.getInputCreditReport);
+router.get('/admin/tax/reports/tds-register',        protect, admin, taxReportCtrl.getTDSRegister);
+router.get('/admin/tax/reports/gst-settlement',      protect, admin, taxReportCtrl.getSettlementReport);
+router.get('/admin/tax/reports/tax-audit',           protect, admin, taxReportCtrl.getTaxAuditReport);
+router.get('/admin/tax/reports/compliance-summary',  protect, admin, taxReportCtrl.getComplianceSummary);
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SPRINT 13E — ENTERPRISE BANKING & TREASURY
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const Bank                  = require('../models/Bank');
+const BankBranch            = require('../models/BankBranch');
+const BankAccount           = require('../models/BankAccount');
+const BankTransaction       = require('../models/BankTransaction');
+const BankStatement         = require('../models/BankStatement');
+const BankStatementLine     = require('../models/BankStatementLine');
+const BankReconciliation    = require('../models/BankReconciliation');
+const ReconciliationMatch   = require('../models/ReconciliationMatch');
+const CashAccount           = require('../models/CashAccount');
+const CashTransaction       = require('../models/CashTransaction');
+const PettyCash             = require('../models/PettyCash');
+const PettyCashVoucher      = require('../models/PettyCashVoucher');
+const CashTransfer          = require('../models/CashTransfer');
+const ChequeBook            = require('../models/ChequeBook');
+const Cheque                = require('../models/Cheque');
+const ElectronicPayment     = require('../models/ElectronicPayment');
+const PaymentGateway        = require('../models/PaymentGateway');
+const PaymentGatewayTransaction = require('../models/PaymentGatewayTransaction');
+const TreasuryPosition      = require('../models/TreasuryPosition');
+const CashForecast          = require('../models/CashForecast');
+const LiquidityForecast     = require('../models/LiquidityForecast');
+const Investment            = require('../models/Investment');
+const FixedDeposit          = require('../models/FixedDeposit');
+const BankGuarantee         = require('../models/BankGuarantee');
+const LetterOfCredit        = require('../models/LetterOfCredit');
+const TreasurySetting       = require('../models/TreasurySetting');
+const BankCharge            = require('../models/BankCharge');
+const InterestPosting       = require('../models/InterestPosting');
+const CurrencyAccount       = require('../models/CurrencyAccount');
+const FXTransaction         = require('../models/FXTransaction');
+const FXGainLoss            = require('../models/FXGainLoss');
+// Reuse existing: ExchangeRate (Sprint 13A), Currency (earlier sprint)
+
+const bankingDashCtrl  = require('../controllers/bankingDashboardController');
+const bankCtrl         = require('../controllers/bankController');
+const bankAccCtrl      = require('../controllers/bankAccountController');
+const bankReconCtrl    = require('../controllers/bankReconciliationController');
+const cashCtrl         = require('../controllers/cashController');
+const treasuryCtrl     = require('../controllers/treasuryController');
+const investmentCtrl   = require('../controllers/investmentController');
+const fxCtrl           = require('../controllers/fxController');
+const bankingReportCtrl= require('../controllers/bankingReportController');
+
+const pgB  = (...a) => require('../utils/response').paginated(...a);
+const crB  = (...a) => require('../utils/response').created(...a);
+const okB  = (...a) => require('../utils/response').ok(...a);
+const nfB  = (...a) => require('../utils/response').notFound(...a);
+const seB  = (...a) => require('../utils/response').serverError(...a);
+const ncB  = (...a) => require('../utils/response').noContent(...a);
+
+// ── Banking Dashboard ─────────────────────────────────────────────────────────
+router.get('/admin/banking/dashboard',           protect, admin, bankingDashCtrl.getDashboard);
+router.get('/admin/banking/compliance-status',   protect, admin, bankingDashCtrl.getComplianceStatus);
+
+// ── Banks ─────────────────────────────────────────────────────────────────────
+router.get('/admin/banking/banks',               protect, admin, bankCtrl.getBanks);
+router.post('/admin/banking/banks',              protect, admin, bankCtrl.createBank);
+router.put('/admin/banking/banks/:id',           protect, admin, bankCtrl.updateBank);
+router.delete('/admin/banking/banks/:id',        protect, admin, bankCtrl.deleteBank);
+
+// ── Bank Branches ─────────────────────────────────────────────────────────────
+router.get('/admin/banking/branches',            protect, admin, bankCtrl.getBranches);
+router.post('/admin/banking/branches',           protect, admin, bankCtrl.createBranch);
+router.put('/admin/banking/branches/:id',        protect, admin, bankCtrl.updateBranch);
+router.delete('/admin/banking/branches/:id',     protect, admin, bankCtrl.deleteBranch);
+
+// ── Bank Accounts ─────────────────────────────────────────────────────────────
+router.get('/admin/banking/accounts',            protect, admin, bankAccCtrl.getAccounts);
+router.post('/admin/banking/accounts',           protect, admin, bankAccCtrl.createAccount);
+router.get('/admin/banking/accounts/:id',        protect, admin, bankAccCtrl.getAccount);
+router.put('/admin/banking/accounts/:id',        protect, admin, bankAccCtrl.updateAccount);
+
+// ── Bank Transactions ─────────────────────────────────────────────────────────
+router.get('/admin/banking/transactions',        protect, admin, bankAccCtrl.getTransactions);
+router.post('/admin/banking/transactions',       protect, admin, bankAccCtrl.createTransaction);
+router.put('/admin/banking/transactions/:id',    protect, admin, bankAccCtrl.updateTransaction);
+router.delete('/admin/banking/transactions/:id', protect, admin, bankAccCtrl.deleteTransaction);
+
+// ── Bank Statements ───────────────────────────────────────────────────────────
+router.get('/admin/banking/statements',          protect, admin, bankAccCtrl.getStatements);
+router.post('/admin/banking/statements',         protect, admin, bankAccCtrl.createStatement);
+router.get('/admin/banking/statements/:id/lines',protect, admin, bankAccCtrl.getStatementLines);
+
+// ── Bank Charges ──────────────────────────────────────────────────────────────
+router.get('/admin/banking/charges',             protect, admin, bankAccCtrl.getCharges);
+router.post('/admin/banking/charges',            protect, admin, bankAccCtrl.createCharge);
+
+// ── Interest Postings ─────────────────────────────────────────────────────────
+router.get('/admin/banking/interest-postings',   protect, admin, bankAccCtrl.getInterestPostings);
+router.post('/admin/banking/interest-postings',  protect, admin, bankAccCtrl.createInterestPosting);
+
+// ── Electronic Payments ───────────────────────────────────────────────────────
+router.get('/admin/banking/electronic-payments',       protect, admin, bankAccCtrl.getElectronicPayments);
+router.post('/admin/banking/electronic-payments',      protect, admin, bankAccCtrl.createElectronicPayment);
+router.put('/admin/banking/electronic-payments/:id/status', protect, admin, bankAccCtrl.updatePaymentStatus);
+
+// ── Cheque Books ──────────────────────────────────────────────────────────────
+router.get('/admin/banking/cheque-books',        protect, admin, bankAccCtrl.getChequeBooks);
+router.post('/admin/banking/cheque-books',       protect, admin, bankAccCtrl.createChequeBook);
+
+// ── Cheques ───────────────────────────────────────────────────────────────────
+router.get('/admin/banking/cheques',             protect, admin, bankAccCtrl.getCheques);
+router.post('/admin/banking/cheques',            protect, admin, bankAccCtrl.createCheque);
+router.put('/admin/banking/cheques/:id/status',  protect, admin, bankAccCtrl.updateChequeStatus);
+
+// ── Bank Reconciliation ───────────────────────────────────────────────────────
+router.get('/admin/banking/reconciliation',      protect, admin, bankReconCtrl.getReconciliations);
+router.post('/admin/banking/reconciliation',     protect, admin, bankReconCtrl.createReconciliation);
+router.get('/admin/banking/reconciliation/:id',  protect, admin, bankReconCtrl.getReconciliation);
+router.post('/admin/banking/reconciliation/:id/auto-match',  protect, admin, bankReconCtrl.autoMatch);
+router.post('/admin/banking/reconciliation/:id/manual-match',protect, admin, bankReconCtrl.manualMatch);
+router.post('/admin/banking/reconciliation/:id/complete',    protect, admin, bankReconCtrl.completeReconciliation);
+router.delete('/admin/banking/reconciliation/:id',           protect, admin, bankReconCtrl.deleteReconciliation);
+router.get('/admin/banking/reconciliation/:id/unmatched',    protect, admin, bankReconCtrl.getUnmatchedTransactions);
+
+// ── Cash Accounts ─────────────────────────────────────────────────────────────
+router.get('/admin/banking/cash-accounts',       protect, admin, cashCtrl.getCashAccounts);
+router.post('/admin/banking/cash-accounts',      protect, admin, cashCtrl.createCashAccount);
+router.put('/admin/banking/cash-accounts/:id',   protect, admin, cashCtrl.updateCashAccount);
+
+// ── Cash Transactions ─────────────────────────────────────────────────────────
+router.get('/admin/banking/cash-transactions',   protect, admin, cashCtrl.getCashTransactions);
+router.post('/admin/banking/cash-transactions',  protect, admin, cashCtrl.createCashTransaction);
+
+// ── Cash Transfers ────────────────────────────────────────────────────────────
+router.get('/admin/banking/cash-transfers',      protect, admin, cashCtrl.getCashTransfers);
+router.post('/admin/banking/cash-transfers',     protect, admin, cashCtrl.createCashTransfer);
+router.post('/admin/banking/cash-transfers/:id/complete', protect, admin, cashCtrl.completeTransfer);
+
+// ── Petty Cash Funds ──────────────────────────────────────────────────────────
+router.get('/admin/banking/petty-cash',          protect, admin, cashCtrl.getPettyCashFunds);
+router.post('/admin/banking/petty-cash',         protect, admin, cashCtrl.createPettyCashFund);
+router.put('/admin/banking/petty-cash/:id',      protect, admin, cashCtrl.updatePettyCashFund);
+router.post('/admin/banking/petty-cash/:id/replenish', protect, admin, cashCtrl.replenishFund);
+
+// ── Petty Cash Vouchers ───────────────────────────────────────────────────────
+router.get('/admin/banking/petty-cash-vouchers', protect, admin, cashCtrl.getVouchers);
+router.post('/admin/banking/petty-cash-vouchers',protect, admin, cashCtrl.createVoucher);
+router.post('/admin/banking/petty-cash-vouchers/:id/approve', protect, admin, cashCtrl.approveVoucher);
+
+// ── Treasury Positions ────────────────────────────────────────────────────────
+router.get('/admin/banking/treasury-positions',  protect, admin, treasuryCtrl.getTreasuryPositions);
+router.post('/admin/banking/treasury-positions', protect, admin, treasuryCtrl.createTreasuryPosition);
+
+// ── Cash Forecasts ────────────────────────────────────────────────────────────
+router.get('/admin/banking/cash-forecasts',      protect, admin, treasuryCtrl.getCashForecasts);
+router.post('/admin/banking/cash-forecasts',     protect, admin, treasuryCtrl.createCashForecast);
+router.put('/admin/banking/cash-forecasts/:id',  protect, admin, treasuryCtrl.updateCashForecast);
+router.delete('/admin/banking/cash-forecasts/:id', protect, admin, treasuryCtrl.deleteCashForecast);
+
+// ── Liquidity Forecasts ───────────────────────────────────────────────────────
+router.get('/admin/banking/liquidity-forecasts', protect, admin, treasuryCtrl.getLiquidityForecasts);
+router.post('/admin/banking/liquidity-forecasts',protect, admin, treasuryCtrl.createLiquidityForecast);
+
+// ── Bank Guarantees ───────────────────────────────────────────────────────────
+router.get('/admin/banking/bank-guarantees',     protect, admin, treasuryCtrl.getBankGuarantees);
+router.post('/admin/banking/bank-guarantees',    protect, admin, treasuryCtrl.createBankGuarantee);
+router.get('/admin/banking/bank-guarantees/:id', protect, admin, treasuryCtrl.getBankGuarantee);
+router.put('/admin/banking/bank-guarantees/:id', protect, admin, treasuryCtrl.updateBankGuarantee);
+router.delete('/admin/banking/bank-guarantees/:id', protect, admin, treasuryCtrl.deleteBankGuarantee);
+
+// ── Letters of Credit ─────────────────────────────────────────────────────────
+router.get('/admin/banking/letters-of-credit',   protect, admin, treasuryCtrl.getLettersOfCredit);
+router.post('/admin/banking/letters-of-credit',  protect, admin, treasuryCtrl.createLetterOfCredit);
+router.get('/admin/banking/letters-of-credit/:id',protect, admin, treasuryCtrl.getLetterOfCredit);
+router.put('/admin/banking/letters-of-credit/:id',protect, admin, treasuryCtrl.updateLetterOfCredit);
+router.delete('/admin/banking/letters-of-credit/:id', protect, admin, treasuryCtrl.deleteLetterOfCredit);
+
+// ── Treasury Settings ─────────────────────────────────────────────────────────
+router.get('/admin/banking/settings',            protect, admin, treasuryCtrl.getSettings);
+router.put('/admin/banking/settings/:key',       protect, admin, treasuryCtrl.upsertSetting);
+
+// ── Payment Gateways ──────────────────────────────────────────────────────────
+router.get('/admin/banking/gateways',            protect, admin, treasuryCtrl.getGateways);
+router.post('/admin/banking/gateways',           protect, admin, treasuryCtrl.createGateway);
+router.put('/admin/banking/gateways/:id',        protect, admin, treasuryCtrl.updateGateway);
+router.get('/admin/banking/gateway-transactions',protect, admin, treasuryCtrl.getGatewayTransactions);
+router.post('/admin/banking/gateway-transactions',protect, admin, treasuryCtrl.createGatewayTransaction);
+
+// ── Investments ───────────────────────────────────────────────────────────────
+router.get('/admin/banking/investments',         protect, admin, investmentCtrl.getInvestments);
+router.post('/admin/banking/investments',        protect, admin, investmentCtrl.createInvestment);
+router.get('/admin/banking/investments/:id',     protect, admin, investmentCtrl.getInvestment);
+router.put('/admin/banking/investments/:id',     protect, admin, investmentCtrl.updateInvestment);
+router.post('/admin/banking/investments/:id/redeem', protect, admin, investmentCtrl.redeemInvestment);
+router.delete('/admin/banking/investments/:id',  protect, admin, investmentCtrl.deleteInvestment);
+
+// ── Fixed Deposits ────────────────────────────────────────────────────────────
+router.get('/admin/banking/fixed-deposits',      protect, admin, investmentCtrl.getFixedDeposits);
+router.post('/admin/banking/fixed-deposits',     protect, admin, investmentCtrl.createFixedDeposit);
+router.get('/admin/banking/fixed-deposits/:id',  protect, admin, investmentCtrl.getFixedDeposit);
+router.put('/admin/banking/fixed-deposits/:id',  protect, admin, investmentCtrl.updateFixedDeposit);
+router.post('/admin/banking/fixed-deposits/:id/close', protect, admin, investmentCtrl.closeFixedDeposit);
+router.delete('/admin/banking/fixed-deposits/:id', protect, admin, investmentCtrl.deleteFixedDeposit);
+router.get('/admin/banking/fixed-deposits/:id/interest', protect, admin, investmentCtrl.getFDInterestPostings);
+
+// ── FX — Exchange Rates (reuse ExchangeRate model) ───────────────────────────
+router.get('/admin/banking/fx/rates',            protect, admin, fxCtrl.getExchangeRates);
+router.post('/admin/banking/fx/rates',           protect, admin, fxCtrl.createExchangeRate);
+router.put('/admin/banking/fx/rates/:id',        protect, admin, fxCtrl.updateExchangeRate);
+router.delete('/admin/banking/fx/rates/:id',     protect, admin, fxCtrl.deleteExchangeRate);
+
+// ── FX Transactions ───────────────────────────────────────────────────────────
+router.get('/admin/banking/fx/transactions',     protect, admin, fxCtrl.getFXTransactions);
+router.post('/admin/banking/fx/transactions',    protect, admin, fxCtrl.createFXTransaction);
+router.put('/admin/banking/fx/transactions/:id', protect, admin, fxCtrl.updateFXTransaction);
+router.post('/admin/banking/fx/transactions/:id/settle', protect, admin, fxCtrl.settleFXTransaction);
+router.delete('/admin/banking/fx/transactions/:id', protect, admin, fxCtrl.deleteFXTransaction);
+
+// ── FX Gain/Loss ──────────────────────────────────────────────────────────────
+router.get('/admin/banking/fx/gain-loss',        protect, admin, fxCtrl.getFXGainLoss);
+
+// ── Currency Accounts ─────────────────────────────────────────────────────────
+router.get('/admin/banking/currency-accounts',   protect, admin, fxCtrl.getCurrencyAccounts);
+router.post('/admin/banking/currency-accounts',  protect, admin, fxCtrl.createCurrencyAccount);
+router.put('/admin/banking/currency-accounts/:id', protect, admin, fxCtrl.updateCurrencyAccount);
+router.post('/admin/banking/currency-accounts/:id/revalue', protect, admin, fxCtrl.revalueCurrencyAccount);
+
+// ── Banking Reports ───────────────────────────────────────────────────────────
+router.get('/admin/banking/reports/bank-book',        protect, admin, bankingReportCtrl.getBankBook);
+router.get('/admin/banking/reports/cash-book',        protect, admin, bankingReportCtrl.getCashBook);
+router.get('/admin/banking/reports/daily-cash',       protect, admin, bankingReportCtrl.getDailyCashPosition);
+router.get('/admin/banking/reports/treasury-position',protect, admin, bankingReportCtrl.getTreasuryPositionReport);
+router.get('/admin/banking/reports/investments',      protect, admin, bankingReportCtrl.getInvestmentRegister);
+router.get('/admin/banking/reports/fd-register',      protect, admin, bankingReportCtrl.getFDRegister);
+router.get('/admin/banking/reports/guarantee-register',protect, admin, bankingReportCtrl.getGuaranteeRegister);
+router.get('/admin/banking/reports/cash-flow',        protect, admin, bankingReportCtrl.getCashFlowReport);
+router.get('/admin/banking/reports/forecast-actual',  protect, admin, bankingReportCtrl.getForecastVsActual);
+
 module.exports = router;
+

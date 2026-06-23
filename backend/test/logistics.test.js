@@ -20,6 +20,7 @@ afterEach(async () => { await Promise.all([Dispatch, Shipment, StockTransfer, De
 
 // ── Courier ───────────────────────────────────────────────────────────────────
 describe('Courier model', () => {
+  beforeAll(async () => { await Courier.createIndexes(); });
   const warehouseId = new mongoose.Types.ObjectId();
 
   test('creates with required fields', async () => {

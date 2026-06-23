@@ -56,3 +56,12 @@ exports.serverError = (res, err) => {
   console.error(err);
   return res.status(500).json({ success: false, message: err?.message || 'Internal Server Error' });
 };
+
+// Convenience aliases used by Sprint 12D+ controllers
+exports.success = (res, data, message = 'Success', statusCode = 200) => {
+  return res.status(statusCode).json({ success: true, message, data });
+};
+
+exports.error = (res, message = 'Error', statusCode = 400) => {
+  return res.status(statusCode).json({ success: false, message });
+};
