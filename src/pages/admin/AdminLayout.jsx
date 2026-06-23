@@ -328,6 +328,23 @@ const NAV_GROUPS = [
     ],
   },
   {
+    label: 'Accounts Payable',
+    items: [
+      { label: 'AP Dashboard',          path: '/admin/accounts-payable',                  icon: FiBarChart2,    roles: ['admin', 'super_admin'] },
+      { label: 'Vendor Bills',          path: '/admin/accounts-payable/bills',            icon: FiFileText,     roles: ['admin', 'super_admin'] },
+      { label: 'Vendor Payments',       path: '/admin/accounts-payable/payments',         icon: FiHash,         roles: ['admin', 'super_admin'] },
+      { label: 'Payment Runs',          path: '/admin/accounts-payable/payment-runs',     icon: FiZap,          roles: ['admin', 'super_admin'] },
+      { label: 'Vendor Ledger',         path: '/admin/accounts-payable/ledger',           icon: FiBook,         roles: ['admin', 'super_admin'] },
+      { label: 'Vendor Statements',     path: '/admin/accounts-payable/statements',       icon: FiList,         roles: ['admin', 'super_admin'] },
+      { label: 'AP Aging',              path: '/admin/accounts-payable/aging',            icon: FiClock,        roles: ['admin', 'super_admin'] },
+      { label: 'Debit Notes',           path: '/admin/accounts-payable/debit-notes',      icon: FiLayers,       roles: ['admin', 'super_admin'] },
+      { label: 'Credit Notes',          path: '/admin/accounts-payable/credit-notes',     icon: FiLayers,       roles: ['admin', 'super_admin'] },
+      { label: 'Invoice Matching',      path: '/admin/accounts-payable/invoice-matching', icon: FiTarget,       roles: ['admin', 'super_admin'] },
+      { label: 'Payment Advice',        path: '/admin/accounts-payable/payment-advice',   icon: FiActivity,     roles: ['admin', 'super_admin'] },
+      { label: 'AP Reports',            path: '/admin/accounts-payable/reports',          icon: FiTrendingUp,   roles: ['admin', 'super_admin'] },
+    ],
+  },
+  {
     label: 'Enterprise',
     items: [
       { label: 'Audit Log', path: '/admin/audit-log', icon: FiShield, roles: ['admin', 'super_admin'] },

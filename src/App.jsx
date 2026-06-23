@@ -353,6 +353,21 @@ const AdminCashBook             = lazy(() => import('./pages/admin/AdminCashBook
 const AdminBankBook             = lazy(() => import('./pages/admin/AdminBankBook'));
 const AdminFinancialSettings    = lazy(() => import('./pages/admin/AdminFinancialSettings'));
 
+// ── Sprint 13B: Enterprise Accounts Payable ───────────────────────────────────
+const AdminAccountsPayableDashboard = lazy(() => import('./pages/admin/AdminAccountsPayableDashboard'));
+const AdminVendorBills              = lazy(() => import('./pages/admin/AdminVendorBills'));
+const AdminVendorBillDetail         = lazy(() => import('./pages/admin/AdminVendorBillDetail'));
+const AdminVendorPayments           = lazy(() => import('./pages/admin/AdminVendorPayments'));
+const AdminPaymentRun               = lazy(() => import('./pages/admin/AdminPaymentRun'));
+const AdminVendorLedger             = lazy(() => import('./pages/admin/AdminVendorLedger'));
+const AdminVendorStatements         = lazy(() => import('./pages/admin/AdminVendorStatements'));
+const AdminVendorAging              = lazy(() => import('./pages/admin/AdminVendorAging'));
+const AdminDebitNotes               = lazy(() => import('./pages/admin/AdminDebitNotes'));
+const AdminCreditNotes              = lazy(() => import('./pages/admin/AdminCreditNotes'));
+const AdminInvoiceMatching          = lazy(() => import('./pages/admin/AdminInvoiceMatching'));
+const AdminPaymentAdvice            = lazy(() => import('./pages/admin/AdminPaymentAdvice'));
+const AdminAccountsPayableReports   = lazy(() => import('./pages/admin/AdminAccountsPayableReports'));
+
 // ── Sprint 12B: Enterprise Production Planning & Scheduling ─────────────────
 const AdminManufacturingPlanningDashboard = lazy(() => import('./pages/admin/AdminManufacturingPlanningDashboard'));
 const AdminProductionPlans                = lazy(() => import('./pages/admin/AdminProductionPlans'));
@@ -935,6 +950,21 @@ export default function App() {
         <Route path="/admin/finance/cash-book"              element={<AdminRoute><AdminCashBook /></AdminRoute>} />
         <Route path="/admin/finance/bank-book"              element={<AdminRoute><AdminBankBook /></AdminRoute>} />
         <Route path="/admin/finance/settings"               element={<AdminRoute><AdminFinancialSettings /></AdminRoute>} />
+
+        {/* Sprint 13B: Enterprise Accounts Payable */}
+        <Route path="/admin/accounts-payable"                        element={<AdminRoute><AdminAccountsPayableDashboard /></AdminRoute>} />
+        <Route path="/admin/accounts-payable/bills"                  element={<AdminRoute><AdminVendorBills /></AdminRoute>} />
+        <Route path="/admin/accounts-payable/bills/:id"              element={<AdminRoute><AdminVendorBillDetail /></AdminRoute>} />
+        <Route path="/admin/accounts-payable/payments"               element={<AdminRoute><AdminVendorPayments /></AdminRoute>} />
+        <Route path="/admin/accounts-payable/payment-runs"           element={<AdminRoute><AdminPaymentRun /></AdminRoute>} />
+        <Route path="/admin/accounts-payable/ledger"                 element={<AdminRoute><AdminVendorLedger /></AdminRoute>} />
+        <Route path="/admin/accounts-payable/statements"             element={<AdminRoute><AdminVendorStatements /></AdminRoute>} />
+        <Route path="/admin/accounts-payable/aging"                  element={<AdminRoute><AdminVendorAging /></AdminRoute>} />
+        <Route path="/admin/accounts-payable/debit-notes"            element={<AdminRoute><AdminDebitNotes /></AdminRoute>} />
+        <Route path="/admin/accounts-payable/credit-notes"           element={<AdminRoute><AdminCreditNotes /></AdminRoute>} />
+        <Route path="/admin/accounts-payable/invoice-matching"       element={<AdminRoute><AdminInvoiceMatching /></AdminRoute>} />
+        <Route path="/admin/accounts-payable/payment-advice"         element={<AdminRoute><AdminPaymentAdvice /></AdminRoute>} />
+        <Route path="/admin/accounts-payable/reports"                element={<AdminRoute><AdminAccountsPayableReports /></AdminRoute>} />
 
         {/* Sprint 11C: Installation Engineer Portal (isolated auth — type:'engineer' JWT, green) */}
         <Route path="/engineer/login" element={<PageWrapper><EngineerLogin /></PageWrapper>} />
