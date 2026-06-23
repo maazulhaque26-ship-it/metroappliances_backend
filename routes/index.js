@@ -1915,4 +1915,135 @@ router.post(   '/admin/eam/failure-analyses',              protect, admin, brkCt
 router.put(    '/admin/eam/failure-analyses/:id',          protect, admin, brkCtrl.updateFailureAnalysis);
 router.delete( '/admin/eam/failure-analyses/:id',          protect, admin, brkCtrl.deleteFailureAnalysis);
 
+// ── Sprint 13A: Enterprise Finance & General Ledger ───────────────────────────
+const coaCtrl      = require('../controllers/coaController');
+const journalCtrl  = require('../controllers/journalController');
+const ledgerCtrl   = require('../controllers/ledgerController');
+const fiscalCtrl   = require('../controllers/fiscalController');
+const postingCtrl  = require('../controllers/postingController');
+const reportCtrl   = require('../controllers/reportController');
+const finDashCtrl  = require('../controllers/financeDashboardController');
+const finSetCtrl   = require('../controllers/financeSettingsController');
+
+// Finance Dashboard
+router.get( '/admin/finance/dashboard',                    protect, admin, finDashCtrl.getDashboard);
+router.get( '/admin/finance/dashboard/account-breakdown',  protect, admin, finDashCtrl.getAccountTypeBreakdown);
+router.get( '/admin/finance/dashboard/top-accounts',       protect, admin, finDashCtrl.getTopAccounts);
+
+// Chart of Accounts
+router.get(   '/admin/finance/accounts/tree',              protect, admin, coaCtrl.getAccountTree);
+router.get(   '/admin/finance/accounts',                   protect, admin, coaCtrl.getAccounts);
+router.post(  '/admin/finance/accounts',                   protect, admin, coaCtrl.createAccount);
+router.get(   '/admin/finance/accounts/:id',               protect, admin, coaCtrl.getAccount);
+router.put(   '/admin/finance/accounts/:id',               protect, admin, coaCtrl.updateAccount);
+router.delete('/admin/finance/accounts/:id',               protect, admin, coaCtrl.deleteAccount);
+
+// Account Groups
+router.get(   '/admin/finance/account-groups',             protect, admin, coaCtrl.getGroups);
+router.post(  '/admin/finance/account-groups',             protect, admin, coaCtrl.createGroup);
+router.put(   '/admin/finance/account-groups/:id',         protect, admin, coaCtrl.updateGroup);
+router.delete('/admin/finance/account-groups/:id',         protect, admin, coaCtrl.deleteGroup);
+
+// Journal Entries
+router.get(   '/admin/finance/journals',                   protect, admin, journalCtrl.getJournals);
+router.post(  '/admin/finance/journals',                   protect, admin, journalCtrl.createJournal);
+router.get(   '/admin/finance/journals/:id',               protect, admin, journalCtrl.getJournal);
+router.put(   '/admin/finance/journals/:id',               protect, admin, journalCtrl.updateJournal);
+router.delete('/admin/finance/journals/:id',               protect, admin, journalCtrl.deleteJournal);
+router.patch( '/admin/finance/journals/:id/post',          protect, admin, journalCtrl.postJournal);
+router.post(  '/admin/finance/journals/:id/reverse',       protect, admin, journalCtrl.reverseJournal);
+
+// General Ledger
+router.get( '/admin/finance/ledger',                       protect, admin, ledgerCtrl.getLedgerEntries);
+router.get( '/admin/finance/ledger/balances',              protect, admin, ledgerCtrl.getLedgerBalances);
+router.get( '/admin/finance/ledger/accounts/:accountId/statement', protect, admin, ledgerCtrl.getAccountStatement);
+
+// Fiscal Years
+router.get(   '/admin/finance/fiscal-years',               protect, admin, fiscalCtrl.getFiscalYears);
+router.post(  '/admin/finance/fiscal-years',               protect, admin, fiscalCtrl.createFiscalYear);
+router.get(   '/admin/finance/fiscal-years/:id',           protect, admin, fiscalCtrl.getFiscalYear);
+router.put(   '/admin/finance/fiscal-years/:id',           protect, admin, fiscalCtrl.updateFiscalYear);
+router.delete('/admin/finance/fiscal-years/:id',           protect, admin, fiscalCtrl.deleteFiscalYear);
+router.patch( '/admin/finance/fiscal-years/:id/close',     protect, admin, fiscalCtrl.closeFiscalYear);
+router.patch( '/admin/finance/fiscal-years/:id/lock',      protect, admin, fiscalCtrl.lockFiscalYear);
+
+// Accounting Periods
+router.get(  '/admin/finance/periods',                     protect, admin, fiscalCtrl.getPeriods);
+router.post( '/admin/finance/periods',                     protect, admin, fiscalCtrl.createPeriod);
+router.put(  '/admin/finance/periods/:id',                 protect, admin, fiscalCtrl.updatePeriod);
+router.patch('/admin/finance/periods/:id/close',           protect, admin, fiscalCtrl.closePeriod);
+router.patch('/admin/finance/periods/:id/lock',            protect, admin, fiscalCtrl.lockPeriod);
+
+// Posting Rules
+router.get(   '/admin/finance/posting-rules',              protect, admin, postingCtrl.getRules);
+router.post(  '/admin/finance/posting-rules',              protect, admin, postingCtrl.createRule);
+router.put(   '/admin/finance/posting-rules/:id',          protect, admin, postingCtrl.updateRule);
+router.delete('/admin/finance/posting-rules/:id',          protect, admin, postingCtrl.deleteRule);
+
+// Posting Templates
+router.get(   '/admin/finance/posting-templates',          protect, admin, postingCtrl.getTemplates);
+router.post(  '/admin/finance/posting-templates',          protect, admin, postingCtrl.createTemplate);
+router.put(   '/admin/finance/posting-templates/:id',      protect, admin, postingCtrl.updateTemplate);
+router.delete('/admin/finance/posting-templates/:id',      protect, admin, postingCtrl.deleteTemplate);
+
+// Voucher Series
+router.get(  '/admin/finance/voucher-series',              protect, admin, postingCtrl.getVoucherSeries);
+router.post( '/admin/finance/voucher-series',              protect, admin, postingCtrl.createVoucherSeries);
+router.put(  '/admin/finance/voucher-series/:id',          protect, admin, postingCtrl.updateVoucherSeries);
+
+// Vouchers
+router.get(   '/admin/finance/vouchers',                   protect, admin, postingCtrl.getVouchers);
+router.post(  '/admin/finance/vouchers',                   protect, admin, postingCtrl.createVoucher);
+router.get(   '/admin/finance/vouchers/:id',               protect, admin, postingCtrl.getVoucher);
+router.put(   '/admin/finance/vouchers/:id',               protect, admin, postingCtrl.updateVoucher);
+router.delete('/admin/finance/vouchers/:id',               protect, admin, postingCtrl.deleteVoucher);
+
+// Cost Centers
+router.get(   '/admin/finance/cost-centers',               protect, admin, postingCtrl.getCostCenters);
+router.post(  '/admin/finance/cost-centers',               protect, admin, postingCtrl.createCostCenter);
+router.put(   '/admin/finance/cost-centers/:id',           protect, admin, postingCtrl.updateCostCenter);
+router.delete('/admin/finance/cost-centers/:id',           protect, admin, postingCtrl.deleteCostCenter);
+
+// Profit Centers
+router.get(   '/admin/finance/profit-centers',             protect, admin, postingCtrl.getProfitCenters);
+router.post(  '/admin/finance/profit-centers',             protect, admin, postingCtrl.createProfitCenter);
+router.put(   '/admin/finance/profit-centers/:id',         protect, admin, postingCtrl.updateProfitCenter);
+router.delete('/admin/finance/profit-centers/:id',         protect, admin, postingCtrl.deleteProfitCenter);
+
+// Accounting Dimensions
+router.get(  '/admin/finance/dimensions',                  protect, admin, postingCtrl.getDimensions);
+router.post( '/admin/finance/dimensions',                  protect, admin, postingCtrl.createDimension);
+router.put(  '/admin/finance/dimensions/:id',              protect, admin, postingCtrl.updateDimension);
+
+// Financial Reports
+router.get(  '/admin/finance/reports/trial-balance',       protect, admin, reportCtrl.getTrialBalance);
+router.post( '/admin/finance/reports/trial-balance/save',  protect, admin, reportCtrl.saveTrialBalanceSnapshot);
+router.get(  '/admin/finance/reports/balance-sheet',       protect, admin, reportCtrl.getBalanceSheet);
+router.get(  '/admin/finance/reports/profit-and-loss',     protect, admin, reportCtrl.getProfitAndLoss);
+router.get(  '/admin/finance/reports/cash-book',           protect, admin, reportCtrl.getCashBook);
+router.get(  '/admin/finance/reports/bank-book',           protect, admin, reportCtrl.getBankBook);
+router.get(  '/admin/finance/reports/journal-book',        protect, admin, reportCtrl.getJournalBook);
+router.get(  '/admin/finance/reports/day-book',            protect, admin, reportCtrl.getDayBook);
+
+// Financial Settings
+router.get( '/admin/finance/settings',                     protect, admin, finSetCtrl.getSettings);
+router.put( '/admin/finance/settings',                     protect, admin, finSetCtrl.updateSettings);
+
+// Currencies
+router.get(   '/admin/finance/currencies',                 protect, admin, finSetCtrl.getCurrencies);
+router.post(  '/admin/finance/currencies',                 protect, admin, finSetCtrl.createCurrency);
+router.put(   '/admin/finance/currencies/:id',             protect, admin, finSetCtrl.updateCurrency);
+router.delete('/admin/finance/currencies/:id',             protect, admin, finSetCtrl.deleteCurrency);
+
+// Exchange Rates
+router.get(  '/admin/finance/exchange-rates',              protect, admin, finSetCtrl.getExchangeRates);
+router.post( '/admin/finance/exchange-rates',              protect, admin, finSetCtrl.createExchangeRate);
+router.put(  '/admin/finance/exchange-rates/:id',          protect, admin, finSetCtrl.updateExchangeRate);
+
+// Opening Balances
+router.get(  '/admin/finance/opening-balances',            protect, admin, finSetCtrl.getOpeningBalances);
+router.post( '/admin/finance/opening-balances',            protect, admin, finSetCtrl.createOpeningBalance);
+router.put(  '/admin/finance/opening-balances/:id',        protect, admin, finSetCtrl.updateOpeningBalance);
+
 module.exports = router;
+
