@@ -12,6 +12,7 @@ import {
   FiBarChart2, FiTrendingUp, FiMap, FiMapPin, FiActivity, FiDownload, FiSliders,
   FiBox, FiDatabase, FiRefreshCw, FiAlertTriangle, FiFileText, FiClipboard,
   FiCamera, FiCpu, FiThermometer, FiWifi, FiTool, FiClock, FiCalendar,
+  FiPercent, FiGlobe, FiTruck, FiCheckSquare,
 } from 'react-icons/fi';
 import Logo from '../../components/ui/Logo';
 
@@ -360,6 +361,24 @@ const NAV_GROUPS = [
       { label: 'Write-Offs',            path: '/admin/accounts-receivable/write-offs',        icon: FiLayers,       roles: ['admin', 'super_admin'] },
       { label: 'Bad Debt',              path: '/admin/accounts-receivable/bad-debt',          icon: FiAlertTriangle, roles: ['admin', 'super_admin'] },
       { label: 'AR Reports',            path: '/admin/accounts-receivable/reports',           icon: FiTrendingUp,   roles: ['admin', 'super_admin'] },
+    ],
+  },
+  {
+    label: 'Tax & Compliance',
+    items: [
+      { label: 'Tax Dashboard',         path: '/admin/tax',                   icon: FiPercent,      roles: ['admin', 'super_admin'] },
+      { label: 'Tax Codes',             path: '/admin/tax/codes',             icon: FiHash,         roles: ['admin', 'super_admin'] },
+      { label: 'Tax Rates',             path: '/admin/tax/rates',             icon: FiLayers,       roles: ['admin', 'super_admin'] },
+      { label: 'GST Management',        path: '/admin/tax/gst',               icon: FiGlobe,        roles: ['admin', 'super_admin'] },
+      { label: 'GST Returns',           path: '/admin/tax/gst/returns',       icon: FiFileText,     roles: ['admin', 'super_admin'] },
+      { label: 'Input Tax Credit',      path: '/admin/tax/gst/itc',           icon: FiArrowUpRight, roles: ['admin', 'super_admin'] },
+      { label: 'Output Tax',            path: '/admin/tax/gst/output',        icon: FiTrendingUp,   roles: ['admin', 'super_admin'] },
+      { label: 'TDS Management',        path: '/admin/tax/tds',               icon: FiBook,         roles: ['admin', 'super_admin'] },
+      { label: 'TDS Certificates',      path: '/admin/tax/tds/certificates',  icon: FiAward,        roles: ['admin', 'super_admin'] },
+      { label: 'Compliance Calendar',   path: '/admin/tax/compliance',        icon: FiCalendar,     roles: ['admin', 'super_admin'] },
+      { label: 'E-Invoice',             path: '/admin/tax/einvoice',          icon: FiZap,          roles: ['admin', 'super_admin'] },
+      { label: 'E-Way Bill',            path: '/admin/tax/ewaybill',          icon: FiTruck,        roles: ['admin', 'super_admin'] },
+      { label: 'Tax Reports',           path: '/admin/tax/reports',           icon: FiBarChart2,    roles: ['admin', 'super_admin'] },
     ],
   },
   {

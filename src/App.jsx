@@ -384,6 +384,21 @@ const AdminWriteOffs                   = lazy(() => import('./pages/admin/AdminW
 const AdminBadDebt                     = lazy(() => import('./pages/admin/AdminBadDebt'));
 const AdminAccountsReceivableReports   = lazy(() => import('./pages/admin/AdminAccountsReceivableReports'));
 
+// ── Sprint 13D: Enterprise Tax & Compliance Engine ───────────────────────────
+const AdminTaxDashboard      = lazy(() => import('./pages/admin/AdminTaxDashboard'));
+const AdminTaxCodes          = lazy(() => import('./pages/admin/AdminTaxCodes'));
+const AdminTaxRates          = lazy(() => import('./pages/admin/AdminTaxRates'));
+const AdminGSTDashboard      = lazy(() => import('./pages/admin/AdminGSTDashboard'));
+const AdminGSTReturns        = lazy(() => import('./pages/admin/AdminGSTReturns'));
+const AdminInputCredit       = lazy(() => import('./pages/admin/AdminInputCredit'));
+const AdminOutputTax         = lazy(() => import('./pages/admin/AdminOutputTax'));
+const AdminTDSDashboard      = lazy(() => import('./pages/admin/AdminTDSDashboard'));
+const AdminTDSCertificates   = lazy(() => import('./pages/admin/AdminTDSCertificates'));
+const AdminComplianceCalendar = lazy(() => import('./pages/admin/AdminComplianceCalendar'));
+const AdminEInvoice          = lazy(() => import('./pages/admin/AdminEInvoice'));
+const AdminEWayBill          = lazy(() => import('./pages/admin/AdminEWayBill'));
+const AdminTaxReports        = lazy(() => import('./pages/admin/AdminTaxReports'));
+
 // ── Sprint 12B: Enterprise Production Planning & Scheduling ─────────────────
 const AdminManufacturingPlanningDashboard = lazy(() => import('./pages/admin/AdminManufacturingPlanningDashboard'));
 const AdminProductionPlans                = lazy(() => import('./pages/admin/AdminProductionPlans'));
@@ -997,6 +1012,21 @@ export default function App() {
         <Route path="/admin/accounts-receivable/write-offs"             element={<AdminRoute><AdminWriteOffs /></AdminRoute>} />
         <Route path="/admin/accounts-receivable/bad-debt"               element={<AdminRoute><AdminBadDebt /></AdminRoute>} />
         <Route path="/admin/accounts-receivable/reports"                element={<AdminRoute><AdminAccountsReceivableReports /></AdminRoute>} />
+
+        {/* Sprint 13D: Enterprise Tax & Compliance Engine */}
+        <Route path="/admin/tax"                          element={<AdminRoute><AdminTaxDashboard /></AdminRoute>} />
+        <Route path="/admin/tax/codes"                    element={<AdminRoute><AdminTaxCodes /></AdminRoute>} />
+        <Route path="/admin/tax/rates"                    element={<AdminRoute><AdminTaxRates /></AdminRoute>} />
+        <Route path="/admin/tax/gst"                      element={<AdminRoute><AdminGSTDashboard /></AdminRoute>} />
+        <Route path="/admin/tax/gst/returns"              element={<AdminRoute><AdminGSTReturns /></AdminRoute>} />
+        <Route path="/admin/tax/gst/itc"                  element={<AdminRoute><AdminInputCredit /></AdminRoute>} />
+        <Route path="/admin/tax/gst/output"               element={<AdminRoute><AdminOutputTax /></AdminRoute>} />
+        <Route path="/admin/tax/tds"                      element={<AdminRoute><AdminTDSDashboard /></AdminRoute>} />
+        <Route path="/admin/tax/tds/certificates"         element={<AdminRoute><AdminTDSCertificates /></AdminRoute>} />
+        <Route path="/admin/tax/compliance"               element={<AdminRoute><AdminComplianceCalendar /></AdminRoute>} />
+        <Route path="/admin/tax/einvoice"                 element={<AdminRoute><AdminEInvoice /></AdminRoute>} />
+        <Route path="/admin/tax/ewaybill"                 element={<AdminRoute><AdminEWayBill /></AdminRoute>} />
+        <Route path="/admin/tax/reports"                  element={<AdminRoute><AdminTaxReports /></AdminRoute>} />
 
         {/* Sprint 11C: Installation Engineer Portal (isolated auth — type:'engineer' JWT, green) */}
         <Route path="/engineer/login" element={<PageWrapper><EngineerLogin /></PageWrapper>} />
