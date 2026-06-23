@@ -345,6 +345,24 @@ const NAV_GROUPS = [
     ],
   },
   {
+    label: 'Accounts Receivable',
+    items: [
+      { label: 'AR Dashboard',          path: '/admin/accounts-receivable',                  icon: FiBarChart2,    roles: ['admin', 'super_admin'] },
+      { label: 'Customer Invoices',     path: '/admin/accounts-receivable/invoices',          icon: FiFileText,     roles: ['admin', 'super_admin'] },
+      { label: 'Customer Receipts',     path: '/admin/accounts-receivable/receipts',          icon: FiHash,         roles: ['admin', 'super_admin'] },
+      { label: 'Allocations',           path: '/admin/accounts-receivable/allocations',       icon: FiTarget,       roles: ['admin', 'super_admin'] },
+      { label: 'Customer Ledger',       path: '/admin/accounts-receivable/ledger',            icon: FiBook,         roles: ['admin', 'super_admin'] },
+      { label: 'Statements',            path: '/admin/accounts-receivable/statements',        icon: FiList,         roles: ['admin', 'super_admin'] },
+      { label: 'AR Aging',              path: '/admin/accounts-receivable/aging',             icon: FiClock,        roles: ['admin', 'super_admin'] },
+      { label: 'Collections',           path: '/admin/accounts-receivable/collections',       icon: FiActivity,     roles: ['admin', 'super_admin'] },
+      { label: 'Credit Management',     path: '/admin/accounts-receivable/credit',            icon: FiShield,       roles: ['admin', 'super_admin'] },
+      { label: 'Promise to Pay',        path: '/admin/accounts-receivable/promises',          icon: FiZap,          roles: ['admin', 'super_admin'] },
+      { label: 'Write-Offs',            path: '/admin/accounts-receivable/write-offs',        icon: FiLayers,       roles: ['admin', 'super_admin'] },
+      { label: 'Bad Debt',              path: '/admin/accounts-receivable/bad-debt',          icon: FiAlertTriangle, roles: ['admin', 'super_admin'] },
+      { label: 'AR Reports',            path: '/admin/accounts-receivable/reports',           icon: FiTrendingUp,   roles: ['admin', 'super_admin'] },
+    ],
+  },
+  {
     label: 'Enterprise',
     items: [
       { label: 'Audit Log', path: '/admin/audit-log', icon: FiShield, roles: ['admin', 'super_admin'] },

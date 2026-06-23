@@ -368,6 +368,22 @@ const AdminInvoiceMatching          = lazy(() => import('./pages/admin/AdminInvo
 const AdminPaymentAdvice            = lazy(() => import('./pages/admin/AdminPaymentAdvice'));
 const AdminAccountsPayableReports   = lazy(() => import('./pages/admin/AdminAccountsPayableReports'));
 
+// ── Sprint 13C: Enterprise Accounts Receivable ───────────────────────────────
+const AdminAccountsReceivableDashboard = lazy(() => import('./pages/admin/AdminAccountsReceivableDashboard'));
+const AdminCustomerInvoices            = lazy(() => import('./pages/admin/AdminCustomerInvoices'));
+const AdminCustomerInvoiceDetail       = lazy(() => import('./pages/admin/AdminCustomerInvoiceDetail'));
+const AdminCustomerReceipts            = lazy(() => import('./pages/admin/AdminCustomerReceipts'));
+const AdminReceiptAllocation           = lazy(() => import('./pages/admin/AdminReceiptAllocation'));
+const AdminCustomerLedger              = lazy(() => import('./pages/admin/AdminCustomerLedger'));
+const AdminCustomerStatements          = lazy(() => import('./pages/admin/AdminCustomerStatements'));
+const AdminCustomerAging               = lazy(() => import('./pages/admin/AdminCustomerAging'));
+const AdminCollections                 = lazy(() => import('./pages/admin/AdminCollections'));
+const AdminCreditManagement            = lazy(() => import('./pages/admin/AdminCreditManagement'));
+const AdminPromiseToPay                = lazy(() => import('./pages/admin/AdminPromiseToPay'));
+const AdminWriteOffs                   = lazy(() => import('./pages/admin/AdminWriteOffs'));
+const AdminBadDebt                     = lazy(() => import('./pages/admin/AdminBadDebt'));
+const AdminAccountsReceivableReports   = lazy(() => import('./pages/admin/AdminAccountsReceivableReports'));
+
 // ── Sprint 12B: Enterprise Production Planning & Scheduling ─────────────────
 const AdminManufacturingPlanningDashboard = lazy(() => import('./pages/admin/AdminManufacturingPlanningDashboard'));
 const AdminProductionPlans                = lazy(() => import('./pages/admin/AdminProductionPlans'));
@@ -965,6 +981,22 @@ export default function App() {
         <Route path="/admin/accounts-payable/invoice-matching"       element={<AdminRoute><AdminInvoiceMatching /></AdminRoute>} />
         <Route path="/admin/accounts-payable/payment-advice"         element={<AdminRoute><AdminPaymentAdvice /></AdminRoute>} />
         <Route path="/admin/accounts-payable/reports"                element={<AdminRoute><AdminAccountsPayableReports /></AdminRoute>} />
+
+        {/* Sprint 13C: Enterprise Accounts Receivable */}
+        <Route path="/admin/accounts-receivable"                        element={<AdminRoute><AdminAccountsReceivableDashboard /></AdminRoute>} />
+        <Route path="/admin/accounts-receivable/invoices"               element={<AdminRoute><AdminCustomerInvoices /></AdminRoute>} />
+        <Route path="/admin/accounts-receivable/invoices/:id"           element={<AdminRoute><AdminCustomerInvoiceDetail /></AdminRoute>} />
+        <Route path="/admin/accounts-receivable/receipts"               element={<AdminRoute><AdminCustomerReceipts /></AdminRoute>} />
+        <Route path="/admin/accounts-receivable/allocations"            element={<AdminRoute><AdminReceiptAllocation /></AdminRoute>} />
+        <Route path="/admin/accounts-receivable/ledger"                 element={<AdminRoute><AdminCustomerLedger /></AdminRoute>} />
+        <Route path="/admin/accounts-receivable/statements"             element={<AdminRoute><AdminCustomerStatements /></AdminRoute>} />
+        <Route path="/admin/accounts-receivable/aging"                  element={<AdminRoute><AdminCustomerAging /></AdminRoute>} />
+        <Route path="/admin/accounts-receivable/collections"            element={<AdminRoute><AdminCollections /></AdminRoute>} />
+        <Route path="/admin/accounts-receivable/credit"                 element={<AdminRoute><AdminCreditManagement /></AdminRoute>} />
+        <Route path="/admin/accounts-receivable/promises"               element={<AdminRoute><AdminPromiseToPay /></AdminRoute>} />
+        <Route path="/admin/accounts-receivable/write-offs"             element={<AdminRoute><AdminWriteOffs /></AdminRoute>} />
+        <Route path="/admin/accounts-receivable/bad-debt"               element={<AdminRoute><AdminBadDebt /></AdminRoute>} />
+        <Route path="/admin/accounts-receivable/reports"                element={<AdminRoute><AdminAccountsReceivableReports /></AdminRoute>} />
 
         {/* Sprint 11C: Installation Engineer Portal (isolated auth — type:'engineer' JWT, green) */}
         <Route path="/engineer/login" element={<PageWrapper><EngineerLogin /></PageWrapper>} />
