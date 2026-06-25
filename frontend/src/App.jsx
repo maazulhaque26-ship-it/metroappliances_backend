@@ -419,6 +419,21 @@ const AdminLettersOfCredit     = lazy(() => import('./pages/admin/AdminLettersOf
 const AdminFXManagement        = lazy(() => import('./pages/admin/AdminFXManagement'));
 const AdminBankingReports      = lazy(() => import('./pages/admin/AdminBankingReports'));
 
+// ── Sprint 13F: Enterprise CFO Dashboard & Financial Consolidation ───────────
+const AdminCFODashboard           = lazy(() => import('./pages/admin/AdminCFODashboard'));
+const AdminBudgets                = lazy(() => import('./pages/admin/AdminBudgets'));
+const AdminBudgetDetail           = lazy(() => import('./pages/admin/AdminBudgetDetail'));
+const AdminForecasts              = lazy(() => import('./pages/admin/AdminForecasts'));
+const AdminForecastDetail         = lazy(() => import('./pages/admin/AdminForecastDetail'));
+const AdminFinancialKPIs          = lazy(() => import('./pages/admin/AdminFinancialKPIs'));
+const AdminCashFlowDashboard      = lazy(() => import('./pages/admin/AdminCashFlowDashboard'));
+const AdminProfitabilityDashboard = lazy(() => import('./pages/admin/AdminProfitabilityDashboard'));
+const AdminConsolidationDashboard = lazy(() => import('./pages/admin/AdminConsolidationDashboard'));
+const AdminBoardReports           = lazy(() => import('./pages/admin/AdminBoardReports'));
+const AdminVarianceAnalysis       = lazy(() => import('./pages/admin/AdminVarianceAnalysis'));
+const AdminFinancialAlerts        = lazy(() => import('./pages/admin/AdminFinancialAlerts'));
+const AdminExecutiveReports       = lazy(() => import('./pages/admin/AdminExecutiveReports'));
+
 // ── Sprint 12B: Enterprise Production Planning & Scheduling ─────────────────
 const AdminManufacturingPlanningDashboard = lazy(() => import('./pages/admin/AdminManufacturingPlanningDashboard'));
 const AdminProductionPlans                = lazy(() => import('./pages/admin/AdminProductionPlans'));
@@ -1067,6 +1082,21 @@ export default function App() {
         <Route path="/admin/banking/letters-of-credit"            element={<AdminRoute><AdminLettersOfCredit /></AdminRoute>} />
         <Route path="/admin/banking/fx"                           element={<AdminRoute><AdminFXManagement /></AdminRoute>} />
         <Route path="/admin/banking/reports"                      element={<AdminRoute><AdminBankingReports /></AdminRoute>} />
+
+        {/* Sprint 13F: CFO Dashboard & Financial Consolidation */}
+        <Route path="/admin/cfo"                                  element={<AdminRoute><AdminCFODashboard /></AdminRoute>} />
+        <Route path="/admin/cfo/budgets"                          element={<AdminRoute><AdminBudgets /></AdminRoute>} />
+        <Route path="/admin/cfo/budgets/:id"                      element={<AdminRoute><AdminBudgetDetail /></AdminRoute>} />
+        <Route path="/admin/cfo/forecasts"                        element={<AdminRoute><AdminForecasts /></AdminRoute>} />
+        <Route path="/admin/cfo/forecasts/:id"                    element={<AdminRoute><AdminForecastDetail /></AdminRoute>} />
+        <Route path="/admin/cfo/kpis"                             element={<AdminRoute><AdminFinancialKPIs /></AdminRoute>} />
+        <Route path="/admin/cfo/cash-flow"                        element={<AdminRoute><AdminCashFlowDashboard /></AdminRoute>} />
+        <Route path="/admin/cfo/profitability"                    element={<AdminRoute><AdminProfitabilityDashboard /></AdminRoute>} />
+        <Route path="/admin/cfo/consolidation"                    element={<AdminRoute><AdminConsolidationDashboard /></AdminRoute>} />
+        <Route path="/admin/cfo/board-reports"                    element={<AdminRoute><AdminBoardReports /></AdminRoute>} />
+        <Route path="/admin/cfo/variance"                         element={<AdminRoute><AdminVarianceAnalysis /></AdminRoute>} />
+        <Route path="/admin/cfo/alerts"                           element={<AdminRoute><AdminFinancialAlerts /></AdminRoute>} />
+        <Route path="/admin/cfo/reports"                          element={<AdminRoute><AdminExecutiveReports /></AdminRoute>} />
 
         {/* Sprint 11C: Installation Engineer Portal (isolated auth — type:'engineer' JWT, green) */}
         <Route path="/engineer/login" element={<PageWrapper><EngineerLogin /></PageWrapper>} />

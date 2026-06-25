@@ -406,6 +406,22 @@ const NAV_GROUPS = [
     ],
   },
   {
+    label: 'CFO & Executive',
+    items: [
+      { label: 'CFO Dashboard',         path: '/admin/cfo',                      icon: FiBarChart2,    roles: ['admin', 'super_admin'] },
+      { label: 'Budgets',               path: '/admin/cfo/budgets',              icon: FiDollarSign,   roles: ['admin', 'super_admin'] },
+      { label: 'Forecasts',             path: '/admin/cfo/forecasts',            icon: FiTrendingUp,   roles: ['admin', 'super_admin'] },
+      { label: 'Financial KPIs',        path: '/admin/cfo/kpis',                 icon: FiZap,          roles: ['admin', 'super_admin'] },
+      { label: 'Cash Flow',             path: '/admin/cfo/cash-flow',            icon: FiArrowRight,   roles: ['admin', 'super_admin'] },
+      { label: 'Profitability',         path: '/admin/cfo/profitability',        icon: FiLayers,       roles: ['admin', 'super_admin'] },
+      { label: 'Consolidation',         path: '/admin/cfo/consolidation',        icon: FiGlobe,        roles: ['admin', 'super_admin'] },
+      { label: 'Board Reports',         path: '/admin/cfo/board-reports',        icon: FiBook,         roles: ['admin', 'super_admin'] },
+      { label: 'Variance Analysis',     path: '/admin/cfo/variance',             icon: FiCheckSquare,  roles: ['admin', 'super_admin'] },
+      { label: 'Financial Alerts',      path: '/admin/cfo/alerts',               icon: FiAlertTriangle, roles: ['admin', 'super_admin'] },
+      { label: 'Executive Reports',     path: '/admin/cfo/reports',              icon: FiFileText,     roles: ['admin', 'super_admin'] },
+    ],
+  },
+  {
     label: 'Enterprise',
     items: [
       { label: 'Audit Log', path: '/admin/audit-log', icon: FiShield, roles: ['admin', 'super_admin'] },
