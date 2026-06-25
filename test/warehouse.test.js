@@ -11,6 +11,11 @@ const MONGO_URI = process.env.MONGO_TEST_URI || 'mongodb://localhost:27017/metro
 
 beforeAll(async () => {
   await mongoose.connect(MONGO_URI);
+  // Ensure the unique index on Warehouse.code is built before the uniqueness
+  // assertion runs. A prior test file sharing this database may have dropped
+  // the collection/index, and Mongoose does not rebuild autoIndex for an
+  // already-initialized model on reconnect.
+  await Warehouse.createIndexes();
 });
 
 afterAll(async () => {

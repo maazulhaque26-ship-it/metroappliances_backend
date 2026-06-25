@@ -22,6 +22,9 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
+# Uploads
+uploads/
+
 # Misc
 *.zip
 *.py
