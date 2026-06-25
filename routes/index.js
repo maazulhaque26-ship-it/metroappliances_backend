@@ -3459,5 +3459,111 @@ router.put(   '/admin/hr/documents/:id',                 protect, admin, empDocC
 router.patch( '/admin/hr/documents/:id/verify',          protect, admin, empDocCtrl.verifyDocument);
 router.delete('/admin/hr/documents/:id',                 protect, admin, empDocCtrl.deleteDocument);
 
+// =============================================================================
+// SPRINT 14B — ENTERPRISE ATTENDANCE & LEAVE MANAGEMENT
+// =============================================================================
+const attCtrl        = require('../controllers/attendanceController');
+const attPolicyCtrl  = require('../controllers/attendancePolicyController');
+const leaveCtrl      = require('../controllers/leaveController');
+const lvPolicyCtrl   = require('../controllers/leavePolicyController');
+const attReportCtrl  = require('../controllers/attendanceReportController');
+
+// ── Attendance Dashboard ──────────────────────────────────────────────────────
+router.get('/admin/hr/attendance/dashboard',                    protect, admin, attCtrl.getDashboard);
+
+// ── Attendance Records ────────────────────────────────────────────────────────
+router.get(   '/admin/hr/attendance',                           protect, admin, attCtrl.getAttendances);
+router.post(  '/admin/hr/attendance',                           protect, admin, attCtrl.createAttendance);
+router.get(   '/admin/hr/attendance/:id',                       protect, admin, attCtrl.getAttendance);
+router.put(   '/admin/hr/attendance/:id',                       protect, admin, attCtrl.updateAttendance);
+router.delete('/admin/hr/attendance/:id',                       protect, admin, attCtrl.deleteAttendance);
+
+// ── Employee Punches ──────────────────────────────────────────────────────────
+router.get(  '/admin/hr/attendance/punches',                    protect, admin, attCtrl.getPunches);
+router.post( '/admin/hr/attendance/punch',                      protect, admin, attCtrl.recordPunch);
+
+// ── Attendance Summary ────────────────────────────────────────────────────────
+router.get(  '/admin/hr/attendance/summaries',                  protect, admin, attCtrl.getSummaries);
+router.post( '/admin/hr/attendance/summaries/compute',          protect, admin, attCtrl.computeSummary);
+
+// ── Attendance Exceptions ─────────────────────────────────────────────────────
+router.get(  '/admin/hr/attendance/exceptions',                 protect, admin, attCtrl.getExceptions);
+router.patch('/admin/hr/attendance/exceptions/:id/resolve',     protect, admin, attCtrl.resolveException);
+
+// ── Attendance Policies ───────────────────────────────────────────────────────
+router.get(   '/admin/hr/attendance/policies',                  protect, admin, attPolicyCtrl.getPolicies);
+router.post(  '/admin/hr/attendance/policies',                  protect, admin, attPolicyCtrl.createPolicy);
+router.get(   '/admin/hr/attendance/policies/:id',              protect, admin, attPolicyCtrl.getPolicy);
+router.put(   '/admin/hr/attendance/policies/:id',              protect, admin, attPolicyCtrl.updatePolicy);
+router.delete('/admin/hr/attendance/policies/:id',              protect, admin, attPolicyCtrl.deletePolicy);
+
+// ── Attendance Devices ────────────────────────────────────────────────────────
+router.get(   '/admin/hr/attendance/devices',                   protect, admin, attPolicyCtrl.getDevices);
+router.post(  '/admin/hr/attendance/devices',                   protect, admin, attPolicyCtrl.createDevice);
+router.get(   '/admin/hr/attendance/devices/:id',               protect, admin, attPolicyCtrl.getDevice);
+router.put(   '/admin/hr/attendance/devices/:id',               protect, admin, attPolicyCtrl.updateDevice);
+router.delete('/admin/hr/attendance/devices/:id',               protect, admin, attPolicyCtrl.deleteDevice);
+
+// ── Attendance Adjustments ────────────────────────────────────────────────────
+router.get(   '/admin/hr/attendance/adjustments',               protect, admin, attPolicyCtrl.getAdjustments);
+router.post(  '/admin/hr/attendance/adjustments',               protect, admin, attPolicyCtrl.createAdjustment);
+router.patch( '/admin/hr/attendance/adjustments/:id/approve',   protect, admin, attPolicyCtrl.approveAdjustment);
+router.patch( '/admin/hr/attendance/adjustments/:id/reject',    protect, admin, attPolicyCtrl.rejectAdjustment);
+
+// ── Attendance Reports ────────────────────────────────────────────────────────
+router.get('/admin/hr/reports/attendance/daily',                protect, admin, attReportCtrl.getDailyAttendance);
+router.get('/admin/hr/reports/attendance/monthly',              protect, admin, attReportCtrl.getMonthlyAttendance);
+router.get('/admin/hr/reports/attendance/late',                 protect, admin, attReportCtrl.getLateReport);
+router.get('/admin/hr/reports/attendance/absentee',             protect, admin, attReportCtrl.getAbsenteeReport);
+
+// ── Leave Types ───────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/leave/types',                          protect, admin, lvPolicyCtrl.getLeaveTypes);
+router.post(  '/admin/hr/leave/types',                          protect, admin, lvPolicyCtrl.createLeaveType);
+router.get(   '/admin/hr/leave/types/:id',                      protect, admin, lvPolicyCtrl.getLeaveType);
+router.put(   '/admin/hr/leave/types/:id',                      protect, admin, lvPolicyCtrl.updateLeaveType);
+router.delete('/admin/hr/leave/types/:id',                      protect, admin, lvPolicyCtrl.deleteLeaveType);
+
+// ── Leave Policies ────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/leave/policies',                       protect, admin, lvPolicyCtrl.getLeavePolicies);
+router.post(  '/admin/hr/leave/policies',                       protect, admin, lvPolicyCtrl.createLeavePolicy);
+router.get(   '/admin/hr/leave/policies/:id',                   protect, admin, lvPolicyCtrl.getLeavePolicy);
+router.put(   '/admin/hr/leave/policies/:id',                   protect, admin, lvPolicyCtrl.updateLeavePolicy);
+router.delete('/admin/hr/leave/policies/:id',                   protect, admin, lvPolicyCtrl.deleteLeavePolicy);
+
+// ── Holidays ──────────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/leave/holidays',                       protect, admin, lvPolicyCtrl.getHolidays);
+router.post(  '/admin/hr/leave/holidays',                       protect, admin, lvPolicyCtrl.createHoliday);
+router.get(   '/admin/hr/leave/holidays/:id',                   protect, admin, lvPolicyCtrl.getHoliday);
+router.put(   '/admin/hr/leave/holidays/:id',                   protect, admin, lvPolicyCtrl.updateHoliday);
+router.delete('/admin/hr/leave/holidays/:id',                   protect, admin, lvPolicyCtrl.deleteHoliday);
+
+// ── Leave Requests ────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/leave/requests',                       protect, admin, leaveCtrl.getLeaveRequests);
+router.post(  '/admin/hr/leave/requests',                       protect, admin, leaveCtrl.createLeaveRequest);
+router.get(   '/admin/hr/leave/requests/:id',                   protect, admin, leaveCtrl.getLeaveRequest);
+router.put(   '/admin/hr/leave/requests/:id',                   protect, admin, leaveCtrl.updateLeaveRequest);
+router.patch( '/admin/hr/leave/requests/:id/approve',           protect, admin, leaveCtrl.approveLeaveRequest);
+router.patch( '/admin/hr/leave/requests/:id/reject',            protect, admin, leaveCtrl.rejectLeaveRequest);
+router.patch( '/admin/hr/leave/requests/:id/cancel',            protect, admin, leaveCtrl.cancelLeaveRequest);
+router.delete('/admin/hr/leave/requests/:id',                   protect, admin, leaveCtrl.deleteLeaveRequest);
+
+// ── Leave Balances ────────────────────────────────────────────────────────────
+router.get( '/admin/hr/leave/balances',                         protect, admin, leaveCtrl.getLeaveBalances);
+router.post('/admin/hr/leave/balances',                         protect, admin, leaveCtrl.upsertLeaveBalance);
+
+// ── Leave Accruals ────────────────────────────────────────────────────────────
+router.get( '/admin/hr/leave/accruals',                         protect, admin, leaveCtrl.getLeaveAccruals);
+router.post('/admin/hr/leave/accruals',                         protect, admin, leaveCtrl.createLeaveAccrual);
+
+// ── Leave Encashments ─────────────────────────────────────────────────────────
+router.get(   '/admin/hr/leave/encashments',                    protect, admin, leaveCtrl.getEncashments);
+router.post(  '/admin/hr/leave/encashments',                    protect, admin, leaveCtrl.createEncashment);
+router.patch( '/admin/hr/leave/encashments/:id/approve',        protect, admin, leaveCtrl.approveEncashment);
+router.patch( '/admin/hr/leave/encashments/:id/reject',         protect, admin, leaveCtrl.rejectEncashment);
+
+// ── Leave Reports ─────────────────────────────────────────────────────────────
+router.get('/admin/hr/reports/leave/utilization',               protect, admin, attReportCtrl.getLeaveUtilizationReport);
+router.get('/admin/hr/reports/leave/balances',                  protect, admin, attReportCtrl.getLeaveBalanceReport);
+
 module.exports = router;
 
