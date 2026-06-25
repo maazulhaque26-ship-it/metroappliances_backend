@@ -3157,5 +3157,171 @@ router.get('/admin/banking/reports/guarantee-register',protect, admin, bankingRe
 router.get('/admin/banking/reports/cash-flow',        protect, admin, bankingReportCtrl.getCashFlowReport);
 router.get('/admin/banking/reports/forecast-actual',  protect, admin, bankingReportCtrl.getForecastVsActual);
 
+// ═════════════════════════════════════════════════════════════════════════════
+// SPRINT 13F — CFO DASHBOARD & FINANCIAL CONSOLIDATION
+// ═════════════════════════════════════════════════════════════════════════════
+const cfoDashCtrl      = require('../controllers/cfoDashboardController');
+const budgetCtrl       = require('../controllers/budgetController');
+const cfoForecastCtrl  = require('../controllers/cfoForecastController');
+const kpiCtrl          = require('../controllers/kpiController');
+const consolidCtrl     = require('../controllers/consolidationController');
+const cashFlowCtrl     = require('../controllers/cashFlowController');
+const profitCtrl       = require('../controllers/profitabilityController');
+const cfoReportCtrl    = require('../controllers/cfoReportController');
+
+// ── CFO Dashboard ─────────────────────────────────────────────────────────────
+router.get('/admin/cfo/dashboard',              protect, admin, cfoDashCtrl.getDashboard);
+router.get('/admin/cfo/dashboard/revenue-trend',protect, admin, cfoDashCtrl.getRevenueTrend);
+router.get('/admin/cfo/dashboard/cash-flow',    protect, admin, cfoDashCtrl.getCashFlowChart);
+router.get('/admin/cfo/dashboard/budget-actual',protect, admin, cfoDashCtrl.getBudgetVsActual);
+router.get('/admin/cfo/dashboard/expense-breakdown', protect, admin, cfoDashCtrl.getExpenseBreakdown);
+router.get('/admin/cfo/dashboard/kpi-trend',    protect, admin, cfoDashCtrl.getKPITrend);
+router.get('/admin/cfo/dashboard/alerts',       protect, admin, cfoDashCtrl.getAlertSummary);
+
+// ── Budgets ───────────────────────────────────────────────────────────────────
+router.get(   '/admin/cfo/budgets',                       protect, admin, budgetCtrl.getBudgets);
+router.post(  '/admin/cfo/budgets',                       protect, admin, budgetCtrl.createBudget);
+router.get(   '/admin/cfo/budgets/variance',              protect, admin, budgetCtrl.getBudgetVariance);
+router.get(   '/admin/cfo/budgets/:id',                   protect, admin, budgetCtrl.getBudget);
+router.put(   '/admin/cfo/budgets/:id',                   protect, admin, budgetCtrl.updateBudget);
+router.delete('/admin/cfo/budgets/:id',                   protect, admin, budgetCtrl.deleteBudget);
+router.patch( '/admin/cfo/budgets/:id/approve',           protect, admin, budgetCtrl.approveBudget);
+router.patch( '/admin/cfo/budgets/:id/lock',              protect, admin, budgetCtrl.lockBudget);
+router.post(  '/admin/cfo/budgets/:id/revise',            protect, admin, budgetCtrl.reviseBudget);
+router.get(   '/admin/cfo/budgets/:id/lines',             protect, admin, budgetCtrl.getBudgetLines);
+router.post(  '/admin/cfo/budgets/:id/lines',             protect, admin, budgetCtrl.createBudgetLine);
+router.put(   '/admin/cfo/budgets/:id/lines/:lineId',     protect, admin, budgetCtrl.updateBudgetLine);
+router.delete('/admin/cfo/budgets/:id/lines/:lineId',     protect, admin, budgetCtrl.deleteBudgetLine);
+
+// ── Budget Scenarios ──────────────────────────────────────────────────────────
+router.get(   '/admin/cfo/budget-scenarios',              protect, admin, budgetCtrl.getScenarios);
+router.post(  '/admin/cfo/budget-scenarios',              protect, admin, budgetCtrl.createScenario);
+router.put(   '/admin/cfo/budget-scenarios/:id',          protect, admin, budgetCtrl.updateScenario);
+router.delete('/admin/cfo/budget-scenarios/:id',          protect, admin, budgetCtrl.deleteScenario);
+
+// ── Financial Forecasts ───────────────────────────────────────────────────────
+router.get(   '/admin/cfo/forecasts',                     protect, admin, cfoForecastCtrl.getForecasts);
+router.post(  '/admin/cfo/forecasts',                     protect, admin, cfoForecastCtrl.createForecast);
+router.get(   '/admin/cfo/forecasts/variance',            protect, admin, cfoForecastCtrl.getForecastVariance);
+router.get(   '/admin/cfo/forecasts/:id',                 protect, admin, cfoForecastCtrl.getForecast);
+router.put(   '/admin/cfo/forecasts/:id',                 protect, admin, cfoForecastCtrl.updateForecast);
+router.delete('/admin/cfo/forecasts/:id',                 protect, admin, cfoForecastCtrl.deleteForecast);
+router.patch( '/admin/cfo/forecasts/:id/approve',         protect, admin, cfoForecastCtrl.approveForecast);
+router.get(   '/admin/cfo/forecasts/:id/lines',           protect, admin, cfoForecastCtrl.getForecastLines);
+router.post(  '/admin/cfo/forecasts/:id/lines',           protect, admin, cfoForecastCtrl.createForecastLine);
+router.put(   '/admin/cfo/forecasts/:id/lines/:lineId',   protect, admin, cfoForecastCtrl.updateForecastLine);
+router.delete('/admin/cfo/forecasts/:id/lines/:lineId',   protect, admin, cfoForecastCtrl.deleteForecastLine);
+
+// ── KPIs ──────────────────────────────────────────────────────────────────────
+router.get(   '/admin/cfo/kpis',                          protect, admin, kpiCtrl.getKPIs);
+router.post(  '/admin/cfo/kpis',                          protect, admin, kpiCtrl.createKPI);
+router.post(  '/admin/cfo/kpis/calculate',                protect, admin, kpiCtrl.calculateKPIs);
+router.get(   '/admin/cfo/kpis/trend',                    protect, admin, kpiCtrl.getKPITrend);
+router.get(   '/admin/cfo/kpis/:id',                      protect, admin, kpiCtrl.getKPI);
+router.delete('/admin/cfo/kpis/:id',                      protect, admin, kpiCtrl.deleteKPI);
+
+// ── KPI Thresholds ────────────────────────────────────────────────────────────
+router.get(   '/admin/cfo/kpi-thresholds',                protect, admin, kpiCtrl.getThresholds);
+router.post(  '/admin/cfo/kpi-thresholds',                protect, admin, kpiCtrl.createThreshold);
+router.put(   '/admin/cfo/kpi-thresholds/:id',            protect, admin, kpiCtrl.updateThreshold);
+router.delete('/admin/cfo/kpi-thresholds/:id',            protect, admin, kpiCtrl.deleteThreshold);
+
+// ── Financial Alerts ──────────────────────────────────────────────────────────
+router.get(   '/admin/cfo/alerts',                        protect, admin, kpiCtrl.getAlerts);
+router.post(  '/admin/cfo/alerts',                        protect, admin, kpiCtrl.createAlert);
+router.patch( '/admin/cfo/alerts/:id/acknowledge',        protect, admin, kpiCtrl.acknowledgeAlert);
+router.patch( '/admin/cfo/alerts/:id/resolve',            protect, admin, kpiCtrl.resolveAlert);
+router.delete('/admin/cfo/alerts/:id',                    protect, admin, kpiCtrl.deleteAlert);
+
+// ── Executive Dashboard Settings ──────────────────────────────────────────────
+router.get(   '/admin/cfo/settings',                      protect, admin, kpiCtrl.getSettings);
+router.post(  '/admin/cfo/settings',                      protect, admin, kpiCtrl.upsertSetting);
+router.delete('/admin/cfo/settings/:id',                  protect, admin, kpiCtrl.deleteSetting);
+
+// ── Consolidation Groups ──────────────────────────────────────────────────────
+router.get(   '/admin/cfo/consolidation/groups',          protect, admin, consolidCtrl.getGroups);
+router.post(  '/admin/cfo/consolidation/groups',          protect, admin, consolidCtrl.createGroup);
+router.put(   '/admin/cfo/consolidation/groups/:id',      protect, admin, consolidCtrl.updateGroup);
+router.delete('/admin/cfo/consolidation/groups/:id',      protect, admin, consolidCtrl.deleteGroup);
+
+// ── Consolidation Companies ───────────────────────────────────────────────────
+router.get(   '/admin/cfo/consolidation/companies',       protect, admin, consolidCtrl.getCompanies);
+router.post(  '/admin/cfo/consolidation/companies',       protect, admin, consolidCtrl.createCompany);
+router.put(   '/admin/cfo/consolidation/companies/:id',   protect, admin, consolidCtrl.updateCompany);
+router.delete('/admin/cfo/consolidation/companies/:id',   protect, admin, consolidCtrl.deleteCompany);
+
+// ── Inter-Company Transactions ────────────────────────────────────────────────
+router.get(   '/admin/cfo/consolidation/ic-transactions', protect, admin, consolidCtrl.getICTransactions);
+router.post(  '/admin/cfo/consolidation/ic-transactions', protect, admin, consolidCtrl.createICTransaction);
+router.put(   '/admin/cfo/consolidation/ic-transactions/:id', protect, admin, consolidCtrl.updateICTransaction);
+router.delete('/admin/cfo/consolidation/ic-transactions/:id', protect, admin, consolidCtrl.deleteICTransaction);
+
+// ── Elimination Entries ───────────────────────────────────────────────────────
+router.get(   '/admin/cfo/consolidation/eliminations',    protect, admin, consolidCtrl.getEliminations);
+router.post(  '/admin/cfo/consolidation/eliminations',    protect, admin, consolidCtrl.createElimination);
+router.delete('/admin/cfo/consolidation/eliminations/:id',protect, admin, consolidCtrl.deleteElimination);
+
+// ── Consolidated Financials ───────────────────────────────────────────────────
+router.get('/admin/cfo/consolidation/pnl',                protect, admin, consolidCtrl.getConsolidatedPnL);
+router.get('/admin/cfo/consolidation/balance-sheet',      protect, admin, consolidCtrl.getConsolidatedBalanceSheet);
+
+// ── Financial Snapshots ───────────────────────────────────────────────────────
+router.get( '/admin/cfo/snapshots',                       protect, admin, consolidCtrl.getSnapshots);
+router.post('/admin/cfo/snapshots',                       protect, admin, consolidCtrl.createSnapshot);
+
+// ── Cash Flow Statements ──────────────────────────────────────────────────────
+router.get(   '/admin/cfo/cash-flow',                     protect, admin, cashFlowCtrl.getStatements);
+router.post(  '/admin/cfo/cash-flow',                     protect, admin, cashFlowCtrl.createStatement);
+router.get(   '/admin/cfo/cash-flow/position',            protect, admin, cashFlowCtrl.getCashPosition);
+router.get(   '/admin/cfo/cash-flow/liquidity',           protect, admin, cashFlowCtrl.getLiquidityPosition);
+router.get(   '/admin/cfo/cash-flow/free-cash-flow',      protect, admin, cashFlowCtrl.getFreeCashFlow);
+router.get(   '/admin/cfo/cash-flow/:id',                 protect, admin, cashFlowCtrl.getStatement);
+router.put(   '/admin/cfo/cash-flow/:id',                 protect, admin, cashFlowCtrl.updateStatement);
+router.patch( '/admin/cfo/cash-flow/:id/finalize',        protect, admin, cashFlowCtrl.finalizeStatement);
+router.delete('/admin/cfo/cash-flow/:id',                 protect, admin, cashFlowCtrl.deleteStatement);
+
+// ── Profitability ─────────────────────────────────────────────────────────────
+router.get(   '/admin/cfo/profitability',                 protect, admin, profitCtrl.getAnalyses);
+router.post(  '/admin/cfo/profitability',                 protect, admin, profitCtrl.createAnalysis);
+router.get(   '/admin/cfo/profitability/summary',         protect, admin, profitCtrl.getProfitabilitySummary);
+router.get(   '/admin/cfo/profitability/product',         protect, admin, profitCtrl.getProductProfitability);
+router.get(   '/admin/cfo/profitability/customer',        protect, admin, profitCtrl.getCustomerProfitability);
+router.get(   '/admin/cfo/profitability/dealer',          protect, admin, profitCtrl.getDealerProfitability);
+router.get(   '/admin/cfo/profitability/factory',         protect, admin, profitCtrl.getFactoryProfitability);
+router.get(   '/admin/cfo/profitability/warehouse',       protect, admin, profitCtrl.getWarehouseProfitability);
+router.get(   '/admin/cfo/profitability/service',         protect, admin, profitCtrl.getServiceProfitability);
+router.get(   '/admin/cfo/profitability/:id',             protect, admin, profitCtrl.getAnalysis);
+router.put(   '/admin/cfo/profitability/:id',             protect, admin, profitCtrl.updateAnalysis);
+router.delete('/admin/cfo/profitability/:id',             protect, admin, profitCtrl.deleteAnalysis);
+
+// ── Financial Reports ─────────────────────────────────────────────────────────
+router.get(   '/admin/cfo/reports',                       protect, admin, cfoReportCtrl.getReports);
+router.post(  '/admin/cfo/reports',                       protect, admin, cfoReportCtrl.createReport);
+router.get(   '/admin/cfo/reports/balance-sheet',         protect, admin, cfoReportCtrl.getBalanceSheet);
+router.get(   '/admin/cfo/reports/profit-loss',           protect, admin, cfoReportCtrl.getProfitLoss);
+router.get(   '/admin/cfo/reports/cash-flow',             protect, admin, cfoReportCtrl.getCashFlowReport);
+router.get(   '/admin/cfo/reports/trial-balance',         protect, admin, cfoReportCtrl.getTrialBalance);
+router.get(   '/admin/cfo/reports/budget-variance',       protect, admin, cfoReportCtrl.getBudgetVarianceReport);
+router.get(   '/admin/cfo/reports/forecast-variance',     protect, admin, cfoReportCtrl.getForecastVarianceReport);
+router.get(   '/admin/cfo/reports/executive-board-pack',  protect, admin, cfoReportCtrl.getExecutiveBoardPack);
+router.get(   '/admin/cfo/reports/monthly-pack',          protect, admin, cfoReportCtrl.getMonthlyFinancialPack);
+router.get(   '/admin/cfo/reports/:id',                   protect, admin, cfoReportCtrl.getReport);
+router.put(   '/admin/cfo/reports/:id',                   protect, admin, cfoReportCtrl.updateReport);
+router.patch( '/admin/cfo/reports/:id/approve',           protect, admin, cfoReportCtrl.approveReport);
+router.delete('/admin/cfo/reports/:id',                   protect, admin, cfoReportCtrl.deleteReport);
+
+// ── Variance Analysis ─────────────────────────────────────────────────────────
+router.get(   '/admin/cfo/variance',                      protect, admin, cfoReportCtrl.getVarianceAnalyses);
+router.post(  '/admin/cfo/variance',                      protect, admin, cfoReportCtrl.createVarianceAnalysis);
+router.delete('/admin/cfo/variance/:id',                  protect, admin, cfoReportCtrl.deleteVarianceAnalysis);
+
+// ── Board Reports ─────────────────────────────────────────────────────────────
+router.get(   '/admin/cfo/board-reports',                 protect, admin, cfoReportCtrl.getBoardReports);
+router.post(  '/admin/cfo/board-reports',                 protect, admin, cfoReportCtrl.createBoardReport);
+router.get(   '/admin/cfo/board-reports/:id',             protect, admin, cfoReportCtrl.getBoardReport);
+router.put(   '/admin/cfo/board-reports/:id',             protect, admin, cfoReportCtrl.updateBoardReport);
+router.patch( '/admin/cfo/board-reports/:id/approve',     protect, admin, cfoReportCtrl.approveBoardReport);
+router.delete('/admin/cfo/board-reports/:id',             protect, admin, cfoReportCtrl.deleteBoardReport);
+
 module.exports = router;
 
