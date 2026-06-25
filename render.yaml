@@ -1,0 +1,45 @@
+services:
+  - type: web
+    name: metroappliances-backend
+    runtime: node
+    region: singapore
+    plan: free
+
+    # Build & start
+    buildCommand: npm install
+    startCommand: node server.js
+
+    # Health check — Render will wait for this before routing traffic
+    healthCheckPath: /health
+
+    # Environment variables — set secret values in the Render dashboard
+    # (never commit actual values here)
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000           # Render assigns this automatically; listed for clarity
+      - key: MONGO_URI
+        sync: false            # set via Render dashboard
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_EXPIRE
+        value: 7d
+      - key: CLIENT_URL
+        sync: false            # your Vercel frontend URL, e.g. https://metroappliances.vercel.app
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
+      - key: MAIL_USER
+        sync: false
+      - key: MAIL_PASS
+        sync: false
+      - key: STORE_NAME
+        value: Metro Appliances

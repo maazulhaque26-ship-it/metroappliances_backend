@@ -1,0 +1,64 @@
+# ─── Dependencies ────────────────────────────────────────────────────────────
+node_modules/
+.pnp
+.pnp.js
+
+# ─── Build output ─────────────────────────────────────────────────────────────
+dist/
+dist-ssr/
+build/
+
+# ─── Environment variables (NEVER commit secrets) ─────────────────────────────
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.production
+
+# ─── Editor & OS artifacts ────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/settings.json
+
+# ─── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ─── Test & Coverage ──────────────────────────────────────────────────────────
+coverage/
+.nyc_output/
+
+# ─── Vite ─────────────────────────────────────────────────────────────────────
+.vite/
+
+# ─── Stale backend files (legacy monorepo remnant — code lives in ../backend/)
+# These files are NOT part of the React app. They are ignored here so only
+# the Vite/React source is committed to the frontend repository.
+config/
+controllers/
+middleware/
+models/
+routes/
+utils/jwt.js
+utils/mailer.js
+utils/seed.js
+server.js
+dropindex.js
+fixdb.js
+testMailer.js
+replace_emojis.js
+frontend.zip
+
+.vercel
