@@ -4,12 +4,16 @@ const mongoose = require('mongoose');
 const DB_URI = 'mongodb://localhost:27017/metro_test_eam';
 
 beforeAll(async () => {
+  // Ensure any prior test file's connection is fully torn down before connecting
+  if (mongoose.connection.readyState !== 0) {
+    await mongoose.disconnect();
+  }
   await mongoose.connect(DB_URI);
 });
 
 afterAll(async () => {
   await mongoose.connection.dropDatabase();
-  await mongoose.connection.close();
+  await mongoose.disconnect();
 });
 
 afterEach(async () => {
