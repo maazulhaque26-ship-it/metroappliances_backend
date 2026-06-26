@@ -6,6 +6,7 @@ import warehouseAuthReducer from './slices/warehouseAuthSlice';
 import supplierAuthReducer  from './slices/supplierAuthSlice';
 import technicianAuthReducer from './slices/technicianAuthSlice';
 import engineerAuthReducer   from './slices/engineerAuthSlice';
+import employeeAuthReducer   from './slices/employeeAuthSlice';
 import { cartReducer, wishlistReducer, productsReducer } from './slices/shopSlices';
 import settingsReducer from './slices/settingsSlice';
 import compareReducer from './slices/compareSlice';
@@ -21,6 +22,7 @@ const store = configureStore({
     supplierAuth:   supplierAuthReducer,
     technicianAuth: technicianAuthReducer,
     engineerAuth:   engineerAuthReducer,
+    employeeAuth:   employeeAuthReducer,
     cart:           cartReducer,
     wishlist:       wishlistReducer,
     products:       productsReducer,
