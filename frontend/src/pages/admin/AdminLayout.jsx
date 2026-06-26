@@ -422,6 +422,22 @@ const NAV_GROUPS = [
     ],
   },
   {
+    label: 'HRMS',
+    items: [
+      { label: 'HR Dashboard',     path: '/admin/hr',              icon: FiHome,       roles: ['admin', 'super_admin'] },
+      { label: 'Employees',        path: '/admin/hr/employees',    icon: FiUsers,      roles: ['admin', 'super_admin'] },
+      { label: 'Departments',      path: '/admin/hr/departments',  icon: FiLayers,     roles: ['admin', 'super_admin'] },
+      { label: 'Designations',     path: '/admin/hr/designations', icon: FiFileText,   roles: ['admin', 'super_admin'] },
+      { label: 'Org Chart',        path: '/admin/hr/org-chart',    icon: FiGlobe,      roles: ['admin', 'super_admin'] },
+      { label: 'Documents',        path: '/admin/hr/documents',    icon: FiBook,       roles: ['admin', 'super_admin'] },
+      { label: 'Transfers',        path: '/admin/hr/transfers',    icon: FiArrowRight, roles: ['admin', 'super_admin'] },
+      { label: 'Promotions',       path: '/admin/hr/promotions',   icon: FiTrendingUp, roles: ['admin', 'super_admin'] },
+      { label: 'Probation',        path: '/admin/hr/probation',    icon: FiCheckSquare,roles: ['admin', 'super_admin'] },
+      { label: 'Exits',            path: '/admin/hr/exits',        icon: FiAlertTriangle, roles: ['admin', 'super_admin'] },
+      { label: 'HR Reports',       path: '/admin/hr/reports',      icon: FiBarChart2,  roles: ['admin', 'super_admin'] },
+    ],
+  },
+  {
     label: 'Enterprise',
     items: [
       { label: 'Audit Log', path: '/admin/audit-log', icon: FiShield, roles: ['admin', 'super_admin'] },

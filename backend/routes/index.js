@@ -3323,5 +3323,638 @@ router.put(   '/admin/cfo/board-reports/:id',             protect, admin, cfoRep
 router.patch( '/admin/cfo/board-reports/:id/approve',     protect, admin, cfoReportCtrl.approveBoardReport);
 router.delete('/admin/cfo/board-reports/:id',             protect, admin, cfoReportCtrl.deleteBoardReport);
 
+// =============================================================================
+// SPRINT 14A — ENTERPRISE HRMS
+// =============================================================================
+const hrDashCtrl    = require('../controllers/hrDashboardController');
+const empCtrl       = require('../controllers/employeeController');
+const deptCtrl      = require('../controllers/departmentController');
+const lifecycleCtrl = require('../controllers/employeeLifecycleController');
+const orgCtrl       = require('../controllers/organizationController');
+const empDocCtrl    = require('../controllers/employeeDocumentController');
+
+// ── HR Dashboard ──────────────────────────────────────────────────────────────
+router.get('/admin/hr/dashboard',                        protect, admin, hrDashCtrl.getDashboard);
+router.get('/admin/hr/reports/headcount',                protect, admin, hrDashCtrl.getHeadcountReport);
+router.get('/admin/hr/reports/attrition',                protect, admin, hrDashCtrl.getAttritionReport);
+router.get('/admin/hr/reports/new-joiners',              protect, admin, hrDashCtrl.getNewJoinersReport);
+
+// ── Employees ─────────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/employees',                     protect, admin, empCtrl.getEmployees);
+router.post(  '/admin/hr/employees',                     protect, admin, empCtrl.createEmployee);
+router.get(   '/admin/hr/employees/:id',                 protect, admin, empCtrl.getEmployee);
+router.put(   '/admin/hr/employees/:id',                 protect, admin, empCtrl.updateEmployee);
+router.delete('/admin/hr/employees/:id',                 protect, admin, empCtrl.deleteEmployee);
+router.patch( '/admin/hr/employees/:id/confirm',         protect, admin, empCtrl.confirmEmployee);
+
+// Employee sub-resources
+router.get(   '/admin/hr/employees/:id/bank-accounts',   protect, admin, empCtrl.getBankAccounts);
+router.post(  '/admin/hr/employees/:id/bank-accounts',   protect, admin, empCtrl.createBankAccount);
+router.delete('/admin/hr/employees/:id/bank-accounts/:bid', protect, admin, empCtrl.deleteBankAccount);
+
+router.get(   '/admin/hr/employees/:id/emergency-contacts',       protect, admin, empCtrl.getEmergencyContacts);
+router.post(  '/admin/hr/employees/:id/emergency-contacts',       protect, admin, empCtrl.createEmergencyContact);
+router.delete('/admin/hr/employees/:id/emergency-contacts/:cid',  protect, admin, empCtrl.deleteEmergencyContact);
+
+router.get(   '/admin/hr/employees/:id/skills',          protect, admin, empCtrl.getSkills);
+router.post(  '/admin/hr/employees/:id/skills',          protect, admin, empCtrl.createSkill);
+router.put(   '/admin/hr/employees/:id/skills/:sid',     protect, admin, empCtrl.updateSkill);
+router.delete('/admin/hr/employees/:id/skills/:sid',     protect, admin, empCtrl.deleteSkill);
+
+router.get(   '/admin/hr/employees/:id/certifications',          protect, admin, empCtrl.getCertifications);
+router.post(  '/admin/hr/employees/:id/certifications',          protect, admin, empCtrl.createCertification);
+router.delete('/admin/hr/employees/:id/certifications/:certId',  protect, admin, empCtrl.deleteCertification);
+
+router.get(   '/admin/hr/employees/:id/notes',           protect, admin, empCtrl.getNotes);
+router.post(  '/admin/hr/employees/:id/notes',           protect, admin, empCtrl.createNote);
+router.delete('/admin/hr/employees/:id/notes/:nid',      protect, admin, empCtrl.deleteNote);
+
+router.get(   '/admin/hr/employees/:id/employment-history',          protect, admin, empCtrl.getEmploymentHistory);
+router.post(  '/admin/hr/employees/:id/employment-history',          protect, admin, empCtrl.createEmploymentHistory);
+router.delete('/admin/hr/employees/:id/employment-history/:hid',     protect, admin, empCtrl.deleteEmploymentHistory);
+
+// ── Departments ───────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/departments',                   protect, admin, deptCtrl.getDepartments);
+router.post(  '/admin/hr/departments',                   protect, admin, deptCtrl.createDepartment);
+router.get(   '/admin/hr/departments/:id',               protect, admin, deptCtrl.getDepartment);
+router.put(   '/admin/hr/departments/:id',               protect, admin, deptCtrl.updateDepartment);
+router.delete('/admin/hr/departments/:id',               protect, admin, deptCtrl.deleteDepartment);
+
+// ── Designations ──────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/designations',                  protect, admin, deptCtrl.getDesignations);
+router.post(  '/admin/hr/designations',                  protect, admin, deptCtrl.createDesignation);
+router.get(   '/admin/hr/designations/:id',              protect, admin, deptCtrl.getDesignation);
+router.put(   '/admin/hr/designations/:id',              protect, admin, deptCtrl.updateDesignation);
+router.delete('/admin/hr/designations/:id',              protect, admin, deptCtrl.deleteDesignation);
+
+// ── Business Units ────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/business-units',                protect, admin, deptCtrl.getBusinessUnits);
+router.post(  '/admin/hr/business-units',                protect, admin, deptCtrl.createBusinessUnit);
+router.put(   '/admin/hr/business-units/:id',            protect, admin, deptCtrl.updateBusinessUnit);
+router.delete('/admin/hr/business-units/:id',            protect, admin, deptCtrl.deleteBusinessUnit);
+
+// ── Locations ─────────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/locations',                     protect, admin, deptCtrl.getLocations);
+router.post(  '/admin/hr/locations',                     protect, admin, deptCtrl.createLocation);
+router.put(   '/admin/hr/locations/:id',                 protect, admin, deptCtrl.updateLocation);
+router.delete('/admin/hr/locations/:id',                 protect, admin, deptCtrl.deleteLocation);
+
+// ── HR Settings ───────────────────────────────────────────────────────────────
+router.get(  '/admin/hr/settings',                       protect, admin, deptCtrl.getSettings);
+router.post( '/admin/hr/settings',                       protect, admin, deptCtrl.upsertSetting);
+
+// ── Transfers ─────────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/transfers',                     protect, admin, lifecycleCtrl.getTransfers);
+router.post(  '/admin/hr/transfers',                     protect, admin, lifecycleCtrl.createTransfer);
+router.get(   '/admin/hr/transfers/:id',                 protect, admin, lifecycleCtrl.getTransfer);
+router.patch( '/admin/hr/transfers/:id/approve',         protect, admin, lifecycleCtrl.approveTransfer);
+router.patch( '/admin/hr/transfers/:id/reject',          protect, admin, lifecycleCtrl.rejectTransfer);
+router.delete('/admin/hr/transfers/:id',                 protect, admin, lifecycleCtrl.deleteTransfer);
+
+// ── Promotions ────────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/promotions',                    protect, admin, lifecycleCtrl.getPromotions);
+router.post(  '/admin/hr/promotions',                    protect, admin, lifecycleCtrl.createPromotion);
+router.patch( '/admin/hr/promotions/:id/approve',        protect, admin, lifecycleCtrl.approvePromotion);
+router.patch( '/admin/hr/promotions/:id/reject',         protect, admin, lifecycleCtrl.rejectPromotion);
+router.delete('/admin/hr/promotions/:id',                protect, admin, lifecycleCtrl.deletePromotion);
+
+// ── Probation ─────────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/probation',                     protect, admin, lifecycleCtrl.getProbations);
+router.post(  '/admin/hr/probation',                     protect, admin, lifecycleCtrl.createProbation);
+router.patch( '/admin/hr/probation/:id/confirm',         protect, admin, lifecycleCtrl.confirmProbation);
+router.patch( '/admin/hr/probation/:id/extend',          protect, admin, lifecycleCtrl.extendProbation);
+router.delete('/admin/hr/probation/:id',                 protect, admin, lifecycleCtrl.deleteProbation);
+
+// ── Exits ─────────────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/exits',                         protect, admin, lifecycleCtrl.getExits);
+router.post(  '/admin/hr/exits',                         protect, admin, lifecycleCtrl.createExit);
+router.get(   '/admin/hr/exits/:id',                     protect, admin, lifecycleCtrl.getExit);
+router.put(   '/admin/hr/exits/:id',                     protect, admin, lifecycleCtrl.updateExit);
+router.delete('/admin/hr/exits/:id',                     protect, admin, lifecycleCtrl.deleteExit);
+
+// ── Organization ──────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/org/nodes',                     protect, admin, orgCtrl.getNodes);
+router.post(  '/admin/hr/org/nodes',                     protect, admin, orgCtrl.createNode);
+router.get(   '/admin/hr/org/nodes/:id',                 protect, admin, orgCtrl.getNode);
+router.put(   '/admin/hr/org/nodes/:id',                 protect, admin, orgCtrl.updateNode);
+router.delete('/admin/hr/org/nodes/:id',                 protect, admin, orgCtrl.deleteNode);
+
+router.get(   '/admin/hr/org/charts',                    protect, admin, orgCtrl.getCharts);
+router.post(  '/admin/hr/org/charts',                    protect, admin, orgCtrl.createChart);
+router.get(   '/admin/hr/org/charts/active',             protect, admin, orgCtrl.getActiveChart);
+router.patch( '/admin/hr/org/charts/:id/activate',       protect, admin, orgCtrl.activateChart);
+router.delete('/admin/hr/org/charts/:id',                protect, admin, orgCtrl.deleteChart);
+
+router.get(   '/admin/hr/org/reporting',                 protect, admin, orgCtrl.getReportingRelationships);
+router.post(  '/admin/hr/org/reporting',                 protect, admin, orgCtrl.createReportingRelationship);
+router.patch( '/admin/hr/org/reporting/:id/terminate',   protect, admin, orgCtrl.terminateReportingRelationship);
+router.get(   '/admin/hr/org/hierarchy/:employeeId',     protect, admin, orgCtrl.getHierarchyTree);
+
+// ── Employee Documents ────────────────────────────────────────────────────────
+router.get(   '/admin/hr/documents',                     protect, admin, empDocCtrl.getDocuments);
+router.post(  '/admin/hr/documents',                     protect, admin, empDocCtrl.createDocument);
+router.get(   '/admin/hr/documents/expiring',            protect, admin, empDocCtrl.getExpiringDocuments);
+router.get(   '/admin/hr/documents/:id',                 protect, admin, empDocCtrl.getDocument);
+router.put(   '/admin/hr/documents/:id',                 protect, admin, empDocCtrl.updateDocument);
+router.patch( '/admin/hr/documents/:id/verify',          protect, admin, empDocCtrl.verifyDocument);
+router.delete('/admin/hr/documents/:id',                 protect, admin, empDocCtrl.deleteDocument);
+
+// =============================================================================
+// SPRINT 14B — ENTERPRISE ATTENDANCE & LEAVE MANAGEMENT
+// =============================================================================
+const attCtrl        = require('../controllers/attendanceController');
+const attPolicyCtrl  = require('../controllers/attendancePolicyController');
+const leaveCtrl      = require('../controllers/leaveController');
+const lvPolicyCtrl   = require('../controllers/leavePolicyController');
+const attReportCtrl  = require('../controllers/attendanceReportController');
+
+// ── Attendance Dashboard ──────────────────────────────────────────────────────
+router.get('/admin/hr/attendance/dashboard',                    protect, admin, attCtrl.getDashboard);
+
+// ── Attendance Records ────────────────────────────────────────────────────────
+router.get(   '/admin/hr/attendance',                           protect, admin, attCtrl.getAttendances);
+router.post(  '/admin/hr/attendance',                           protect, admin, attCtrl.createAttendance);
+router.get(   '/admin/hr/attendance/:id',                       protect, admin, attCtrl.getAttendance);
+router.put(   '/admin/hr/attendance/:id',                       protect, admin, attCtrl.updateAttendance);
+router.delete('/admin/hr/attendance/:id',                       protect, admin, attCtrl.deleteAttendance);
+
+// ── Employee Punches ──────────────────────────────────────────────────────────
+router.get(  '/admin/hr/attendance/punches',                    protect, admin, attCtrl.getPunches);
+router.post( '/admin/hr/attendance/punch',                      protect, admin, attCtrl.recordPunch);
+
+// ── Attendance Summary ────────────────────────────────────────────────────────
+router.get(  '/admin/hr/attendance/summaries',                  protect, admin, attCtrl.getSummaries);
+router.post( '/admin/hr/attendance/summaries/compute',          protect, admin, attCtrl.computeSummary);
+
+// ── Attendance Exceptions ─────────────────────────────────────────────────────
+router.get(  '/admin/hr/attendance/exceptions',                 protect, admin, attCtrl.getExceptions);
+router.patch('/admin/hr/attendance/exceptions/:id/resolve',     protect, admin, attCtrl.resolveException);
+
+// ── Attendance Policies ───────────────────────────────────────────────────────
+router.get(   '/admin/hr/attendance/policies',                  protect, admin, attPolicyCtrl.getPolicies);
+router.post(  '/admin/hr/attendance/policies',                  protect, admin, attPolicyCtrl.createPolicy);
+router.get(   '/admin/hr/attendance/policies/:id',              protect, admin, attPolicyCtrl.getPolicy);
+router.put(   '/admin/hr/attendance/policies/:id',              protect, admin, attPolicyCtrl.updatePolicy);
+router.delete('/admin/hr/attendance/policies/:id',              protect, admin, attPolicyCtrl.deletePolicy);
+
+// ── Attendance Devices ────────────────────────────────────────────────────────
+router.get(   '/admin/hr/attendance/devices',                   protect, admin, attPolicyCtrl.getDevices);
+router.post(  '/admin/hr/attendance/devices',                   protect, admin, attPolicyCtrl.createDevice);
+router.get(   '/admin/hr/attendance/devices/:id',               protect, admin, attPolicyCtrl.getDevice);
+router.put(   '/admin/hr/attendance/devices/:id',               protect, admin, attPolicyCtrl.updateDevice);
+router.delete('/admin/hr/attendance/devices/:id',               protect, admin, attPolicyCtrl.deleteDevice);
+
+// ── Attendance Adjustments ────────────────────────────────────────────────────
+router.get(   '/admin/hr/attendance/adjustments',               protect, admin, attPolicyCtrl.getAdjustments);
+router.post(  '/admin/hr/attendance/adjustments',               protect, admin, attPolicyCtrl.createAdjustment);
+router.patch( '/admin/hr/attendance/adjustments/:id/approve',   protect, admin, attPolicyCtrl.approveAdjustment);
+router.patch( '/admin/hr/attendance/adjustments/:id/reject',    protect, admin, attPolicyCtrl.rejectAdjustment);
+
+// ── Attendance Reports ────────────────────────────────────────────────────────
+router.get('/admin/hr/reports/attendance/daily',                protect, admin, attReportCtrl.getDailyAttendance);
+router.get('/admin/hr/reports/attendance/monthly',              protect, admin, attReportCtrl.getMonthlyAttendance);
+router.get('/admin/hr/reports/attendance/late',                 protect, admin, attReportCtrl.getLateReport);
+router.get('/admin/hr/reports/attendance/absentee',             protect, admin, attReportCtrl.getAbsenteeReport);
+
+// ── Leave Types ───────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/leave/types',                          protect, admin, lvPolicyCtrl.getLeaveTypes);
+router.post(  '/admin/hr/leave/types',                          protect, admin, lvPolicyCtrl.createLeaveType);
+router.get(   '/admin/hr/leave/types/:id',                      protect, admin, lvPolicyCtrl.getLeaveType);
+router.put(   '/admin/hr/leave/types/:id',                      protect, admin, lvPolicyCtrl.updateLeaveType);
+router.delete('/admin/hr/leave/types/:id',                      protect, admin, lvPolicyCtrl.deleteLeaveType);
+
+// ── Leave Policies ────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/leave/policies',                       protect, admin, lvPolicyCtrl.getLeavePolicies);
+router.post(  '/admin/hr/leave/policies',                       protect, admin, lvPolicyCtrl.createLeavePolicy);
+router.get(   '/admin/hr/leave/policies/:id',                   protect, admin, lvPolicyCtrl.getLeavePolicy);
+router.put(   '/admin/hr/leave/policies/:id',                   protect, admin, lvPolicyCtrl.updateLeavePolicy);
+router.delete('/admin/hr/leave/policies/:id',                   protect, admin, lvPolicyCtrl.deleteLeavePolicy);
+
+// ── Holidays ──────────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/leave/holidays',                       protect, admin, lvPolicyCtrl.getHolidays);
+router.post(  '/admin/hr/leave/holidays',                       protect, admin, lvPolicyCtrl.createHoliday);
+router.get(   '/admin/hr/leave/holidays/:id',                   protect, admin, lvPolicyCtrl.getHoliday);
+router.put(   '/admin/hr/leave/holidays/:id',                   protect, admin, lvPolicyCtrl.updateHoliday);
+router.delete('/admin/hr/leave/holidays/:id',                   protect, admin, lvPolicyCtrl.deleteHoliday);
+
+// ── Leave Requests ────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/leave/requests',                       protect, admin, leaveCtrl.getLeaveRequests);
+router.post(  '/admin/hr/leave/requests',                       protect, admin, leaveCtrl.createLeaveRequest);
+router.get(   '/admin/hr/leave/requests/:id',                   protect, admin, leaveCtrl.getLeaveRequest);
+router.put(   '/admin/hr/leave/requests/:id',                   protect, admin, leaveCtrl.updateLeaveRequest);
+router.patch( '/admin/hr/leave/requests/:id/approve',           protect, admin, leaveCtrl.approveLeaveRequest);
+router.patch( '/admin/hr/leave/requests/:id/reject',            protect, admin, leaveCtrl.rejectLeaveRequest);
+router.patch( '/admin/hr/leave/requests/:id/cancel',            protect, admin, leaveCtrl.cancelLeaveRequest);
+router.delete('/admin/hr/leave/requests/:id',                   protect, admin, leaveCtrl.deleteLeaveRequest);
+
+// ── Leave Balances ────────────────────────────────────────────────────────────
+router.get( '/admin/hr/leave/balances',                         protect, admin, leaveCtrl.getLeaveBalances);
+router.post('/admin/hr/leave/balances',                         protect, admin, leaveCtrl.upsertLeaveBalance);
+
+// ── Leave Accruals ────────────────────────────────────────────────────────────
+router.get( '/admin/hr/leave/accruals',                         protect, admin, leaveCtrl.getLeaveAccruals);
+router.post('/admin/hr/leave/accruals',                         protect, admin, leaveCtrl.createLeaveAccrual);
+
+// ── Leave Encashments ─────────────────────────────────────────────────────────
+router.get(   '/admin/hr/leave/encashments',                    protect, admin, leaveCtrl.getEncashments);
+router.post(  '/admin/hr/leave/encashments',                    protect, admin, leaveCtrl.createEncashment);
+router.patch( '/admin/hr/leave/encashments/:id/approve',        protect, admin, leaveCtrl.approveEncashment);
+router.patch( '/admin/hr/leave/encashments/:id/reject',         protect, admin, leaveCtrl.rejectEncashment);
+
+// ── Leave Reports ─────────────────────────────────────────────────────────────
+router.get('/admin/hr/reports/leave/utilization',               protect, admin, attReportCtrl.getLeaveUtilizationReport);
+router.get('/admin/hr/reports/leave/balances',                  protect, admin, attReportCtrl.getLeaveBalanceReport);
+
+// =============================================================================
+// SPRINT 14C — ENTERPRISE PAYROLL MANAGEMENT
+// =============================================================================
+const payrollDashCtrl  = require('../controllers/payrollDashboardController');
+const payrollRunCtrl   = require('../controllers/payrollRunController');
+const salStructCtrl    = require('../controllers/salaryStructureController');
+const empSalCtrl       = require('../controllers/employeeSalaryController');
+const payrollLoanCtrl  = require('../controllers/payrollLoanController');
+const payrollBonusCtrl = require('../controllers/payrollBonusController');
+const payrollRptCtrl   = require('../controllers/payrollReportController');
+const payrollSetCtrl   = require('../controllers/payrollSettingController');
+
+// ── Payroll Dashboard ──────────────────────────────────────────────────────────
+router.get('/admin/hr/payroll/dashboard',                           protect, admin, payrollDashCtrl.getDashboard);
+
+// ── Payroll Periods ───────────────────────────────────────────────────────────
+router.get(   '/admin/hr/payroll/periods',                          protect, admin, payrollRunCtrl.getPeriods);
+router.post(  '/admin/hr/payroll/periods',                          protect, admin, payrollRunCtrl.createPeriod);
+router.get(   '/admin/hr/payroll/periods/:id',                      protect, admin, payrollRunCtrl.getPeriod);
+router.put(   '/admin/hr/payroll/periods/:id',                      protect, admin, payrollRunCtrl.updatePeriod);
+router.delete('/admin/hr/payroll/periods/:id',                      protect, admin, payrollRunCtrl.deletePeriod);
+router.patch( '/admin/hr/payroll/periods/:id/close',                protect, admin, payrollRunCtrl.closePeriod);
+
+// ── Payroll Runs ──────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/payroll/runs',                             protect, admin, payrollRunCtrl.getRuns);
+router.post(  '/admin/hr/payroll/runs',                             protect, admin, payrollRunCtrl.createRun);
+router.get(   '/admin/hr/payroll/runs/:id',                         protect, admin, payrollRunCtrl.getRun);
+router.patch( '/admin/hr/payroll/runs/:id/calculate',               protect, admin, payrollRunCtrl.calculateRun);
+router.patch( '/admin/hr/payroll/runs/:id/approve',                 protect, admin, payrollRunCtrl.approveRun);
+router.patch( '/admin/hr/payroll/runs/:id/post',                    protect, admin, payrollRunCtrl.postRun);
+router.patch( '/admin/hr/payroll/runs/:id/pay',                     protect, admin, payrollRunCtrl.payRun);
+router.get(   '/admin/hr/payroll/runs/:id/employees',               protect, admin, payrollRunCtrl.getRunEmployees);
+
+// ── Payroll Employees (individual entries) ────────────────────────────────────
+router.get(  '/admin/hr/payroll/payroll-employees/:id',             protect, admin, payrollRunCtrl.getPayrollEmployee);
+router.post( '/admin/hr/payroll/payroll-employees/:id/adjustments', protect, admin, payrollRunCtrl.addAdjustment);
+
+// ── Salary Components ─────────────────────────────────────────────────────────
+router.get(   '/admin/hr/payroll/components',                       protect, admin, salStructCtrl.getComponents);
+router.post(  '/admin/hr/payroll/components',                       protect, admin, salStructCtrl.createComponent);
+router.get(   '/admin/hr/payroll/components/:id',                   protect, admin, salStructCtrl.getComponent);
+router.put(   '/admin/hr/payroll/components/:id',                   protect, admin, salStructCtrl.updateComponent);
+router.delete('/admin/hr/payroll/components/:id',                   protect, admin, salStructCtrl.deleteComponent);
+
+// ── Salary Structures ─────────────────────────────────────────────────────────
+router.get(   '/admin/hr/payroll/structures',                       protect, admin, salStructCtrl.getStructures);
+router.post(  '/admin/hr/payroll/structures',                       protect, admin, salStructCtrl.createStructure);
+router.get(   '/admin/hr/payroll/structures/:id',                   protect, admin, salStructCtrl.getStructure);
+router.put(   '/admin/hr/payroll/structures/:id',                   protect, admin, salStructCtrl.updateStructure);
+router.delete('/admin/hr/payroll/structures/:id',                   protect, admin, salStructCtrl.deleteStructure);
+
+// ── Employee Salary Assignments ───────────────────────────────────────────────
+router.get(   '/admin/hr/payroll/employee-salary',                  protect, admin, empSalCtrl.getEmployeeSalaries);
+router.post(  '/admin/hr/payroll/employee-salary',                  protect, admin, empSalCtrl.assignSalary);
+router.get(   '/admin/hr/payroll/employee-salary/:id',              protect, admin, empSalCtrl.getEmployeeSalary);
+router.put(   '/admin/hr/payroll/employee-salary/:id',              protect, admin, empSalCtrl.updateEmployeeSalary);
+router.delete('/admin/hr/payroll/employee-salary/:id',              protect, admin, empSalCtrl.deleteEmployeeSalary);
+
+// ── Payslips ──────────────────────────────────────────────────────────────────
+router.get(  '/admin/hr/payroll/payslips',                          protect, admin, empSalCtrl.getPayslips);
+router.get(  '/admin/hr/payroll/payslips/:id',                      protect, admin, empSalCtrl.getPayslip);
+router.patch('/admin/hr/payroll/payslips/:id/publish',              protect, admin, empSalCtrl.publishPayslip);
+
+// ── Bonuses ───────────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/payroll/bonuses',                          protect, admin, payrollBonusCtrl.getBonuses);
+router.post(  '/admin/hr/payroll/bonuses',                          protect, admin, payrollBonusCtrl.createBonus);
+router.get(   '/admin/hr/payroll/bonuses/:id',                      protect, admin, payrollBonusCtrl.getBonus);
+router.put(   '/admin/hr/payroll/bonuses/:id',                      protect, admin, payrollBonusCtrl.updateBonus);
+router.delete('/admin/hr/payroll/bonuses/:id',                      protect, admin, payrollBonusCtrl.deleteBonus);
+router.patch( '/admin/hr/payroll/bonuses/:id/approve',              protect, admin, payrollBonusCtrl.approveBonus);
+
+// ── Incentives ────────────────────────────────────────────────────────────────
+router.get(  '/admin/hr/payroll/incentives',                        protect, admin, payrollBonusCtrl.getIncentives);
+router.post( '/admin/hr/payroll/incentives',                        protect, admin, payrollBonusCtrl.createIncentive);
+router.get(  '/admin/hr/payroll/incentives/:id',                    protect, admin, payrollBonusCtrl.getIncentive);
+router.put(  '/admin/hr/payroll/incentives/:id',                    protect, admin, payrollBonusCtrl.updateIncentive);
+router.patch('/admin/hr/payroll/incentives/:id/approve',            protect, admin, payrollBonusCtrl.approveIncentive);
+
+// ── Overtime ──────────────────────────────────────────────────────────────────
+router.get(  '/admin/hr/payroll/overtime',                          protect, admin, payrollBonusCtrl.getOvertime);
+router.post( '/admin/hr/payroll/overtime',                          protect, admin, payrollBonusCtrl.createOvertime);
+router.get(  '/admin/hr/payroll/overtime/:id',                      protect, admin, payrollBonusCtrl.getOvertimeRecord);
+router.put(  '/admin/hr/payroll/overtime/:id',                      protect, admin, payrollBonusCtrl.updateOvertime);
+router.patch('/admin/hr/payroll/overtime/:id/approve',              protect, admin, payrollBonusCtrl.approveOvertime);
+
+// ── Loans ─────────────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/payroll/loans',                            protect, admin, payrollLoanCtrl.getLoans);
+router.post(  '/admin/hr/payroll/loans',                            protect, admin, payrollLoanCtrl.createLoan);
+router.get(   '/admin/hr/payroll/loans/:id',                        protect, admin, payrollLoanCtrl.getLoan);
+router.put(   '/admin/hr/payroll/loans/:id',                        protect, admin, payrollLoanCtrl.updateLoan);
+router.patch( '/admin/hr/payroll/loans/:id/approve',                protect, admin, payrollLoanCtrl.approveLoan);
+router.patch( '/admin/hr/payroll/loans/:id/close',                  protect, admin, payrollLoanCtrl.closeLoan);
+router.get(   '/admin/hr/payroll/loans/:id/repayments',             protect, admin, payrollLoanCtrl.getRepayments);
+router.post(  '/admin/hr/payroll/loans/:id/repayments',             protect, admin, payrollLoanCtrl.createRepayment);
+
+// ── Advances ──────────────────────────────────────────────────────────────────
+router.get(  '/admin/hr/payroll/advances',                          protect, admin, payrollLoanCtrl.getAdvances);
+router.post( '/admin/hr/payroll/advances',                          protect, admin, payrollLoanCtrl.createAdvance);
+router.get(  '/admin/hr/payroll/advances/:id',                      protect, admin, payrollLoanCtrl.getAdvance);
+router.patch('/admin/hr/payroll/advances/:id/approve',              protect, admin, payrollLoanCtrl.approveAdvance);
+router.patch('/admin/hr/payroll/advances/:id/recover',              protect, admin, payrollLoanCtrl.recoverAdvance);
+
+// ── Payroll Reports ───────────────────────────────────────────────────────────
+router.get('/admin/hr/payroll/reports/summary',                     protect, admin, payrollRptCtrl.getPayrollSummary);
+router.get('/admin/hr/payroll/reports/register',                    protect, admin, payrollRptCtrl.getSalaryRegister);
+router.get('/admin/hr/payroll/reports/bank-transfer',               protect, admin, payrollRptCtrl.getBankTransferSheet);
+router.get('/admin/hr/payroll/reports/variance',                    protect, admin, payrollRptCtrl.getPayrollVariance);
+router.get('/admin/hr/payroll/reports/department-cost',             protect, admin, payrollRptCtrl.getDepartmentCost);
+router.get('/admin/hr/payroll/reports/cost-center',                 protect, admin, payrollRptCtrl.getCostCenterPayroll);
+router.get('/admin/hr/payroll/reports/monthly',                     protect, admin, payrollRptCtrl.getMonthlyPayroll);
+router.get('/admin/hr/payroll/reports/annual',                      protect, admin, payrollRptCtrl.getAnnualPayroll);
+
+// ── Payroll Settings ──────────────────────────────────────────────────────────
+router.get('/admin/hr/payroll/settings',                            protect, admin, payrollSetCtrl.getSettings);
+router.put('/admin/hr/payroll/settings',                            protect, admin, payrollSetCtrl.updateSettings);
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SPRINT 14D — ENTERPRISE RECRUITMENT & ATS
+// ═══════════════════════════════════════════════════════════════════════════════
+const recruitDashCtrl  = require('../controllers/recruitmentDashboardController');
+const jobOpeningCtrl   = require('../controllers/jobOpeningController');
+const jobAppCtrl       = require('../controllers/jobApplicationController');
+const candidateCtrl    = require('../controllers/candidateController');
+const interviewCtrl    = require('../controllers/interviewController');
+const offerCtrl        = require('../controllers/offerController');
+const bgvCtrl          = require('../controllers/backgroundVerificationController');
+const recruitRptCtrl   = require('../controllers/recruitmentReportController');
+
+// ── Recruitment Dashboard ─────────────────────────────────────────────────────
+router.get('/admin/hr/recruitment/dashboard',                        protect, admin, recruitDashCtrl.getDashboard);
+
+// ── Job Openings ──────────────────────────────────────────────────────────────
+router.get('/admin/hr/recruitment/jobs',                             protect, admin, jobOpeningCtrl.getJobs);
+router.post('/admin/hr/recruitment/jobs',                            protect, admin, jobOpeningCtrl.createJob);
+router.get('/admin/hr/recruitment/jobs/:id',                         protect, admin, jobOpeningCtrl.getJob);
+router.put('/admin/hr/recruitment/jobs/:id',                         protect, admin, jobOpeningCtrl.updateJob);
+router.delete('/admin/hr/recruitment/jobs/:id',                      protect, admin, jobOpeningCtrl.deleteJob);
+router.patch('/admin/hr/recruitment/jobs/:id/post',                  protect, admin, jobOpeningCtrl.postJob);
+router.patch('/admin/hr/recruitment/jobs/:id/close',                 protect, admin, jobOpeningCtrl.closeJob);
+router.patch('/admin/hr/recruitment/jobs/:id/hold',                  protect, admin, jobOpeningCtrl.holdJob);
+router.get('/admin/hr/recruitment/jobs/:id/applications',            protect, admin, jobOpeningCtrl.getJobApplications);
+
+// ── Applications ──────────────────────────────────────────────────────────────
+router.get('/admin/hr/recruitment/applications',                     protect, admin, jobAppCtrl.getApplications);
+router.post('/admin/hr/recruitment/applications',                    protect, admin, jobAppCtrl.createApplication);
+router.post('/admin/hr/recruitment/applications/bulk-action',        protect, admin, jobAppCtrl.bulkAction);
+router.get('/admin/hr/recruitment/applications/:id',                 protect, admin, jobAppCtrl.getApplication);
+router.put('/admin/hr/recruitment/applications/:id',                 protect, admin, jobAppCtrl.updateApplication);
+router.delete('/admin/hr/recruitment/applications/:id',              protect, admin, jobAppCtrl.deleteApplication);
+router.patch('/admin/hr/recruitment/applications/:id/move-stage',    protect, admin, jobAppCtrl.moveStage);
+router.patch('/admin/hr/recruitment/applications/:id/shortlist',     protect, admin, jobAppCtrl.shortlistApplication);
+router.patch('/admin/hr/recruitment/applications/:id/reject',        protect, admin, jobAppCtrl.rejectApplication);
+
+// ── Candidates ────────────────────────────────────────────────────────────────
+router.get('/admin/hr/recruitment/candidates',                       protect, admin, candidateCtrl.getCandidates);
+router.post('/admin/hr/recruitment/candidates',                      protect, admin, candidateCtrl.createCandidate);
+router.get('/admin/hr/recruitment/talent-pool',                      protect, admin, candidateCtrl.getTalentPool);
+router.get('/admin/hr/recruitment/agencies',                         protect, admin, candidateCtrl.getAgencies);
+router.post('/admin/hr/recruitment/agencies',                        protect, admin, candidateCtrl.createAgency);
+router.put('/admin/hr/recruitment/agencies/:id',                     protect, admin, candidateCtrl.updateAgency);
+router.get('/admin/hr/recruitment/sources',                          protect, admin, candidateCtrl.getSources);
+router.post('/admin/hr/recruitment/sources',                         protect, admin, candidateCtrl.createSource);
+router.get('/admin/hr/recruitment/candidates/:id',                   protect, admin, candidateCtrl.getCandidate);
+router.put('/admin/hr/recruitment/candidates/:id',                   protect, admin, candidateCtrl.updateCandidate);
+router.delete('/admin/hr/recruitment/candidates/:id',                protect, admin, candidateCtrl.deleteCandidate);
+router.get('/admin/hr/recruitment/candidates/:id/applications',      protect, admin, candidateCtrl.getCandidateApplications);
+router.get('/admin/hr/recruitment/candidates/:id/documents',         protect, admin, candidateCtrl.getCandidateDocuments);
+router.post('/admin/hr/recruitment/candidates/:id/documents',        protect, admin, candidateCtrl.addDocument);
+router.patch('/admin/hr/recruitment/candidates/:id/talent-pool',     protect, admin, candidateCtrl.addToTalentPool);
+router.post('/admin/hr/recruitment/candidates/:id/convert',          protect, admin, candidateCtrl.convertToEmployee);
+
+// ── Interviews ────────────────────────────────────────────────────────────────
+router.get('/admin/hr/recruitment/interviews',                       protect, admin, interviewCtrl.getInterviews);
+router.post('/admin/hr/recruitment/interviews',                      protect, admin, interviewCtrl.scheduleInterview);
+router.get('/admin/hr/recruitment/interviews/panel/:jobId',          protect, admin, interviewCtrl.getPanel);
+router.post('/admin/hr/recruitment/interviews/panel/:jobId',         protect, admin, interviewCtrl.setPanel);
+router.get('/admin/hr/recruitment/interviews/:id',                   protect, admin, interviewCtrl.getInterview);
+router.put('/admin/hr/recruitment/interviews/:id',                   protect, admin, interviewCtrl.updateInterview);
+router.patch('/admin/hr/recruitment/interviews/:id/complete',        protect, admin, interviewCtrl.completeInterview);
+router.patch('/admin/hr/recruitment/interviews/:id/cancel',          protect, admin, interviewCtrl.cancelInterview);
+router.patch('/admin/hr/recruitment/interviews/:id/reschedule',      protect, admin, interviewCtrl.rescheduleInterview);
+router.get('/admin/hr/recruitment/interviews/:id/feedback',          protect, admin, interviewCtrl.getFeedback);
+router.post('/admin/hr/recruitment/interviews/:id/feedback',         protect, admin, interviewCtrl.submitFeedback);
+
+// ── Offers ────────────────────────────────────────────────────────────────────
+router.get('/admin/hr/recruitment/offers',                           protect, admin, offerCtrl.getOffers);
+router.post('/admin/hr/recruitment/offers',                          protect, admin, offerCtrl.createOffer);
+router.get('/admin/hr/recruitment/offers/:id',                       protect, admin, offerCtrl.getOffer);
+router.put('/admin/hr/recruitment/offers/:id',                       protect, admin, offerCtrl.updateOffer);
+router.patch('/admin/hr/recruitment/offers/:id/send',                protect, admin, offerCtrl.sendOffer);
+router.patch('/admin/hr/recruitment/offers/:id/approve',             protect, admin, offerCtrl.approveOffer);
+router.patch('/admin/hr/recruitment/offers/:id/reject',              protect, admin, offerCtrl.rejectOffer);
+router.get('/admin/hr/recruitment/offers/:id/acceptance',            protect, admin, offerCtrl.getAcceptance);
+router.post('/admin/hr/recruitment/offers/:id/acceptance',           protect, admin, offerCtrl.recordAcceptance);
+router.get('/admin/hr/recruitment/offers/:id/approvals',             protect, admin, offerCtrl.getApprovals);
+
+// ── Background Verification ───────────────────────────────────────────────────
+router.get('/admin/hr/recruitment/bgv',                              protect, admin, bgvCtrl.getBGVs);
+router.post('/admin/hr/recruitment/bgv',                             protect, admin, bgvCtrl.initiateBGV);
+router.get('/admin/hr/recruitment/bgv/:id',                          protect, admin, bgvCtrl.getBGV);
+router.patch('/admin/hr/recruitment/bgv/:id/check',                  protect, admin, bgvCtrl.updateBGVCheck);
+router.patch('/admin/hr/recruitment/bgv/:id/complete',               protect, admin, bgvCtrl.completeBGV);
+
+// ── Onboarding ────────────────────────────────────────────────────────────────
+router.get('/admin/hr/recruitment/onboarding',                       protect, admin, bgvCtrl.getOnboardings);
+router.post('/admin/hr/recruitment/onboarding',                      protect, admin, bgvCtrl.createOnboarding);
+router.get('/admin/hr/recruitment/onboarding/:id',                   protect, admin, bgvCtrl.getOnboarding);
+router.patch('/admin/hr/recruitment/onboarding/:id/task',            protect, admin, bgvCtrl.updateTask);
+router.patch('/admin/hr/recruitment/onboarding/:id/complete',        protect, admin, bgvCtrl.completeOnboarding);
+
+// ── Recruitment Reports ───────────────────────────────────────────────────────
+router.get('/admin/hr/recruitment/reports/open-positions',           protect, admin, recruitRptCtrl.getOpenPositions);
+router.get('/admin/hr/recruitment/reports/hiring-funnel',            protect, admin, recruitRptCtrl.getHiringFunnel);
+router.get('/admin/hr/recruitment/reports/source-effectiveness',     protect, admin, recruitRptCtrl.getSourceEffectiveness);
+router.get('/admin/hr/recruitment/reports/time-to-hire',             protect, admin, recruitRptCtrl.getTimeToHire);
+router.get('/admin/hr/recruitment/reports/offer-acceptance',         protect, admin, recruitRptCtrl.getOfferAcceptance);
+router.get('/admin/hr/recruitment/reports/recruiter-performance',    protect, admin, recruitRptCtrl.getRecruiterPerformance);
+router.get('/admin/hr/recruitment/reports/department-hiring',        protect, admin, recruitRptCtrl.getDepartmentHiring);
+
+// ── Recruitment Settings ──────────────────────────────────────────────────────
+router.get('/admin/hr/recruitment/settings',                         protect, admin, recruitRptCtrl.getSettings);
+router.put('/admin/hr/recruitment/settings',                         protect, admin, recruitRptCtrl.updateSettings);
+
+// =============================================================================
+// SPRINT 14E — ENTERPRISE PERFORMANCE MANAGEMENT, LEARNING & ESS
+// =============================================================================
+const { protectEmployee } = require('../middleware/employeeAuth');
+const perfDashCtrl    = require('../controllers/performanceDashboardController');
+const goalCtrl        = require('../controllers/goalController');
+const kpiCtrl         = require('../controllers/kpiController');
+const perfReviewCtrl  = require('../controllers/performanceReviewController');
+const trainingCtrl    = require('../controllers/trainingController');
+const learningCtrl    = require('../controllers/learningController');
+const successionCtrl  = require('../controllers/successionController');
+const perfReportCtrl  = require('../controllers/performanceReportController');
+const essAuthCtrl     = require('../controllers/essAuthController');
+const essCtrl         = require('../controllers/essController');
+
+// ── Performance Dashboard ─────────────────────────────────────────────────────
+router.get('/admin/hr/performance/dashboard',                        protect, admin, perfDashCtrl.getDashboard);
+
+// ── Performance Cycles ────────────────────────────────────────────────────────
+router.get(   '/admin/hr/performance/cycles',                        protect, admin, goalCtrl.getCycles);
+router.post(  '/admin/hr/performance/cycles',                        protect, admin, goalCtrl.createCycle);
+router.get(   '/admin/hr/performance/cycles/:id',                    protect, admin, goalCtrl.getCycle);
+router.put(   '/admin/hr/performance/cycles/:id',                    protect, admin, goalCtrl.updateCycle);
+router.delete('/admin/hr/performance/cycles/:id',                    protect, admin, goalCtrl.deleteCycle);
+
+// ── Goal Categories ───────────────────────────────────────────────────────────
+router.get(   '/admin/hr/performance/goal-categories',               protect, admin, goalCtrl.getGoalCategories);
+router.post(  '/admin/hr/performance/goal-categories',               protect, admin, goalCtrl.createGoalCategory);
+router.put(   '/admin/hr/performance/goal-categories/:id',           protect, admin, goalCtrl.updateGoalCategory);
+router.delete('/admin/hr/performance/goal-categories/:id',           protect, admin, goalCtrl.deleteGoalCategory);
+
+// ── Goals ─────────────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/performance/goals',                         protect, admin, goalCtrl.getGoals);
+router.post(  '/admin/hr/performance/goals',                         protect, admin, goalCtrl.createGoal);
+router.get(   '/admin/hr/performance/goals/:id',                     protect, admin, goalCtrl.getGoal);
+router.put(   '/admin/hr/performance/goals/:id',                     protect, admin, goalCtrl.updateGoal);
+router.delete('/admin/hr/performance/goals/:id',                     protect, admin, goalCtrl.deleteGoal);
+router.patch( '/admin/hr/performance/goals/:id/approve',             protect, admin, goalCtrl.approveGoal);
+router.patch( '/admin/hr/performance/goals/:id/progress',            protect, admin, goalCtrl.updateProgress);
+
+// ── Competencies ──────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/performance/competencies',                  protect, admin, kpiCtrl.getCompetencies);
+router.post(  '/admin/hr/performance/competencies',                  protect, admin, kpiCtrl.createCompetency);
+router.get(   '/admin/hr/performance/competencies/:id',              protect, admin, kpiCtrl.getCompetency);
+router.put(   '/admin/hr/performance/competencies/:id',              protect, admin, kpiCtrl.updateCompetency);
+router.delete('/admin/hr/performance/competencies/:id',              protect, admin, kpiCtrl.deleteCompetency);
+router.get(   '/admin/hr/performance/competency-assessments',        protect, admin, kpiCtrl.getCompetencyAssessments);
+router.post(  '/admin/hr/performance/competency-assessments',        protect, admin, kpiCtrl.createCompetencyAssessment);
+
+// ── KPIs ──────────────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/performance/kpis',                          protect, admin, kpiCtrl.getKPIs);
+router.post(  '/admin/hr/performance/kpis',                          protect, admin, kpiCtrl.createKPI);
+router.get(   '/admin/hr/performance/kpis/:id',                      protect, admin, kpiCtrl.getKPI);
+router.put(   '/admin/hr/performance/kpis/:id',                      protect, admin, kpiCtrl.updateKPI);
+router.delete('/admin/hr/performance/kpis/:id',                      protect, admin, kpiCtrl.deleteKPI);
+router.get(   '/admin/hr/performance/kpi-reviews',                   protect, admin, kpiCtrl.getKPIReviews);
+router.post(  '/admin/hr/performance/kpi-reviews',                   protect, admin, kpiCtrl.createKPIReview);
+
+// ── Performance Reviews ───────────────────────────────────────────────────────
+router.get(   '/admin/hr/performance/reviews',                       protect, admin, perfReviewCtrl.getReviews);
+router.post(  '/admin/hr/performance/reviews',                       protect, admin, perfReviewCtrl.createReview);
+router.get(   '/admin/hr/performance/reviews/:id',                   protect, admin, perfReviewCtrl.getReview);
+router.put(   '/admin/hr/performance/reviews/:id',                   protect, admin, perfReviewCtrl.updateReview);
+router.patch( '/admin/hr/performance/reviews/:id/self',              protect, admin, perfReviewCtrl.submitSelfReview);
+router.patch( '/admin/hr/performance/reviews/:id/manager',           protect, admin, perfReviewCtrl.submitManagerReview);
+router.patch( '/admin/hr/performance/reviews/:id/finalize',          protect, admin, perfReviewCtrl.finalizeReview);
+
+// ── Appraisals ────────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/performance/appraisals',                    protect, admin, perfReviewCtrl.getAppraisals);
+router.post(  '/admin/hr/performance/appraisals',                    protect, admin, perfReviewCtrl.createAppraisal);
+router.get(   '/admin/hr/performance/appraisals/:id',                protect, admin, perfReviewCtrl.getAppraisal);
+router.put(   '/admin/hr/performance/appraisals/:id',                protect, admin, perfReviewCtrl.updateAppraisal);
+
+// ── Training Courses ──────────────────────────────────────────────────────────
+router.get(   '/admin/hr/performance/training/courses',              protect, admin, trainingCtrl.getCourses);
+router.post(  '/admin/hr/performance/training/courses',              protect, admin, trainingCtrl.createCourse);
+router.get(   '/admin/hr/performance/training/courses/:id',          protect, admin, trainingCtrl.getCourse);
+router.put(   '/admin/hr/performance/training/courses/:id',          protect, admin, trainingCtrl.updateCourse);
+router.delete('/admin/hr/performance/training/courses/:id',          protect, admin, trainingCtrl.deleteCourse);
+
+// ── Training Sessions ─────────────────────────────────────────────────────────
+router.get(   '/admin/hr/performance/training/sessions',             protect, admin, trainingCtrl.getSessions);
+router.post(  '/admin/hr/performance/training/sessions',             protect, admin, trainingCtrl.createSession);
+router.get(   '/admin/hr/performance/training/enrollments',          protect, admin, trainingCtrl.getEnrollments);
+router.post(  '/admin/hr/performance/training/enroll',               protect, admin, trainingCtrl.enrollEmployee);
+router.patch( '/admin/hr/performance/training/enrollments/:id/complete',  protect, admin, trainingCtrl.completeTraining);
+router.patch( '/admin/hr/performance/training/enrollments/:id/certificate', protect, admin, trainingCtrl.issueCertificate);
+
+// ── Learning Paths ────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/performance/learning/paths',                protect, admin, learningCtrl.getLearningPaths);
+router.post(  '/admin/hr/performance/learning/paths',                protect, admin, learningCtrl.createLearningPath);
+router.get(   '/admin/hr/performance/learning/paths/:id',            protect, admin, learningCtrl.getLearningPath);
+router.put(   '/admin/hr/performance/learning/paths/:id',            protect, admin, learningCtrl.updateLearningPath);
+router.delete('/admin/hr/performance/learning/paths/:id',            protect, admin, learningCtrl.deleteLearningPath);
+router.post(  '/admin/hr/performance/learning/paths/:id/assign',     protect, admin, learningCtrl.assignLearningPath);
+
+// ── Career Development ────────────────────────────────────────────────────────
+router.get(   '/admin/hr/performance/career/plans',                  protect, admin, learningCtrl.getCareerPlans);
+router.post(  '/admin/hr/performance/career/plans',                  protect, admin, learningCtrl.createCareerPlan);
+router.put(   '/admin/hr/performance/career/plans/:id',              protect, admin, learningCtrl.updateCareerPlan);
+router.get(   '/admin/hr/performance/career/skill-gaps',             protect, admin, learningCtrl.getSkillGapAnalyses);
+router.post(  '/admin/hr/performance/career/skill-gaps',             protect, admin, learningCtrl.createSkillGapAnalysis);
+
+// ── Certifications ────────────────────────────────────────────────────────────
+router.get('/admin/hr/performance/certifications',                   protect, admin, trainingCtrl.getCertifications);
+
+// ── Succession Planning ───────────────────────────────────────────────────────
+router.get(   '/admin/hr/performance/succession',                    protect, admin, successionCtrl.getSuccessionPlans);
+router.post(  '/admin/hr/performance/succession',                    protect, admin, successionCtrl.createSuccessionPlan);
+router.get(   '/admin/hr/performance/succession/:id',                protect, admin, successionCtrl.getSuccessionPlan);
+router.put(   '/admin/hr/performance/succession/:id',                protect, admin, successionCtrl.updateSuccessionPlan);
+router.post(  '/admin/hr/performance/succession/:id/successors',     protect, admin, successionCtrl.addSuccessor);
+router.delete('/admin/hr/performance/succession/:id/successors/:eid',protect, admin, successionCtrl.removeSuccessor);
+
+// ── Promotion Recommendations ─────────────────────────────────────────────────
+router.get(   '/admin/hr/performance/promotions',                    protect, admin, successionCtrl.getPromotionRecommendations);
+router.post(  '/admin/hr/performance/promotions',                    protect, admin, successionCtrl.createPromotionRecommendation);
+
+// ── Recognitions ──────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/performance/recognitions',                  protect, admin, successionCtrl.getRecognitions);
+router.post(  '/admin/hr/performance/recognitions',                  protect, admin, successionCtrl.createRecognition);
+router.get(   '/admin/hr/performance/recognitions/:id',              protect, admin, successionCtrl.getRecognition);
+
+// ── Employee Feedback / 1:1 ───────────────────────────────────────────────────
+router.get(   '/admin/hr/performance/feedback',                      protect, admin, successionCtrl.getFeedbacks);
+router.post(  '/admin/hr/performance/feedback',                      protect, admin, successionCtrl.createFeedback);
+router.get(   '/admin/hr/performance/1on1',                          protect, admin, successionCtrl.getOneOnOnes);
+router.post(  '/admin/hr/performance/1on1',                          protect, admin, successionCtrl.createOneOnOne);
+
+// ── Announcements ─────────────────────────────────────────────────────────────
+router.get(   '/admin/hr/performance/announcements',                 protect, admin, perfReportCtrl.getAnnouncements);
+router.post(  '/admin/hr/performance/announcements',                 protect, admin, perfReportCtrl.createAnnouncement);
+router.get(   '/admin/hr/performance/announcements/:id',             protect, admin, perfReportCtrl.getAnnouncement);
+router.put(   '/admin/hr/performance/announcements/:id',             protect, admin, perfReportCtrl.updateAnnouncement);
+router.delete('/admin/hr/performance/announcements/:id',             protect, admin, perfReportCtrl.deleteAnnouncement);
+router.patch( '/admin/hr/performance/announcements/:id/publish',     protect, admin, perfReportCtrl.publishAnnouncement);
+
+// ── ESS Settings ──────────────────────────────────────────────────────────────
+router.get('/admin/hr/performance/ess-settings',                     protect, admin, perfReportCtrl.getESSSettings);
+router.put('/admin/hr/performance/ess-settings',                     protect, admin, perfReportCtrl.updateESSSettings);
+
+// ── Performance Reports ───────────────────────────────────────────────────────
+router.get('/admin/hr/performance/reports/goal-completion',          protect, admin, perfReportCtrl.getGoalCompletionReport);
+router.get('/admin/hr/performance/reports/kpi',                      protect, admin, perfReportCtrl.getKPIReport);
+router.get('/admin/hr/performance/reports/review-distribution',      protect, admin, perfReportCtrl.getReviewDistribution);
+router.get('/admin/hr/performance/reports/training',                 protect, admin, perfReportCtrl.getTrainingReport);
+router.get('/admin/hr/performance/reports/recognition',              protect, admin, perfReportCtrl.getRecognitionReport);
+router.get('/admin/hr/performance/reports/competency',               protect, admin, perfReportCtrl.getCompetencyReport);
+router.get('/admin/hr/performance/reports/overall',                  protect, admin, perfReportCtrl.getOverallPerformanceReport);
+
+// ── ESS Auth ──────────────────────────────────────────────────────────────────
+router.post('/employee/auth/login',                                  essAuthCtrl.login);
+router.post('/employee/auth/logout',                                 protectEmployee, essAuthCtrl.logout);
+router.put(  '/employee/auth/change-password',                       protectEmployee, essAuthCtrl.changePassword);
+router.get(  '/employee/auth/me',                                    protectEmployee, essAuthCtrl.getProfile);
+
+// ── ESS Self-Service ──────────────────────────────────────────────────────────
+router.get('/employee/self-service/dashboard',                       protectEmployee, essCtrl.getEssDashboard);
+router.get('/employee/self-service/attendance',                      protectEmployee, essCtrl.getMyAttendance);
+router.get('/employee/self-service/leave',                           protectEmployee, essCtrl.getMyLeave);
+router.get('/employee/self-service/payslips',                        protectEmployee, essCtrl.getMyPayslips);
+router.get('/employee/self-service/performance',                     protectEmployee, essCtrl.getMyPerformance);
+router.get('/employee/self-service/training',                        protectEmployee, essCtrl.getMyTraining);
+router.get('/employee/self-service/announcements',                   protectEmployee, essCtrl.getAnnouncements);
+router.get('/employee/self-service/recognitions',                    protectEmployee, essCtrl.getRecognitions);
+router.get('/employee/self-service/feedback',                        protectEmployee, essCtrl.getMyFeedback);
+router.post('/employee/self-service/feedback',                       protectEmployee, essCtrl.submitFeedback);
+
 module.exports = router;
 

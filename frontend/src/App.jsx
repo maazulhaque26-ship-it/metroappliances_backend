@@ -434,6 +434,20 @@ const AdminVarianceAnalysis       = lazy(() => import('./pages/admin/AdminVarian
 const AdminFinancialAlerts        = lazy(() => import('./pages/admin/AdminFinancialAlerts'));
 const AdminExecutiveReports       = lazy(() => import('./pages/admin/AdminExecutiveReports'));
 
+// ── Sprint 14A: Enterprise HRMS Foundation ────────────────────────────────────
+const AdminHRDashboard       = lazy(() => import('./pages/admin/AdminHRDashboard'));
+const AdminEmployees         = lazy(() => import('./pages/admin/AdminEmployees'));
+const AdminEmployeeDetail    = lazy(() => import('./pages/admin/AdminEmployeeDetail'));
+const AdminDepartments       = lazy(() => import('./pages/admin/AdminDepartments'));
+const AdminDesignations      = lazy(() => import('./pages/admin/AdminDesignations'));
+const AdminOrganizationChart = lazy(() => import('./pages/admin/AdminOrganizationChart'));
+const AdminEmployeeDocuments = lazy(() => import('./pages/admin/AdminEmployeeDocuments'));
+const AdminTransfers         = lazy(() => import('./pages/admin/AdminTransfers'));
+const AdminPromotions        = lazy(() => import('./pages/admin/AdminPromotions'));
+const AdminProbation         = lazy(() => import('./pages/admin/AdminProbation'));
+const AdminExits             = lazy(() => import('./pages/admin/AdminExits'));
+const AdminHRReports         = lazy(() => import('./pages/admin/AdminHRReports'));
+
 // ── Sprint 12B: Enterprise Production Planning & Scheduling ─────────────────
 const AdminManufacturingPlanningDashboard = lazy(() => import('./pages/admin/AdminManufacturingPlanningDashboard'));
 const AdminProductionPlans                = lazy(() => import('./pages/admin/AdminProductionPlans'));
@@ -1097,6 +1111,20 @@ export default function App() {
         <Route path="/admin/cfo/variance"                         element={<AdminRoute><AdminVarianceAnalysis /></AdminRoute>} />
         <Route path="/admin/cfo/alerts"                           element={<AdminRoute><AdminFinancialAlerts /></AdminRoute>} />
         <Route path="/admin/cfo/reports"                          element={<AdminRoute><AdminExecutiveReports /></AdminRoute>} />
+
+        {/* Sprint 14A: Enterprise HRMS Foundation */}
+        <Route path="/admin/hr"                        element={<AdminRoute><AdminHRDashboard /></AdminRoute>} />
+        <Route path="/admin/hr/employees"              element={<AdminRoute><AdminEmployees /></AdminRoute>} />
+        <Route path="/admin/hr/employees/:id"          element={<AdminRoute><AdminEmployeeDetail /></AdminRoute>} />
+        <Route path="/admin/hr/departments"            element={<AdminRoute><AdminDepartments /></AdminRoute>} />
+        <Route path="/admin/hr/designations"           element={<AdminRoute><AdminDesignations /></AdminRoute>} />
+        <Route path="/admin/hr/org-chart"              element={<AdminRoute><AdminOrganizationChart /></AdminRoute>} />
+        <Route path="/admin/hr/documents"              element={<AdminRoute><AdminEmployeeDocuments /></AdminRoute>} />
+        <Route path="/admin/hr/transfers"              element={<AdminRoute><AdminTransfers /></AdminRoute>} />
+        <Route path="/admin/hr/promotions"             element={<AdminRoute><AdminPromotions /></AdminRoute>} />
+        <Route path="/admin/hr/probation"              element={<AdminRoute><AdminProbation /></AdminRoute>} />
+        <Route path="/admin/hr/exits"                  element={<AdminRoute><AdminExits /></AdminRoute>} />
+        <Route path="/admin/hr/reports"                element={<AdminRoute><AdminHRReports /></AdminRoute>} />
 
         {/* Sprint 11C: Installation Engineer Portal (isolated auth — type:'engineer' JWT, green) */}
         <Route path="/engineer/login" element={<PageWrapper><EngineerLogin /></PageWrapper>} />

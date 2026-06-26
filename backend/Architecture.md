@@ -1,155 +1,174 @@
-# Metro Appliances Platform — Architecture Reference
+# Metro Appliances — Architecture Map
 
-## Overview
-
-Full-stack MERN e-commerce and ERP platform for home appliance retail. The system spans B2C e-commerce, B2B dealer portal, sales agent CRM, warehouse management, procurement, dispatch & logistics, and enterprise BI — all served from a single Express API and a single React frontend.
-
-**Stack:** Node.js ≥18 / Express 4.22 / MongoDB (Mongoose 8.x) / React 18.3 / Vite / Redux Toolkit
+**Version**: Sprint 9F (Enterprise Hardening)  
+**Stack**: MongoDB · Express.js · React 18 · Node.js (MERN)  
+**Deployed**: Render (backend) · Vercel (frontend)
 
 ---
 
-## Repository Structure
+## Module Dependency Graph
 
 ```
-ecommerce-app/
-├── backend/           # Express API (deployed → Render)
-│   ├── config/        # db.js (MongoDB with retry), cloudinary
-│   ├── controllers/   # 68 controller files
-│   ├── middleware/    # auth, dealerAuth, agentAuth, warehouseAuth, supplierAuth, dbGuard, auditLog
-│   ├── models/        # 74 Mongoose models
-│   ├── routes/        # routes/index.js (876 lines, all routes registered here)
-│   ├── scripts/       # One-off maintenance scripts (not part of the API)
-│   ├── test/          # Jest test suites (5 files)
-│   ├── uploads/       # Local file storage (dev only; prod uses Cloudinary)
-│   ├── utils/         # response.js, logisticsHelpers.js, permissions.js
-│   └── server.js      # Entry point
-└── frontend/          # React SPA (deployed → Vercel)
-    └── src/
-        ├── components/    # 14 shared Sprint-9F components (StatusBadge, MetricCard, etc.)
-        ├── hooks/         # 11 custom hooks
-        ├── pages/         # Feature pages by portal
-        ├── redux/         # 11 slices + store.js
-        ├── services/      # api.js (axios), formatters.js
-        └── test/          # Vitest test suites (2 files)
+┌─────────────────────────────────────────────────────────────────────┐
+│                        METRO APPLIANCES PLATFORM                     │
+│                                                                       │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              │
+│  │   Customer   │  │    Dealer    │  │ Sales Agent  │              │
+│  │   Portal     │  │    Portal    │  │    Portal    │              │
+│  │  (React 18)  │  │  (React 18)  │  │  (React 18)  │              │
+│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘              │
+│         │                 │                  │                       │
+│  ┌──────▼─────────────────▼──────────────────▼───────┐             │
+│  │                   Vite Frontend Bundle                │             │
+│  │  Redux Store: auth | dealerAuth | agentAuth |        │             │
+│  │              cart | wishlist | products |            │             │
+│  │              settings | compare | notifications |   │             │
+│  │              dealerCart                             │             │
+│  └──────────────────────────┬────────────────────────┘             │
+│                              │ HTTPS (axios)                         │
+│  ┌───────────────────────────▼────────────────────────┐             │
+│  │              Express.js API Server                   │             │
+│  │  Rate Limit · Helmet · CORS · Morgan · Cookie-Parser│             │
+│  │  dbGuard (503 while MongoDB unavailable)            │             │
+│  │                                                      │             │
+│  │  ┌──────────┐ ┌──────────┐ ┌──────────┐           │             │
+│  │  │ Customer │ │  Dealer  │ │  Agent   │           │             │
+│  │  │   Auth   │ │   Auth   │ │   Auth   │           │             │
+│  │  │JWT(type:─│ │JWT(type: │ │JWT(type: │           │             │
+│  │  │ none)    │ │ dealer)  │ │ agent)   │           │             │
+│  │  └──────────┘ └──────────┘ └──────────┘           │             │
+│  └──────────────────────┬─────────────────────────────┘             │
+│                          │                                            │
+│  ┌───────────────────────▼────────────────────────┐                 │
+│  │              MongoDB (Mongoose ODM)               │                 │
+│  │  44 Models · Auto-indexes · TTL on AuditLog     │                 │
+│  └────────────────────────────────────────────────┘                 │
+│                                                                       │
+└─────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Authentication — 8 JWT Stacks
+## Sprint Delivery Map
 
-All stacks share the same `JWT_SECRET`. Each middleware verifies `decoded.type` to prevent cross-portal token reuse.
-
-| Portal | JWT type field | Middleware file | Login endpoint |
-|--------|---------------|-----------------|----------------|
-| Customer | *(absent)* | `middleware/auth.js` | `POST /api/auth/login` |
-| Dealer | `type: 'dealer'` | `middleware/dealerAuth.js` | `POST /api/dealer/auth/login` |
-| Sales Agent | `type: 'agent'` | `middleware/agentAuth.js` | `POST /api/agent/auth/login` |
-| Warehouse | `type: 'warehouse'` | `middleware/warehouseAuth.js` | `POST /api/warehouse/auth/login` |
-| Supplier | `type: 'supplier'` | `middleware/supplierAuth.js` | `POST /api/supplier/auth/login` |
-| Technician | `type: 'technician'` | `middleware/technicianAuth.js` | `POST /api/technician/auth/login` |
-| Engineer | `type: 'engineer'` | `middleware/engineerAuth.js` | `POST /api/engineer/auth/login` |
-
-All auth login endpoints receive `authLimiter` (10 req / 15 min) before hitting `apiLimiter`.
-
----
-
-## Portal Structure
-
-| Portal | Front-end prefix | Back-end prefix | Purpose |
-|--------|-----------------|-----------------|---------|
-| Customer storefront | `/` | `/api/` | B2C shopping |
-| Admin panel | `/admin` | `/api/admin/` | Full platform management |
-| Dealer portal | `/dealer` | `/api/dealer/` | B2B ordering & invoicing |
-| Sales agent | `/agent` | `/api/agent/` | CRM + visit tracking |
-| Warehouse portal | `/warehouse` | `/api/warehouse/` | WMS operations |
-| Supplier portal | `/supplier` | `/api/supplier/` | Procurement & deliveries |
-| Technician portal | `/technician` | `/api/technician/` | Service jobs |
-| Installation engineer portal | `/engineer` | `/api/engineer/` | Installation jobs |
+| Sprint | Module | Key Files |
+|--------|--------|-----------|
+| 1–3 | Core e-commerce | User, Product, Order, Category, Cart, Wishlist, Review |
+| 4–5 | Content CMS | Banner, Blog, Gallery, Achievement, WhyChoose, Team, Testimonial |
+| 6–7 | Auth & Payments | authController, Stripe integration, Admin management |
+| 8 | Marketing Platform | Campaign, FlashSale, MarketingPopup, AnnouncementBar, Notification |
+| 9A | Dealer Portal | Dealer model, dealerAuth JWT, DealerLogin/Register/Profile |
+| 9B | B2B Commerce | DealerPricing, DealerCart, DealerOrder, dealer product catalog |
+| 9C | Dealer Finance | DealerInvoice, DealerWallet, DealerLedger, DealerPayment, DealerCredit |
+| 9D | CRM | SalesAgent, Territory, Lead, VisitReport, Task, Assignment |
+| 9E | Enterprise BI | biController, targetController, 9 analytics pages, recharts |
+| 9F | Enterprise Hardening | AuditLog, shared components, RBAC, hooks, services, DB indexes |
 
 ---
 
-## Key Subsystems
+## Folder Standards
 
-### Database (MongoDB)
-- **74 models**, **173 indexes** across 54 model files
-- `config/db.js`: `connectWithRetry()` with 5 s back-off; exports `isDbConnected()` / `dbStatus()`
-- `middleware/dbGuard.js`: Returns HTTP 503 + `Retry-After: 5` while MongoDB is unavailable
-- `AuditLog` model: 2-year TTL (`expireAfterSeconds: 63_072_000`), 5 compound indexes, written fire-and-forget via `setImmediate`
+```
+backend/
+  config/          DB connection, Cloudinary upload configs
+  controllers/     One file per domain. Never import other controllers.
+  middleware/       auth.js · dealerAuth.js · agentAuth.js · auditLog.js · dbGuard.js · error.js
+  models/          One file per Mongoose model
+  routes/          Single index.js — all routes registered here
+  utils/            jwt.js · mailer.js · seed.js · permissions.js · response.js
+  test/             Jest test files
 
-### Security
-- **Helmet** with explicit CSP directives (enabled in `server.js`)
-- **CORS**: allow-list of `localhost`, `*.vercel.app`, and `CLIENT_URL` env var
-- **Rate limiting**: `authLimiter` (10/15 min) on all 6 login endpoints; `apiLimiter` (200/min) on all other API routes
-- **RBAC**: `utils/permissions.js` — `PERMISSIONS` matrix, `can()`, `canAny()`, `getPermissions()`
-
-### Response Conventions
-Two conventions coexist (do not mix in new code):
-- **Sprints 1–9F**: `utils/response.js` — `ok()`, `created()`, `paginated()`, `fail()`, `notFound()`, `forbidden()`, `serverError()`
-- **Sprint 10D (Logistics)**: `utils/logisticsHelpers.js` — `respOk()`, `respErr()`
-
-### Frontend State
-Redux Toolkit store with 11 slices: `auth`, `cart`, `wishlist`, `products`, `orders`, `notifications`, `dealer`, `agent`, `warehouse`, `supplier`, `ui`.
-
-### Shared Components (Sprint 9F)
-14 components in `src/components/`: `StatusBadge`, `MetricCard`, `DataTable`, `PageHeader`, `FilterBar`, `EmptyState`, `LoadingSpinner`, `ConfirmModal`, `FormField`, `SearchInput`, `Pagination`, `AlertBanner`, `DateRangePicker`, `ExportButton`.
-
----
-
-## Deployment
-
-| Service | Platform | Trigger | Region |
-|---------|----------|---------|--------|
-| Backend API | Render | Push to `master` (auto-deploy) | Singapore |
-| Frontend SPA | Vercel | `vercel --prod` (manual) | Edge |
-
-- **Health check**: `GET /health` — always 200, reports DB connectivity
-- **Backend repo**: `maazulhaque26-ship-it/metroappliances_backend` (branch: `master`)
-- **Frontend repo**: `maazulhaque26-ship-it/metroappliances_frontend` (branch: `master`)
-- **CI**: GitHub Actions in `.github/workflows/` — fires on `master`, `main`, `develop`
-
----
-
-## Sprint History
-
-| Sprint | Scope |
-|--------|-------|
-| 1–7 | B2C e-commerce core (auth, products, cart, orders, payments, reviews) |
-| 8 | Marketing platform (campaigns, banners, notifications) |
-| 9A | Dealer portal foundation |
-| 9B–9C | B2B commerce + dealer finance (invoices, ledger, wallet) |
-| 9D | Sales agent CRM (6 models, 16 pages) |
-| 9E | Enterprise BI (9 dashboard pages, recharts) |
-| 9F | Enterprise hardening (AuditLog, 14 shared components, RBAC, DB indexes) |
-| 10A | Warehouse foundation (5 models, 55 routes, 7 admin pages) |
-| 10B | Inventory management (8 models, adjustInventory() engine, 11 admin pages) |
-| 10C | Procurement & vendor management (13 models, supplier JWT stack) |
-| 10D | Dispatch & logistics (9 models, GST challan, delivery challan print) |
-| 11A | After-sales service foundation |
-| 11B | Technician portal, service automation, reporting |
-| 11C | Installation management and product registration |
-| 11D | Platform stabilization, deterministic tests, CI syntax, duplicate-index cleanup |
-
----
-
-## Development Setup
-
-```bash
-# Backend
-cd backend
-cp .env.example .env        # fill in MONGO_URI, JWT_SECRET, etc.
-npm install
-npm run dev                 # nodemon server.js on :5001
-
-# Frontend
-cd frontend
-npm install
-npm run dev                 # Vite dev server on :5173 (proxies /api → :5001)
-
-# Tests
-cd backend && npm test      # Jest + mongodb-memory-server
-cd frontend && npm test     # Vitest + jsdom
+frontend/src/
+  components/
+    layout/         Navbar, Footer (storefront)
+    ui/             Reusable UI primitives (ErrorBoundary, ImageUploader, Skeleton…)
+    shared/         Sprint 9F: Enterprise shared components (DataTable, Pagination…)
+  hooks/            Custom React hooks
+  pages/
+    admin/          Admin panel pages (AdminLayout.jsx is the shell)
+    agent/          Agent portal pages (AgentLayout.jsx is the shell)
+    dealer/         Dealer portal pages (no shared layout — use inline layout)
+    /               Customer storefront pages
+  redux/slices/     One slice per domain
+  services/         api.js · dealerAPI.js · formatters.js · exportService.js
+  test/             Vitest test files + setup
+  utils/            orderStatus.js · imageHelper.js · invoice.js · analytics.js
 ```
 
-### Environment Variables (backend)
-See `backend/.env.example` for the full list. Required for production:
-`MONGO_URI`, `JWT_SECRET`, `CLIENT_URL`, `CLOUDINARY_*`, `STRIPE_SECRET_KEY`, `EMAIL_*`.
+---
+
+## Naming Conventions
+
+| Type | Convention | Example |
+|------|-----------|---------|
+| Model | PascalCase | `SalesAgent`, `DealerOrder` |
+| Controller | camelCase file, exports as functions | `salesAgentController.js`, `exports.getAgents` |
+| Route | kebab-case URL | `/admin/sales-agents`, `/dealer/auth/login` |
+| React component | PascalCase file + default export | `AdminAuditLog.jsx` |
+| Redux slice | camelCase | `agentAuth`, `dealerCart` |
+| Hook | `use` prefix + camelCase | `usePermissions`, `usePagination` |
+| Service | camelCase | `exportService.js`, `formatters.js` |
+| Env var | SCREAMING_SNAKE_CASE | `JWT_SECRET`, `VITE_API_URL` |
+
+---
+
+## Auth Stack Isolation
+
+| Portal | JWT Payload | Middleware | Redux Slice |
+|--------|-------------|-----------|-------------|
+| Customer | `{ id }` (no type) | `protect` | `authSlice` |
+| Dealer | `{ id, type:'dealer' }` | `protectDealer` | `dealerAuthSlice` |
+| Agent | `{ id, type:'agent' }` | `protectAgent` | `agentAuthSlice` |
+| Admin | Customer JWT + role check | `protect + admin` | `authSlice` |
+
+**Rule**: Never mix auth stacks. Each portal's token is rejected by the other middlewares.
+
+---
+
+## API Response Shape
+
+All admin routes return:
+```json
+{
+  "success": true,
+  "message": "...",
+  "data": { ... } | [...],
+  "pagination": { "total": 100, "page": 1, "limit": 10, "pages": 10 }
+}
+```
+
+Error shape:
+```json
+{ "success": false, "message": "Error description", "errors": [...] }
+```
+
+---
+
+## Developer Guidelines
+
+1. **Add routes to `backend/routes/index.js`** — the single route file.
+2. **Never import controllers into other controllers** — use service functions in `utils/` for shared logic.
+3. **Every new admin page must**: use `AdminLayout`, import `api` from `../../services/api`, use `react-toastify` for feedback.
+4. **Every new agent page must**: be inside `AgentLayout` nested route, use `agentAPI` from `../../services/agentAPI`.
+5. **JWT secrets** must live in `.env` — never hardcoded.
+6. **MongoDB queries** on large collections must use indexed fields. Check `backend/utils/permissions.js` for the allowed roles list before adding a new role.
+7. **Shared components** are in `src/components/shared/index.js` — use barrel import.
+8. **CSV exports** use `useExport` hook or `exportService.js` — do not write custom Blob logic inline.
+9. **Formatters** (currency, date, phone) come from `src/services/formatters.js`.
+10. **Audit log** entries are written automatically by the global admin middleware — no manual calls needed.
+
+---
+
+## Security Checklist
+
+- [x] Helmet (XSS headers, HSTS, X-Frame-Options)
+- [x] CORS whitelist (localhost + *.vercel.app + CLIENT_URL)
+- [x] Rate limiting: 10 req/15min on auth, 200 req/min general
+- [x] JWT validation on all protected routes
+- [x] Role-based access via `admin`, `superAdmin`, `moderatorOrAbove` middleware
+- [x] `dbGuard` — 503 while MongoDB unavailable
+- [x] Body size limit: 2MB
+- [x] Sanitized HTML in RichTextEditor (sanitizeHtml utility)
+- [x] `isDeleted: false` soft-delete pattern on all CRM models
+- [x] RBAC permissions matrix in `backend/utils/permissions.js`
+- [x] Audit log on all admin mutations

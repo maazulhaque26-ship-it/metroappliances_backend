@@ -12,7 +12,7 @@ const MONGO_URI = process.env.MONGO_TEST_URI || 'mongodb://localhost:27017/metro
 beforeAll(async () => { await mongoose.connect(MONGO_URI); });
 afterAll(async () => {
   await mongoose.connection.dropDatabase();
-  await mongoose.connection.close();
+  await mongoose.disconnect();
 });
 afterEach(async () => {
   const cols = mongoose.connection.collections;

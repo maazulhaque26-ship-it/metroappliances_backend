@@ -15,7 +15,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await mongoose.connection.dropDatabase();
-  await mongoose.connection.close();
+  await mongoose.disconnect();
   await mongod.stop();
 });
 

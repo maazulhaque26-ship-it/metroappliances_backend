@@ -1,259 +1,294 @@
 'use strict';
-const FinancialKPI            = require('../models/FinancialKPI');
-const KPIThreshold            = require('../models/KPIThreshold');
-const FinancialAlert          = require('../models/FinancialAlert');
-const ExecutiveDashboardSetting = require('../models/ExecutiveDashboardSetting');
-const GeneralLedger           = require('../models/GeneralLedger');
-const BankAccount             = require('../models/BankAccount');
-const AuditLog                = require('../models/AuditLog');
-const { ok, created, noContent, paginated, notFound, serverError } = require('../utils/response');
+const mongoose = require('mongoose');
+const AuditLog = require('../models/AuditLog');
+const { ok, created, paginated, fail, notFound, serverError } = require('../utils/response');
 
-const logAudit = (req, action, entity, entityId, entityLabel, before, after) =>
-  AuditLog.create({ admin: req.user._id, adminName: req.user.name, adminEmail: req.user.email, adminRole: req.user.role, action, entity, entityId, entityLabel, changes: { before, after }, ip: req.ip, userAgent: req.get('user-agent') }).catch(() => {});
+const KPI                   = () => mongoose.model('KPI');
+const KPIReview             = () => mongoose.model('KPIReview');
+const Competency            = () => mongoose.model('Competency');
+const CompetencyAssessment  = () => mongoose.model('CompetencyAssessment');
 
-// ── KPI Engine ────────────────────────────────────────────────────────────────
-exports.calculateKPIs = async (req, res) => {
+function _audit(req, action, entity, id, label, before, after) {
+  setImmediate(async () => {
+    try {
+      await AuditLog.create({
+        admin: req.user._id, adminName: req.user.name,
+        adminEmail: req.user.email, adminRole: req.user.role,
+        action, entity, entityId: id,
+        entityLabel: String(label || '').slice(0, 200),
+        changes: { before, after },
+        ip: (req.headers['x-forwarded-for'] || req.ip || 'unknown').split(',')[0].trim(),
+        userAgent: (req.get('User-Agent') || '').slice(0, 300),
+      });
+    } catch (_) {}
+  });
+}
+
+// ── KPIs ──────────────────────────────────────────────────────────────────────
+
+exports.createKPI = async (req, res) => {
   try {
-    const { period } = req.body;
-    if (!period) return res.status(400).json({ success: false, message: 'period is required' });
-
-    // Aggregate revenue from GL (credit side of revenue accounts)
-    const revenueAgg = await GeneralLedger.aggregate([
-      { $match: { accountType: 'revenue', isDeleted: false } },
-      { $group: { _id: null, total: { $sum: '$creditAmount' } } },
-    ]);
-    const revenue = revenueAgg[0]?.total || 0;
-
-    // COGS from GL expense accounts tagged as cogs
-    const cogsAgg = await GeneralLedger.aggregate([
-      { $match: { accountType: 'expense', isDeleted: false } },
-      { $group: { _id: null, total: { $sum: '$debitAmount' } } },
-    ]);
-    const cogs = (cogsAgg[0]?.total || 0) * 0.4;
-    const grossProfit = revenue - cogs;
-
-    // Bank cash balance
-    const bankAgg = await BankAccount.aggregate([
-      { $match: { isDeleted: false, isActive: true } },
-      { $group: { _id: null, total: { $sum: '$currentBalance' } } },
-    ]);
-    const cashBalance = bankAgg[0]?.total || 0;
-
-    const grossMargin  = revenue ? ((grossProfit / revenue) * 100) : 0;
-    const netProfit    = grossProfit * 0.6;
-    const ebit         = netProfit * 1.1;
-    const ebitda       = ebit * 1.15;
-    const operatingMargin = revenue ? ((ebit / revenue) * 100) : 0;
-    const netMargin       = revenue ? ((netProfit / revenue) * 100) : 0;
-    const workingCapital  = cashBalance * 1.3;
-
-    const kpiData = {
-      period, revenue, cogs, grossProfit, netProfit, ebit, ebitda,
-      grossMargin: parseFloat(grossMargin.toFixed(2)),
-      operatingMargin: parseFloat(operatingMargin.toFixed(2)),
-      netMargin: parseFloat(netMargin.toFixed(2)),
-      cashBalance, workingCapital,
-      currentRatio: 1.8, quickRatio: 1.2, dso: 45, dpo: 30,
-      inventoryTurnover: 6, cashConversionCycle: 60,
-      roa: 8.5, roe: 15.2, roi: 12.3, debtRatio: 0.35,
-      totalAssets: revenue * 2, totalEquity: revenue * 1.3,
-      totalDebt: revenue * 0.7, freeCashFlow: netProfit * 0.8,
-      calculatedAt: new Date(),
-    };
-
-    const kpi = await FinancialKPI.create(kpiData);
-
-    // Check thresholds and fire alerts
-    const thresholds = await KPIThreshold.find({ isActive: true, isDeleted: false });
-    const alertPromises = [];
-    for (const t of thresholds) {
-      const val = kpiData[t.metric];
-      if (val === undefined) continue;
-      if ((t.criticalMin !== undefined && val < t.criticalMin) ||
-          (t.criticalMax !== undefined && val > t.criticalMax)) {
-        alertPromises.push(FinancialAlert.create({
-          alertType: 'kpi_breach',
-          severity: 'critical',
-          title: `KPI Alert: ${t.kpiName}`,
-          message: `${t.kpiName} value ${val} breached critical threshold`,
-          threshold: t.criticalMin ?? t.criticalMax,
-          actualValue: val,
-        }));
-      }
-    }
-    await Promise.all(alertPromises);
-
-    const io = req.app.locals.io;
-    if (io) io.emit('cfo:kpi_alert', { period, kpiCode: kpi.kpiCode });
-
-    logAudit(req, 'KPI_CALCULATED', 'FinancialKPI', kpi._id, period, null, kpiData);
-    return created(res, kpi);
-  } catch (err) { return serverError(res, err); }
+    const kpi = await KPI().create(req.body);
+    _audit(req, 'CREATE', 'KPI', kpi._id, kpi.kpiCode, null, req.body);
+    return created(res, kpi, 'KPI created');
+  } catch (err) {
+    return serverError(res, err);
+  }
 };
 
-// ── KPI CRUD ──────────────────────────────────────────────────────────────────
 exports.getKPIs = async (req, res) => {
   try {
-    const { page = 1, limit = 20, period } = req.query;
+    const page  = Math.max(1, parseInt(req.query.page)  || 1);
+    const limit = Math.max(1, Math.min(100, parseInt(req.query.limit) || 20));
+    const skip  = (page - 1) * limit;
+
+    const { department, designation, isActive, search } = req.query;
     const filter = { isDeleted: false };
-    if (period) filter.period = period;
-    const skip  = (Number(page) - 1) * Number(limit);
-    const total = await FinancialKPI.countDocuments(filter);
-    const data  = await FinancialKPI.find(filter).sort({ calculatedAt: -1 }).skip(skip).limit(Number(limit));
+    if (department)  filter.department  = department;
+    if (designation) filter.designation = designation;
+    if (isActive !== undefined) filter.isActive = isActive === 'true';
+    if (search) filter.name = { $regex: search, $options: 'i' };
+
+    const [data, total] = await Promise.all([
+      KPI().find(filter)
+        .populate('department', 'name')
+        .populate('designation', 'name')
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+      KPI().countDocuments(filter),
+    ]);
+
     return paginated(res, data, total, page, limit);
-  } catch (err) { return serverError(res, err); }
+  } catch (err) {
+    return serverError(res, err);
+  }
 };
 
 exports.getKPI = async (req, res) => {
   try {
-    const doc = await FinancialKPI.findOne({ _id: req.params.id, isDeleted: false });
-    if (!doc) return notFound(res, 'FinancialKPI');
-    return ok(res, doc);
-  } catch (err) { return serverError(res, err); }
+    const kpi = await KPI().findOne({ _id: req.params.id, isDeleted: false })
+      .populate('department', 'name')
+      .populate('designation', 'name')
+      .lean();
+    if (!kpi) return notFound(res, 'KPI');
+    return ok(res, kpi);
+  } catch (err) {
+    return serverError(res, err);
+  }
 };
 
-exports.createKPI = async (req, res) => {
+exports.updateKPI = async (req, res) => {
   try {
-    const doc = await FinancialKPI.create(req.body);
-    return created(res, doc);
-  } catch (err) { return serverError(res, err); }
+    const kpi = await KPI().findOne({ _id: req.params.id, isDeleted: false });
+    if (!kpi) return notFound(res, 'KPI');
+    const before = kpi.toObject();
+    Object.assign(kpi, req.body);
+    await kpi.save();
+    _audit(req, 'UPDATE', 'KPI', kpi._id, kpi.kpiCode, before, req.body);
+    return ok(res, kpi, 'KPI updated');
+  } catch (err) {
+    return serverError(res, err);
+  }
 };
 
 exports.deleteKPI = async (req, res) => {
   try {
-    const doc = await FinancialKPI.findOneAndUpdate(
-      { _id: req.params.id, isDeleted: false }, { isDeleted: true }, { new: true }
-    );
-    if (!doc) return notFound(res, 'FinancialKPI');
-    return noContent(res);
-  } catch (err) { return serverError(res, err); }
+    const kpi = await KPI().findOne({ _id: req.params.id, isDeleted: false });
+    if (!kpi) return notFound(res, 'KPI');
+    kpi.isDeleted = true;
+    await kpi.save();
+    _audit(req, 'DELETE', 'KPI', kpi._id, kpi.kpiCode, kpi.toObject(), null);
+    return ok(res, null, 'KPI deleted');
+  } catch (err) {
+    return serverError(res, err);
+  }
 };
 
-exports.getKPITrend = async (req, res) => {
+exports.createKPIReview = async (req, res) => {
   try {
-    const kpis = await FinancialKPI.find({ isDeleted: false }).sort({ period: -1 }).limit(12)
-      .select('period revenue grossProfit netProfit ebitda operatingMargin grossMargin currentRatio dso dpo roa roe');
-    return ok(res, kpis.reverse());
-  } catch (err) { return serverError(res, err); }
+    const { kpi: kpiId, cycle, employee, targetValue, actualValue, rating, comments } = req.body;
+    if (!kpiId || !cycle || !employee) return fail(res, 'kpi, cycle, employee are required');
+
+    const target = targetValue != null ? Number(targetValue) : 0;
+    const actual = actualValue != null ? Number(actualValue) : 0;
+    const achievementPercent = target > 0 ? Math.round((actual / target) * 10000) / 100 : 0;
+
+    const review = await KPIReview().create({
+      kpi: kpiId,
+      cycle,
+      employee,
+      targetValue: target,
+      actualValue: actual,
+      achievementPercent,
+      rating,
+      comments,
+      reviewedBy: req.user._id,
+      reviewedAt: new Date(),
+    });
+
+    _audit(req, 'CREATE', 'KPIReview', review._id, review._id.toString(), null, req.body);
+    return created(res, review, 'KPI review created');
+  } catch (err) {
+    if (err.code === 11000) return fail(res, 'KPI review already exists for this employee/cycle/kpi');
+    return serverError(res, err);
+  }
 };
 
-// ── KPI Thresholds ────────────────────────────────────────────────────────────
-exports.getThresholds = async (req, res) => {
+exports.getKPIReviews = async (req, res) => {
   try {
-    const docs = await KPIThreshold.find({ isDeleted: false }).sort({ kpiName: 1 });
-    return ok(res, docs);
-  } catch (err) { return serverError(res, err); }
-};
+    const page  = Math.max(1, parseInt(req.query.page)  || 1);
+    const limit = Math.max(1, Math.min(100, parseInt(req.query.limit) || 20));
+    const skip  = (page - 1) * limit;
 
-exports.createThreshold = async (req, res) => {
-  try {
-    const doc = await KPIThreshold.create(req.body);
-    return created(res, doc);
-  } catch (err) { return serverError(res, err); }
-};
-
-exports.updateThreshold = async (req, res) => {
-  try {
-    const doc = await KPIThreshold.findOneAndUpdate(
-      { _id: req.params.id, isDeleted: false }, req.body, { new: true }
-    );
-    if (!doc) return notFound(res, 'KPIThreshold');
-    return ok(res, doc);
-  } catch (err) { return serverError(res, err); }
-};
-
-exports.deleteThreshold = async (req, res) => {
-  try {
-    const doc = await KPIThreshold.findOneAndUpdate(
-      { _id: req.params.id, isDeleted: false }, { isDeleted: true }, { new: true }
-    );
-    if (!doc) return notFound(res, 'KPIThreshold');
-    return noContent(res);
-  } catch (err) { return serverError(res, err); }
-};
-
-// ── Financial Alerts ──────────────────────────────────────────────────────────
-exports.getAlerts = async (req, res) => {
-  try {
-    const { page = 1, limit = 20, status, alertType, severity } = req.query;
+    const { kpi, cycle, employee } = req.query;
     const filter = { isDeleted: false };
-    if (status)    filter.status    = status;
-    if (alertType) filter.alertType = alertType;
-    if (severity)  filter.severity  = severity;
-    const skip  = (Number(page) - 1) * Number(limit);
-    const total = await FinancialAlert.countDocuments(filter);
-    const data  = await FinancialAlert.find(filter).sort({ severity: 1, createdAt: -1 }).skip(skip).limit(Number(limit));
+    if (kpi)      filter.kpi      = kpi;
+    if (cycle)    filter.cycle    = cycle;
+    if (employee) filter.employee = employee;
+
+    const [data, total] = await Promise.all([
+      KPIReview().find(filter)
+        .populate('kpi', 'kpiCode name unit')
+        .populate('cycle', 'name cycleCode')
+        .populate('employee', 'firstName lastName employeeCode')
+        .populate('reviewedBy', 'name')
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+      KPIReview().countDocuments(filter),
+    ]);
+
     return paginated(res, data, total, page, limit);
-  } catch (err) { return serverError(res, err); }
+  } catch (err) {
+    return serverError(res, err);
+  }
 };
 
-exports.createAlert = async (req, res) => {
+// ── Competencies ──────────────────────────────────────────────────────────────
+
+exports.createCompetency = async (req, res) => {
   try {
-    const doc = await FinancialAlert.create(req.body);
-    const io  = req.app.locals.io;
-    if (io) io.emit('cfo:kpi_alert', { alert: { _id: doc._id, alertType: doc.alertType, severity: doc.severity, title: doc.title } });
-    return created(res, doc);
-  } catch (err) { return serverError(res, err); }
+    const comp = await Competency().create(req.body);
+    _audit(req, 'CREATE', 'Competency', comp._id, comp.code, null, req.body);
+    return created(res, comp, 'Competency created');
+  } catch (err) {
+    return serverError(res, err);
+  }
 };
 
-exports.acknowledgeAlert = async (req, res) => {
+exports.getCompetencies = async (req, res) => {
   try {
-    const doc = await FinancialAlert.findOne({ _id: req.params.id, isDeleted: false });
-    if (!doc) return notFound(res, 'FinancialAlert');
-    doc.status          = 'acknowledged';
-    doc.acknowledgedBy  = req.user._id;
-    doc.acknowledgedAt  = new Date();
-    await doc.save();
-    return ok(res, doc);
-  } catch (err) { return serverError(res, err); }
+    const page  = Math.max(1, parseInt(req.query.page)  || 1);
+    const limit = Math.max(1, Math.min(100, parseInt(req.query.limit) || 20));
+    const skip  = (page - 1) * limit;
+
+    const { competencyType, isActive, search } = req.query;
+    const filter = { isDeleted: false };
+    if (competencyType) filter.competencyType = competencyType;
+    if (isActive !== undefined) filter.isActive = isActive === 'true';
+    if (search) filter.name = { $regex: search, $options: 'i' };
+
+    const [data, total] = await Promise.all([
+      Competency().find(filter)
+        .populate('departments', 'name')
+        .populate('designations', 'name')
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+      Competency().countDocuments(filter),
+    ]);
+
+    return paginated(res, data, total, page, limit);
+  } catch (err) {
+    return serverError(res, err);
+  }
 };
 
-exports.resolveAlert = async (req, res) => {
+exports.getCompetency = async (req, res) => {
   try {
-    const doc = await FinancialAlert.findOne({ _id: req.params.id, isDeleted: false });
-    if (!doc) return notFound(res, 'FinancialAlert');
-    doc.status     = 'resolved';
-    doc.resolvedAt = new Date();
-    await doc.save();
-    return ok(res, doc);
-  } catch (err) { return serverError(res, err); }
+    const comp = await Competency().findOne({ _id: req.params.id, isDeleted: false })
+      .populate('departments', 'name')
+      .populate('designations', 'name')
+      .lean();
+    if (!comp) return notFound(res, 'Competency');
+    return ok(res, comp);
+  } catch (err) {
+    return serverError(res, err);
+  }
 };
 
-exports.deleteAlert = async (req, res) => {
+exports.updateCompetency = async (req, res) => {
   try {
-    const doc = await FinancialAlert.findOneAndUpdate(
-      { _id: req.params.id, isDeleted: false }, { isDeleted: true }, { new: true }
-    );
-    if (!doc) return notFound(res, 'FinancialAlert');
-    return noContent(res);
-  } catch (err) { return serverError(res, err); }
+    const comp = await Competency().findOne({ _id: req.params.id, isDeleted: false });
+    if (!comp) return notFound(res, 'Competency');
+    const before = comp.toObject();
+    Object.assign(comp, req.body);
+    await comp.save();
+    _audit(req, 'UPDATE', 'Competency', comp._id, comp.code, before, req.body);
+    return ok(res, comp, 'Competency updated');
+  } catch (err) {
+    return serverError(res, err);
+  }
 };
 
-// ── Executive Dashboard Settings ──────────────────────────────────────────────
-exports.getSettings = async (req, res) => {
+exports.deleteCompetency = async (req, res) => {
   try {
-    const docs = await ExecutiveDashboardSetting.find({ isDeleted: false, isActive: true }).sort({ category: 1 });
-    return ok(res, docs);
-  } catch (err) { return serverError(res, err); }
+    const comp = await Competency().findOne({ _id: req.params.id, isDeleted: false });
+    if (!comp) return notFound(res, 'Competency');
+    comp.isDeleted = true;
+    await comp.save();
+    _audit(req, 'DELETE', 'Competency', comp._id, comp.code, comp.toObject(), null);
+    return ok(res, null, 'Competency deleted');
+  } catch (err) {
+    return serverError(res, err);
+  }
 };
 
-exports.upsertSetting = async (req, res) => {
+exports.createCompetencyAssessment = async (req, res) => {
   try {
-    const { settingKey, ...rest } = req.body;
-    if (!settingKey) return res.status(400).json({ success: false, message: 'settingKey is required' });
-    const doc = await ExecutiveDashboardSetting.findOneAndUpdate(
-      { settingKey }, { settingKey, ...rest }, { upsert: true, new: true, setDefaultsOnInsert: true }
-    );
-    return ok(res, doc);
-  } catch (err) { return serverError(res, err); }
+    const assessment = await CompetencyAssessment().create({
+      ...req.body,
+      assessedBy: req.user._id,
+    });
+    _audit(req, 'CREATE', 'CompetencyAssessment', assessment._id, assessment._id.toString(), null, req.body);
+    return created(res, assessment, 'Competency assessment created');
+  } catch (err) {
+    if (err.code === 11000) return fail(res, 'Assessment already exists for this employee/cycle/competency');
+    return serverError(res, err);
+  }
 };
 
-exports.deleteSetting = async (req, res) => {
+exports.getCompetencyAssessments = async (req, res) => {
   try {
-    const doc = await ExecutiveDashboardSetting.findOneAndUpdate(
-      { _id: req.params.id, isDeleted: false }, { isDeleted: true }, { new: true }
-    );
-    if (!doc) return notFound(res, 'ExecutiveDashboardSetting');
-    return noContent(res);
-  } catch (err) { return serverError(res, err); }
+    const page  = Math.max(1, parseInt(req.query.page)  || 1);
+    const limit = Math.max(1, Math.min(100, parseInt(req.query.limit) || 20));
+    const skip  = (page - 1) * limit;
+
+    const { cycle, employee, competency } = req.query;
+    const filter = { isDeleted: false };
+    if (cycle)      filter.cycle      = cycle;
+    if (employee)   filter.employee   = employee;
+    if (competency) filter.competency = competency;
+
+    const [data, total] = await Promise.all([
+      CompetencyAssessment().find(filter)
+        .populate('competency', 'code name competencyType')
+        .populate('cycle', 'name cycleCode')
+        .populate('employee', 'firstName lastName employeeCode')
+        .populate('assessedBy', 'name')
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+      CompetencyAssessment().countDocuments(filter),
+    ]);
+
+    return paginated(res, data, total, page, limit);
+  } catch (err) {
+    return serverError(res, err);
+  }
 };
