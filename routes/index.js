@@ -3681,5 +3681,112 @@ router.get('/admin/hr/payroll/reports/annual',                      protect, adm
 router.get('/admin/hr/payroll/settings',                            protect, admin, payrollSetCtrl.getSettings);
 router.put('/admin/hr/payroll/settings',                            protect, admin, payrollSetCtrl.updateSettings);
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// SPRINT 14D — ENTERPRISE RECRUITMENT & ATS
+// ═══════════════════════════════════════════════════════════════════════════════
+const recruitDashCtrl  = require('../controllers/recruitmentDashboardController');
+const jobOpeningCtrl   = require('../controllers/jobOpeningController');
+const jobAppCtrl       = require('../controllers/jobApplicationController');
+const candidateCtrl    = require('../controllers/candidateController');
+const interviewCtrl    = require('../controllers/interviewController');
+const offerCtrl        = require('../controllers/offerController');
+const bgvCtrl          = require('../controllers/backgroundVerificationController');
+const recruitRptCtrl   = require('../controllers/recruitmentReportController');
+
+// ── Recruitment Dashboard ─────────────────────────────────────────────────────
+router.get('/admin/hr/recruitment/dashboard',                        protect, admin, recruitDashCtrl.getDashboard);
+
+// ── Job Openings ──────────────────────────────────────────────────────────────
+router.get('/admin/hr/recruitment/jobs',                             protect, admin, jobOpeningCtrl.getJobs);
+router.post('/admin/hr/recruitment/jobs',                            protect, admin, jobOpeningCtrl.createJob);
+router.get('/admin/hr/recruitment/jobs/:id',                         protect, admin, jobOpeningCtrl.getJob);
+router.put('/admin/hr/recruitment/jobs/:id',                         protect, admin, jobOpeningCtrl.updateJob);
+router.delete('/admin/hr/recruitment/jobs/:id',                      protect, admin, jobOpeningCtrl.deleteJob);
+router.patch('/admin/hr/recruitment/jobs/:id/post',                  protect, admin, jobOpeningCtrl.postJob);
+router.patch('/admin/hr/recruitment/jobs/:id/close',                 protect, admin, jobOpeningCtrl.closeJob);
+router.patch('/admin/hr/recruitment/jobs/:id/hold',                  protect, admin, jobOpeningCtrl.holdJob);
+router.get('/admin/hr/recruitment/jobs/:id/applications',            protect, admin, jobOpeningCtrl.getJobApplications);
+
+// ── Applications ──────────────────────────────────────────────────────────────
+router.get('/admin/hr/recruitment/applications',                     protect, admin, jobAppCtrl.getApplications);
+router.post('/admin/hr/recruitment/applications',                    protect, admin, jobAppCtrl.createApplication);
+router.post('/admin/hr/recruitment/applications/bulk-action',        protect, admin, jobAppCtrl.bulkAction);
+router.get('/admin/hr/recruitment/applications/:id',                 protect, admin, jobAppCtrl.getApplication);
+router.put('/admin/hr/recruitment/applications/:id',                 protect, admin, jobAppCtrl.updateApplication);
+router.delete('/admin/hr/recruitment/applications/:id',              protect, admin, jobAppCtrl.deleteApplication);
+router.patch('/admin/hr/recruitment/applications/:id/move-stage',    protect, admin, jobAppCtrl.moveStage);
+router.patch('/admin/hr/recruitment/applications/:id/shortlist',     protect, admin, jobAppCtrl.shortlistApplication);
+router.patch('/admin/hr/recruitment/applications/:id/reject',        protect, admin, jobAppCtrl.rejectApplication);
+
+// ── Candidates ────────────────────────────────────────────────────────────────
+router.get('/admin/hr/recruitment/candidates',                       protect, admin, candidateCtrl.getCandidates);
+router.post('/admin/hr/recruitment/candidates',                      protect, admin, candidateCtrl.createCandidate);
+router.get('/admin/hr/recruitment/talent-pool',                      protect, admin, candidateCtrl.getTalentPool);
+router.get('/admin/hr/recruitment/agencies',                         protect, admin, candidateCtrl.getAgencies);
+router.post('/admin/hr/recruitment/agencies',                        protect, admin, candidateCtrl.createAgency);
+router.put('/admin/hr/recruitment/agencies/:id',                     protect, admin, candidateCtrl.updateAgency);
+router.get('/admin/hr/recruitment/sources',                          protect, admin, candidateCtrl.getSources);
+router.post('/admin/hr/recruitment/sources',                         protect, admin, candidateCtrl.createSource);
+router.get('/admin/hr/recruitment/candidates/:id',                   protect, admin, candidateCtrl.getCandidate);
+router.put('/admin/hr/recruitment/candidates/:id',                   protect, admin, candidateCtrl.updateCandidate);
+router.delete('/admin/hr/recruitment/candidates/:id',                protect, admin, candidateCtrl.deleteCandidate);
+router.get('/admin/hr/recruitment/candidates/:id/applications',      protect, admin, candidateCtrl.getCandidateApplications);
+router.get('/admin/hr/recruitment/candidates/:id/documents',         protect, admin, candidateCtrl.getCandidateDocuments);
+router.post('/admin/hr/recruitment/candidates/:id/documents',        protect, admin, candidateCtrl.addDocument);
+router.patch('/admin/hr/recruitment/candidates/:id/talent-pool',     protect, admin, candidateCtrl.addToTalentPool);
+router.post('/admin/hr/recruitment/candidates/:id/convert',          protect, admin, candidateCtrl.convertToEmployee);
+
+// ── Interviews ────────────────────────────────────────────────────────────────
+router.get('/admin/hr/recruitment/interviews',                       protect, admin, interviewCtrl.getInterviews);
+router.post('/admin/hr/recruitment/interviews',                      protect, admin, interviewCtrl.scheduleInterview);
+router.get('/admin/hr/recruitment/interviews/panel/:jobId',          protect, admin, interviewCtrl.getPanel);
+router.post('/admin/hr/recruitment/interviews/panel/:jobId',         protect, admin, interviewCtrl.setPanel);
+router.get('/admin/hr/recruitment/interviews/:id',                   protect, admin, interviewCtrl.getInterview);
+router.put('/admin/hr/recruitment/interviews/:id',                   protect, admin, interviewCtrl.updateInterview);
+router.patch('/admin/hr/recruitment/interviews/:id/complete',        protect, admin, interviewCtrl.completeInterview);
+router.patch('/admin/hr/recruitment/interviews/:id/cancel',          protect, admin, interviewCtrl.cancelInterview);
+router.patch('/admin/hr/recruitment/interviews/:id/reschedule',      protect, admin, interviewCtrl.rescheduleInterview);
+router.get('/admin/hr/recruitment/interviews/:id/feedback',          protect, admin, interviewCtrl.getFeedback);
+router.post('/admin/hr/recruitment/interviews/:id/feedback',         protect, admin, interviewCtrl.submitFeedback);
+
+// ── Offers ────────────────────────────────────────────────────────────────────
+router.get('/admin/hr/recruitment/offers',                           protect, admin, offerCtrl.getOffers);
+router.post('/admin/hr/recruitment/offers',                          protect, admin, offerCtrl.createOffer);
+router.get('/admin/hr/recruitment/offers/:id',                       protect, admin, offerCtrl.getOffer);
+router.put('/admin/hr/recruitment/offers/:id',                       protect, admin, offerCtrl.updateOffer);
+router.patch('/admin/hr/recruitment/offers/:id/send',                protect, admin, offerCtrl.sendOffer);
+router.patch('/admin/hr/recruitment/offers/:id/approve',             protect, admin, offerCtrl.approveOffer);
+router.patch('/admin/hr/recruitment/offers/:id/reject',              protect, admin, offerCtrl.rejectOffer);
+router.get('/admin/hr/recruitment/offers/:id/acceptance',            protect, admin, offerCtrl.getAcceptance);
+router.post('/admin/hr/recruitment/offers/:id/acceptance',           protect, admin, offerCtrl.recordAcceptance);
+router.get('/admin/hr/recruitment/offers/:id/approvals',             protect, admin, offerCtrl.getApprovals);
+
+// ── Background Verification ───────────────────────────────────────────────────
+router.get('/admin/hr/recruitment/bgv',                              protect, admin, bgvCtrl.getBGVs);
+router.post('/admin/hr/recruitment/bgv',                             protect, admin, bgvCtrl.initiateBGV);
+router.get('/admin/hr/recruitment/bgv/:id',                          protect, admin, bgvCtrl.getBGV);
+router.patch('/admin/hr/recruitment/bgv/:id/check',                  protect, admin, bgvCtrl.updateBGVCheck);
+router.patch('/admin/hr/recruitment/bgv/:id/complete',               protect, admin, bgvCtrl.completeBGV);
+
+// ── Onboarding ────────────────────────────────────────────────────────────────
+router.get('/admin/hr/recruitment/onboarding',                       protect, admin, bgvCtrl.getOnboardings);
+router.post('/admin/hr/recruitment/onboarding',                      protect, admin, bgvCtrl.createOnboarding);
+router.get('/admin/hr/recruitment/onboarding/:id',                   protect, admin, bgvCtrl.getOnboarding);
+router.patch('/admin/hr/recruitment/onboarding/:id/task',            protect, admin, bgvCtrl.updateTask);
+router.patch('/admin/hr/recruitment/onboarding/:id/complete',        protect, admin, bgvCtrl.completeOnboarding);
+
+// ── Recruitment Reports ───────────────────────────────────────────────────────
+router.get('/admin/hr/recruitment/reports/open-positions',           protect, admin, recruitRptCtrl.getOpenPositions);
+router.get('/admin/hr/recruitment/reports/hiring-funnel',            protect, admin, recruitRptCtrl.getHiringFunnel);
+router.get('/admin/hr/recruitment/reports/source-effectiveness',     protect, admin, recruitRptCtrl.getSourceEffectiveness);
+router.get('/admin/hr/recruitment/reports/time-to-hire',             protect, admin, recruitRptCtrl.getTimeToHire);
+router.get('/admin/hr/recruitment/reports/offer-acceptance',         protect, admin, recruitRptCtrl.getOfferAcceptance);
+router.get('/admin/hr/recruitment/reports/recruiter-performance',    protect, admin, recruitRptCtrl.getRecruiterPerformance);
+router.get('/admin/hr/recruitment/reports/department-hiring',        protect, admin, recruitRptCtrl.getDepartmentHiring);
+
+// ── Recruitment Settings ──────────────────────────────────────────────────────
+router.get('/admin/hr/recruitment/settings',                         protect, admin, recruitRptCtrl.getSettings);
+router.put('/admin/hr/recruitment/settings',                         protect, admin, recruitRptCtrl.updateSettings);
+
 module.exports = router;
 
