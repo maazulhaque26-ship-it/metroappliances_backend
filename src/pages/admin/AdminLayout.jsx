@@ -446,6 +446,18 @@ const NAV_GROUPS = [
       { label: 'Holidays',         path: '/admin/hr/leave/holidays',            icon: FiCalendar,   roles: ['admin', 'super_admin'] },
       { label: 'Att. Reports',     path: '/admin/hr/attendance/reports',        icon: FiBarChart2,  roles: ['admin', 'super_admin'] },
       { label: 'Leave Reports',    path: '/admin/hr/leave/reports',             icon: FiActivity,   roles: ['admin', 'super_admin'] },
+      // ── Sprint 14C: Payroll ──────────────────────────────────────────────
+      { label: 'Payroll',          path: '/admin/hr/payroll',                   icon: FiDollarSign,   roles: ['admin', 'super_admin'] },
+      { label: 'Payroll Runs',     path: '/admin/hr/payroll/runs',              icon: FiZap,          roles: ['admin', 'super_admin'] },
+      { label: 'Sal. Structures',  path: '/admin/hr/payroll/structures',        icon: FiLayers,       roles: ['admin', 'super_admin'] },
+      { label: 'Sal. Components',  path: '/admin/hr/payroll/components',        icon: FiSliders,      roles: ['admin', 'super_admin'] },
+      { label: 'Employee Salary',  path: '/admin/hr/payroll/employee-salary',   icon: FiUsers,        roles: ['admin', 'super_admin'] },
+      { label: 'Payslips',         path: '/admin/hr/payroll/payslips',          icon: FiFileText,     roles: ['admin', 'super_admin'] },
+      { label: 'Loans',            path: '/admin/hr/payroll/loans',             icon: FiCreditCard,   roles: ['admin', 'super_admin'] },
+      { label: 'Advances',         path: '/admin/hr/payroll/advances',          icon: FiArrowUpRight, roles: ['admin', 'super_admin'] },
+      { label: 'Bonuses',          path: '/admin/hr/payroll/bonuses',           icon: FiAward,        roles: ['admin', 'super_admin'] },
+      { label: 'Payroll Reports',  path: '/admin/hr/payroll/reports',           icon: FiBarChart2,    roles: ['admin', 'super_admin'] },
+      { label: 'Payroll Settings', path: '/admin/hr/payroll/settings',          icon: FiSettings,     roles: ['admin', 'super_admin'] },
     ],
   },
   {

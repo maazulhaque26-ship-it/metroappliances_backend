@@ -434,6 +434,20 @@ const AdminVarianceAnalysis       = lazy(() => import('./pages/admin/AdminVarian
 const AdminFinancialAlerts        = lazy(() => import('./pages/admin/AdminFinancialAlerts'));
 const AdminExecutiveReports       = lazy(() => import('./pages/admin/AdminExecutiveReports'));
 
+// ── Sprint 14C: Enterprise Payroll Management ─────────────────────────────────
+const AdminPayrollDashboard  = lazy(() => import('./pages/admin/AdminPayrollDashboard'));
+const AdminPayrollRuns       = lazy(() => import('./pages/admin/AdminPayrollRuns'));
+const AdminSalaryStructures  = lazy(() => import('./pages/admin/AdminSalaryStructures'));
+const AdminSalaryComponents  = lazy(() => import('./pages/admin/AdminSalaryComponents'));
+const AdminEmployeeSalary    = lazy(() => import('./pages/admin/AdminEmployeeSalary'));
+const AdminPayrollProcessing = lazy(() => import('./pages/admin/AdminPayrollProcessing'));
+const AdminPayslips          = lazy(() => import('./pages/admin/AdminPayslips'));
+const AdminLoans             = lazy(() => import('./pages/admin/AdminLoans'));
+const AdminAdvances          = lazy(() => import('./pages/admin/AdminAdvances'));
+const AdminBonuses           = lazy(() => import('./pages/admin/AdminBonuses'));
+const AdminPayrollReports    = lazy(() => import('./pages/admin/AdminPayrollReports'));
+const AdminPayrollSettings   = lazy(() => import('./pages/admin/AdminPayrollSettings'));
+
 // ── Sprint 14B: Enterprise Attendance & Leave Management ─────────────────────
 const AdminAttendanceDashboard = lazy(() => import('./pages/admin/AdminAttendanceDashboard'));
 const AdminAttendanceRegister  = lazy(() => import('./pages/admin/AdminAttendanceRegister'));
@@ -1149,6 +1163,20 @@ export default function App() {
         <Route path="/admin/hr/leave/holidays"         element={<AdminRoute><AdminHolidays /></AdminRoute>} />
         <Route path="/admin/hr/attendance/reports"     element={<AdminRoute><AdminAttendanceReports /></AdminRoute>} />
         <Route path="/admin/hr/leave/reports"          element={<AdminRoute><AdminLeaveReports /></AdminRoute>} />
+
+        {/* Sprint 14C: Enterprise Payroll Management */}
+        <Route path="/admin/hr/payroll"                       element={<AdminRoute><AdminPayrollDashboard /></AdminRoute>} />
+        <Route path="/admin/hr/payroll/runs"                  element={<AdminRoute><AdminPayrollRuns /></AdminRoute>} />
+        <Route path="/admin/hr/payroll/structures"            element={<AdminRoute><AdminSalaryStructures /></AdminRoute>} />
+        <Route path="/admin/hr/payroll/components"            element={<AdminRoute><AdminSalaryComponents /></AdminRoute>} />
+        <Route path="/admin/hr/payroll/employee-salary"       element={<AdminRoute><AdminEmployeeSalary /></AdminRoute>} />
+        <Route path="/admin/hr/payroll/runs/:id/process"      element={<AdminRoute><AdminPayrollProcessing /></AdminRoute>} />
+        <Route path="/admin/hr/payroll/payslips"              element={<AdminRoute><AdminPayslips /></AdminRoute>} />
+        <Route path="/admin/hr/payroll/loans"                 element={<AdminRoute><AdminLoans /></AdminRoute>} />
+        <Route path="/admin/hr/payroll/advances"              element={<AdminRoute><AdminAdvances /></AdminRoute>} />
+        <Route path="/admin/hr/payroll/bonuses"               element={<AdminRoute><AdminBonuses /></AdminRoute>} />
+        <Route path="/admin/hr/payroll/reports"               element={<AdminRoute><AdminPayrollReports /></AdminRoute>} />
+        <Route path="/admin/hr/payroll/settings"              element={<AdminRoute><AdminPayrollSettings /></AdminRoute>} />
 
         {/* Sprint 11C: Installation Engineer Portal (isolated auth — type:'engineer' JWT, green) */}
         <Route path="/engineer/login" element={<PageWrapper><EngineerLogin /></PageWrapper>} />
