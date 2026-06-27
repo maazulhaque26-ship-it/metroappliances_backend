@@ -22,28 +22,28 @@
 │  │                   Vite Frontend Bundle                │             │
 │  │  Redux Store: auth | dealerAuth | agentAuth |        │             │
 │  │              cart | wishlist | products |            │             │
-│  │              settings | compare | notifications |   │             │
-│  │              dealerCart                             │             │
-│  └──────────────────────────┬────────────────────────┘             │
-│                              │ HTTPS (axios)                         │
+│  │              settings | compare | notifications |   │            │
+│  │              dealerCart                             │            │
+│  └──────────────────────────┬────────────────────────┘              │
+│                              │ HTTPS (axios)                        │
 │  ┌───────────────────────────▼────────────────────────┐             │
-│  │              Express.js API Server                   │             │
-│  │  Rate Limit · Helmet · CORS · Morgan · Cookie-Parser│             │
-│  │  dbGuard (503 while MongoDB unavailable)            │             │
-│  │                                                      │             │
-│  │  ┌──────────┐ ┌──────────┐ ┌──────────┐           │             │
-│  │  │ Customer │ │  Dealer  │ │  Agent   │           │             │
-│  │  │   Auth   │ │   Auth   │ │   Auth   │           │             │
-│  │  │JWT(type:─│ │JWT(type: │ │JWT(type: │           │             │
-│  │  │ none)    │ │ dealer)  │ │ agent)   │           │             │
-│  │  └──────────┘ └──────────┘ └──────────┘           │             │
+│  │              Express.js API Server                   │           │
+│  │  Rate Limit · Helmet · CORS · Morgan · Cookie-Parser│            │
+│  │  dbGuard (503 while MongoDB unavailable)            │            │
+│  │                                                      │           │
+│  │  ┌──────────┐ ┌──────────┐ ┌──────────┐           │              │
+│  │  │ Customer │ │  Dealer  │ │  Agent   │           │              │
+│  │  │   Auth   │ │   Auth   │ │   Auth   │           │              │
+│  │  │JWT(type:─│ │JWT(type: │ │JWT(type: │           │              │
+│  │  │ none)    │ │ dealer)  │ │ agent)   │           │              │
+│  │  └──────────┘ └──────────┘ └──────────┘           │              │
 │  └──────────────────────┬─────────────────────────────┘             │
-│                          │                                            │
+│                          │                                          │
 │  ┌───────────────────────▼────────────────────────┐                 │
-│  │              MongoDB (Mongoose ODM)               │                 │
-│  │  44 Models · Auto-indexes · TTL on AuditLog     │                 │
+│  │              MongoDB (Mongoose ODM)               │              │
+│  │  44 Models · Auto-indexes · TTL on AuditLog     │                │
 │  └────────────────────────────────────────────────┘                 │
-│                                                                       │
+│                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
