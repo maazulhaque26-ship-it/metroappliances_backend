@@ -4081,5 +4081,108 @@ router.post('/admin/projects/:id/budget',                            protect, ad
 router.get('/admin/projects/:id/costs',                              protect, admin, projReportCtrl.listProjectCosts);
 router.post('/admin/projects/:id/costs',                             protect, admin, projReportCtrl.createProjectCost);
 
+// ── Sprint 15B: Enterprise Project Portfolio Management (PPM) ────────────────
+const pfDashCtrl   = require('../controllers/portfolioDashboardController');
+const pfCtrl       = require('../controllers/portfolioController');
+const pfFinCtrl    = require('../controllers/portfolioFinanceController');
+const pfRiskCtrl   = require('../controllers/portfolioRiskController');
+const pfResCtrl    = require('../controllers/resourceCapacityController');
+const pfReportCtrl = require('../controllers/portfolioReportController');
+
+// Dashboards (static paths — before /:id)
+router.get('/admin/portfolio/dashboard',                  protect, admin, pfDashCtrl.getDashboard);
+router.get('/admin/portfolio/executive-dashboard',        protect, admin, pfDashCtrl.getExecutiveDashboard);
+
+// Resource Capacity Planning (cross-portfolio)
+router.get('/admin/portfolio/resources/capacity',         protect, admin, pfResCtrl.listCapacity);
+router.post('/admin/portfolio/resources/capacity',        protect, admin, pfResCtrl.createCapacity);
+router.put('/admin/portfolio/resources/capacity/:id',     protect, admin, pfResCtrl.updateCapacity);
+router.delete('/admin/portfolio/resources/capacity/:id',  protect, admin, pfResCtrl.deleteCapacity);
+router.get('/admin/portfolio/resources/demand',           protect, admin, pfResCtrl.listDemand);
+router.post('/admin/portfolio/resources/demand',          protect, admin, pfResCtrl.createDemand);
+router.put('/admin/portfolio/resources/demand/:id',       protect, admin, pfResCtrl.updateDemand);
+router.delete('/admin/portfolio/resources/demand/:id',    protect, admin, pfResCtrl.deleteDemand);
+router.get('/admin/portfolio/resources/demand-vs-capacity', protect, admin, pfResCtrl.getDemandVsCapacity);
+router.get('/admin/portfolio/resources/utilization',      protect, admin, pfResCtrl.getUtilization);
+router.get('/admin/portfolio/resources/conflicts',        protect, admin, pfResCtrl.getConflicts);
+router.get('/admin/portfolio/resources/heatmap',          protect, admin, pfResCtrl.getHeatmap);
+
+// Reports (cross-portfolio aggregations)
+router.get('/admin/portfolio/reports/executive',          protect, admin, pfReportCtrl.getExecutiveReport);
+router.get('/admin/portfolio/reports/resource',           protect, admin, pfReportCtrl.getResourceReport);
+router.get('/admin/portfolio/reports/financial',          protect, admin, pfReportCtrl.getFinancialReport);
+router.get('/admin/portfolio/reports/benefits',           protect, admin, pfReportCtrl.getBenefitsReport);
+router.get('/admin/portfolio/reports/risk',               protect, admin, pfReportCtrl.getRiskSummary);
+
+// Programs
+router.get('/admin/portfolio/programs',                   protect, admin, pfCtrl.listPrograms);
+router.post('/admin/portfolio/programs',                  protect, admin, pfCtrl.createProgram);
+router.get('/admin/portfolio/programs/:id',               protect, admin, pfCtrl.getProgram);
+router.put('/admin/portfolio/programs/:id',               protect, admin, pfCtrl.updateProgram);
+router.delete('/admin/portfolio/programs/:id',            protect, admin, pfCtrl.deleteProgram);
+
+// Program-Project mapping
+router.get('/admin/portfolio/program-projects',           protect, admin, pfCtrl.listProgramProjects);
+router.post('/admin/portfolio/program-projects',          protect, admin, pfCtrl.mapProject);
+router.put('/admin/portfolio/program-projects/:id',       protect, admin, pfCtrl.updateProgramProject);
+router.delete('/admin/portfolio/program-projects/:id',    protect, admin, pfCtrl.unmapProject);
+
+// Strategic Initiatives
+router.get('/admin/portfolio/initiatives',                protect, admin, pfCtrl.listInitiatives);
+router.post('/admin/portfolio/initiatives',               protect, admin, pfCtrl.createInitiative);
+router.put('/admin/portfolio/initiatives/:id',            protect, admin, pfCtrl.updateInitiative);
+router.delete('/admin/portfolio/initiatives/:id',         protect, admin, pfCtrl.deleteInitiative);
+
+// Sub-resource item routes (literal segment — before /:id family)
+router.put('/admin/portfolio/risks/:id',                  protect, admin, pfRiskCtrl.updateRisk);
+router.delete('/admin/portfolio/risks/:id',               protect, admin, pfRiskCtrl.deleteRisk);
+router.put('/admin/portfolio/kpis/:id',                   protect, admin, pfRiskCtrl.updateKPI);
+router.delete('/admin/portfolio/kpis/:id',                protect, admin, pfRiskCtrl.deleteKPI);
+router.put('/admin/portfolio/governance/:id',             protect, admin, pfRiskCtrl.updateGovernance);
+router.delete('/admin/portfolio/governance/:id',          protect, admin, pfRiskCtrl.deleteGovernance);
+router.patch('/admin/portfolio/approvals/:id/decide',     protect, admin, pfRiskCtrl.decideApproval);
+router.delete('/admin/portfolio/approvals/:id',           protect, admin, pfRiskCtrl.deleteApproval);
+router.put('/admin/portfolio/forecast/:id',               protect, admin, pfFinCtrl.updateForecast);
+router.delete('/admin/portfolio/forecast/:id',            protect, admin, pfFinCtrl.deleteForecast);
+router.put('/admin/portfolio/benefits/:id',               protect, admin, pfFinCtrl.updateBenefit);
+router.delete('/admin/portfolio/benefits/:id',            protect, admin, pfFinCtrl.deleteBenefit);
+router.put('/admin/portfolio/roadmap/:id',                protect, admin, pfReportCtrl.updateRoadmapItem);
+router.delete('/admin/portfolio/roadmap/:id',             protect, admin, pfReportCtrl.deleteRoadmapItem);
+router.put('/admin/portfolio/milestones/:id',             protect, admin, pfReportCtrl.updateMilestone);
+router.delete('/admin/portfolio/milestones/:id',          protect, admin, pfReportCtrl.deleteMilestone);
+router.delete('/admin/portfolio/status-reports/:id',      protect, admin, pfReportCtrl.deleteStatusReport);
+
+// Per-portfolio sub-collections (/:id/<resource>)
+router.get('/admin/portfolio/:id/risks',                  protect, admin, pfRiskCtrl.listRisks);
+router.post('/admin/portfolio/:id/risks',                 protect, admin, pfRiskCtrl.createRisk);
+router.get('/admin/portfolio/:id/kpis',                   protect, admin, pfRiskCtrl.listKPIs);
+router.post('/admin/portfolio/:id/kpis',                  protect, admin, pfRiskCtrl.createKPI);
+router.get('/admin/portfolio/:id/governance',             protect, admin, pfRiskCtrl.listGovernance);
+router.post('/admin/portfolio/:id/governance',            protect, admin, pfRiskCtrl.createGovernance);
+router.get('/admin/portfolio/:id/approvals',              protect, admin, pfRiskCtrl.listApprovals);
+router.post('/admin/portfolio/:id/approvals',             protect, admin, pfRiskCtrl.createApproval);
+router.get('/admin/portfolio/:id/budget',                 protect, admin, pfFinCtrl.getBudget);
+router.put('/admin/portfolio/:id/budget',                 protect, admin, pfFinCtrl.upsertBudget);
+router.get('/admin/portfolio/:id/forecast',               protect, admin, pfFinCtrl.listForecasts);
+router.post('/admin/portfolio/:id/forecast',              protect, admin, pfFinCtrl.createForecast);
+router.get('/admin/portfolio/:id/benefits',               protect, admin, pfFinCtrl.listBenefits);
+router.post('/admin/portfolio/:id/benefits',              protect, admin, pfFinCtrl.createBenefit);
+router.get('/admin/portfolio/:id/financial-summary',      protect, admin, pfFinCtrl.getFinancialSummary);
+router.get('/admin/portfolio/:id/roadmap',                protect, admin, pfReportCtrl.listRoadmap);
+router.post('/admin/portfolio/:id/roadmap',               protect, admin, pfReportCtrl.createRoadmapItem);
+router.get('/admin/portfolio/:id/milestones',             protect, admin, pfReportCtrl.listMilestones);
+router.post('/admin/portfolio/:id/milestones',            protect, admin, pfReportCtrl.createMilestone);
+router.get('/admin/portfolio/:id/status-reports',         protect, admin, pfReportCtrl.listStatusReports);
+router.post('/admin/portfolio/:id/status-reports',        protect, admin, pfReportCtrl.createStatusReport);
+router.get('/admin/portfolio/:id/status-report',          protect, admin, pfReportCtrl.getPortfolioStatusReport);
+
+// Portfolio CRUD (/:id family LAST)
+router.get('/admin/portfolio',                            protect, admin, pfCtrl.listPortfolios);
+router.post('/admin/portfolio',                           protect, admin, pfCtrl.createPortfolio);
+router.get('/admin/portfolio/:id',                        protect, admin, pfCtrl.getPortfolio);
+router.put('/admin/portfolio/:id',                        protect, admin, pfCtrl.updatePortfolio);
+router.delete('/admin/portfolio/:id',                     protect, admin, pfCtrl.deletePortfolio);
+router.patch('/admin/portfolio/:id/status',               protect, admin, pfCtrl.updatePortfolioStatus);
+
 module.exports = router;
 
