@@ -478,6 +478,16 @@ const AdminProjectRisks      = lazy(() => import('./pages/admin/AdminProjectRisk
 const AdminProjectIssues     = lazy(() => import('./pages/admin/AdminProjectIssues'));
 const AdminProjectReports    = lazy(() => import('./pages/admin/AdminProjectReports'));
 const AdminProjectSettings   = lazy(() => import('./pages/admin/AdminProjectSettings'));
+// ── Sprint 15B: Enterprise Project Portfolio Management (PPM) ────────────────
+const AdminPortfolioDashboard  = lazy(() => import('./pages/admin/AdminPortfolioDashboard'));
+const AdminPortfolios          = lazy(() => import('./pages/admin/AdminPortfolios'));
+const AdminPortfolioDetail     = lazy(() => import('./pages/admin/AdminPortfolioDetail'));
+const AdminPrograms            = lazy(() => import('./pages/admin/AdminPrograms'));
+const AdminInitiatives         = lazy(() => import('./pages/admin/AdminInitiatives'));
+const AdminResourceCapacity    = lazy(() => import('./pages/admin/AdminResourceCapacity'));
+const AdminPortfolioExecutive  = lazy(() => import('./pages/admin/AdminPortfolioExecutive'));
+const AdminPortfolioReports    = lazy(() => import('./pages/admin/AdminPortfolioReports'));
+const AdminPortfolioFinance    = lazy(() => import('./pages/admin/AdminPortfolioFinance'));
 // ESS Portal
 const EmployeeLogin              = lazy(() => import('./pages/employee/EmployeeLogin'));
 const EmployeeLayout             = lazy(() => import('./pages/employee/EmployeeLayout'));
@@ -1286,6 +1296,16 @@ export default function App() {
         <Route path="/admin/projects/issues/all"     element={<AdminRoute><AdminProjectIssues /></AdminRoute>} />
         <Route path="/admin/projects/reports"        element={<AdminRoute><AdminProjectReports /></AdminRoute>} />
         <Route path="/admin/projects/settings"       element={<AdminRoute><AdminProjectSettings /></AdminRoute>} />
+        {/* Sprint 15B: Enterprise Project Portfolio Management */}
+        <Route path="/admin/portfolio"                       element={<AdminRoute><AdminPortfolios /></AdminRoute>} />
+        <Route path="/admin/portfolio/dashboard"             element={<AdminRoute><AdminPortfolioDashboard /></AdminRoute>} />
+        <Route path="/admin/portfolio/executive"             element={<AdminRoute><AdminPortfolioExecutive /></AdminRoute>} />
+        <Route path="/admin/portfolio/programs"              element={<AdminRoute><AdminPrograms /></AdminRoute>} />
+        <Route path="/admin/portfolio/initiatives"           element={<AdminRoute><AdminInitiatives /></AdminRoute>} />
+        <Route path="/admin/portfolio/resources"             element={<AdminRoute><AdminResourceCapacity /></AdminRoute>} />
+        <Route path="/admin/portfolio/finance"               element={<AdminRoute><AdminPortfolioFinance /></AdminRoute>} />
+        <Route path="/admin/portfolio/reports"               element={<AdminRoute><AdminPortfolioReports /></AdminRoute>} />
+        <Route path="/admin/portfolio/:id"                   element={<AdminRoute><AdminPortfolioDetail /></AdminRoute>} />
         {/* ESS Portal */}
         <Route path="/employee/login" element={<PageWrapper><EmployeeLogin /></PageWrapper>} />
         <Route path="/employee" element={<EmployeeRoute><EmployeeLayout /></EmployeeRoute>}>

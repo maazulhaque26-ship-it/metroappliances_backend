@@ -503,6 +503,19 @@ const NAV_GROUPS = [
     ],
   },
   {
+    label: 'Portfolio (PPM)',
+    items: [
+      { label: 'PPM Dashboard',   path: '/admin/portfolio/dashboard',   icon: FiGrid,          roles: ['admin', 'super_admin'] },
+      { label: 'Executive View',  path: '/admin/portfolio/executive',   icon: FiActivity,      roles: ['admin', 'super_admin'] },
+      { label: 'Portfolios',      path: '/admin/portfolio',             icon: FiBriefcase,     roles: ['admin', 'super_admin'] },
+      { label: 'Programs',        path: '/admin/portfolio/programs',    icon: FiLayers,        roles: ['admin', 'super_admin'] },
+      { label: 'Initiatives',     path: '/admin/portfolio/initiatives', icon: FiTarget,        roles: ['admin', 'super_admin'] },
+      { label: 'Resource Capacity', path: '/admin/portfolio/resources', icon: FiUsers,         roles: ['admin', 'super_admin'] },
+      { label: 'Portfolio Finance', path: '/admin/portfolio/finance',   icon: FiDollarSign,    roles: ['admin', 'super_admin'] },
+      { label: 'PPM Reports',     path: '/admin/portfolio/reports',     icon: FiBarChart2,     roles: ['admin', 'super_admin'] },
+    ],
+  },
+  {
     label: 'Enterprise',
     items: [
       { label: 'Audit Log', path: '/admin/audit-log', icon: FiShield, roles: ['admin', 'super_admin'] },
