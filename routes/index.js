@@ -4579,5 +4579,82 @@ router.post('/admin/knowledge/:id/feedback',          protect, admin, kbCtrl.add
 router.get('/admin/knowledge/:id/revisions',          protect, admin, kbCtrl.listRevisions);
 router.get('/admin/knowledge/:id/revisions/:revId',   protect, admin, kbCtrl.getRevision);
 
+// ═══════════════════════════════════════════════════════════════════════════
+// Sprint 16A — Enterprise Business Intelligence & Executive Analytics
+// ═══════════════════════════════════════════════════════════════════════════
+const biDash  = require('../controllers/biDashboardController');
+const biKPI   = require('../controllers/biKPIController');
+const biAna   = require('../controllers/biAnalyticsController');
+const biRpt   = require('../controllers/biReportController');
+const biCfg   = require('../controllers/biConfigController');
+
+// ── Executive Dashboards ──────────────────────────────────────────────────────
+router.get('/admin/bi/executive/ceo',             protect, admin, biDash.getCEODashboard);
+router.get('/admin/bi/executive/coo',             protect, admin, biDash.getCOODashboard);
+router.get('/admin/bi/executive/cfo',             protect, admin, biDash.getCFODashboard);
+router.get('/admin/bi/executive/chro',            protect, admin, biDash.getCHRODashboard);
+router.get('/admin/bi/executive/operations',      protect, admin, biDash.getOperationsDashboard);
+router.get('/admin/bi/executive/manufacturing',   protect, admin, biDash.getManufacturingDashboard);
+router.get('/admin/bi/executive/supply-chain',    protect, admin, biDash.getSupplyChainDashboard);
+router.get('/admin/bi/executive/sales',           protect, admin, biDash.getSalesExecutiveDashboard);
+router.get('/admin/bi/executive/customer',        protect, admin, biDash.getCustomerDashboard);
+router.get('/admin/bi/executive/projects',        protect, admin, biDash.getProjectsDashboard);
+router.get('/admin/bi/executive/enterprise',      protect, admin, biDash.getEnterpriseHealthDashboard);
+
+// ── KPI Engine ────────────────────────────────────────────────────────────────
+router.get(   '/admin/bi/kpis',                   protect, admin, biKPI.getAllKPIs);
+router.get(   '/admin/bi/kpis/check-alerts',      protect, admin, biKPI.checkAlerts);
+router.get(   '/admin/bi/kpi-targets',            protect, admin, biKPI.getKPITargets);
+router.post(  '/admin/bi/kpi-targets',            protect, admin, biKPI.createKPITarget);
+router.put(   '/admin/bi/kpi-targets/:id',        protect, admin, biKPI.updateKPITarget);
+router.delete('/admin/bi/kpi-targets/:id',        protect, admin, biKPI.deleteKPITarget);
+router.get(   '/admin/bi/kpis/:name/trend',       protect, admin, biKPI.getKPITrend);
+router.get(   '/admin/bi/kpis/:name',             protect, admin, biKPI.getKPI);
+
+// ── Analytics ─────────────────────────────────────────────────────────────────
+router.get('/admin/bi/analytics/cross-module',    protect, admin, biAna.getCrossModuleAnalytics);
+router.get('/admin/bi/analytics/trends',          protect, admin, biAna.getTrendAnalysis);
+router.get('/admin/bi/analytics/yoy',             protect, admin, biAna.getYoYComparison);
+router.get('/admin/bi/analytics/mom',             protect, admin, biAna.getMoMComparison);
+router.get('/admin/bi/analytics/qoq',             protect, admin, biAna.getQoQComparison);
+router.get('/admin/bi/analytics/forecast',        protect, admin, biAna.getForecast);
+router.get('/admin/bi/analytics/variance',        protect, admin, biAna.getVarianceAnalysis);
+router.get('/admin/bi/analytics/benchmarks',      protect, admin, biAna.getBenchmarks);
+router.get('/admin/bi/analytics/drilldown',       protect, admin, biAna.getDrillDown);
+router.get('/admin/bi/analytics/heatmap/:module', protect, admin, biAna.getHeatmap);
+
+// ── Reports & Board Packs ─────────────────────────────────────────────────────
+router.get(   '/admin/bi/board-pack',             protect, admin, biRpt.getBoardPack);
+router.get(   '/admin/bi/management-summary',     protect, admin, biRpt.getManagementSummary);
+router.get(   '/admin/bi/scorecards/:dept',       protect, admin, biRpt.getDepartmentScorecard);
+router.get(   '/admin/bi/reports',                protect, admin, biRpt.listReports);
+router.post(  '/admin/bi/reports',                protect, admin, biRpt.createReport);
+router.get(   '/admin/bi/reports/export/:format', protect, admin, biRpt.exportBoardPack);
+router.get(   '/admin/bi/reports/:id/generate',   protect, admin, biRpt.generateReport);
+router.get(   '/admin/bi/reports/:id',            protect, admin, biRpt.getReport);
+router.put(   '/admin/bi/reports/:id',            protect, admin, biRpt.updateReport);
+router.delete('/admin/bi/reports/:id',            protect, admin, biRpt.deleteReport);
+
+// ── Config: Dashboards ────────────────────────────────────────────────────────
+router.get(   '/admin/bi/dashboards',             protect, admin, biCfg.listDashboards);
+router.post(  '/admin/bi/dashboards',             protect, admin, biCfg.createDashboard);
+router.get(   '/admin/bi/dashboards/:id',         protect, admin, biCfg.getDashboard);
+router.put(   '/admin/bi/dashboards/:id',         protect, admin, biCfg.updateDashboard);
+router.delete('/admin/bi/dashboards/:id',         protect, admin, biCfg.deleteDashboard);
+
+// ── Config: Alerts ────────────────────────────────────────────────────────────
+router.get(   '/admin/bi/alerts',                 protect, admin, biCfg.listAlerts);
+router.post(  '/admin/bi/alerts',                 protect, admin, biCfg.createAlert);
+router.patch( '/admin/bi/alerts/:id/toggle',      protect, admin, biCfg.toggleAlert);
+router.get(   '/admin/bi/alerts/:id',             protect, admin, biCfg.getAlert);
+router.put(   '/admin/bi/alerts/:id',             protect, admin, biCfg.updateAlert);
+router.delete('/admin/bi/alerts/:id',             protect, admin, biCfg.deleteAlert);
+
+// ── Config: Bookmarks ─────────────────────────────────────────────────────────
+router.get(   '/admin/bi/bookmarks',              protect, admin, biCfg.listBookmarks);
+router.post(  '/admin/bi/bookmarks',              protect, admin, biCfg.createBookmark);
+router.patch( '/admin/bi/bookmarks/:id/default',  protect, admin, biCfg.setDefaultBookmark);
+router.delete('/admin/bi/bookmarks/:id',          protect, admin, biCfg.deleteBookmark);
+
 module.exports = router;
 
