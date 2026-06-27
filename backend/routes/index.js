@@ -1,4 +1,4 @@
-const express = require('express');
+﻿const express = require('express');
 const router  = express.Router();
 
 const { protect, admin, superAdmin, moderatorOrAbove, optionalAuth } = require('../middleware/auth');
@@ -20,7 +20,7 @@ const achievementStat = require('../controllers/achievementStatController');
 const gallery         = require('../controllers/galleryController');
 const blog            = require('../controllers/blogController');
 const loginSlider     = require('../controllers/loginSliderController');
-// ─── Auth ─────────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Auth â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.post('/auth/register',                  auth.register);
 router.post('/auth/login',                     auth.login);
 router.post('/auth/logout',                    auth.logout);
@@ -31,7 +31,7 @@ router.post('/auth/addresses',                 protect, auth.addAddress);
 router.put( '/auth/addresses/:addressId',      protect, auth.updateAddress);
 router.delete('/auth/addresses/:addressId',    protect, auth.deleteAddress);
 
-// ─── Products ─────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Products â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get( '/products',                       product.getProducts);
 router.get( '/products/brands',                product.getBrands);
 router.get( '/products/slug/:slug',            product.getProductBySlug);
@@ -42,7 +42,7 @@ router.post('/products',                       protect, admin, upload.any(), pro
 router.put( '/products/:id',                   protect, admin, upload.any(), product.updateProduct);
 router.delete('/products/:id',                 protect, admin, product.deleteProduct);
 
-// ─── Categories ───────────────────────────────────────────────────────────────
+// â”€â”€â”€ Categories â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get( '/categories',                     ctrl.getCategories);
 router.get( '/categories/all',                 protect, admin, ctrl.getAllCategories);
 router.get( '/categories/:slug',               ctrl.getCategoryBySlug);
@@ -50,74 +50,74 @@ router.post('/categories',                     protect, admin, categoryUpload.si
 router.put( '/categories/:id',                 protect, admin, categoryUpload.single('image'), ctrl.updateCategory);
 router.delete('/categories/:id',               protect, admin, ctrl.deleteCategory);
 
-// ─── Cart ─────────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Cart â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/cart',                         protect, ctrl.getCart);
 router.post(  '/cart',                         protect, ctrl.addToCart);
 router.put(   '/cart/:itemId',                 protect, ctrl.updateCartItem);
 router.delete('/cart/:itemId',                 protect, ctrl.removeFromCart);
 router.delete('/cart',                         protect, ctrl.clearCart);
 
-// ─── Wishlist ─────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Wishlist â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get( '/wishlist',                       protect, ctrl.getWishlist);
 router.post('/wishlist',                       protect, ctrl.toggleWishlist);
 
-// ─── Reviews (User) ───────────────────────────────────────────────────────────
+// â”€â”€â”€ Reviews (User) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/products/:productId/reviews',  ctrl.getProductReviews);
 router.get(   '/products/:productId/my-review',protect, ctrl.getMyReview);
 router.post(  '/products/:productId/reviews',  protect, reviewUpload.fields([{ name: 'images', maxCount: 4 }, { name: 'avatar', maxCount: 1 }]), ctrl.addReview);
 router.put(   '/reviews/:id',                  protect, reviewUpload.fields([{ name: 'images', maxCount: 4 }, { name: 'avatar', maxCount: 1 }]), ctrl.updateReview);
 router.delete('/reviews/:id',                  protect, ctrl.deleteReview);
 
-// ─── Reviews (Admin / Moderator) ──────────────────────────────────────────────
+// â”€â”€â”€ Reviews (Admin / Moderator) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/reviews',                protect, moderatorOrAbove, ctrl.getAllReviews);
 router.put(   '/admin/reviews/:id/status',     protect, moderatorOrAbove, ctrl.updateReviewStatus);
 router.delete('/admin/reviews/:id',            protect, admin,            ctrl.adminDeleteReview);
 
-// ─── Orders ───────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Orders â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.post('/orders',                         protect, order.createOrder);
 router.get( '/orders/my-orders',               protect, order.getMyOrders);
 router.get( '/orders/:id',                     protect, order.getOrderById);
 router.put( '/orders/:id/cancel',              protect, order.cancelOrder);
 
-// ─── Coupons ──────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Coupons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.post(  '/coupons/validate',             protect, ctrl.validateCoupon);
 router.get(   '/admin/coupons',                protect, admin, ctrl.getCoupons);
 router.post(  '/admin/coupons',                protect, admin, ctrl.createCoupon);
 router.put(   '/admin/coupons/:id',            protect, admin, ctrl.updateCoupon);
 router.delete('/admin/coupons/:id',            protect, admin, ctrl.deleteCoupon);
 
-// ─── Stripe Payment ───────────────────────────────────────────────────────────
+// â”€â”€â”€ Stripe Payment â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.post('/payment/create-intent',          protect, ctrl.createPaymentIntent);
 
-// ─── Admin: Orders ────────────────────────────────────────────────────────────
+// â”€â”€â”€ Admin: Orders â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/orders',                    protect, admin, order.getAllOrders);
 router.put('/admin/orders/:id/status',         protect, admin, order.updateOrderStatus);
 
-// ─── Admin: Stats ─────────────────────────────────────────────────────────────
+// â”€â”€â”€ Admin: Stats â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/stats',                     protect, admin, order.getDashboardStats);
 
-// ─── Admin: Users (customers) ─────────────────────────────────────────────────
+// â”€â”€â”€ Admin: Users (customers) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/users',                     protect, admin, ctrl.getAdminUsers);
 router.put('/admin/users/:id/toggle',          protect, admin, ctrl.toggleUserStatus);
 
-// ─── Admin: Admin Management (super_admin) ────────────────────────────────────
+// â”€â”€â”€ Admin: Admin Management (super_admin) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/admins',                 protect, superAdmin, ctrl.getAdminList);
 router.post(  '/admin/admins',                 protect, superAdmin, ctrl.createAdminUser);
 router.put(   '/admin/admins/:id/role',        protect, superAdmin, ctrl.updateAdminRole);
 router.put(   '/admin/admins/:id/toggle',      protect, superAdmin, ctrl.toggleAdminStatus);
 router.delete('/admin/admins/:id',             protect, superAdmin, ctrl.deleteAdminUser);
 
-// ─── Settings ─────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Settings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/settings',                        ctrl.getSettings);
 router.put('/admin/settings',                  protect, admin, singleUpload.fields([{ name: 'logo', maxCount: 1 }, { name: 'favicon', maxCount: 1 }, { name: 'transparentLogo', maxCount: 1 }, { name: 'darkLogo', maxCount: 1 }, { name: 'lightLogo', maxCount: 1 }]), ctrl.updateSettings);
 
-// ─── Newsletter Subscribers ───────────────────────────────────────────────────
+// â”€â”€â”€ Newsletter Subscribers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.post(  '/newsletter/subscribe',         sub.subscribe);
 router.get(   '/admin/subscribers',            protect, admin, sub.getSubscribers);
 router.get(   '/admin/subscribers/export',     protect, admin, sub.exportSubscribers);
 router.delete('/admin/subscribers/:id',        protect, admin, sub.deleteSubscriber);
 
-// ─── Why Choose Metro ─────────────────────────────────────────────────────────
+// â”€â”€â”€ Why Choose Metro â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/why-choose',                   whyChoose.getWhyChoose);
 router.put(   '/admin/why-choose',             protect, admin, whyChoose.updateSection);
 router.post(  '/admin/why-choose/cards',       protect, admin, singleUpload.single('image'), whyChoose.addCard);
@@ -125,39 +125,39 @@ router.put(   '/admin/why-choose/cards/reorder', protect, admin, whyChoose.reord
 router.put(   '/admin/why-choose/cards/:id',   protect, admin, singleUpload.single('image'), whyChoose.updateCard);
 router.delete('/admin/why-choose/cards/:id',   protect, admin, whyChoose.deleteCard);
 
-// ─── Testimonials ─────────────────────────────────────────────────────────────
+// â”€â”€â”€ Testimonials â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/testimonials',                 testimonial.getApprovedTestimonials);
 router.post(  '/testimonials',                 singleUpload.single('image'), testimonial.submitTestimonial);
 router.get(   '/admin/testimonials',           protect, admin, testimonial.getAllTestimonials);
 router.put(   '/admin/testimonials/:id/status',protect, admin, testimonial.updateTestimonialStatus);
 router.delete('/admin/testimonials/:id',       protect, admin, testimonial.deleteTestimonial);
 
-// ─── Team ─────────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Team â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/team',                         team.getPublicTeamMembers);
 router.get(   '/admin/team',                   protect, admin, team.getAdminTeamMembers);
 router.post(  '/admin/team',                   protect, admin, singleUpload.single('photo'), team.createTeamMember);
 router.put(   '/admin/team/:id',               protect, admin, singleUpload.single('photo'), team.updateTeamMember);
 router.delete('/admin/team/:id',               protect, admin, team.deleteTeamMember);
 
-// ─── Banners ──────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Banners â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/banners',                      banner.getBanners);
 router.post(  '/admin/banners',                protect, admin, singleUpload.single('image'), banner.createBanner);
 router.put(   '/admin/banners/:id',            protect, admin, singleUpload.single('image'), banner.updateBanner);
 router.delete('/admin/banners/:id',            protect, admin, banner.deleteBanner);
 
-// ─── Limited Time Offers ──────────────────────────────────────────────────────
+// â”€â”€â”€ Limited Time Offers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/homepage-offers',              offer.getOffers);
 router.post(  '/admin/offers',                 protect, admin, singleUpload.single('image'), offer.createOffer);
 router.put(   '/admin/offers/:id',             protect, admin, singleUpload.single('image'), offer.updateOffer);
 router.delete('/admin/offers/:id',             protect, admin, offer.deleteOffer);
 
-// ─── Homepage Content (combined banners + offers, single fetch) ──────────────
+// â”€â”€â”€ Homepage Content (combined banners + offers, single fetch) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/homepage-content',             homepageContent.getHomepageContent);
 
-// ─── Image Upload (generic) ───────────────────────────────────────────────────
+// â”€â”€â”€ Image Upload (generic) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.post('/upload', protect, admin, singleUpload.single('image'), ctrl.uploadImage);
 
-// ─── Achievements ─────────────────────────────────────────────────────────────
+// â”€â”€â”€ Achievements â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/achievements',                   achievement.getAchievements);
 router.get(   '/admin/achievements',             protect, admin, achievement.getAdminAchievements);
 router.post(  '/admin/achievements',             protect, admin, singleUpload.single('image'), achievement.createAchievement);
@@ -166,7 +166,7 @@ router.put(   '/admin/achievements/:id',         protect, admin, singleUpload.si
 router.put(   '/admin/achievements/:id/toggle',  protect, admin, achievement.toggleAchievement);
 router.delete('/admin/achievements/:id',         protect, admin, achievement.deleteAchievement);
 
-// ─── Gallery ──────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Gallery â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/gallery',                  gallery.getGallery);
 router.get(   '/admin/gallery',            protect, admin, gallery.getAdminGallery);
 router.post(  '/admin/gallery',            protect, admin, singleUpload.single('image'), gallery.createGalleryImage);
@@ -175,7 +175,7 @@ router.put(   '/admin/gallery/:id',        protect, admin, singleUpload.single('
 router.put(   '/admin/gallery/:id/toggle', protect, admin, gallery.toggleGalleryImage);
 router.delete('/admin/gallery/:id',        protect, admin, gallery.deleteGalleryImage);
 
-// ─── Blogs ────────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Blogs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/blogs',              blog.getBlogs);
 router.get(   '/blogs/:slug',        blog.getBlogBySlug);
 router.get(   '/admin/blogs',        protect, admin, blog.getAdminBlogs);
@@ -184,7 +184,7 @@ router.put(   '/admin/blogs/:id',    protect, admin, singleUpload.single('image'
 router.put(   '/admin/blogs/:id/toggle', protect, admin, blog.toggleBlog);
 router.delete('/admin/blogs/:id',    protect, admin, blog.deleteBlog);
 
-// ─── Achievement Stats ────────────────────────────────────────────────────────
+// â”€â”€â”€ Achievement Stats â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/achievement-stats',                   achievementStat.getAchievementStats);
 router.get(   '/admin/achievement-stats',             protect, admin, achievementStat.getAdminAchievementStats);
 router.post(  '/admin/achievement-stats',             protect, admin, achievementStat.createAchievementStat);
@@ -193,7 +193,7 @@ router.put(   '/admin/achievement-stats/:id',         protect, admin, achievemen
 router.put(   '/admin/achievement-stats/:id/toggle',  protect, admin, achievementStat.toggleAchievementStat);
 router.delete('/admin/achievement-stats/:id',         protect, admin, achievementStat.deleteAchievementStat);
 
-// ─── Login Page Slider ────────────────────────────────────────────────────────
+// â”€â”€â”€ Login Page Slider â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/login-slides',                        loginSlider.getLoginSlides);
 router.get(   '/admin/login-slides',                  protect, admin, loginSlider.getAdminLoginSlides);
 router.post(  '/admin/login-slides',                  protect, admin, singleUpload.single('image'), loginSlider.createLoginSlide);
@@ -202,7 +202,7 @@ router.put(   '/admin/login-slides/:id',              protect, admin, singleUplo
 router.put(   '/admin/login-slides/:id/toggle',       protect, admin, loginSlider.toggleLoginSlide);
 router.delete('/admin/login-slides/:id',              protect, admin, loginSlider.deleteLoginSlide);
 
-// ─── Announcement Bar (Sprint 8) ──────────────────────────────────────────────
+// â”€â”€â”€ Announcement Bar (Sprint 8) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const announcement = require('../controllers/announcementController');
 router.get(   '/announcements',                  announcement.getLiveAnnouncements);
 router.get(   '/admin/announcements',            protect, admin, announcement.getAll);
@@ -211,7 +211,7 @@ router.put(   '/admin/announcements/:id',        protect, admin, announcement.up
 router.put(   '/admin/announcements/:id/toggle', protect, admin, announcement.toggle);
 router.delete('/admin/announcements/:id',        protect, admin, announcement.remove);
 
-// ─── Marketing Popups (Sprint 8) ──────────────────────────────────────────────
+// â”€â”€â”€ Marketing Popups (Sprint 8) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const popup = require('../controllers/popupController');
 router.get(   '/popups',                  popup.getLivePopups);
 router.get(   '/admin/popups',            protect, admin, popup.getAll);
@@ -220,7 +220,7 @@ router.put(   '/admin/popups/:id',        protect, admin, singleUpload.single('i
 router.put(   '/admin/popups/:id/toggle', protect, admin, popup.toggle);
 router.delete('/admin/popups/:id',        protect, admin, popup.remove);
 
-// ─── Flash Sales (Sprint 8) ───────────────────────────────────────────────────
+// â”€â”€â”€ Flash Sales (Sprint 8) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const flashSale = require('../controllers/flashSaleController');
 router.get(   '/flash-sale/active',          flashSale.getActiveSale);
 router.get(   '/admin/flash-sales',          protect, admin, flashSale.getAll);
@@ -230,7 +230,7 @@ router.put(   '/admin/flash-sales/:id',      protect, admin, flashSale.update);
 router.put(   '/admin/flash-sales/:id/toggle', protect, admin, flashSale.toggle);
 router.delete('/admin/flash-sales/:id',      protect, admin, flashSale.remove);
 
-// ─── Promotional Sections (Sprint 8) ─────────────────────────────────────────
+// â”€â”€â”€ Promotional Sections (Sprint 8) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const promoSection = require('../controllers/promotionalSectionController');
 router.get(   '/promo-sections',                      promoSection.getActiveSections);
 router.get(   '/admin/promo-sections',                protect, admin, promoSection.getAll);
@@ -240,7 +240,7 @@ router.put(   '/admin/promo-sections/:id',            protect, admin, promoSecti
 router.put(   '/admin/promo-sections/:id/toggle',     protect, admin, promoSection.toggle);
 router.delete('/admin/promo-sections/:id',            protect, admin, promoSection.remove);
 
-// ─── Campaign Manager (Sprint 8) ──────────────────────────────────────────────
+// â”€â”€â”€ Campaign Manager (Sprint 8) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const campaign = require('../controllers/campaignController');
 router.get(   '/campaigns',                  campaign.getActiveCampaigns);
 router.get(   '/admin/campaigns',            protect, admin, campaign.getAll);
@@ -249,7 +249,7 @@ router.put(   '/admin/campaigns/:id',        protect, admin, singleUpload.single
 router.put(   '/admin/campaigns/:id/toggle', protect, admin, campaign.toggle);
 router.delete('/admin/campaigns/:id',        protect, admin, campaign.remove);
 
-// ─── Notifications (Sprint 8) ─────────────────────────────────────────────────
+// â”€â”€â”€ Notifications (Sprint 8) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const notif = require('../controllers/notificationController');
 router.get(   '/notifications',              protect, notif.getMyNotifications);
 router.put(   '/notifications/:id/read',     protect, notif.markRead);
@@ -258,7 +258,7 @@ router.get(   '/admin/notifications',        protect, admin, notif.getAll);
 router.post(  '/admin/notifications/broadcast', protect, admin, notif.broadcast);
 router.delete('/admin/notifications/:id',    protect, admin, notif.remove);
 
-// ─── Dealer Portal — Sprint 9A ────────────────────────────────────────────────
+// â”€â”€â”€ Dealer Portal â€” Sprint 9A â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Completely isolated from customer auth. Dealer JWT has type:'dealer' payload.
 const dealerAuth = require('../controllers/dealerAuthController');
 const dealer     = require('../controllers/dealerController');
@@ -278,7 +278,7 @@ router.put( '/dealer/auth/profile',         protectDealer, dealerAuth.updateProf
 router.put( '/dealer/auth/change-password', protectDealer, dealerAuth.changePassword);
 router.post('/dealer/documents/:docType',   protectDealer, dealerUpload.single('file'), dealerAuth.uploadDocument);
 
-// Admin: Dealer management (uses existing admin auth — no changes to protect/admin middleware)
+// Admin: Dealer management (uses existing admin auth â€” no changes to protect/admin middleware)
 router.get(   '/admin/dealers',               protect, admin, dealer.getDealers);
 router.get(   '/admin/dealers/stats',         protect, admin, dealer.getDealerStats);
 router.get(   '/admin/dealers/:id',           protect, admin, dealer.getDealerById);
@@ -289,7 +289,7 @@ router.put(   '/admin/dealers/:id/activate',  protect, admin, dealer.activateDea
 router.put(   '/admin/dealers/:id/remarks',   protect, admin, dealer.updateRemarks);
 router.delete('/admin/dealers/:id',           protect, admin, dealer.softDeleteDealer);
 
-// ─── Dealer Portal — Sprint 9B ────────────────────────────────────────────────
+// â”€â”€â”€ Dealer Portal â€” Sprint 9B â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const dealerDashboard    = require('../controllers/dealerDashboardController');
 const dealerProduct      = require('../controllers/dealerProductController');
 const dealerCart         = require('../controllers/dealerCartController');
@@ -298,7 +298,7 @@ const dealerNotif        = require('../controllers/dealerNotificationController'
 const dealerPricingAdmin = require('../controllers/dealerPricingAdminController');
 const { requireApproved } = require('../middleware/dealerAuth');
 
-// Dealer dashboard (requires login, not approval check — shows status to pending dealers too)
+// Dealer dashboard (requires login, not approval check â€” shows status to pending dealers too)
 router.get('/dealer/dashboard', protectDealer, dealerDashboard.getDashboard);
 
 // Dealer product catalog (requires approved)
@@ -341,7 +341,7 @@ router.post('/admin/dealer-orders/bulk-approve',       protect, admin, dealerOrd
 // Admin: Dealer Notifications broadcast
 router.post('/admin/dealer-notifications/broadcast',   protect, admin, dealerNotif.broadcastToDealer);
 
-// ─── Dealer Finance Layer — Sprint 9C ─────────────────────────────────────────
+// â”€â”€â”€ Dealer Finance Layer â€” Sprint 9C â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const finSummary    = require('../controllers/dealerFinanceSummaryController');
 const dealerWallet  = require('../controllers/dealerWalletController');
 const dealerLedger  = require('../controllers/dealerLedgerController');
@@ -375,43 +375,43 @@ router.get('/dealer/finance/credit',                      protectDealer, require
 router.get('/dealer/finance/credit-notes',                protectDealer, requireApproved, dealerCredit.getMyCreditNotes);
 router.get('/dealer/finance/credit-notes/:id',            protectDealer, requireApproved, dealerCredit.getCreditNoteById);
 
-// Admin: Finance — Wallets
+// Admin: Finance â€” Wallets
 router.get( '/admin/dealer-finance/wallets',                    protect, admin, dealerWallet.getAllWallets);
 router.get( '/admin/dealer-finance/wallets/:dealerId',          protect, admin, dealerWallet.getDealerWallet);
 router.post('/admin/dealer-finance/wallets/:dealerId/topup',    protect, admin, dealerWallet.topupWallet);
 router.post('/admin/dealer-finance/wallets/:dealerId/deduct',   protect, admin, dealerWallet.deductWallet);
 
-// Admin: Finance — Ledger
+// Admin: Finance â€” Ledger
 router.get( '/admin/dealer-finance/ledger/:dealerId',           protect, admin, dealerLedger.getDealerLedger);
 router.post('/admin/dealer-finance/ledger/:dealerId/entry',     protect, admin, dealerLedger.addManualEntry);
 
-// Admin: Finance — Invoices
+// Admin: Finance â€” Invoices
 router.get( '/admin/dealer-finance/invoices',                   protect, admin, dealerInvoice.getAllInvoices);
 router.get( '/admin/dealer-finance/invoices/:id',               protect, admin, dealerInvoice.getAdminInvoiceById);
 router.post('/admin/dealer-finance/invoices',                   protect, admin, dealerInvoice.createInvoice);
 router.put( '/admin/dealer-finance/invoices/:id/status',        protect, admin, dealerInvoice.updateInvoiceStatus);
 
-// Admin: Finance — Payments
+// Admin: Finance â€” Payments
 router.get( '/admin/dealer-finance/payments',                   protect, admin, dealerPayment.getAllPayments);
 router.post('/admin/dealer-finance/payments',                   protect, admin, dealerPayment.createPayment);
 router.post('/admin/dealer-finance/payments/:id/verify',        protect, admin, dealerPayment.verifyPayment);
 router.post('/admin/dealer-finance/payments/:id/reject',        protect, admin, dealerPayment.rejectPayment);
 
-// Admin: Finance — Credit
+// Admin: Finance â€” Credit
 router.get( '/admin/dealer-finance/credits',                    protect, admin, dealerCredit.getAllCredits);
 router.get( '/admin/dealer-finance/credits/:dealerId',          protect, admin, dealerCredit.getDealerCredit);
 router.post('/admin/dealer-finance/credits/:dealerId/set',      protect, admin, dealerCredit.setCredit);
 router.post('/admin/dealer-finance/credits/:dealerId/hold',     protect, admin, dealerCredit.holdCredit);
 router.post('/admin/dealer-finance/credits/:dealerId/release',  protect, admin, dealerCredit.releaseCredit);
 
-// Admin: Finance — Credit Notes
+// Admin: Finance â€” Credit Notes
 router.get( '/admin/dealer-finance/credit-notes',               protect, admin, dealerCredit.getAllCreditNotes);
 router.post('/admin/dealer-finance/credit-notes',               protect, admin, dealerCredit.createCreditNote);
 router.post('/admin/dealer-finance/credit-notes/:id/approve',   protect, admin, dealerCredit.approveCreditNote);
 router.post('/admin/dealer-finance/credit-notes/:id/apply',     protect, admin, dealerCredit.applyCreditNote);
 router.post('/admin/dealer-finance/credit-notes/:id/reject',    protect, admin, dealerCredit.rejectCreditNote);
 
-// ─── Sales Agent Ecosystem — Sprint 9D ───────────────────────────────────────
+// â”€â”€â”€ Sales Agent Ecosystem â€” Sprint 9D â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const agentAuth    = require('../controllers/salesAgentAuthController');
 const agentMgmt    = require('../controllers/salesAgentController');
 const territory    = require('../controllers/territoryController');
@@ -422,20 +422,20 @@ const agentDash    = require('../controllers/agentDashboardController');
 const assignment   = require('../controllers/assignmentController');
 const { protectAgent } = require('../middleware/agentAuth');
 
-// ── Agent auth (public) ───────────────────────────────────────────────────────
+// â”€â”€ Agent auth (public) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.post('/agent/auth/login',          agentAuth.login);
 router.post('/agent/auth/logout',         agentAuth.logout);
 
-// ── Agent self-service (protected) ───────────────────────────────────────────
+// â”€â”€ Agent self-service (protected) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/agent/auth/me',              protectAgent, agentAuth.getMe);
 router.put('/agent/auth/profile',         protectAgent, agentAuth.updateProfile);
 router.put('/agent/auth/change-password', protectAgent, agentAuth.changePassword);
 
-// ── Agent dashboard ───────────────────────────────────────────────────────────
+// â”€â”€ Agent dashboard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/agent/dashboard',            protectAgent, agentDash.getAgentDashboard);
 router.get('/agent/dealers',              protectAgent, agentDash.getAssignedDealers);
 
-// ── Agent: Leads ──────────────────────────────────────────────────────────────
+// â”€â”€ Agent: Leads â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/agent/leads',             protectAgent, lead.getLeads);
 router.post(  '/agent/leads',             protectAgent, lead.createLead);
 router.get(   '/agent/leads/:id',         protectAgent, lead.getLeadById);
@@ -443,7 +443,7 @@ router.put(   '/agent/leads/:id',         protectAgent, lead.updateLead);
 router.post(  '/agent/leads/:id/stage',   protectAgent, lead.changeStage);
 router.post(  '/agent/leads/:id/notes',   protectAgent, lead.addNote);
 
-// ── Agent: Visit Reports ──────────────────────────────────────────────────────
+// â”€â”€ Agent: Visit Reports â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/agent/visits',            protectAgent, visitReport.getVisitReports);
 router.post(  '/agent/visits',            protectAgent, visitReport.createVisit);
 router.get(   '/agent/visits/:id',        protectAgent, visitReport.getVisitById);
@@ -451,7 +451,7 @@ router.put(   '/agent/visits/:id',        protectAgent, visitReport.updateVisit)
 router.post(  '/agent/visits/:id/checkin',  protectAgent, visitReport.checkIn);
 router.post(  '/agent/visits/:id/checkout', protectAgent, visitReport.checkOut);
 
-// ── Agent: Tasks ──────────────────────────────────────────────────────────────
+// â”€â”€ Agent: Tasks â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/agent/tasks',             protectAgent, task.getTasks);
 router.post(  '/agent/tasks',             protectAgent, task.createTask);
 router.get(   '/agent/tasks/:id',         protectAgent, task.getTaskById);
@@ -459,7 +459,7 @@ router.put(   '/agent/tasks/:id',         protectAgent, task.updateTask);
 router.post(  '/agent/tasks/:id/complete',protectAgent, task.completeTask);
 router.delete('/agent/tasks/:id',         protectAgent, task.deleteTask);
 
-// ── Admin: Sales Agents ───────────────────────────────────────────────────────
+// â”€â”€ Admin: Sales Agents â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/sales-agents',               protect, admin, agentMgmt.getAgents);
 router.post(  '/admin/sales-agents',               protect, admin, agentMgmt.createAgent);
 router.get(   '/admin/sales-agents/:id',           protect, admin, agentMgmt.getAgentById);
@@ -468,7 +468,7 @@ router.put(   '/admin/sales-agents/:id/toggle',    protect, admin, agentMgmt.tog
 router.delete('/admin/sales-agents/:id',           protect, admin, agentMgmt.deleteAgent);
 router.put(   '/admin/sales-agents/:id/password',  protect, admin, agentMgmt.resetAgentPassword);
 
-// ── Admin: Territories ────────────────────────────────────────────────────────
+// â”€â”€ Admin: Territories â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/territories',                protect, admin, territory.getTerritories);
 router.post(  '/admin/territories',                protect, admin, territory.createTerritory);
 router.get(   '/admin/territories/:id',            protect, admin, territory.getTerritoryById);
@@ -477,7 +477,7 @@ router.delete('/admin/territories/:id',            protect, admin, territory.del
 router.post(  '/admin/territories/:id/assign-agent',  protect, admin, territory.assignAgent);
 router.post(  '/admin/territories/:id/assign-dealer', protect, admin, territory.assignDealer);
 
-// ── Admin: Leads ──────────────────────────────────────────────────────────────
+// â”€â”€ Admin: Leads â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/leads',             protect, admin, lead.getLeads);
 router.post(  '/admin/leads',             protect, admin, lead.createLead);
 router.get(   '/admin/leads/:id',         protect, admin, lead.getLeadById);
@@ -486,25 +486,25 @@ router.post(  '/admin/leads/:id/stage',   protect, admin, lead.changeStage);
 router.post(  '/admin/leads/:id/notes',   protect, admin, lead.addNote);
 router.delete('/admin/leads/:id',         protect, admin, lead.deleteLead);
 
-// ── Admin: Visit Reports ──────────────────────────────────────────────────────
+// â”€â”€ Admin: Visit Reports â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/visit-reports',     protect, admin, visitReport.getVisitReports);
 router.get(   '/admin/visit-reports/:id', protect, admin, visitReport.getVisitById);
 router.delete('/admin/visit-reports/:id', protect, admin, visitReport.deleteVisit);
 
-// ── Admin: Tasks ──────────────────────────────────────────────────────────────
+// â”€â”€ Admin: Tasks â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/tasks',             protect, admin, task.getTasks);
 router.post(  '/admin/tasks',             protect, admin, task.createTask);
 router.get(   '/admin/tasks/:id',         protect, admin, task.getTaskById);
 router.put(   '/admin/tasks/:id',         protect, admin, task.updateTask);
 router.delete('/admin/tasks/:id',         protect, admin, task.deleteTask);
 
-// ── Admin: Agent Assignments ──────────────────────────────────────────────────
+// â”€â”€ Admin: Agent Assignments â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/assignments',                protect, admin, assignment.getAssignments);
 router.post(  '/admin/assignments',                protect, admin, assignment.createAssignment);
 router.post(  '/admin/assignments/:id/transfer',   protect, admin, assignment.transferAssignment);
 router.put(   '/admin/assignments/:id/deactivate', protect, admin, assignment.deactivateAssignment);
 
-// ── Sprint 9E: BI & Analytics ─────────────────────────────────────────────────
+// â”€â”€ Sprint 9E: BI & Analytics â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const bi     = require('../controllers/biController');
 const target = require('../controllers/targetController');
 
@@ -522,7 +522,7 @@ router.put(   '/admin/bi/targets/:id',              protect, admin, target.updat
 router.delete('/admin/bi/targets/:id',              protect, admin, target.deleteTarget);
 router.get(   '/admin/bi/targets/:id/achievement',  protect, admin, target.getAchievement);
 
-// ── Sprint 10A: Warehouse Foundation ──────────────────────────────────────────
+// â”€â”€ Sprint 10A: Warehouse Foundation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const warehouse         = require('../controllers/warehouseController');
 const warehouseZone     = require('../controllers/warehouseZoneController');
 const warehouseLocation = require('../controllers/warehouseLocationController');
@@ -567,13 +567,13 @@ router.put(   '/admin/warehouse-users/:id/password',     protect, admin, warehou
 router.get(   '/admin/warehouse-settings/:warehouseId',  protect, admin, warehouseSettings.getSettings);
 router.put(   '/admin/warehouse-settings/:warehouseId',  protect, admin, warehouseSettings.updateSettings);
 
-// Warehouse user portal (isolated auth — type:'warehouse' JWT)
+// Warehouse user portal (isolated auth â€” type:'warehouse' JWT)
 router.post('/warehouse/auth/login',           warehouseUser.login);
 router.post('/warehouse/auth/logout',          warehouseUser.logout);
 router.get( '/warehouse/auth/me',              protectWarehouse, warehouseUser.getMe);
 router.put( '/warehouse/auth/change-password', protectWarehouse, warehouseUser.changePassword);
 
-// ── Sprint 10B: Inventory Management ─────────────────────────────────────────
+// â”€â”€ Sprint 10B: Inventory Management â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const grn             = require('../controllers/grnController');
 const inventory       = require('../controllers/inventoryController');
 const invTxn          = require('../controllers/inventoryTransactionController');
@@ -663,7 +663,7 @@ router.get(  '/warehouse/adjustments',               protectWarehouse, stockAdj.
 router.get(  '/warehouse/cycle-counts',              protectWarehouse, cycleCount.warehouseGetCycleCounts);
 router.put(  '/warehouse/cycle-counts/:id/items',    protectWarehouse, cycleCount.warehouseUpdateCycleCount);
 
-// ── Sprint 10C: Procurement & Vendor Management ───────────────────────────────
+// â”€â”€ Sprint 10C: Procurement & Vendor Management â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const vendorCtrl    = require('../controllers/vendorController');
 const supplierAuth  = require('../controllers/supplierAuthController');
 const prCtrl        = require('../controllers/purchaseRequisitionController');
@@ -674,7 +674,7 @@ const procReport    = require('../controllers/procurementReportController');
 const supplierPortal = require('../controllers/supplierPortalController');
 const { protectSupplier } = require('../middleware/supplierAuth');
 
-// Admin — Vendor Management
+// Admin â€” Vendor Management
 router.get(  '/admin/vendors',                           protect, admin, vendorCtrl.getVendors);
 router.post( '/admin/vendors',                           protect, admin, vendorCtrl.createVendor);
 router.get(  '/admin/vendors/dashboard',                 protect, admin, procDash.getDashboard);
@@ -694,12 +694,12 @@ router.post( '/admin/vendors/:id/contracts',             protect, admin, vendorC
 router.post( '/admin/vendors/:id/ratings',               protect, admin, vendorCtrl.addRating);
 router.post( '/admin/vendors/:id/categories',            protect, admin, vendorCtrl.addCategory);
 
-// Admin — Supplier Portal Users
+// Admin â€” Supplier Portal Users
 router.get(  '/admin/supplier-users',                    protect, admin, supplierAuth.getSupplierUsers);
 router.post( '/admin/supplier-users',                    protect, admin, supplierAuth.createSupplierUser);
 router.put(  '/admin/supplier-users/:userId',            protect, admin, supplierAuth.updateSupplierUser);
 
-// Admin — Purchase Requisitions
+// Admin â€” Purchase Requisitions
 router.get(  '/admin/procurement/requisitions',          protect, admin, prCtrl.getRequisitions);
 router.post( '/admin/procurement/requisitions',          protect, admin, prCtrl.createRequisition);
 router.get(  '/admin/procurement/requisitions/:id',      protect, admin, prCtrl.getRequisitionById);
@@ -709,7 +709,7 @@ router.put(  '/admin/procurement/requisitions/:id/approve', protect, admin, prCt
 router.put(  '/admin/procurement/requisitions/:id/reject',  protect, admin, prCtrl.rejectRequisition);
 router.put(  '/admin/procurement/requisitions/:id/cancel',  protect, admin, prCtrl.cancelRequisition);
 
-// Admin — RFQ
+// Admin â€” RFQ
 router.get(  '/admin/procurement/rfq',                   protect, admin, rfqCtrl.getRFQs);
 router.post( '/admin/procurement/rfq',                   protect, admin, rfqCtrl.createRFQ);
 router.get(  '/admin/procurement/rfq/:id',               protect, admin, rfqCtrl.getRFQById);
@@ -720,7 +720,7 @@ router.put(  '/admin/procurement/rfq/:id/cancel',        protect, admin, rfqCtrl
 router.put(  '/admin/procurement/rfq/:id/award/:vendorId', protect, admin, rfqCtrl.awardRFQ);
 router.put(  '/admin/procurement/rfq/:id/quotations/:vendorId', protect, admin, rfqCtrl.recordQuotation);
 
-// Admin — Purchase Orders
+// Admin â€” Purchase Orders
 router.get(  '/admin/procurement/orders',                protect, admin, poCtrl.getPOs);
 router.post( '/admin/procurement/orders',                protect, admin, poCtrl.createPO);
 router.get(  '/admin/procurement/orders/:id',            protect, admin, poCtrl.getPOById);
@@ -733,37 +733,37 @@ router.put(  '/admin/procurement/orders/:id/send',       protect, admin, poCtrl.
 router.put(  '/admin/procurement/orders/:id/cancel',     protect, admin, poCtrl.cancelPO);
 router.put(  '/admin/procurement/orders/:id/complete',   protect, admin, poCtrl.completePO);
 
-// Admin — Procurement Reports
+// Admin â€” Procurement Reports
 router.get(  '/admin/procurement/reports/spend',             protect, admin, procReport.getSpendReport);
 router.get(  '/admin/procurement/reports/vendor-performance',protect, admin, procReport.getVendorPerformanceReport);
 router.get(  '/admin/procurement/reports/open-orders',       protect, admin, procReport.getOpenOrdersReport);
 router.get(  '/admin/procurement/reports/delivery-delays',   protect, admin, procReport.getDeliveryDelaysReport);
 router.get(  '/admin/procurement/reports/supplier-ratings',  protect, admin, procReport.getSupplierRatingsReport);
 
-// Supplier Portal — Auth (public)
+// Supplier Portal â€” Auth (public)
 router.post( '/supplier/auth/login',                     supplierAuth.login);
 router.post( '/supplier/auth/logout',                    supplierAuth.logout);
 router.get(  '/supplier/auth/me',                        protectSupplier, supplierAuth.me);
 
-// Supplier Portal — Dashboard
+// Supplier Portal â€” Dashboard
 router.get(  '/supplier/dashboard',                      protectSupplier, supplierPortal.getDashboard);
 
-// Supplier Portal — Purchase Orders
+// Supplier Portal â€” Purchase Orders
 router.get(  '/supplier/orders',                         protectSupplier, supplierPortal.getMyOrders);
 router.get(  '/supplier/orders/:id',                     protectSupplier, supplierPortal.getOrderDetail);
 router.put(  '/supplier/orders/:id/acknowledge',         protectSupplier, supplierPortal.acknowledgeOrder);
 router.put(  '/supplier/orders/:id/accept',              protectSupplier, supplierPortal.acceptOrder);
 router.put(  '/supplier/orders/:id/reject',              protectSupplier, supplierPortal.rejectOrder);
 
-// Supplier Portal — RFQ
+// Supplier Portal â€” RFQ
 router.get(  '/supplier/rfq',                            protectSupplier, supplierPortal.getMyRFQs);
 router.put(  '/supplier/rfq/:id/quote',                  protectSupplier, rfqCtrl.supplierSubmitQuote);
 
-// Supplier Portal — Profile
+// Supplier Portal â€” Profile
 router.get(  '/supplier/profile',                        protectSupplier, supplierPortal.getProfile);
 router.put(  '/supplier/profile',                        protectSupplier, supplierPortal.updateProfile);
 
-// ── Sprint 9F: Audit Log ──────────────────────────────────────────────────────
+// â”€â”€ Sprint 9F: Audit Log â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const audit    = require('../controllers/auditController');
 const AuditLog = require('../models/AuditLog');
 
@@ -771,7 +771,7 @@ router.get('/admin/audit-logs',                          protect, admin, audit.g
 router.get('/admin/audit-logs/meta',                     protect, admin, audit.getMeta);
 router.get('/admin/audit-logs/entity/:entity/:entityId', protect, admin, audit.getEntityTimeline);
 
-// Global admin mutation interceptor — fires after auth, records all non-GET admin actions.
+// Global admin mutation interceptor â€” fires after auth, records all non-GET admin actions.
 // Wraps res.json with setImmediate so it never blocks the response to the client.
 router.use('/admin', (req, res, next) => {
   if (!req.user || ['GET', 'HEAD', 'OPTIONS'].includes(req.method)) return next();
@@ -804,18 +804,18 @@ router.use('/admin', (req, res, next) => {
   next();
 });
 
-// ── Sprint 10D: Enterprise Dispatch & Logistics Engine ────────────────────────
+// â”€â”€ Sprint 10D: Enterprise Dispatch & Logistics Engine â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const dispatch        = require('../controllers/dispatchController');
 const shipment        = require('../controllers/shipmentController');
 const stockTransfer   = require('../controllers/stockTransferController');
 const challan         = require('../controllers/deliveryChallanController');
 const logisticsDash   = require('../controllers/logisticsDashboardController');
 
-// Admin — Logistics Dashboard & Reports
+// Admin â€” Logistics Dashboard & Reports
 router.get(  '/admin/logistics/dashboard',              protect, admin, logisticsDash.getDashboard);
 router.get(  '/admin/logistics/reports',                protect, admin, logisticsDash.getLogisticsReports);
 
-// Admin — Dispatch Management
+// Admin â€” Dispatch Management
 router.get(  '/admin/logistics/dispatches',             protect, admin, dispatch.listDispatches);
 router.post( '/admin/logistics/dispatches',             protect, admin, dispatch.createDispatch);
 router.get(  '/admin/logistics/dispatches/:id',         protect, admin, dispatch.getDispatchById);
@@ -823,21 +823,21 @@ router.put(  '/admin/logistics/dispatches/:id/assign-picker', protect, admin, di
 router.put(  '/admin/logistics/dispatches/:id/status',  protect, admin, dispatch.updateDispatchStatus);
 router.put(  '/admin/logistics/dispatches/:id/cancel',  protect, admin, dispatch.cancelDispatch);
 
-// Admin — Shipment Management
+// Admin â€” Shipment Management
 router.get(  '/admin/logistics/shipments',              protect, admin, shipment.getShipments);
 router.post( '/admin/logistics/shipments',              protect, admin, shipment.createShipment);
 router.get(  '/admin/logistics/shipments/:id',          protect, admin, shipment.getShipmentById);
 router.put(  '/admin/logistics/shipments/:id/status',   protect, admin, shipment.updateShipmentStatus);
 router.post( '/admin/logistics/shipments/:id/tracking-event', protect, admin, shipment.addTrackingEvent);
 
-// Admin — Courier Management
+// Admin â€” Courier Management
 router.get(  '/admin/logistics/couriers',               protect, admin, shipment.getCouriers);
 router.post( '/admin/logistics/couriers',               protect, admin, shipment.createCourier);
 router.get(  '/admin/logistics/couriers/:id',           protect, admin, shipment.getCourierById);
 router.put(  '/admin/logistics/couriers/:id',           protect, admin, shipment.updateCourier);
 router.delete('/admin/logistics/couriers/:id',          protect, admin, shipment.deleteCourier);
 
-// Admin — Stock Transfers
+// Admin â€” Stock Transfers
 router.get(  '/admin/logistics/transfers',              protect, admin, stockTransfer.getTransfers);
 router.post( '/admin/logistics/transfers',              protect, admin, stockTransfer.createTransfer);
 router.get(  '/admin/logistics/transfers/:id',          protect, admin, stockTransfer.getTransferById);
@@ -847,39 +847,39 @@ router.put(  '/admin/logistics/transfers/:id/reject',   protect, admin, stockTra
 router.put(  '/admin/logistics/transfers/:id/complete', protect, admin, stockTransfer.completeTransfer);
 router.put(  '/admin/logistics/transfers/:id/cancel',   protect, admin, stockTransfer.cancelTransfer);
 
-// Admin — Delivery Challans
+// Admin â€” Delivery Challans
 router.get(  '/admin/logistics/challans',               protect, admin, challan.getChallans);
 router.post( '/admin/logistics/challans/generate',      protect, admin, challan.generateChallan);
 router.get(  '/admin/logistics/challans/:id',           protect, admin, challan.getChallanById);
 router.put(  '/admin/logistics/challans/:id',           protect, admin, challan.updateChallan);
 
-// Warehouse portal — Picking Lists
+// Warehouse portal â€” Picking Lists
 router.get(  '/warehouse/picking-lists',                protectWarehouse, dispatch.warehouseGetPickingLists);
 router.get(  '/warehouse/picking-lists/:id',            protectWarehouse, dispatch.warehouseGetPickingList);
 router.put(  '/warehouse/picking-lists/:id/start',      protectWarehouse, dispatch.warehouseStartPicking);
 router.put(  '/warehouse/picking-lists/:id/items',      protectWarehouse, dispatch.warehouseUpdatePickedQty);
 router.put(  '/warehouse/picking-lists/:id/complete',   protectWarehouse, dispatch.warehouseCompletePicking);
 
-// Warehouse portal — Packing
+// Warehouse portal â€” Packing
 router.post( '/warehouse/packages',                     protectWarehouse, dispatch.warehouseCreatePackage);
 router.get(  '/warehouse/dispatches/ready',             protectWarehouse, dispatch.warehouseGetReadyDispatches);
 
-// Warehouse portal — Shipment Tracking
+// Warehouse portal â€” Shipment Tracking
 router.get(  '/warehouse/shipments',                    protectWarehouse, shipment.warehouseGetShipments);
 router.get(  '/warehouse/shipments/:id/tracking',       protectWarehouse, shipment.warehouseGetShipmentTracking);
 
-// Warehouse portal — Stock Transfers
+// Warehouse portal â€” Stock Transfers
 router.get(  '/warehouse/transfers',                    protectWarehouse, stockTransfer.warehouseGetTransfers);
 router.put(  '/warehouse/transfers/:id/ship',           protectWarehouse, stockTransfer.warehouseShipTransfer);
 router.put(  '/warehouse/transfers/:id/receive',        protectWarehouse, stockTransfer.warehouseReceiveTransfer);
 
-// ── Sprint 10E: Barcode & Scanning Engine ─────────────────────────────────────
+// â”€â”€ Sprint 10E: Barcode & Scanning Engine â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const barcodeCtrl    = require('../controllers/barcodeController');
 const scanCtrl       = require('../controllers/scanController');
 const putawayCtrl    = require('../controllers/putawayController');
 const warehouseMap   = require('../controllers/warehouseMapController');
 
-// Admin — Barcode Engine
+// Admin â€” Barcode Engine
 router.get(  '/admin/barcodes',                          protect, admin, barcodeCtrl.getBarcodes);
 router.post( '/admin/barcodes/generate',                 protect, admin, barcodeCtrl.generateBarcode);
 router.post( '/admin/barcodes/assign',                   protect, admin, barcodeCtrl.assignBarcode);
@@ -891,43 +891,43 @@ router.get(  '/admin/barcodes/entity/:entityType/:entityId', protect, admin, bar
 router.put(  '/admin/barcodes/:id/deactivate',           protect, admin, barcodeCtrl.deactivateBarcode);
 router.post( '/admin/barcodes/:id/print',                protect, admin, barcodeCtrl.recordPrint);
 
-// Admin — Scanner Activity
+// Admin â€” Scanner Activity
 router.get(  '/admin/scan-logs',                         protect, admin, scanCtrl.getScanLogs);
 router.get(  '/admin/scan-logs/activity',                protect, admin, scanCtrl.getScanActivity);
 router.get(  '/admin/scan-logs/report',                  protect, admin, scanCtrl.getScanReport);
 router.post( '/admin/scan-logs/scan',                    protect, admin, scanCtrl.processScan);
 
-// Admin — Warehouse Map
+// Admin â€” Warehouse Map
 router.get(  '/admin/warehouse-map/:warehouseId',        protect, admin, warehouseMap.getWarehouseMapData);
 router.get(  '/admin/warehouse-map/:warehouseId/search', protect, admin, warehouseMap.searchBin);
 router.get(  '/admin/warehouse-map/:warehouseId/utilization', protect, admin, warehouseMap.getBinUtilizationReport);
 
-// Admin — Smart Putaway
+// Admin â€” Smart Putaway
 router.post( '/admin/putaway/recommend',                 protect, admin, putawayCtrl.getPutawayRecommendations);
 router.post( '/admin/putaway/confirm',                   protect, admin, putawayCtrl.confirmPutaway);
 router.get(  '/admin/putaway/bin/:binId',                protect, admin, putawayCtrl.getBinContents);
 
-// Warehouse portal — Scanner
+// Warehouse portal â€” Scanner
 router.post( '/warehouse/scan',                          protectWarehouse, scanCtrl.warehouseScan);
 router.get(  '/warehouse/scan-logs',                     protectWarehouse, scanCtrl.getScanLogs);
 
-// Warehouse portal — Putaway
+// Warehouse portal â€” Putaway
 router.post( '/warehouse/putaway/recommend',             protectWarehouse, putawayCtrl.getPutawayRecommendations);
 router.post( '/warehouse/putaway/confirm',               protectWarehouse, putawayCtrl.confirmPutaway);
 router.get(  '/warehouse/putaway/bin/:binId',            protectWarehouse, putawayCtrl.getBinContents);
 
-// Warehouse portal — Bin Lookup
+// Warehouse portal â€” Bin Lookup
 router.get(  '/warehouse/bins/:warehouseId/search',      protectWarehouse, warehouseMap.searchBin);
 router.get(  '/warehouse/bins/:binId/contents',          protectWarehouse, putawayCtrl.getBinContents);
 
-// Warehouse portal — Barcode lookup
+// Warehouse portal â€” Barcode lookup
 router.get(  '/warehouse/barcodes/lookup/:value',        protectWarehouse, barcodeCtrl.lookupBarcode);
 router.post( '/warehouse/barcodes/validate',             protectWarehouse, barcodeCtrl.validateBarcode);
 
-// Public barcode lookup (for QR code scan from product packaging — no auth required)
+// Public barcode lookup (for QR code scan from product packaging â€” no auth required)
 router.get(  '/barcode/lookup/:value',                   barcodeCtrl.lookupBarcode);
 
-// ── Sprint 10F: IoT & Industry 4.0 ────────────────────────────────────────────
+// â”€â”€ Sprint 10F: IoT & Industry 4.0 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const rfidCtrl         = require('../controllers/rfidController');
 const deviceCtrl       = require('../controllers/deviceController');
 const sensorCtrl       = require('../controllers/sensorController');
@@ -937,25 +937,25 @@ const replenCtrl       = require('../controllers/replenishmentController');
 const liveDashCtrl     = require('../controllers/liveDashboardController');
 const iotReportCtrl    = require('../controllers/iotReportController');
 
-// Admin — RFID Tags
+// Admin â€” RFID Tags
 router.get(  '/admin/rfid/tags',                         protect, admin, rfidCtrl.getTags);
 router.post( '/admin/rfid/tags',                         protect, admin, rfidCtrl.registerTag);
 router.put(  '/admin/rfid/tags/:id/assign',              protect, admin, rfidCtrl.assignTag);
 router.put(  '/admin/rfid/tags/:id/replace',             protect, admin, rfidCtrl.replaceTag);
 router.get(  '/admin/rfid/tags/:id/history',             protect, admin, rfidCtrl.getRFIDHistory);
 
-// Admin — RFID Readers
+// Admin â€” RFID Readers
 router.get(  '/admin/rfid/readers',                      protect, admin, rfidCtrl.getReaders);
 router.post( '/admin/rfid/readers',                      protect, admin, rfidCtrl.createReader);
 router.put(  '/admin/rfid/readers/:id/status',           protect, admin, rfidCtrl.updateReaderStatus);
 
-// Admin — RFID Scans & Analytics
+// Admin â€” RFID Scans & Analytics
 router.post( '/admin/rfid/bulk-scan',                    protect, admin, rfidCtrl.bulkScan);
 router.get(  '/admin/rfid/inventory-count',              protect, admin, rfidCtrl.getInventoryCount);
 router.get(  '/admin/rfid/conflicts',                    protect, admin, rfidCtrl.detectConflicts);
 router.get(  '/admin/rfid/stats',                        protect, admin, rfidCtrl.getRFIDStats);
 
-// Admin — Warehouse Devices
+// Admin â€” Warehouse Devices
 router.get(  '/admin/devices',                           protect, admin, deviceCtrl.getDevices);
 router.post( '/admin/devices',                           protect, admin, deviceCtrl.registerDevice);
 router.get(  '/admin/devices/stats',                     protect, admin, deviceCtrl.getDeviceStats);
@@ -967,7 +967,7 @@ router.get(  '/admin/devices/:id/health-history',        protect, admin, deviceC
 router.put(  '/admin/devices/:id/assign',                protect, admin, deviceCtrl.assignDevice);
 router.put(  '/admin/devices/:id/unassign',              protect, admin, deviceCtrl.unassignDevice);
 
-// Admin — Sensors
+// Admin â€” Sensors
 router.get(  '/admin/sensors',                           protect, admin, sensorCtrl.getSensors);
 router.post( '/admin/sensors',                           protect, admin, sensorCtrl.registerSensor);
 router.get(  '/admin/sensors/stats',                     protect, admin, sensorCtrl.getSensorStats);
@@ -978,7 +978,7 @@ router.post( '/admin/sensors/:id/reading',               protect, admin, sensorC
 router.get(  '/admin/sensors/:id/history',               protect, admin, sensorCtrl.getSensorHistory);
 router.put(  '/admin/sensors/:id/calibrate',             protect, admin, sensorCtrl.calibrateSensor);
 
-// Admin — Alerts
+// Admin â€” Alerts
 router.get(  '/admin/alerts',                            protect, admin, alertCtrl.getAlerts);
 router.post( '/admin/alerts',                            protect, admin, alertCtrl.createAlert);
 router.get(  '/admin/alerts/stats',                      protect, admin, alertCtrl.getAlertStats);
@@ -987,12 +987,12 @@ router.put(  '/admin/alerts/:id/acknowledge',            protect, admin, alertCt
 router.put(  '/admin/alerts/:id/resolve',                protect, admin, alertCtrl.resolveAlert);
 router.put(  '/admin/alerts/:id/dismiss',                protect, admin, alertCtrl.dismissAlert);
 
-// Admin — Voice Picking Sessions
+// Admin â€” Voice Picking Sessions
 router.get(  '/admin/voice-sessions',                    protect, admin, voiceCtrl.getSessions);
 router.get(  '/admin/voice-sessions/:id',                protect, admin, voiceCtrl.getSession);
 router.get(  '/admin/voice-sessions/:id/logs',           protect, admin, voiceCtrl.getSessionLogs);
 
-// Admin — Replenishment
+// Admin â€” Replenishment
 router.get(  '/admin/replenishment/tasks',               protect, admin, replenCtrl.getTasks);
 router.post( '/admin/replenishment/generate',            protect, admin, replenCtrl.generateTasks);
 router.get(  '/admin/replenishment/stats',               protect, admin, replenCtrl.getReplenishmentStats);
@@ -1002,7 +1002,7 @@ router.put(  '/admin/replenishment/tasks/:id/approve',   protect, admin, replenC
 router.put(  '/admin/replenishment/tasks/:id',           protect, admin, replenCtrl.updateTask);
 router.put(  '/admin/replenishment/tasks/:id/cancel',    protect, admin, replenCtrl.cancelTask);
 
-// Admin — Live Dashboard
+// Admin â€” Live Dashboard
 router.get(  '/admin/iot/dashboard',                     protect, admin, liveDashCtrl.getDashboardData);
 router.get(  '/admin/iot/inventory-movement',            protect, admin, liveDashCtrl.getInventoryMovement);
 router.get(  '/admin/iot/device-health',                 protect, admin, liveDashCtrl.getDeviceHealth);
@@ -1011,7 +1011,7 @@ router.get(  '/admin/iot/active-alerts',                 protect, admin, liveDas
 router.get(  '/admin/iot/queue-status',                  protect, admin, liveDashCtrl.getQueueStatus);
 router.get(  '/admin/iot/occupancy',                     protect, admin, liveDashCtrl.getWarehouseOccupancy);
 
-// Admin — IoT Reports
+// Admin â€” IoT Reports
 router.get(  '/admin/iot/reports/rfid-accuracy',         protect, admin, iotReportCtrl.getRFIDAccuracyReport);
 router.get(  '/admin/iot/reports/efficiency',            protect, admin, iotReportCtrl.getWarehouseEfficiencyReport);
 router.get(  '/admin/iot/reports/device-uptime',         protect, admin, iotReportCtrl.getDeviceUptimeReport);
@@ -1020,15 +1020,15 @@ router.get(  '/admin/iot/reports/sensor-history',        protect, admin, iotRepo
 router.get(  '/admin/iot/reports/replenishment',         protect, admin, iotReportCtrl.getReplenishmentReport);
 router.get(  '/admin/iot/reports/voice-picking',         protect, admin, iotReportCtrl.getVoicePickingReport);
 
-// Warehouse portal — RFID (handheld readers send scans here)
+// Warehouse portal â€” RFID (handheld readers send scans here)
 router.post( '/warehouse/rfid/bulk-scan',                protectWarehouse, rfidCtrl.bulkScan);
 router.get(  '/warehouse/rfid/tags',                     protectWarehouse, rfidCtrl.getTags);
 
-// Warehouse portal — Device heartbeat
+// Warehouse portal â€” Device heartbeat
 router.post( '/warehouse/devices/:id/health',            protectWarehouse, deviceCtrl.recordHealth);
 router.get(  '/warehouse/devices',                       protectWarehouse, deviceCtrl.getDevices);
 
-// Warehouse portal — Voice Picking
+// Warehouse portal â€” Voice Picking
 router.post( '/warehouse/voice/start',                   protectWarehouse, voiceCtrl.startSession);
 router.get(  '/warehouse/voice/:id',                     protectWarehouse, voiceCtrl.getSession);
 router.post( '/warehouse/voice/:id/next',                protectWarehouse, voiceCtrl.nextItem);
@@ -1037,14 +1037,14 @@ router.post( '/warehouse/voice/:id/skip',                protectWarehouse, voice
 router.post( '/warehouse/voice/:id/repeat',              protectWarehouse, voiceCtrl.repeatInstruction);
 router.post( '/warehouse/voice/:id/complete',            protectWarehouse, voiceCtrl.completeSession);
 
-// Warehouse portal — Replenishment tasks
+// Warehouse portal â€” Replenishment tasks
 router.get(  '/warehouse/replenishment/tasks',           protectWarehouse, replenCtrl.getTasks);
 router.get(  '/warehouse/replenishment/tasks/:id',       protectWarehouse, replenCtrl.getTask);
 
-// Warehouse portal — Alerts
+// Warehouse portal â€” Alerts
 router.get(  '/warehouse/alerts',                        protectWarehouse, alertCtrl.getAlerts);
 
-// ─── Sprint 11A: After Sales Service ─────────────────────────────────────────
+// â”€â”€â”€ Sprint 11A: After Sales Service â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const { protectTechnician } = require('../middleware/technicianAuth');
 const techAuthCtrl    = require('../controllers/technicianAuthController');
 const techCtrl        = require('../controllers/technicianController');
@@ -1062,17 +1062,17 @@ router.put( '/technician/auth/profile',                  protectTechnician, tech
 router.put( '/technician/auth/availability',             protectTechnician, techAuthCtrl.updateAvailability);
 router.put( '/technician/auth/location',                 protectTechnician, techAuthCtrl.updateLocation);
 
-// Technician Portal — Jobs
+// Technician Portal â€” Jobs
 router.get( '/technician/jobs',                          protectTechnician, srCtrl.getTechnicianJobs);
 router.get( '/technician/jobs/:id',                      protectTechnician, srCtrl.getTechnicianJobDetail);
 router.put( '/technician/jobs/:id/status',               protectTechnician, srCtrl.updateJobStatus);
 router.post('/technician/jobs/:id/photos',               protectTechnician, srCtrl.uploadJobPhotos);
 router.post('/technician/jobs/:id/signature',            protectTechnician, srCtrl.saveCustomerSignature);
 
-// Technician Portal — Spare Parts
+// Technician Portal â€” Spare Parts
 router.post('/technician/parts/:id/consume',             protectTechnician, spareCtrl.consumePart);
 
-// Admin — Technician Management
+// Admin â€” Technician Management
 router.post('/admin/technicians',                        protect, admin, techCtrl.createTechnician);
 router.get( '/admin/technicians',                        protect, admin, techCtrl.getTechnicians);
 router.get( '/admin/technicians/stats',                  protect, admin, techCtrl.getTechnicianStats);
@@ -1083,7 +1083,7 @@ router.post('/admin/technicians/:id/reset-password',     protect, admin, techCtr
 router.post('/admin/technicians/:id/token',              protect, superAdmin, techCtrl.generateTechnicianToken);
 router.get( '/admin/technicians/:id/workload',           protect, admin, techCtrl.getTechnicianWorkload);
 
-// Admin — Service Requests
+// Admin â€” Service Requests
 router.get( '/admin/service/dashboard',                  protect, admin, srCtrl.getServiceDashboard);
 router.get( '/admin/service/requests',                   protect, admin, srCtrl.getServiceRequests);
 router.get( '/admin/service/requests/:id',               protect, admin, srCtrl.getServiceRequest);
@@ -1092,12 +1092,12 @@ router.put( '/admin/service/requests/:id/assign',        protect, admin, srCtrl.
 router.put( '/admin/service/requests/:id/escalate',      protect, admin, srCtrl.escalateServiceRequest);
 router.post('/admin/service/requests/:id/comment',       protect, admin, srCtrl.addComment);
 
-// Admin — Dispatch
+// Admin â€” Dispatch
 router.get( '/admin/service/dispatch/board',             protect, admin, dispatchCtrl.getDispatchBoard);
 router.get( '/admin/service/dispatch/:serviceRequestId/recommendations', protect, admin, dispatchCtrl.getDispatchRecommendations);
 router.post('/admin/service/dispatch/:serviceRequestId/auto-assign',     protect, admin, dispatchCtrl.autoAssign);
 
-// Admin — Warranty
+// Admin â€” Warranty
 router.post('/admin/warranty',                           protect, admin, warrantyCtrl.createWarranty);
 router.get( '/admin/warranty',                           protect, admin, warrantyCtrl.getWarranties);
 router.get( '/admin/warranty/stats',                     protect, admin, warrantyCtrl.getWarrantyStats);
@@ -1106,7 +1106,7 @@ router.put( '/admin/warranty/:id/activate',              protect, admin, warrant
 router.put( '/admin/warranty/:id/transfer',              protect, admin, warrantyCtrl.transferWarranty);
 router.put( '/admin/warranty/:id/void',                  protect, admin, warrantyCtrl.voidWarranty);
 
-// Admin — AMC Contracts
+// Admin â€” AMC Contracts
 router.post('/admin/amc',                                protect, admin, warrantyCtrl.createAMC);
 router.get( '/admin/amc',                                protect, admin, warrantyCtrl.getAMCContracts);
 router.get( '/admin/amc/stats',                          protect, admin, warrantyCtrl.getAMCStats);
@@ -1114,7 +1114,7 @@ router.get( '/admin/amc/:id',                            protect, admin, warrant
 router.put( '/admin/amc/:id/activate',                   protect, admin, warrantyCtrl.activateAMC);
 router.post('/admin/amc/:id/visit',                      protect, admin, warrantyCtrl.scheduleAMCVisit);
 
-// Admin — Spare Parts
+// Admin â€” Spare Parts
 router.post('/admin/spare-parts',                        protect, admin, spareCtrl.createSparePart);
 router.get( '/admin/spare-parts',                        protect, admin, spareCtrl.getSpareParts);
 router.get( '/admin/spare-parts/stats',                  protect, admin, spareCtrl.getSparePartStats);
@@ -1124,7 +1124,7 @@ router.put( '/admin/spare-parts/:id',                    protect, admin, spareCt
 router.delete('/admin/spare-parts/:id',                  protect, admin, spareCtrl.deleteSparePart);
 router.put( '/admin/spare-parts/:id/stock',              protect, admin, spareCtrl.adjustStock);
 
-// Admin — Service Reports
+// Admin â€” Service Reports
 router.get( '/admin/service/reports/summary',            protect, admin, svcReportCtrl.getServiceSummaryReport);
 router.get( '/admin/service/reports/technician-performance', protect, admin, svcReportCtrl.getTechnicianPerformanceReport);
 router.get( '/admin/service/reports/ftfr',               protect, admin, svcReportCtrl.getFTFRReport);
@@ -1134,28 +1134,28 @@ router.get( '/admin/service/reports/parts-consumption',  protect, admin, svcRepo
 router.get( '/admin/service/reports/sla',                protect, admin, svcReportCtrl.getSLAReport);
 router.get( '/admin/service/reports/amc-revenue',        protect, admin, svcReportCtrl.getAMCRevenueReport);
 
-// Customer — Service Requests
+// Customer â€” Service Requests
 router.post('/service/requests',                         protect, srCtrl.raiseServiceRequest);
 router.get( '/service/requests',                         protect, srCtrl.getMyServiceRequests);
 router.get( '/service/requests/:id',                     protect, srCtrl.trackServiceRequest);
 router.post('/service/requests/:id/feedback',            protect, srCtrl.submitFeedback);
 router.post('/service/requests/:id/attachment',          protect, serviceUpload.single('file'), srCtrl.uploadAttachment);
 
-// Customer — generic file upload (returns Cloudinary URL; used by frontend before associating)
+// Customer â€” generic file upload (returns Cloudinary URL; used by frontend before associating)
 router.post('/service/file-upload', protect, serviceUpload.single('file'), (req, res) => {
   if (!req.file) return res.status(400).json({ success: false, message: 'No file uploaded' });
   res.json({ success: true, url: req.file.path, filename: req.file.originalname });
 });
 
-// Customer — Warranty & AMC status
+// Customer â€” Warranty & AMC status
 router.get( '/service/warranty',                         protect, warrantyCtrl.getMyWarranties);
 router.get( '/service/warranty/check/:serialNumber',     protect, warrantyCtrl.checkWarrantyBySerial);
 router.get( '/service/amc',                              protect, warrantyCtrl.getMyAMCContracts);
 
-// Technician — photo upload via Cloudinary
+// Technician â€” photo upload via Cloudinary
 router.post('/technician/jobs/:id/photo-upload',         protectTechnician, serviceUpload.single('file'), srCtrl.uploadTechnicianPhoto);
 
-// ─── Sprint 11C: Product Registration + Installation Management ───────────────
+// â”€â”€â”€ Sprint 11C: Product Registration + Installation Management â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const { protectEngineer }  = require('../middleware/engineerAuth');
 const engAuthCtrl   = require('../controllers/installationEngineerAuthController');
 const engAdminCtrl  = require('../controllers/installationEngineerController');
@@ -1164,26 +1164,26 @@ const installCtrl   = require('../controllers/installationRequestController');
 const installDispatch = require('../controllers/installationDispatchController');
 const installPortal = require('../controllers/installationPortalController');
 
-// Customer — Product Registration
+// Customer â€” Product Registration
 router.post('/product-registrations',                    protect, prodRegCtrl.registerProduct);
 router.get( '/product-registrations',                    protect, prodRegCtrl.getMyRegistrations);
 router.get( '/product-registrations/:id',                protect, prodRegCtrl.getMyRegistration);
 
-// Customer — Installation Requests
+// Customer â€” Installation Requests
 router.post('/installation/requests',                    protect, installCtrl.bookInstallation);
 router.get( '/installation/requests',                    protect, installCtrl.getMyInstallations);
 router.get( '/installation/requests/:id',                protect, installCtrl.trackInstallation);
 router.post('/installation/requests/:id/feedback',       protect, installCtrl.submitInstallationFeedback);
 router.post('/installation/requests/:id/location-photo', protect, serviceUpload.single('file'), installCtrl.uploadLocationPhoto);
 
-// Engineer Auth (7th JWT stack — type:'engineer')
+// Engineer Auth (7th JWT stack â€” type:'engineer')
 router.post('/engineer/auth/login',                      engAuthCtrl.loginEngineer);
 router.get( '/engineer/auth/me',                         protectEngineer, engAuthCtrl.getEngineerProfile);
 router.put( '/engineer/auth/profile',                    protectEngineer, engAuthCtrl.updateEngineerProfile);
 router.put( '/engineer/auth/availability',               protectEngineer, engAuthCtrl.updateAvailability);
 router.put( '/engineer/auth/location',                   protectEngineer, engAuthCtrl.updateLocation);
 
-// Engineer Portal — Jobs
+// Engineer Portal â€” Jobs
 router.get( '/engineer/jobs',                            protectEngineer, installPortal.getEngineerJobs);
 router.get( '/engineer/dashboard',                       protectEngineer, installPortal.getEngineerDashboard);
 router.get( '/engineer/jobs/:id',                        protectEngineer, installPortal.getEngineerJobDetail);
@@ -1193,7 +1193,7 @@ router.post('/engineer/jobs/:id/photo',                  protectEngineer, servic
 router.post('/engineer/jobs/:id/signature',              protectEngineer, installPortal.saveSignature);
 router.put( '/engineer/jobs/:id/demo',                   protectEngineer, installPortal.saveDemoNotes);
 
-// Admin — Installation Engineers
+// Admin â€” Installation Engineers
 router.post('/admin/installation-engineers',             protect, admin, engAdminCtrl.createEngineer);
 router.get( '/admin/installation-engineers',             protect, admin, engAdminCtrl.getEngineers);
 router.get( '/admin/installation-engineers/stats',       protect, admin, engAdminCtrl.getEngineerStats);
@@ -1204,7 +1204,7 @@ router.post('/admin/installation-engineers/:id/reset-password', protect, admin, 
 router.post('/admin/installation-engineers/:id/token',   protect, superAdmin, engAdminCtrl.generateEngineerToken);
 router.get( '/admin/installation-engineers/:id/workload', protect, admin, engAdminCtrl.getEngineerWorkload);
 
-// Admin — Installation Requests
+// Admin â€” Installation Requests
 router.get( '/admin/installation/dashboard',             protect, admin, installCtrl.getInstallationDashboard);
 router.get( '/admin/installation/requests',              protect, admin, installCtrl.getAdminInstallations);
 router.get( '/admin/installation/requests/:id',          protect, admin, installCtrl.getAdminInstallation);
@@ -1212,11 +1212,11 @@ router.put( '/admin/installation/requests/:id/status',   protect, admin, install
 router.put( '/admin/installation/requests/:id/assign',   protect, admin, installCtrl.assignEngineer);
 router.get( '/admin/installation/reports',               protect, admin, installCtrl.getInstallationReports);
 
-// Admin — Installation Dispatch
+// Admin â€” Installation Dispatch
 router.get( '/admin/installation/dispatch/:requestId/recommendations', protect, admin, installDispatch.getDispatchRecommendations);
 router.post('/admin/installation/dispatch/:requestId/auto-assign',     protect, admin, installDispatch.autoAssign);
 
-// Admin — Product Registrations
+// Admin â€” Product Registrations
 router.get( '/admin/product-registrations',              protect, admin, prodRegCtrl.getAllRegistrations);
 router.get( '/admin/product-registrations/stats',        protect, admin, prodRegCtrl.getRegistrationStats);
 router.get( '/admin/product-registrations/:id',          protect, admin, prodRegCtrl.getRegistration);
@@ -1225,7 +1225,7 @@ router.put( '/admin/product-registrations/:id/invalidate', protect, admin, prodR
 router.put( '/admin/product-registrations/:id/activate-warranty', protect, admin, prodRegCtrl.activateWarrantyForRegistration);
 router.put( '/admin/product-registrations/:id/transfer', protect, admin, prodRegCtrl.transferOwnership);
 
-// ─── Sprint 12A: Manufacturing ERP Foundation ────────────────────────────────
+// â”€â”€â”€ Sprint 12A: Manufacturing ERP Foundation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const factoryCtrl    = require('../controllers/factoryController');
 const workCenterCtrl = require('../controllers/workCenterController');
 const machineCtrl    = require('../controllers/machineController');
@@ -1293,7 +1293,7 @@ router.patch(  '/admin/production-orders/:id/cancel',            protect, admin,
 router.post(   '/admin/production-orders/:id/batches',           protect, admin, prodCtrl.createBatch);
 router.put(    '/admin/production-orders/:id/batches/:batchId',  protect, admin, prodCtrl.updateBatch);
 
-// ─── Sprint 12B: Enterprise Production Planning & Scheduling ─────────────────
+// â”€â”€â”€ Sprint 12B: Enterprise Production Planning & Scheduling â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const planCtrl      = require('../controllers/productionPlanController');
 const capPlanCtrl   = require('../controllers/capacityPlanController');
 const calCtrl       = require('../controllers/calendarController');
@@ -1354,7 +1354,7 @@ router.post(   '/admin/planning-scenarios',      protect, admin, planDashCtrl.cr
 router.put(    '/admin/planning-scenarios/:id',  protect, admin, planDashCtrl.updateScenario);
 router.delete( '/admin/planning-scenarios/:id',  protect, admin, planDashCtrl.deleteScenario);
 
-// ─── Sprint 12C: Enterprise MRP ──────────────────────────────────────────────
+// â”€â”€â”€ Sprint 12C: Enterprise MRP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const mrpCtrl        = require('../controllers/mrpController');
 const matReqCtrl     = require('../controllers/materialRequirementController');
 const mrpResCtrl     = require('../controllers/mrpReservationController');
@@ -1424,7 +1424,7 @@ router.get(    '/admin/mrp/safety-stock/:id',  protect, admin, ssCtrl.getRule);
 router.put(    '/admin/mrp/safety-stock/:id',  protect, admin, ssCtrl.updateRule);
 router.delete( '/admin/mrp/safety-stock/:id',  protect, admin, ssCtrl.deleteRule);
 
-// ─── Sprint 12D: Enterprise MES ──────────────────────────────────────────────
+// â”€â”€â”€ Sprint 12D: Enterprise MES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const woCtrl       = require('../controllers/workOrderController');
 const execCtrl     = require('../controllers/executionController');
 const qualCtrl     = require('../controllers/qualityController');
@@ -1473,31 +1473,31 @@ router.patch('/admin/mes/executions/:id/complete',     protect, admin, execCtrl.
 router.get(  '/admin/mes/operation-executions',        protect, admin, execCtrl.getOperationExecutions);
 router.post( '/admin/mes/operation-executions',        protect, admin, execCtrl.recordOperationExecution);
 
-// Quality – Inspections
+// Quality â€“ Inspections
 router.get(    '/admin/mes/quality/inspections',       protect, admin, qualCtrl.getInspections);
 router.post(   '/admin/mes/quality/inspections',       protect, admin, qualCtrl.createInspection);
 router.get(    '/admin/mes/quality/inspections/:id',   protect, admin, qualCtrl.getInspection);
 router.put(    '/admin/mes/quality/inspections/:id',   protect, admin, qualCtrl.updateInspection);
 router.delete( '/admin/mes/quality/inspections/:id',   protect, admin, qualCtrl.deleteInspection);
 
-// Quality – Checkpoints
+// Quality â€“ Checkpoints
 router.get(    '/admin/mes/quality/checkpoints',       protect, admin, qualCtrl.getCheckpoints);
 router.post(   '/admin/mes/quality/checkpoints',       protect, admin, qualCtrl.createCheckpoint);
 router.put(    '/admin/mes/quality/checkpoints/:id',   protect, admin, qualCtrl.updateCheckpoint);
 router.delete( '/admin/mes/quality/checkpoints/:id',   protect, admin, qualCtrl.deleteCheckpoint);
 
-// Quality – Defects
+// Quality â€“ Defects
 router.get( '/admin/mes/quality/defects',              protect, admin, qualCtrl.getDefects);
 router.post('/admin/mes/quality/defects',              protect, admin, qualCtrl.createDefect);
 router.get( '/admin/mes/quality/defects/:id',          protect, admin, qualCtrl.getDefect);
 router.put( '/admin/mes/quality/defects/:id',          protect, admin, qualCtrl.updateDefect);
 
-// Quality – Scrap
+// Quality â€“ Scrap
 router.get( '/admin/mes/quality/scrap',                protect, admin, qualCtrl.getScrap);
 router.post('/admin/mes/quality/scrap',                protect, admin, qualCtrl.createScrap);
 router.put( '/admin/mes/quality/scrap/:id',            protect, admin, qualCtrl.updateScrap);
 
-// Quality – Rework
+// Quality â€“ Rework
 router.get( '/admin/mes/quality/rework',               protect, admin, qualCtrl.getRework);
 router.post('/admin/mes/quality/rework',               protect, admin, qualCtrl.createRework);
 router.put( '/admin/mes/quality/rework/:id',           protect, admin, qualCtrl.updateRework);
@@ -1549,18 +1549,18 @@ router.patch('/admin/mes/tool-usage/:id/end',          protect, admin, toolCtrl.
 router.get( '/admin/mes/tool-calibrations',            protect, admin, toolCtrl.getCalibrations);
 router.post('/admin/mes/tool-calibrations',            protect, admin, toolCtrl.createCalibration);
 
-// Operators – Shifts
+// Operators â€“ Shifts
 router.get(    '/admin/mes/operator-shifts',           protect, admin, opCtrl.getShiftAssignments);
 router.post(   '/admin/mes/operator-shifts',           protect, admin, opCtrl.assignShift);
 router.put(    '/admin/mes/operator-shifts/:id',       protect, admin, opCtrl.updateShiftAssignment);
 router.delete( '/admin/mes/operator-shifts/:id',       protect, admin, opCtrl.deleteShiftAssignment);
 
-// Operators – Attendance
+// Operators â€“ Attendance
 router.get(  '/admin/mes/attendance',                  protect, admin, opCtrl.getAttendance);
 router.post( '/admin/mes/attendance',                  protect, admin, opCtrl.recordAttendance);
 router.patch('/admin/mes/attendance/:id/clock-out',    protect, admin, opCtrl.clockOut);
 
-// Operators – Skills
+// Operators â€“ Skills
 router.get(    '/admin/mes/operator-skills',           protect, admin, opCtrl.getSkills);
 router.post(   '/admin/mes/operator-skills',           protect, admin, opCtrl.addSkill);
 router.put(    '/admin/mes/operator-skills/:id',       protect, admin, opCtrl.updateSkill);
@@ -1574,7 +1574,7 @@ router.get(    '/admin/mes/labor/:id',                 protect, admin, laborCtrl
 router.put(    '/admin/mes/labor/:id',                 protect, admin, laborCtrl.updateLaborEntry);
 router.delete( '/admin/mes/labor/:id',                 protect, admin, laborCtrl.deleteLaborEntry);
 
-// ── Sprint 12E: Enterprise QMS ────────────────────────────────────────────────
+// â”€â”€ Sprint 12E: Enterprise QMS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const inspCtrl   = require('../controllers/inspectionPlanController');
 const capaCtrl   = require('../controllers/capaController');
 const qmsAuditCtrl = require('../controllers/qmsAuditController');
@@ -1729,7 +1729,7 @@ router.patch(  '/admin/qms/documents/:id/obsolete',        protect, admin, docCt
 router.get(  '/admin/qms/documents/:docId/revisions',      protect, admin, docCtrl.getRevisions);
 router.post( '/admin/qms/documents/:docId/revisions',      protect, admin, docCtrl.createRevision);
 
-// ── Sprint 12F: Enterprise Asset Management (EAM / CMMS) ─────────────────────
+// â”€â”€ Sprint 12F: Enterprise Asset Management (EAM / CMMS) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const assetCtrl   = require('../controllers/assetController');
 const maintCtrl   = require('../controllers/maintenanceController');
 const eamWoCtrl   = require('../controllers/maintenanceWorkOrderController');
@@ -1915,7 +1915,7 @@ router.post(   '/admin/eam/failure-analyses',              protect, admin, brkCt
 router.put(    '/admin/eam/failure-analyses/:id',          protect, admin, brkCtrl.updateFailureAnalysis);
 router.delete( '/admin/eam/failure-analyses/:id',          protect, admin, brkCtrl.deleteFailureAnalysis);
 
-// ── Sprint 13A: Enterprise Finance & General Ledger ───────────────────────────
+// â”€â”€ Sprint 13A: Enterprise Finance & General Ledger â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const coaCtrl      = require('../controllers/coaController');
 const journalCtrl  = require('../controllers/journalController');
 const ledgerCtrl   = require('../controllers/ledgerController');
@@ -2045,7 +2045,7 @@ router.get(  '/admin/finance/opening-balances',            protect, admin, finSe
 router.post( '/admin/finance/opening-balances',            protect, admin, finSetCtrl.createOpeningBalance);
 router.put(  '/admin/finance/opening-balances/:id',        protect, admin, finSetCtrl.updateOpeningBalance);
 
-// ─── Sprint 13B: Enterprise Accounts Payable ──────────────────────────────────
+// â”€â”€â”€ Sprint 13B: Enterprise Accounts Payable â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const apDashCtrl      = require('../controllers/accountsPayableDashboardController');
 const vendorBillCtrl  = require('../controllers/vendorBillController');
 const vendorPmtCtrl   = require('../controllers/vendorPaymentController');
@@ -2375,7 +2375,7 @@ router.post('/admin/accounts-payable/payment-approvals/:id/reject', protect, adm
   } catch(e) { return se13b(res, e); }
 });
 
-// ── Sprint 13C: Enterprise Accounts Receivable ────────────────────────────────
+// â”€â”€ Sprint 13C: Enterprise Accounts Receivable â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const arDashCtrl     = require('../controllers/accountsReceivableDashboardController');
 const custInvCtrl    = require('../controllers/customerInvoiceController');
 const custRcptCtrl   = require('../controllers/customerReceiptController');
@@ -2624,9 +2624,9 @@ router.delete('/admin/accounts-receivable/collection-rules/:id', protect, admin,
   } catch(e) { return se13c(res, e); }
 });
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// SPRINT 13D — Enterprise Tax & Compliance Engine
-// ═══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// SPRINT 13D â€” Enterprise Tax & Compliance Engine
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 const TaxCode             = require('../models/TaxCode');
 const TaxRate             = require('../models/TaxRate');
 const TaxGroup            = require('../models/TaxGroup');
@@ -2644,11 +2644,11 @@ const taxReportCtrl       = require('../controllers/taxReportController');
 
 const { paginated: pgT, created: crT, ok: okT, notFound: nfT, serverError: seT, noContent: ncT } = require('../utils/response');
 
-// ── Tax Dashboard ─────────────────────────────────────────────────────────────
+// â”€â”€ Tax Dashboard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/dashboard',            protect, admin, taxDashCtrl.getDashboard);
 router.get('/admin/tax/compliance-status',    protect, admin, taxDashCtrl.getComplianceStatus);
 
-// ── Tax Codes ─────────────────────────────────────────────────────────────────
+// â”€â”€ Tax Codes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/codes', protect, admin, async (req, res) => {
   try {
     const q = { isDeleted: false };
@@ -2677,7 +2677,7 @@ router.delete('/admin/tax/codes/:id', protect, admin, async (req, res) => {
   } catch(e) { return seT(res, e); }
 });
 
-// ── Tax Rates ─────────────────────────────────────────────────────────────────
+// â”€â”€ Tax Rates â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/rates', protect, admin, async (req, res) => {
   try {
     const q = { isDeleted: false };
@@ -2699,7 +2699,7 @@ router.put('/admin/tax/rates/:id', protect, admin, async (req, res) => {
   } catch(e) { return seT(res, e); }
 });
 
-// ── Tax Groups ────────────────────────────────────────────────────────────────
+// â”€â”€ Tax Groups â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/groups', protect, admin, async (req, res) => {
   try {
     const data = await TaxGroup.find({ isDeleted: false }).sort({ name: 1 }).populate('taxCodes','code name');
@@ -2718,7 +2718,7 @@ router.put('/admin/tax/groups/:id', protect, admin, async (req, res) => {
   } catch(e) { return seT(res, e); }
 });
 
-// ── Tax Jurisdictions ─────────────────────────────────────────────────────────
+// â”€â”€ Tax Jurisdictions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/jurisdictions', protect, admin, async (req, res) => {
   try { const data = await TaxJurisdiction.find({ isDeleted: false }).sort({ stateCode: 1 }); return okT(res, data); }
   catch(e) { return seT(res, e); }
@@ -2735,7 +2735,7 @@ router.put('/admin/tax/jurisdictions/:id', protect, admin, async (req, res) => {
   } catch(e) { return seT(res, e); }
 });
 
-// ── Tax Rules ─────────────────────────────────────────────────────────────────
+// â”€â”€ Tax Rules â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/rules', protect, admin, async (req, res) => {
   try {
     const q = { isDeleted: false };
@@ -2757,7 +2757,7 @@ router.put('/admin/tax/rules/:id', protect, admin, async (req, res) => {
   } catch(e) { return seT(res, e); }
 });
 
-// ── Tax Exemptions ────────────────────────────────────────────────────────────
+// â”€â”€ Tax Exemptions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/exemptions', protect, admin, async (req, res) => {
   try {
     const { page = 1, limit = 20, exemptionType, isActive } = req.query;
@@ -2790,7 +2790,7 @@ router.delete('/admin/tax/exemptions/:id', protect, admin, async (req, res) => {
   } catch(e) { return seT(res, e); }
 });
 
-// ── Tax Configuration ─────────────────────────────────────────────────────────
+// â”€â”€ Tax Configuration â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/configuration', protect, admin, async (req, res) => {
   try {
     const q = {};
@@ -2810,13 +2810,13 @@ router.put('/admin/tax/configuration/:key', protect, admin, async (req, res) => 
   } catch(e) { return seT(res, e); }
 });
 
-// ── GST Registrations ─────────────────────────────────────────────────────────
+// â”€â”€ GST Registrations â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/gst/registrations',           protect, admin, gstCtrl.getRegistrations);
 router.post('/admin/tax/gst/registrations',          protect, admin, gstCtrl.createRegistration);
 router.put('/admin/tax/gst/registrations/:id',       protect, admin, gstCtrl.updateRegistration);
 router.delete('/admin/tax/gst/registrations/:id',    protect, admin, gstCtrl.deleteRegistration);
 
-// ── GST Returns ───────────────────────────────────────────────────────────────
+// â”€â”€ GST Returns â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/gst/returns',                 protect, admin, gstCtrl.getReturns);
 router.post('/admin/tax/gst/returns',                protect, admin, gstCtrl.createReturn);
 router.get('/admin/tax/gst/returns/:id',             protect, admin, gstCtrl.getReturn);
@@ -2824,67 +2824,67 @@ router.put('/admin/tax/gst/returns/:id',             protect, admin, gstCtrl.upd
 router.post('/admin/tax/gst/returns/:id/file',       protect, admin, gstCtrl.fileReturn);
 router.delete('/admin/tax/gst/returns/:id',          protect, admin, gstCtrl.deleteReturn);
 
-// ── GST Invoices ──────────────────────────────────────────────────────────────
+// â”€â”€ GST Invoices â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/gst/invoices',                protect, admin, gstCtrl.getGSTInvoices);
 router.post('/admin/tax/gst/invoices',               protect, admin, gstCtrl.createGSTInvoice);
 router.put('/admin/tax/gst/invoices/:id',            protect, admin, gstCtrl.updateGSTInvoice);
 
-// ── GST Adjustments ───────────────────────────────────────────────────────────
+// â”€â”€ GST Adjustments â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/gst/adjustments',             protect, admin, gstCtrl.getAdjustments);
 router.post('/admin/tax/gst/adjustments',            protect, admin, gstCtrl.createAdjustment);
 router.post('/admin/tax/gst/adjustments/:id/approve',protect, admin, gstCtrl.approveAdjustment);
 
-// ── ITC Ledger ────────────────────────────────────────────────────────────────
+// â”€â”€ ITC Ledger â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/gst/itc-ledger',              protect, admin, gstCtrl.getITCLedger);
 router.post('/admin/tax/gst/itc-ledger',             protect, admin, gstCtrl.createITCEntry);
 
-// ── Output Tax Ledger ─────────────────────────────────────────────────────────
+// â”€â”€ Output Tax Ledger â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/gst/output-tax-ledger',       protect, admin, gstCtrl.getOutputTaxLedger);
 router.post('/admin/tax/gst/output-tax-ledger',      protect, admin, gstCtrl.createOutputTaxEntry);
 
-// ── GST Settlements ───────────────────────────────────────────────────────────
+// â”€â”€ GST Settlements â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/gst/settlements',             protect, admin, gstCtrl.getSettlements);
 router.post('/admin/tax/gst/settlements',            protect, admin, gstCtrl.createSettlement);
 router.get('/admin/tax/gst/settlements/:id',         protect, admin, gstCtrl.getSettlement);
 router.post('/admin/tax/gst/settlements/:id/settle', protect, admin, gstCtrl.settleGST);
 
-// ── ITC Register (AP module) ──────────────────────────────────────────────────
+// â”€â”€ ITC Register (AP module) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/gst/itc-register',            protect, admin, gstCtrl.getInputCreditRegister);
 
-// ── TDS Sections ──────────────────────────────────────────────────────────────
+// â”€â”€ TDS Sections â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/tds/sections',                protect, admin, tdsCtrl.getSections);
 router.post('/admin/tax/tds/sections',               protect, admin, tdsCtrl.createSection);
 router.put('/admin/tax/tds/sections/:id',            protect, admin, tdsCtrl.updateSection);
 
-// ── TDS Rates ─────────────────────────────────────────────────────────────────
+// â”€â”€ TDS Rates â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/tds/rates',                   protect, admin, tdsCtrl.getRates);
 router.post('/admin/tax/tds/rates',                  protect, admin, tdsCtrl.createRate);
 
-// ── TDS Deductions ────────────────────────────────────────────────────────────
+// â”€â”€ TDS Deductions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/tds/deductions',              protect, admin, tdsCtrl.getDeductions);
 router.post('/admin/tax/tds/deductions',             protect, admin, tdsCtrl.createDeduction);
 router.get('/admin/tax/tds/deductions/:id',          protect, admin, tdsCtrl.getDeduction);
 router.put('/admin/tax/tds/deductions/:id',          protect, admin, tdsCtrl.updateDeduction);
 router.delete('/admin/tax/tds/deductions/:id',       protect, admin, tdsCtrl.deleteDeduction);
 
-// ── TDS Deposits ──────────────────────────────────────────────────────────────
+// â”€â”€ TDS Deposits â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/tds/deposits',                protect, admin, tdsCtrl.getDeposits);
 router.post('/admin/tax/tds/deposits',               protect, admin, tdsCtrl.createDeposit);
 router.post('/admin/tax/tds/deposits/:id/acknowledge', protect, admin, tdsCtrl.acknowledgeDeposit);
 
-// ── TDS Certificates ──────────────────────────────────────────────────────────
+// â”€â”€ TDS Certificates â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/tds/certificates',            protect, admin, tdsCtrl.getCertificates);
 router.post('/admin/tax/tds/certificates',           protect, admin, tdsCtrl.createCertificate);
 router.post('/admin/tax/tds/certificates/:id/issue', protect, admin, tdsCtrl.issueCertificate);
 router.delete('/admin/tax/tds/certificates/:id',     protect, admin, tdsCtrl.deleteCertificate);
 
-// ── Compliance Calendar ───────────────────────────────────────────────────────
+// â”€â”€ Compliance Calendar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/compliance/calendars',        protect, admin, complianceCtrl.getCalendars);
 router.post('/admin/tax/compliance/calendars',       protect, admin, complianceCtrl.createCalendar);
 router.put('/admin/tax/compliance/calendars/:id',    protect, admin, complianceCtrl.updateCalendar);
 router.delete('/admin/tax/compliance/calendars/:id', protect, admin, complianceCtrl.deleteCalendar);
 
-// ── Compliance Tasks ──────────────────────────────────────────────────────────
+// â”€â”€ Compliance Tasks â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/compliance/tasks',                   protect, admin, complianceCtrl.getTasks);
 router.post('/admin/tax/compliance/tasks',                  protect, admin, complianceCtrl.createTask);
 router.get('/admin/tax/compliance/tasks/reminders',         protect, admin, complianceCtrl.getReminders);
@@ -2893,12 +2893,12 @@ router.put('/admin/tax/compliance/tasks/:id',               protect, admin, comp
 router.post('/admin/tax/compliance/tasks/:id/complete',     protect, admin, complianceCtrl.completeTask);
 router.delete('/admin/tax/compliance/tasks/:id',            protect, admin, complianceCtrl.deleteTask);
 
-// ── Tax Audits ────────────────────────────────────────────────────────────────
+// â”€â”€ Tax Audits â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/compliance/audits',           protect, admin, complianceCtrl.getAudits);
 router.post('/admin/tax/compliance/audits',          protect, admin, complianceCtrl.createAudit);
 router.put('/admin/tax/compliance/audits/:id',       protect, admin, complianceCtrl.updateAudit);
 
-// ── E-Invoice ─────────────────────────────────────────────────────────────────
+// â”€â”€ E-Invoice â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/einvoice',                    protect, admin, einvoiceCtrl.getEInvoices);
 router.post('/admin/tax/einvoice',                   protect, admin, einvoiceCtrl.createEInvoice);
 router.get('/admin/tax/einvoice/:id',                protect, admin, einvoiceCtrl.getEInvoice);
@@ -2906,7 +2906,7 @@ router.post('/admin/tax/einvoice/:id/generate-irn', protect, admin, einvoiceCtrl
 router.post('/admin/tax/einvoice/:id/cancel',        protect, admin, einvoiceCtrl.cancelEInvoice);
 router.delete('/admin/tax/einvoice/:id',             protect, admin, einvoiceCtrl.deleteEInvoice);
 
-// ── E-Way Bill ────────────────────────────────────────────────────────────────
+// â”€â”€ E-Way Bill â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/ewaybill',                    protect, admin, ewayBillCtrl.getEWayBills);
 router.post('/admin/tax/ewaybill',                   protect, admin, ewayBillCtrl.createEWayBill);
 router.get('/admin/tax/ewaybill/:id',                protect, admin, ewayBillCtrl.getEWayBill);
@@ -2915,7 +2915,7 @@ router.put('/admin/tax/ewaybill/:id/transport',      protect, admin, ewayBillCtr
 router.post('/admin/tax/ewaybill/:id/cancel',        protect, admin, ewayBillCtrl.cancelEWayBill);
 router.delete('/admin/tax/ewaybill/:id',             protect, admin, ewayBillCtrl.deleteEWayBill);
 
-// ── Tax Reports ───────────────────────────────────────────────────────────────
+// â”€â”€ Tax Reports â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/tax/reports/gstr1',               protect, admin, taxReportCtrl.getGSTR1Summary);
 router.get('/admin/tax/reports/gstr3b',              protect, admin, taxReportCtrl.getGSTR3BSummary);
 router.get('/admin/tax/reports/itc-register',        protect, admin, taxReportCtrl.getInputCreditReport);
@@ -2924,9 +2924,9 @@ router.get('/admin/tax/reports/gst-settlement',      protect, admin, taxReportCt
 router.get('/admin/tax/reports/tax-audit',           protect, admin, taxReportCtrl.getTaxAuditReport);
 router.get('/admin/tax/reports/compliance-summary',  protect, admin, taxReportCtrl.getComplianceSummary);
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// SPRINT 13E — ENTERPRISE BANKING & TREASURY
-// ═══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// SPRINT 13E â€” ENTERPRISE BANKING & TREASURY
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 const Bank                  = require('../models/Bank');
 const BankBranch            = require('../models/BankBranch');
@@ -2978,62 +2978,62 @@ const nfB  = (...a) => require('../utils/response').notFound(...a);
 const seB  = (...a) => require('../utils/response').serverError(...a);
 const ncB  = (...a) => require('../utils/response').noContent(...a);
 
-// ── Banking Dashboard ─────────────────────────────────────────────────────────
+// â”€â”€ Banking Dashboard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/dashboard',           protect, admin, bankingDashCtrl.getDashboard);
 router.get('/admin/banking/compliance-status',   protect, admin, bankingDashCtrl.getComplianceStatus);
 
-// ── Banks ─────────────────────────────────────────────────────────────────────
+// â”€â”€ Banks â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/banks',               protect, admin, bankCtrl.getBanks);
 router.post('/admin/banking/banks',              protect, admin, bankCtrl.createBank);
 router.put('/admin/banking/banks/:id',           protect, admin, bankCtrl.updateBank);
 router.delete('/admin/banking/banks/:id',        protect, admin, bankCtrl.deleteBank);
 
-// ── Bank Branches ─────────────────────────────────────────────────────────────
+// â”€â”€ Bank Branches â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/branches',            protect, admin, bankCtrl.getBranches);
 router.post('/admin/banking/branches',           protect, admin, bankCtrl.createBranch);
 router.put('/admin/banking/branches/:id',        protect, admin, bankCtrl.updateBranch);
 router.delete('/admin/banking/branches/:id',     protect, admin, bankCtrl.deleteBranch);
 
-// ── Bank Accounts ─────────────────────────────────────────────────────────────
+// â”€â”€ Bank Accounts â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/accounts',            protect, admin, bankAccCtrl.getAccounts);
 router.post('/admin/banking/accounts',           protect, admin, bankAccCtrl.createAccount);
 router.get('/admin/banking/accounts/:id',        protect, admin, bankAccCtrl.getAccount);
 router.put('/admin/banking/accounts/:id',        protect, admin, bankAccCtrl.updateAccount);
 
-// ── Bank Transactions ─────────────────────────────────────────────────────────
+// â”€â”€ Bank Transactions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/transactions',        protect, admin, bankAccCtrl.getTransactions);
 router.post('/admin/banking/transactions',       protect, admin, bankAccCtrl.createTransaction);
 router.put('/admin/banking/transactions/:id',    protect, admin, bankAccCtrl.updateTransaction);
 router.delete('/admin/banking/transactions/:id', protect, admin, bankAccCtrl.deleteTransaction);
 
-// ── Bank Statements ───────────────────────────────────────────────────────────
+// â”€â”€ Bank Statements â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/statements',          protect, admin, bankAccCtrl.getStatements);
 router.post('/admin/banking/statements',         protect, admin, bankAccCtrl.createStatement);
 router.get('/admin/banking/statements/:id/lines',protect, admin, bankAccCtrl.getStatementLines);
 
-// ── Bank Charges ──────────────────────────────────────────────────────────────
+// â”€â”€ Bank Charges â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/charges',             protect, admin, bankAccCtrl.getCharges);
 router.post('/admin/banking/charges',            protect, admin, bankAccCtrl.createCharge);
 
-// ── Interest Postings ─────────────────────────────────────────────────────────
+// â”€â”€ Interest Postings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/interest-postings',   protect, admin, bankAccCtrl.getInterestPostings);
 router.post('/admin/banking/interest-postings',  protect, admin, bankAccCtrl.createInterestPosting);
 
-// ── Electronic Payments ───────────────────────────────────────────────────────
+// â”€â”€ Electronic Payments â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/electronic-payments',       protect, admin, bankAccCtrl.getElectronicPayments);
 router.post('/admin/banking/electronic-payments',      protect, admin, bankAccCtrl.createElectronicPayment);
 router.put('/admin/banking/electronic-payments/:id/status', protect, admin, bankAccCtrl.updatePaymentStatus);
 
-// ── Cheque Books ──────────────────────────────────────────────────────────────
+// â”€â”€ Cheque Books â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/cheque-books',        protect, admin, bankAccCtrl.getChequeBooks);
 router.post('/admin/banking/cheque-books',       protect, admin, bankAccCtrl.createChequeBook);
 
-// ── Cheques ───────────────────────────────────────────────────────────────────
+// â”€â”€ Cheques â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/cheques',             protect, admin, bankAccCtrl.getCheques);
 router.post('/admin/banking/cheques',            protect, admin, bankAccCtrl.createCheque);
 router.put('/admin/banking/cheques/:id/status',  protect, admin, bankAccCtrl.updateChequeStatus);
 
-// ── Bank Reconciliation ───────────────────────────────────────────────────────
+// â”€â”€ Bank Reconciliation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/reconciliation',      protect, admin, bankReconCtrl.getReconciliations);
 router.post('/admin/banking/reconciliation',     protect, admin, bankReconCtrl.createReconciliation);
 router.get('/admin/banking/reconciliation/:id',  protect, admin, bankReconCtrl.getReconciliation);
@@ -3043,71 +3043,71 @@ router.post('/admin/banking/reconciliation/:id/complete',    protect, admin, ban
 router.delete('/admin/banking/reconciliation/:id',           protect, admin, bankReconCtrl.deleteReconciliation);
 router.get('/admin/banking/reconciliation/:id/unmatched',    protect, admin, bankReconCtrl.getUnmatchedTransactions);
 
-// ── Cash Accounts ─────────────────────────────────────────────────────────────
+// â”€â”€ Cash Accounts â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/cash-accounts',       protect, admin, cashCtrl.getCashAccounts);
 router.post('/admin/banking/cash-accounts',      protect, admin, cashCtrl.createCashAccount);
 router.put('/admin/banking/cash-accounts/:id',   protect, admin, cashCtrl.updateCashAccount);
 
-// ── Cash Transactions ─────────────────────────────────────────────────────────
+// â”€â”€ Cash Transactions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/cash-transactions',   protect, admin, cashCtrl.getCashTransactions);
 router.post('/admin/banking/cash-transactions',  protect, admin, cashCtrl.createCashTransaction);
 
-// ── Cash Transfers ────────────────────────────────────────────────────────────
+// â”€â”€ Cash Transfers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/cash-transfers',      protect, admin, cashCtrl.getCashTransfers);
 router.post('/admin/banking/cash-transfers',     protect, admin, cashCtrl.createCashTransfer);
 router.post('/admin/banking/cash-transfers/:id/complete', protect, admin, cashCtrl.completeTransfer);
 
-// ── Petty Cash Funds ──────────────────────────────────────────────────────────
+// â”€â”€ Petty Cash Funds â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/petty-cash',          protect, admin, cashCtrl.getPettyCashFunds);
 router.post('/admin/banking/petty-cash',         protect, admin, cashCtrl.createPettyCashFund);
 router.put('/admin/banking/petty-cash/:id',      protect, admin, cashCtrl.updatePettyCashFund);
 router.post('/admin/banking/petty-cash/:id/replenish', protect, admin, cashCtrl.replenishFund);
 
-// ── Petty Cash Vouchers ───────────────────────────────────────────────────────
+// â”€â”€ Petty Cash Vouchers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/petty-cash-vouchers', protect, admin, cashCtrl.getVouchers);
 router.post('/admin/banking/petty-cash-vouchers',protect, admin, cashCtrl.createVoucher);
 router.post('/admin/banking/petty-cash-vouchers/:id/approve', protect, admin, cashCtrl.approveVoucher);
 
-// ── Treasury Positions ────────────────────────────────────────────────────────
+// â”€â”€ Treasury Positions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/treasury-positions',  protect, admin, treasuryCtrl.getTreasuryPositions);
 router.post('/admin/banking/treasury-positions', protect, admin, treasuryCtrl.createTreasuryPosition);
 
-// ── Cash Forecasts ────────────────────────────────────────────────────────────
+// â”€â”€ Cash Forecasts â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/cash-forecasts',      protect, admin, treasuryCtrl.getCashForecasts);
 router.post('/admin/banking/cash-forecasts',     protect, admin, treasuryCtrl.createCashForecast);
 router.put('/admin/banking/cash-forecasts/:id',  protect, admin, treasuryCtrl.updateCashForecast);
 router.delete('/admin/banking/cash-forecasts/:id', protect, admin, treasuryCtrl.deleteCashForecast);
 
-// ── Liquidity Forecasts ───────────────────────────────────────────────────────
+// â”€â”€ Liquidity Forecasts â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/liquidity-forecasts', protect, admin, treasuryCtrl.getLiquidityForecasts);
 router.post('/admin/banking/liquidity-forecasts',protect, admin, treasuryCtrl.createLiquidityForecast);
 
-// ── Bank Guarantees ───────────────────────────────────────────────────────────
+// â”€â”€ Bank Guarantees â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/bank-guarantees',     protect, admin, treasuryCtrl.getBankGuarantees);
 router.post('/admin/banking/bank-guarantees',    protect, admin, treasuryCtrl.createBankGuarantee);
 router.get('/admin/banking/bank-guarantees/:id', protect, admin, treasuryCtrl.getBankGuarantee);
 router.put('/admin/banking/bank-guarantees/:id', protect, admin, treasuryCtrl.updateBankGuarantee);
 router.delete('/admin/banking/bank-guarantees/:id', protect, admin, treasuryCtrl.deleteBankGuarantee);
 
-// ── Letters of Credit ─────────────────────────────────────────────────────────
+// â”€â”€ Letters of Credit â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/letters-of-credit',   protect, admin, treasuryCtrl.getLettersOfCredit);
 router.post('/admin/banking/letters-of-credit',  protect, admin, treasuryCtrl.createLetterOfCredit);
 router.get('/admin/banking/letters-of-credit/:id',protect, admin, treasuryCtrl.getLetterOfCredit);
 router.put('/admin/banking/letters-of-credit/:id',protect, admin, treasuryCtrl.updateLetterOfCredit);
 router.delete('/admin/banking/letters-of-credit/:id', protect, admin, treasuryCtrl.deleteLetterOfCredit);
 
-// ── Treasury Settings ─────────────────────────────────────────────────────────
+// â”€â”€ Treasury Settings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/settings',            protect, admin, treasuryCtrl.getSettings);
 router.put('/admin/banking/settings/:key',       protect, admin, treasuryCtrl.upsertSetting);
 
-// ── Payment Gateways ──────────────────────────────────────────────────────────
+// â”€â”€ Payment Gateways â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/gateways',            protect, admin, treasuryCtrl.getGateways);
 router.post('/admin/banking/gateways',           protect, admin, treasuryCtrl.createGateway);
 router.put('/admin/banking/gateways/:id',        protect, admin, treasuryCtrl.updateGateway);
 router.get('/admin/banking/gateway-transactions',protect, admin, treasuryCtrl.getGatewayTransactions);
 router.post('/admin/banking/gateway-transactions',protect, admin, treasuryCtrl.createGatewayTransaction);
 
-// ── Investments ───────────────────────────────────────────────────────────────
+// â”€â”€ Investments â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/investments',         protect, admin, investmentCtrl.getInvestments);
 router.post('/admin/banking/investments',        protect, admin, investmentCtrl.createInvestment);
 router.get('/admin/banking/investments/:id',     protect, admin, investmentCtrl.getInvestment);
@@ -3115,7 +3115,7 @@ router.put('/admin/banking/investments/:id',     protect, admin, investmentCtrl.
 router.post('/admin/banking/investments/:id/redeem', protect, admin, investmentCtrl.redeemInvestment);
 router.delete('/admin/banking/investments/:id',  protect, admin, investmentCtrl.deleteInvestment);
 
-// ── Fixed Deposits ────────────────────────────────────────────────────────────
+// â”€â”€ Fixed Deposits â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/fixed-deposits',      protect, admin, investmentCtrl.getFixedDeposits);
 router.post('/admin/banking/fixed-deposits',     protect, admin, investmentCtrl.createFixedDeposit);
 router.get('/admin/banking/fixed-deposits/:id',  protect, admin, investmentCtrl.getFixedDeposit);
@@ -3124,29 +3124,29 @@ router.post('/admin/banking/fixed-deposits/:id/close', protect, admin, investmen
 router.delete('/admin/banking/fixed-deposits/:id', protect, admin, investmentCtrl.deleteFixedDeposit);
 router.get('/admin/banking/fixed-deposits/:id/interest', protect, admin, investmentCtrl.getFDInterestPostings);
 
-// ── FX — Exchange Rates (reuse ExchangeRate model) ───────────────────────────
+// â”€â”€ FX â€” Exchange Rates (reuse ExchangeRate model) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/fx/rates',            protect, admin, fxCtrl.getExchangeRates);
 router.post('/admin/banking/fx/rates',           protect, admin, fxCtrl.createExchangeRate);
 router.put('/admin/banking/fx/rates/:id',        protect, admin, fxCtrl.updateExchangeRate);
 router.delete('/admin/banking/fx/rates/:id',     protect, admin, fxCtrl.deleteExchangeRate);
 
-// ── FX Transactions ───────────────────────────────────────────────────────────
+// â”€â”€ FX Transactions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/fx/transactions',     protect, admin, fxCtrl.getFXTransactions);
 router.post('/admin/banking/fx/transactions',    protect, admin, fxCtrl.createFXTransaction);
 router.put('/admin/banking/fx/transactions/:id', protect, admin, fxCtrl.updateFXTransaction);
 router.post('/admin/banking/fx/transactions/:id/settle', protect, admin, fxCtrl.settleFXTransaction);
 router.delete('/admin/banking/fx/transactions/:id', protect, admin, fxCtrl.deleteFXTransaction);
 
-// ── FX Gain/Loss ──────────────────────────────────────────────────────────────
+// â”€â”€ FX Gain/Loss â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/fx/gain-loss',        protect, admin, fxCtrl.getFXGainLoss);
 
-// ── Currency Accounts ─────────────────────────────────────────────────────────
+// â”€â”€ Currency Accounts â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/currency-accounts',   protect, admin, fxCtrl.getCurrencyAccounts);
 router.post('/admin/banking/currency-accounts',  protect, admin, fxCtrl.createCurrencyAccount);
 router.put('/admin/banking/currency-accounts/:id', protect, admin, fxCtrl.updateCurrencyAccount);
 router.post('/admin/banking/currency-accounts/:id/revalue', protect, admin, fxCtrl.revalueCurrencyAccount);
 
-// ── Banking Reports ───────────────────────────────────────────────────────────
+// â”€â”€ Banking Reports â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/banking/reports/bank-book',        protect, admin, bankingReportCtrl.getBankBook);
 router.get('/admin/banking/reports/cash-book',        protect, admin, bankingReportCtrl.getCashBook);
 router.get('/admin/banking/reports/daily-cash',       protect, admin, bankingReportCtrl.getDailyCashPosition);
@@ -3157,9 +3157,9 @@ router.get('/admin/banking/reports/guarantee-register',protect, admin, bankingRe
 router.get('/admin/banking/reports/cash-flow',        protect, admin, bankingReportCtrl.getCashFlowReport);
 router.get('/admin/banking/reports/forecast-actual',  protect, admin, bankingReportCtrl.getForecastVsActual);
 
-// ═════════════════════════════════════════════════════════════════════════════
-// SPRINT 13F — CFO DASHBOARD & FINANCIAL CONSOLIDATION
-// ═════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// SPRINT 13F â€” CFO DASHBOARD & FINANCIAL CONSOLIDATION
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 const cfoDashCtrl      = require('../controllers/cfoDashboardController');
 const budgetCtrl       = require('../controllers/budgetController');
 const cfoForecastCtrl  = require('../controllers/cfoForecastController');
@@ -3169,7 +3169,7 @@ const cashFlowCtrl     = require('../controllers/cashFlowController');
 const profitCtrl       = require('../controllers/profitabilityController');
 const cfoReportCtrl    = require('../controllers/cfoReportController');
 
-// ── CFO Dashboard ─────────────────────────────────────────────────────────────
+// â”€â”€ CFO Dashboard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/cfo/dashboard',              protect, admin, cfoDashCtrl.getDashboard);
 router.get('/admin/cfo/dashboard/revenue-trend',protect, admin, cfoDashCtrl.getRevenueTrend);
 router.get('/admin/cfo/dashboard/cash-flow',    protect, admin, cfoDashCtrl.getCashFlowChart);
@@ -3178,7 +3178,7 @@ router.get('/admin/cfo/dashboard/expense-breakdown', protect, admin, cfoDashCtrl
 router.get('/admin/cfo/dashboard/kpi-trend',    protect, admin, cfoDashCtrl.getKPITrend);
 router.get('/admin/cfo/dashboard/alerts',       protect, admin, cfoDashCtrl.getAlertSummary);
 
-// ── Budgets ───────────────────────────────────────────────────────────────────
+// â”€â”€ Budgets â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/cfo/budgets',                       protect, admin, budgetCtrl.getBudgets);
 router.post(  '/admin/cfo/budgets',                       protect, admin, budgetCtrl.createBudget);
 router.get(   '/admin/cfo/budgets/variance',              protect, admin, budgetCtrl.getBudgetVariance);
@@ -3193,13 +3193,13 @@ router.post(  '/admin/cfo/budgets/:id/lines',             protect, admin, budget
 router.put(   '/admin/cfo/budgets/:id/lines/:lineId',     protect, admin, budgetCtrl.updateBudgetLine);
 router.delete('/admin/cfo/budgets/:id/lines/:lineId',     protect, admin, budgetCtrl.deleteBudgetLine);
 
-// ── Budget Scenarios ──────────────────────────────────────────────────────────
+// â”€â”€ Budget Scenarios â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/cfo/budget-scenarios',              protect, admin, budgetCtrl.getScenarios);
 router.post(  '/admin/cfo/budget-scenarios',              protect, admin, budgetCtrl.createScenario);
 router.put(   '/admin/cfo/budget-scenarios/:id',          protect, admin, budgetCtrl.updateScenario);
 router.delete('/admin/cfo/budget-scenarios/:id',          protect, admin, budgetCtrl.deleteScenario);
 
-// ── Financial Forecasts ───────────────────────────────────────────────────────
+// â”€â”€ Financial Forecasts â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/cfo/forecasts',                     protect, admin, cfoForecastCtrl.getForecasts);
 router.post(  '/admin/cfo/forecasts',                     protect, admin, cfoForecastCtrl.createForecast);
 router.get(   '/admin/cfo/forecasts/variance',            protect, admin, cfoForecastCtrl.getForecastVariance);
@@ -3212,7 +3212,7 @@ router.post(  '/admin/cfo/forecasts/:id/lines',           protect, admin, cfoFor
 router.put(   '/admin/cfo/forecasts/:id/lines/:lineId',   protect, admin, cfoForecastCtrl.updateForecastLine);
 router.delete('/admin/cfo/forecasts/:id/lines/:lineId',   protect, admin, cfoForecastCtrl.deleteForecastLine);
 
-// ── KPIs ──────────────────────────────────────────────────────────────────────
+// â”€â”€ KPIs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/cfo/kpis',                          protect, admin, kpiCtrl.getKPIs);
 router.post(  '/admin/cfo/kpis',                          protect, admin, kpiCtrl.createKPI);
 router.post(  '/admin/cfo/kpis/calculate',                protect, admin, kpiCtrl.calculateKPIs);
@@ -3220,56 +3220,56 @@ router.get(   '/admin/cfo/kpis/trend',                    protect, admin, kpiCtr
 router.get(   '/admin/cfo/kpis/:id',                      protect, admin, kpiCtrl.getKPI);
 router.delete('/admin/cfo/kpis/:id',                      protect, admin, kpiCtrl.deleteKPI);
 
-// ── KPI Thresholds ────────────────────────────────────────────────────────────
+// â”€â”€ KPI Thresholds â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/cfo/kpi-thresholds',                protect, admin, kpiCtrl.getThresholds);
 router.post(  '/admin/cfo/kpi-thresholds',                protect, admin, kpiCtrl.createThreshold);
 router.put(   '/admin/cfo/kpi-thresholds/:id',            protect, admin, kpiCtrl.updateThreshold);
 router.delete('/admin/cfo/kpi-thresholds/:id',            protect, admin, kpiCtrl.deleteThreshold);
 
-// ── Financial Alerts ──────────────────────────────────────────────────────────
+// â”€â”€ Financial Alerts â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/cfo/alerts',                        protect, admin, kpiCtrl.getAlerts);
 router.post(  '/admin/cfo/alerts',                        protect, admin, kpiCtrl.createAlert);
 router.patch( '/admin/cfo/alerts/:id/acknowledge',        protect, admin, kpiCtrl.acknowledgeAlert);
 router.patch( '/admin/cfo/alerts/:id/resolve',            protect, admin, kpiCtrl.resolveAlert);
 router.delete('/admin/cfo/alerts/:id',                    protect, admin, kpiCtrl.deleteAlert);
 
-// ── Executive Dashboard Settings ──────────────────────────────────────────────
+// â”€â”€ Executive Dashboard Settings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/cfo/settings',                      protect, admin, kpiCtrl.getSettings);
 router.post(  '/admin/cfo/settings',                      protect, admin, kpiCtrl.upsertSetting);
 router.delete('/admin/cfo/settings/:id',                  protect, admin, kpiCtrl.deleteSetting);
 
-// ── Consolidation Groups ──────────────────────────────────────────────────────
+// â”€â”€ Consolidation Groups â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/cfo/consolidation/groups',          protect, admin, consolidCtrl.getGroups);
 router.post(  '/admin/cfo/consolidation/groups',          protect, admin, consolidCtrl.createGroup);
 router.put(   '/admin/cfo/consolidation/groups/:id',      protect, admin, consolidCtrl.updateGroup);
 router.delete('/admin/cfo/consolidation/groups/:id',      protect, admin, consolidCtrl.deleteGroup);
 
-// ── Consolidation Companies ───────────────────────────────────────────────────
+// â”€â”€ Consolidation Companies â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/cfo/consolidation/companies',       protect, admin, consolidCtrl.getCompanies);
 router.post(  '/admin/cfo/consolidation/companies',       protect, admin, consolidCtrl.createCompany);
 router.put(   '/admin/cfo/consolidation/companies/:id',   protect, admin, consolidCtrl.updateCompany);
 router.delete('/admin/cfo/consolidation/companies/:id',   protect, admin, consolidCtrl.deleteCompany);
 
-// ── Inter-Company Transactions ────────────────────────────────────────────────
+// â”€â”€ Inter-Company Transactions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/cfo/consolidation/ic-transactions', protect, admin, consolidCtrl.getICTransactions);
 router.post(  '/admin/cfo/consolidation/ic-transactions', protect, admin, consolidCtrl.createICTransaction);
 router.put(   '/admin/cfo/consolidation/ic-transactions/:id', protect, admin, consolidCtrl.updateICTransaction);
 router.delete('/admin/cfo/consolidation/ic-transactions/:id', protect, admin, consolidCtrl.deleteICTransaction);
 
-// ── Elimination Entries ───────────────────────────────────────────────────────
+// â”€â”€ Elimination Entries â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/cfo/consolidation/eliminations',    protect, admin, consolidCtrl.getEliminations);
 router.post(  '/admin/cfo/consolidation/eliminations',    protect, admin, consolidCtrl.createElimination);
 router.delete('/admin/cfo/consolidation/eliminations/:id',protect, admin, consolidCtrl.deleteElimination);
 
-// ── Consolidated Financials ───────────────────────────────────────────────────
+// â”€â”€ Consolidated Financials â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/cfo/consolidation/pnl',                protect, admin, consolidCtrl.getConsolidatedPnL);
 router.get('/admin/cfo/consolidation/balance-sheet',      protect, admin, consolidCtrl.getConsolidatedBalanceSheet);
 
-// ── Financial Snapshots ───────────────────────────────────────────────────────
+// â”€â”€ Financial Snapshots â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get( '/admin/cfo/snapshots',                       protect, admin, consolidCtrl.getSnapshots);
 router.post('/admin/cfo/snapshots',                       protect, admin, consolidCtrl.createSnapshot);
 
-// ── Cash Flow Statements ──────────────────────────────────────────────────────
+// â”€â”€ Cash Flow Statements â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/cfo/cash-flow',                     protect, admin, cashFlowCtrl.getStatements);
 router.post(  '/admin/cfo/cash-flow',                     protect, admin, cashFlowCtrl.createStatement);
 router.get(   '/admin/cfo/cash-flow/position',            protect, admin, cashFlowCtrl.getCashPosition);
@@ -3280,7 +3280,7 @@ router.put(   '/admin/cfo/cash-flow/:id',                 protect, admin, cashFl
 router.patch( '/admin/cfo/cash-flow/:id/finalize',        protect, admin, cashFlowCtrl.finalizeStatement);
 router.delete('/admin/cfo/cash-flow/:id',                 protect, admin, cashFlowCtrl.deleteStatement);
 
-// ── Profitability ─────────────────────────────────────────────────────────────
+// â”€â”€ Profitability â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/cfo/profitability',                 protect, admin, profitCtrl.getAnalyses);
 router.post(  '/admin/cfo/profitability',                 protect, admin, profitCtrl.createAnalysis);
 router.get(   '/admin/cfo/profitability/summary',         protect, admin, profitCtrl.getProfitabilitySummary);
@@ -3294,7 +3294,7 @@ router.get(   '/admin/cfo/profitability/:id',             protect, admin, profit
 router.put(   '/admin/cfo/profitability/:id',             protect, admin, profitCtrl.updateAnalysis);
 router.delete('/admin/cfo/profitability/:id',             protect, admin, profitCtrl.deleteAnalysis);
 
-// ── Financial Reports ─────────────────────────────────────────────────────────
+// â”€â”€ Financial Reports â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/cfo/reports',                       protect, admin, cfoReportCtrl.getReports);
 router.post(  '/admin/cfo/reports',                       protect, admin, cfoReportCtrl.createReport);
 router.get(   '/admin/cfo/reports/balance-sheet',         protect, admin, cfoReportCtrl.getBalanceSheet);
@@ -3310,12 +3310,12 @@ router.put(   '/admin/cfo/reports/:id',                   protect, admin, cfoRep
 router.patch( '/admin/cfo/reports/:id/approve',           protect, admin, cfoReportCtrl.approveReport);
 router.delete('/admin/cfo/reports/:id',                   protect, admin, cfoReportCtrl.deleteReport);
 
-// ── Variance Analysis ─────────────────────────────────────────────────────────
+// â”€â”€ Variance Analysis â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/cfo/variance',                      protect, admin, cfoReportCtrl.getVarianceAnalyses);
 router.post(  '/admin/cfo/variance',                      protect, admin, cfoReportCtrl.createVarianceAnalysis);
 router.delete('/admin/cfo/variance/:id',                  protect, admin, cfoReportCtrl.deleteVarianceAnalysis);
 
-// ── Board Reports ─────────────────────────────────────────────────────────────
+// â”€â”€ Board Reports â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/cfo/board-reports',                 protect, admin, cfoReportCtrl.getBoardReports);
 router.post(  '/admin/cfo/board-reports',                 protect, admin, cfoReportCtrl.createBoardReport);
 router.get(   '/admin/cfo/board-reports/:id',             protect, admin, cfoReportCtrl.getBoardReport);
@@ -3324,7 +3324,7 @@ router.patch( '/admin/cfo/board-reports/:id/approve',     protect, admin, cfoRep
 router.delete('/admin/cfo/board-reports/:id',             protect, admin, cfoReportCtrl.deleteBoardReport);
 
 // =============================================================================
-// SPRINT 14A — ENTERPRISE HRMS
+// SPRINT 14A â€” ENTERPRISE HRMS
 // =============================================================================
 const hrDashCtrl    = require('../controllers/hrDashboardController');
 const empCtrl       = require('../controllers/employeeController');
@@ -3333,13 +3333,13 @@ const lifecycleCtrl = require('../controllers/employeeLifecycleController');
 const orgCtrl       = require('../controllers/organizationController');
 const empDocCtrl    = require('../controllers/employeeDocumentController');
 
-// ── HR Dashboard ──────────────────────────────────────────────────────────────
+// â”€â”€ HR Dashboard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/hr/dashboard',                        protect, admin, hrDashCtrl.getDashboard);
 router.get('/admin/hr/reports/headcount',                protect, admin, hrDashCtrl.getHeadcountReport);
 router.get('/admin/hr/reports/attrition',                protect, admin, hrDashCtrl.getAttritionReport);
 router.get('/admin/hr/reports/new-joiners',              protect, admin, hrDashCtrl.getNewJoinersReport);
 
-// ── Employees ─────────────────────────────────────────────────────────────────
+// â”€â”€ Employees â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/employees',                     protect, admin, empCtrl.getEmployees);
 router.post(  '/admin/hr/employees',                     protect, admin, empCtrl.createEmployee);
 router.get(   '/admin/hr/employees/:id',                 protect, admin, empCtrl.getEmployee);
@@ -3373,37 +3373,37 @@ router.get(   '/admin/hr/employees/:id/employment-history',          protect, ad
 router.post(  '/admin/hr/employees/:id/employment-history',          protect, admin, empCtrl.createEmploymentHistory);
 router.delete('/admin/hr/employees/:id/employment-history/:hid',     protect, admin, empCtrl.deleteEmploymentHistory);
 
-// ── Departments ───────────────────────────────────────────────────────────────
+// â”€â”€ Departments â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/departments',                   protect, admin, deptCtrl.getDepartments);
 router.post(  '/admin/hr/departments',                   protect, admin, deptCtrl.createDepartment);
 router.get(   '/admin/hr/departments/:id',               protect, admin, deptCtrl.getDepartment);
 router.put(   '/admin/hr/departments/:id',               protect, admin, deptCtrl.updateDepartment);
 router.delete('/admin/hr/departments/:id',               protect, admin, deptCtrl.deleteDepartment);
 
-// ── Designations ──────────────────────────────────────────────────────────────
+// â”€â”€ Designations â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/designations',                  protect, admin, deptCtrl.getDesignations);
 router.post(  '/admin/hr/designations',                  protect, admin, deptCtrl.createDesignation);
 router.get(   '/admin/hr/designations/:id',              protect, admin, deptCtrl.getDesignation);
 router.put(   '/admin/hr/designations/:id',              protect, admin, deptCtrl.updateDesignation);
 router.delete('/admin/hr/designations/:id',              protect, admin, deptCtrl.deleteDesignation);
 
-// ── Business Units ────────────────────────────────────────────────────────────
+// â”€â”€ Business Units â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/business-units',                protect, admin, deptCtrl.getBusinessUnits);
 router.post(  '/admin/hr/business-units',                protect, admin, deptCtrl.createBusinessUnit);
 router.put(   '/admin/hr/business-units/:id',            protect, admin, deptCtrl.updateBusinessUnit);
 router.delete('/admin/hr/business-units/:id',            protect, admin, deptCtrl.deleteBusinessUnit);
 
-// ── Locations ─────────────────────────────────────────────────────────────────
+// â”€â”€ Locations â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/locations',                     protect, admin, deptCtrl.getLocations);
 router.post(  '/admin/hr/locations',                     protect, admin, deptCtrl.createLocation);
 router.put(   '/admin/hr/locations/:id',                 protect, admin, deptCtrl.updateLocation);
 router.delete('/admin/hr/locations/:id',                 protect, admin, deptCtrl.deleteLocation);
 
-// ── HR Settings ───────────────────────────────────────────────────────────────
+// â”€â”€ HR Settings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(  '/admin/hr/settings',                       protect, admin, deptCtrl.getSettings);
 router.post( '/admin/hr/settings',                       protect, admin, deptCtrl.upsertSetting);
 
-// ── Transfers ─────────────────────────────────────────────────────────────────
+// â”€â”€ Transfers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/transfers',                     protect, admin, lifecycleCtrl.getTransfers);
 router.post(  '/admin/hr/transfers',                     protect, admin, lifecycleCtrl.createTransfer);
 router.get(   '/admin/hr/transfers/:id',                 protect, admin, lifecycleCtrl.getTransfer);
@@ -3411,28 +3411,28 @@ router.patch( '/admin/hr/transfers/:id/approve',         protect, admin, lifecyc
 router.patch( '/admin/hr/transfers/:id/reject',          protect, admin, lifecycleCtrl.rejectTransfer);
 router.delete('/admin/hr/transfers/:id',                 protect, admin, lifecycleCtrl.deleteTransfer);
 
-// ── Promotions ────────────────────────────────────────────────────────────────
+// â”€â”€ Promotions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/promotions',                    protect, admin, lifecycleCtrl.getPromotions);
 router.post(  '/admin/hr/promotions',                    protect, admin, lifecycleCtrl.createPromotion);
 router.patch( '/admin/hr/promotions/:id/approve',        protect, admin, lifecycleCtrl.approvePromotion);
 router.patch( '/admin/hr/promotions/:id/reject',         protect, admin, lifecycleCtrl.rejectPromotion);
 router.delete('/admin/hr/promotions/:id',                protect, admin, lifecycleCtrl.deletePromotion);
 
-// ── Probation ─────────────────────────────────────────────────────────────────
+// â”€â”€ Probation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/probation',                     protect, admin, lifecycleCtrl.getProbations);
 router.post(  '/admin/hr/probation',                     protect, admin, lifecycleCtrl.createProbation);
 router.patch( '/admin/hr/probation/:id/confirm',         protect, admin, lifecycleCtrl.confirmProbation);
 router.patch( '/admin/hr/probation/:id/extend',          protect, admin, lifecycleCtrl.extendProbation);
 router.delete('/admin/hr/probation/:id',                 protect, admin, lifecycleCtrl.deleteProbation);
 
-// ── Exits ─────────────────────────────────────────────────────────────────────
+// â”€â”€ Exits â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/exits',                         protect, admin, lifecycleCtrl.getExits);
 router.post(  '/admin/hr/exits',                         protect, admin, lifecycleCtrl.createExit);
 router.get(   '/admin/hr/exits/:id',                     protect, admin, lifecycleCtrl.getExit);
 router.put(   '/admin/hr/exits/:id',                     protect, admin, lifecycleCtrl.updateExit);
 router.delete('/admin/hr/exits/:id',                     protect, admin, lifecycleCtrl.deleteExit);
 
-// ── Organization ──────────────────────────────────────────────────────────────
+// â”€â”€ Organization â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/org/nodes',                     protect, admin, orgCtrl.getNodes);
 router.post(  '/admin/hr/org/nodes',                     protect, admin, orgCtrl.createNode);
 router.get(   '/admin/hr/org/nodes/:id',                 protect, admin, orgCtrl.getNode);
@@ -3450,7 +3450,7 @@ router.post(  '/admin/hr/org/reporting',                 protect, admin, orgCtrl
 router.patch( '/admin/hr/org/reporting/:id/terminate',   protect, admin, orgCtrl.terminateReportingRelationship);
 router.get(   '/admin/hr/org/hierarchy/:employeeId',     protect, admin, orgCtrl.getHierarchyTree);
 
-// ── Employee Documents ────────────────────────────────────────────────────────
+// â”€â”€ Employee Documents â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/documents',                     protect, admin, empDocCtrl.getDocuments);
 router.post(  '/admin/hr/documents',                     protect, admin, empDocCtrl.createDocument);
 router.get(   '/admin/hr/documents/expiring',            protect, admin, empDocCtrl.getExpiringDocuments);
@@ -3460,7 +3460,7 @@ router.patch( '/admin/hr/documents/:id/verify',          protect, admin, empDocC
 router.delete('/admin/hr/documents/:id',                 protect, admin, empDocCtrl.deleteDocument);
 
 // =============================================================================
-// SPRINT 14B — ENTERPRISE ATTENDANCE & LEAVE MANAGEMENT
+// SPRINT 14B â€” ENTERPRISE ATTENDANCE & LEAVE MANAGEMENT
 // =============================================================================
 const attCtrl        = require('../controllers/attendanceController');
 const attPolicyCtrl  = require('../controllers/attendancePolicyController');
@@ -3468,76 +3468,76 @@ const leaveCtrl      = require('../controllers/leaveController');
 const lvPolicyCtrl   = require('../controllers/leavePolicyController');
 const attReportCtrl  = require('../controllers/attendanceReportController');
 
-// ── Attendance Dashboard ──────────────────────────────────────────────────────
+// â”€â”€ Attendance Dashboard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/hr/attendance/dashboard',                    protect, admin, attCtrl.getDashboard);
 
-// ── Attendance Records ────────────────────────────────────────────────────────
+// â”€â”€ Attendance Records â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/attendance',                           protect, admin, attCtrl.getAttendances);
 router.post(  '/admin/hr/attendance',                           protect, admin, attCtrl.createAttendance);
 router.get(   '/admin/hr/attendance/:id',                       protect, admin, attCtrl.getAttendance);
 router.put(   '/admin/hr/attendance/:id',                       protect, admin, attCtrl.updateAttendance);
 router.delete('/admin/hr/attendance/:id',                       protect, admin, attCtrl.deleteAttendance);
 
-// ── Employee Punches ──────────────────────────────────────────────────────────
+// â”€â”€ Employee Punches â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(  '/admin/hr/attendance/punches',                    protect, admin, attCtrl.getPunches);
 router.post( '/admin/hr/attendance/punch',                      protect, admin, attCtrl.recordPunch);
 
-// ── Attendance Summary ────────────────────────────────────────────────────────
+// â”€â”€ Attendance Summary â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(  '/admin/hr/attendance/summaries',                  protect, admin, attCtrl.getSummaries);
 router.post( '/admin/hr/attendance/summaries/compute',          protect, admin, attCtrl.computeSummary);
 
-// ── Attendance Exceptions ─────────────────────────────────────────────────────
+// â”€â”€ Attendance Exceptions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(  '/admin/hr/attendance/exceptions',                 protect, admin, attCtrl.getExceptions);
 router.patch('/admin/hr/attendance/exceptions/:id/resolve',     protect, admin, attCtrl.resolveException);
 
-// ── Attendance Policies ───────────────────────────────────────────────────────
+// â”€â”€ Attendance Policies â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/attendance/policies',                  protect, admin, attPolicyCtrl.getPolicies);
 router.post(  '/admin/hr/attendance/policies',                  protect, admin, attPolicyCtrl.createPolicy);
 router.get(   '/admin/hr/attendance/policies/:id',              protect, admin, attPolicyCtrl.getPolicy);
 router.put(   '/admin/hr/attendance/policies/:id',              protect, admin, attPolicyCtrl.updatePolicy);
 router.delete('/admin/hr/attendance/policies/:id',              protect, admin, attPolicyCtrl.deletePolicy);
 
-// ── Attendance Devices ────────────────────────────────────────────────────────
+// â”€â”€ Attendance Devices â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/attendance/devices',                   protect, admin, attPolicyCtrl.getDevices);
 router.post(  '/admin/hr/attendance/devices',                   protect, admin, attPolicyCtrl.createDevice);
 router.get(   '/admin/hr/attendance/devices/:id',               protect, admin, attPolicyCtrl.getDevice);
 router.put(   '/admin/hr/attendance/devices/:id',               protect, admin, attPolicyCtrl.updateDevice);
 router.delete('/admin/hr/attendance/devices/:id',               protect, admin, attPolicyCtrl.deleteDevice);
 
-// ── Attendance Adjustments ────────────────────────────────────────────────────
+// â”€â”€ Attendance Adjustments â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/attendance/adjustments',               protect, admin, attPolicyCtrl.getAdjustments);
 router.post(  '/admin/hr/attendance/adjustments',               protect, admin, attPolicyCtrl.createAdjustment);
 router.patch( '/admin/hr/attendance/adjustments/:id/approve',   protect, admin, attPolicyCtrl.approveAdjustment);
 router.patch( '/admin/hr/attendance/adjustments/:id/reject',    protect, admin, attPolicyCtrl.rejectAdjustment);
 
-// ── Attendance Reports ────────────────────────────────────────────────────────
+// â”€â”€ Attendance Reports â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/hr/reports/attendance/daily',                protect, admin, attReportCtrl.getDailyAttendance);
 router.get('/admin/hr/reports/attendance/monthly',              protect, admin, attReportCtrl.getMonthlyAttendance);
 router.get('/admin/hr/reports/attendance/late',                 protect, admin, attReportCtrl.getLateReport);
 router.get('/admin/hr/reports/attendance/absentee',             protect, admin, attReportCtrl.getAbsenteeReport);
 
-// ── Leave Types ───────────────────────────────────────────────────────────────
+// â”€â”€ Leave Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/leave/types',                          protect, admin, lvPolicyCtrl.getLeaveTypes);
 router.post(  '/admin/hr/leave/types',                          protect, admin, lvPolicyCtrl.createLeaveType);
 router.get(   '/admin/hr/leave/types/:id',                      protect, admin, lvPolicyCtrl.getLeaveType);
 router.put(   '/admin/hr/leave/types/:id',                      protect, admin, lvPolicyCtrl.updateLeaveType);
 router.delete('/admin/hr/leave/types/:id',                      protect, admin, lvPolicyCtrl.deleteLeaveType);
 
-// ── Leave Policies ────────────────────────────────────────────────────────────
+// â”€â”€ Leave Policies â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/leave/policies',                       protect, admin, lvPolicyCtrl.getLeavePolicies);
 router.post(  '/admin/hr/leave/policies',                       protect, admin, lvPolicyCtrl.createLeavePolicy);
 router.get(   '/admin/hr/leave/policies/:id',                   protect, admin, lvPolicyCtrl.getLeavePolicy);
 router.put(   '/admin/hr/leave/policies/:id',                   protect, admin, lvPolicyCtrl.updateLeavePolicy);
 router.delete('/admin/hr/leave/policies/:id',                   protect, admin, lvPolicyCtrl.deleteLeavePolicy);
 
-// ── Holidays ──────────────────────────────────────────────────────────────────
+// â”€â”€ Holidays â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/leave/holidays',                       protect, admin, lvPolicyCtrl.getHolidays);
 router.post(  '/admin/hr/leave/holidays',                       protect, admin, lvPolicyCtrl.createHoliday);
 router.get(   '/admin/hr/leave/holidays/:id',                   protect, admin, lvPolicyCtrl.getHoliday);
 router.put(   '/admin/hr/leave/holidays/:id',                   protect, admin, lvPolicyCtrl.updateHoliday);
 router.delete('/admin/hr/leave/holidays/:id',                   protect, admin, lvPolicyCtrl.deleteHoliday);
 
-// ── Leave Requests ────────────────────────────────────────────────────────────
+// â”€â”€ Leave Requests â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/leave/requests',                       protect, admin, leaveCtrl.getLeaveRequests);
 router.post(  '/admin/hr/leave/requests',                       protect, admin, leaveCtrl.createLeaveRequest);
 router.get(   '/admin/hr/leave/requests/:id',                   protect, admin, leaveCtrl.getLeaveRequest);
@@ -3547,26 +3547,26 @@ router.patch( '/admin/hr/leave/requests/:id/reject',            protect, admin, 
 router.patch( '/admin/hr/leave/requests/:id/cancel',            protect, admin, leaveCtrl.cancelLeaveRequest);
 router.delete('/admin/hr/leave/requests/:id',                   protect, admin, leaveCtrl.deleteLeaveRequest);
 
-// ── Leave Balances ────────────────────────────────────────────────────────────
+// â”€â”€ Leave Balances â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get( '/admin/hr/leave/balances',                         protect, admin, leaveCtrl.getLeaveBalances);
 router.post('/admin/hr/leave/balances',                         protect, admin, leaveCtrl.upsertLeaveBalance);
 
-// ── Leave Accruals ────────────────────────────────────────────────────────────
+// â”€â”€ Leave Accruals â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get( '/admin/hr/leave/accruals',                         protect, admin, leaveCtrl.getLeaveAccruals);
 router.post('/admin/hr/leave/accruals',                         protect, admin, leaveCtrl.createLeaveAccrual);
 
-// ── Leave Encashments ─────────────────────────────────────────────────────────
+// â”€â”€ Leave Encashments â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/leave/encashments',                    protect, admin, leaveCtrl.getEncashments);
 router.post(  '/admin/hr/leave/encashments',                    protect, admin, leaveCtrl.createEncashment);
 router.patch( '/admin/hr/leave/encashments/:id/approve',        protect, admin, leaveCtrl.approveEncashment);
 router.patch( '/admin/hr/leave/encashments/:id/reject',         protect, admin, leaveCtrl.rejectEncashment);
 
-// ── Leave Reports ─────────────────────────────────────────────────────────────
+// â”€â”€ Leave Reports â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/hr/reports/leave/utilization',               protect, admin, attReportCtrl.getLeaveUtilizationReport);
 router.get('/admin/hr/reports/leave/balances',                  protect, admin, attReportCtrl.getLeaveBalanceReport);
 
 // =============================================================================
-// SPRINT 14C — ENTERPRISE PAYROLL MANAGEMENT
+// SPRINT 14C â€” ENTERPRISE PAYROLL MANAGEMENT
 // =============================================================================
 const payrollDashCtrl  = require('../controllers/payrollDashboardController');
 const payrollRunCtrl   = require('../controllers/payrollRunController');
@@ -3577,10 +3577,10 @@ const payrollBonusCtrl = require('../controllers/payrollBonusController');
 const payrollRptCtrl   = require('../controllers/payrollReportController');
 const payrollSetCtrl   = require('../controllers/payrollSettingController');
 
-// ── Payroll Dashboard ──────────────────────────────────────────────────────────
+// â”€â”€ Payroll Dashboard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/hr/payroll/dashboard',                           protect, admin, payrollDashCtrl.getDashboard);
 
-// ── Payroll Periods ───────────────────────────────────────────────────────────
+// â”€â”€ Payroll Periods â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/payroll/periods',                          protect, admin, payrollRunCtrl.getPeriods);
 router.post(  '/admin/hr/payroll/periods',                          protect, admin, payrollRunCtrl.createPeriod);
 router.get(   '/admin/hr/payroll/periods/:id',                      protect, admin, payrollRunCtrl.getPeriod);
@@ -3588,7 +3588,7 @@ router.put(   '/admin/hr/payroll/periods/:id',                      protect, adm
 router.delete('/admin/hr/payroll/periods/:id',                      protect, admin, payrollRunCtrl.deletePeriod);
 router.patch( '/admin/hr/payroll/periods/:id/close',                protect, admin, payrollRunCtrl.closePeriod);
 
-// ── Payroll Runs ──────────────────────────────────────────────────────────────
+// â”€â”€ Payroll Runs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/payroll/runs',                             protect, admin, payrollRunCtrl.getRuns);
 router.post(  '/admin/hr/payroll/runs',                             protect, admin, payrollRunCtrl.createRun);
 router.get(   '/admin/hr/payroll/runs/:id',                         protect, admin, payrollRunCtrl.getRun);
@@ -3598,37 +3598,37 @@ router.patch( '/admin/hr/payroll/runs/:id/post',                    protect, adm
 router.patch( '/admin/hr/payroll/runs/:id/pay',                     protect, admin, payrollRunCtrl.payRun);
 router.get(   '/admin/hr/payroll/runs/:id/employees',               protect, admin, payrollRunCtrl.getRunEmployees);
 
-// ── Payroll Employees (individual entries) ────────────────────────────────────
+// â”€â”€ Payroll Employees (individual entries) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(  '/admin/hr/payroll/payroll-employees/:id',             protect, admin, payrollRunCtrl.getPayrollEmployee);
 router.post( '/admin/hr/payroll/payroll-employees/:id/adjustments', protect, admin, payrollRunCtrl.addAdjustment);
 
-// ── Salary Components ─────────────────────────────────────────────────────────
+// â”€â”€ Salary Components â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/payroll/components',                       protect, admin, salStructCtrl.getComponents);
 router.post(  '/admin/hr/payroll/components',                       protect, admin, salStructCtrl.createComponent);
 router.get(   '/admin/hr/payroll/components/:id',                   protect, admin, salStructCtrl.getComponent);
 router.put(   '/admin/hr/payroll/components/:id',                   protect, admin, salStructCtrl.updateComponent);
 router.delete('/admin/hr/payroll/components/:id',                   protect, admin, salStructCtrl.deleteComponent);
 
-// ── Salary Structures ─────────────────────────────────────────────────────────
+// â”€â”€ Salary Structures â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/payroll/structures',                       protect, admin, salStructCtrl.getStructures);
 router.post(  '/admin/hr/payroll/structures',                       protect, admin, salStructCtrl.createStructure);
 router.get(   '/admin/hr/payroll/structures/:id',                   protect, admin, salStructCtrl.getStructure);
 router.put(   '/admin/hr/payroll/structures/:id',                   protect, admin, salStructCtrl.updateStructure);
 router.delete('/admin/hr/payroll/structures/:id',                   protect, admin, salStructCtrl.deleteStructure);
 
-// ── Employee Salary Assignments ───────────────────────────────────────────────
+// â”€â”€ Employee Salary Assignments â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/payroll/employee-salary',                  protect, admin, empSalCtrl.getEmployeeSalaries);
 router.post(  '/admin/hr/payroll/employee-salary',                  protect, admin, empSalCtrl.assignSalary);
 router.get(   '/admin/hr/payroll/employee-salary/:id',              protect, admin, empSalCtrl.getEmployeeSalary);
 router.put(   '/admin/hr/payroll/employee-salary/:id',              protect, admin, empSalCtrl.updateEmployeeSalary);
 router.delete('/admin/hr/payroll/employee-salary/:id',              protect, admin, empSalCtrl.deleteEmployeeSalary);
 
-// ── Payslips ──────────────────────────────────────────────────────────────────
+// â”€â”€ Payslips â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(  '/admin/hr/payroll/payslips',                          protect, admin, empSalCtrl.getPayslips);
 router.get(  '/admin/hr/payroll/payslips/:id',                      protect, admin, empSalCtrl.getPayslip);
 router.patch('/admin/hr/payroll/payslips/:id/publish',              protect, admin, empSalCtrl.publishPayslip);
 
-// ── Bonuses ───────────────────────────────────────────────────────────────────
+// â”€â”€ Bonuses â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/payroll/bonuses',                          protect, admin, payrollBonusCtrl.getBonuses);
 router.post(  '/admin/hr/payroll/bonuses',                          protect, admin, payrollBonusCtrl.createBonus);
 router.get(   '/admin/hr/payroll/bonuses/:id',                      protect, admin, payrollBonusCtrl.getBonus);
@@ -3636,21 +3636,21 @@ router.put(   '/admin/hr/payroll/bonuses/:id',                      protect, adm
 router.delete('/admin/hr/payroll/bonuses/:id',                      protect, admin, payrollBonusCtrl.deleteBonus);
 router.patch( '/admin/hr/payroll/bonuses/:id/approve',              protect, admin, payrollBonusCtrl.approveBonus);
 
-// ── Incentives ────────────────────────────────────────────────────────────────
+// â”€â”€ Incentives â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(  '/admin/hr/payroll/incentives',                        protect, admin, payrollBonusCtrl.getIncentives);
 router.post( '/admin/hr/payroll/incentives',                        protect, admin, payrollBonusCtrl.createIncentive);
 router.get(  '/admin/hr/payroll/incentives/:id',                    protect, admin, payrollBonusCtrl.getIncentive);
 router.put(  '/admin/hr/payroll/incentives/:id',                    protect, admin, payrollBonusCtrl.updateIncentive);
 router.patch('/admin/hr/payroll/incentives/:id/approve',            protect, admin, payrollBonusCtrl.approveIncentive);
 
-// ── Overtime ──────────────────────────────────────────────────────────────────
+// â”€â”€ Overtime â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(  '/admin/hr/payroll/overtime',                          protect, admin, payrollBonusCtrl.getOvertime);
 router.post( '/admin/hr/payroll/overtime',                          protect, admin, payrollBonusCtrl.createOvertime);
 router.get(  '/admin/hr/payroll/overtime/:id',                      protect, admin, payrollBonusCtrl.getOvertimeRecord);
 router.put(  '/admin/hr/payroll/overtime/:id',                      protect, admin, payrollBonusCtrl.updateOvertime);
 router.patch('/admin/hr/payroll/overtime/:id/approve',              protect, admin, payrollBonusCtrl.approveOvertime);
 
-// ── Loans ─────────────────────────────────────────────────────────────────────
+// â”€â”€ Loans â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/payroll/loans',                            protect, admin, payrollLoanCtrl.getLoans);
 router.post(  '/admin/hr/payroll/loans',                            protect, admin, payrollLoanCtrl.createLoan);
 router.get(   '/admin/hr/payroll/loans/:id',                        protect, admin, payrollLoanCtrl.getLoan);
@@ -3660,14 +3660,14 @@ router.patch( '/admin/hr/payroll/loans/:id/close',                  protect, adm
 router.get(   '/admin/hr/payroll/loans/:id/repayments',             protect, admin, payrollLoanCtrl.getRepayments);
 router.post(  '/admin/hr/payroll/loans/:id/repayments',             protect, admin, payrollLoanCtrl.createRepayment);
 
-// ── Advances ──────────────────────────────────────────────────────────────────
+// â”€â”€ Advances â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(  '/admin/hr/payroll/advances',                          protect, admin, payrollLoanCtrl.getAdvances);
 router.post( '/admin/hr/payroll/advances',                          protect, admin, payrollLoanCtrl.createAdvance);
 router.get(  '/admin/hr/payroll/advances/:id',                      protect, admin, payrollLoanCtrl.getAdvance);
 router.patch('/admin/hr/payroll/advances/:id/approve',              protect, admin, payrollLoanCtrl.approveAdvance);
 router.patch('/admin/hr/payroll/advances/:id/recover',              protect, admin, payrollLoanCtrl.recoverAdvance);
 
-// ── Payroll Reports ───────────────────────────────────────────────────────────
+// â”€â”€ Payroll Reports â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/hr/payroll/reports/summary',                     protect, admin, payrollRptCtrl.getPayrollSummary);
 router.get('/admin/hr/payroll/reports/register',                    protect, admin, payrollRptCtrl.getSalaryRegister);
 router.get('/admin/hr/payroll/reports/bank-transfer',               protect, admin, payrollRptCtrl.getBankTransferSheet);
@@ -3677,13 +3677,13 @@ router.get('/admin/hr/payroll/reports/cost-center',                 protect, adm
 router.get('/admin/hr/payroll/reports/monthly',                     protect, admin, payrollRptCtrl.getMonthlyPayroll);
 router.get('/admin/hr/payroll/reports/annual',                      protect, admin, payrollRptCtrl.getAnnualPayroll);
 
-// ── Payroll Settings ──────────────────────────────────────────────────────────
+// â”€â”€ Payroll Settings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/hr/payroll/settings',                            protect, admin, payrollSetCtrl.getSettings);
 router.put('/admin/hr/payroll/settings',                            protect, admin, payrollSetCtrl.updateSettings);
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// SPRINT 14D — ENTERPRISE RECRUITMENT & ATS
-// ═══════════════════════════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// SPRINT 14D â€” ENTERPRISE RECRUITMENT & ATS
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 const recruitDashCtrl  = require('../controllers/recruitmentDashboardController');
 const jobOpeningCtrl   = require('../controllers/jobOpeningController');
 const jobAppCtrl       = require('../controllers/jobApplicationController');
@@ -3693,10 +3693,10 @@ const offerCtrl        = require('../controllers/offerController');
 const bgvCtrl          = require('../controllers/backgroundVerificationController');
 const recruitRptCtrl   = require('../controllers/recruitmentReportController');
 
-// ── Recruitment Dashboard ─────────────────────────────────────────────────────
+// â”€â”€ Recruitment Dashboard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/hr/recruitment/dashboard',                        protect, admin, recruitDashCtrl.getDashboard);
 
-// ── Job Openings ──────────────────────────────────────────────────────────────
+// â”€â”€ Job Openings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/hr/recruitment/jobs',                             protect, admin, jobOpeningCtrl.getJobs);
 router.post('/admin/hr/recruitment/jobs',                            protect, admin, jobOpeningCtrl.createJob);
 router.get('/admin/hr/recruitment/jobs/:id',                         protect, admin, jobOpeningCtrl.getJob);
@@ -3707,7 +3707,7 @@ router.patch('/admin/hr/recruitment/jobs/:id/close',                 protect, ad
 router.patch('/admin/hr/recruitment/jobs/:id/hold',                  protect, admin, jobOpeningCtrl.holdJob);
 router.get('/admin/hr/recruitment/jobs/:id/applications',            protect, admin, jobOpeningCtrl.getJobApplications);
 
-// ── Applications ──────────────────────────────────────────────────────────────
+// â”€â”€ Applications â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/hr/recruitment/applications',                     protect, admin, jobAppCtrl.getApplications);
 router.post('/admin/hr/recruitment/applications',                    protect, admin, jobAppCtrl.createApplication);
 router.post('/admin/hr/recruitment/applications/bulk-action',        protect, admin, jobAppCtrl.bulkAction);
@@ -3718,7 +3718,7 @@ router.patch('/admin/hr/recruitment/applications/:id/move-stage',    protect, ad
 router.patch('/admin/hr/recruitment/applications/:id/shortlist',     protect, admin, jobAppCtrl.shortlistApplication);
 router.patch('/admin/hr/recruitment/applications/:id/reject',        protect, admin, jobAppCtrl.rejectApplication);
 
-// ── Candidates ────────────────────────────────────────────────────────────────
+// â”€â”€ Candidates â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/hr/recruitment/candidates',                       protect, admin, candidateCtrl.getCandidates);
 router.post('/admin/hr/recruitment/candidates',                      protect, admin, candidateCtrl.createCandidate);
 router.get('/admin/hr/recruitment/talent-pool',                      protect, admin, candidateCtrl.getTalentPool);
@@ -3736,7 +3736,7 @@ router.post('/admin/hr/recruitment/candidates/:id/documents',        protect, ad
 router.patch('/admin/hr/recruitment/candidates/:id/talent-pool',     protect, admin, candidateCtrl.addToTalentPool);
 router.post('/admin/hr/recruitment/candidates/:id/convert',          protect, admin, candidateCtrl.convertToEmployee);
 
-// ── Interviews ────────────────────────────────────────────────────────────────
+// â”€â”€ Interviews â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/hr/recruitment/interviews',                       protect, admin, interviewCtrl.getInterviews);
 router.post('/admin/hr/recruitment/interviews',                      protect, admin, interviewCtrl.scheduleInterview);
 router.get('/admin/hr/recruitment/interviews/panel/:jobId',          protect, admin, interviewCtrl.getPanel);
@@ -3749,7 +3749,7 @@ router.patch('/admin/hr/recruitment/interviews/:id/reschedule',      protect, ad
 router.get('/admin/hr/recruitment/interviews/:id/feedback',          protect, admin, interviewCtrl.getFeedback);
 router.post('/admin/hr/recruitment/interviews/:id/feedback',         protect, admin, interviewCtrl.submitFeedback);
 
-// ── Offers ────────────────────────────────────────────────────────────────────
+// â”€â”€ Offers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/hr/recruitment/offers',                           protect, admin, offerCtrl.getOffers);
 router.post('/admin/hr/recruitment/offers',                          protect, admin, offerCtrl.createOffer);
 router.get('/admin/hr/recruitment/offers/:id',                       protect, admin, offerCtrl.getOffer);
@@ -3761,21 +3761,21 @@ router.get('/admin/hr/recruitment/offers/:id/acceptance',            protect, ad
 router.post('/admin/hr/recruitment/offers/:id/acceptance',           protect, admin, offerCtrl.recordAcceptance);
 router.get('/admin/hr/recruitment/offers/:id/approvals',             protect, admin, offerCtrl.getApprovals);
 
-// ── Background Verification ───────────────────────────────────────────────────
+// â”€â”€ Background Verification â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/hr/recruitment/bgv',                              protect, admin, bgvCtrl.getBGVs);
 router.post('/admin/hr/recruitment/bgv',                             protect, admin, bgvCtrl.initiateBGV);
 router.get('/admin/hr/recruitment/bgv/:id',                          protect, admin, bgvCtrl.getBGV);
 router.patch('/admin/hr/recruitment/bgv/:id/check',                  protect, admin, bgvCtrl.updateBGVCheck);
 router.patch('/admin/hr/recruitment/bgv/:id/complete',               protect, admin, bgvCtrl.completeBGV);
 
-// ── Onboarding ────────────────────────────────────────────────────────────────
+// â”€â”€ Onboarding â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/hr/recruitment/onboarding',                       protect, admin, bgvCtrl.getOnboardings);
 router.post('/admin/hr/recruitment/onboarding',                      protect, admin, bgvCtrl.createOnboarding);
 router.get('/admin/hr/recruitment/onboarding/:id',                   protect, admin, bgvCtrl.getOnboarding);
 router.patch('/admin/hr/recruitment/onboarding/:id/task',            protect, admin, bgvCtrl.updateTask);
 router.patch('/admin/hr/recruitment/onboarding/:id/complete',        protect, admin, bgvCtrl.completeOnboarding);
 
-// ── Recruitment Reports ───────────────────────────────────────────────────────
+// â”€â”€ Recruitment Reports â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/hr/recruitment/reports/open-positions',           protect, admin, recruitRptCtrl.getOpenPositions);
 router.get('/admin/hr/recruitment/reports/hiring-funnel',            protect, admin, recruitRptCtrl.getHiringFunnel);
 router.get('/admin/hr/recruitment/reports/source-effectiveness',     protect, admin, recruitRptCtrl.getSourceEffectiveness);
@@ -3784,17 +3784,16 @@ router.get('/admin/hr/recruitment/reports/offer-acceptance',         protect, ad
 router.get('/admin/hr/recruitment/reports/recruiter-performance',    protect, admin, recruitRptCtrl.getRecruiterPerformance);
 router.get('/admin/hr/recruitment/reports/department-hiring',        protect, admin, recruitRptCtrl.getDepartmentHiring);
 
-// ── Recruitment Settings ──────────────────────────────────────────────────────
+// â”€â”€ Recruitment Settings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/hr/recruitment/settings',                         protect, admin, recruitRptCtrl.getSettings);
 router.put('/admin/hr/recruitment/settings',                         protect, admin, recruitRptCtrl.updateSettings);
 
 // =============================================================================
-// SPRINT 14E — ENTERPRISE PERFORMANCE MANAGEMENT, LEARNING & ESS
+// SPRINT 14E â€” ENTERPRISE PERFORMANCE MANAGEMENT, LEARNING & ESS
 // =============================================================================
 const { protectEmployee } = require('../middleware/employeeAuth');
 const perfDashCtrl    = require('../controllers/performanceDashboardController');
 const goalCtrl        = require('../controllers/goalController');
-const kpiCtrl         = require('../controllers/kpiController');
 const perfReviewCtrl  = require('../controllers/performanceReviewController');
 const trainingCtrl    = require('../controllers/trainingController');
 const learningCtrl    = require('../controllers/learningController');
@@ -3803,23 +3802,23 @@ const perfReportCtrl  = require('../controllers/performanceReportController');
 const essAuthCtrl     = require('../controllers/essAuthController');
 const essCtrl         = require('../controllers/essController');
 
-// ── Performance Dashboard ─────────────────────────────────────────────────────
+// â”€â”€ Performance Dashboard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/hr/performance/dashboard',                        protect, admin, perfDashCtrl.getDashboard);
 
-// ── Performance Cycles ────────────────────────────────────────────────────────
+// â”€â”€ Performance Cycles â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/performance/cycles',                        protect, admin, goalCtrl.getCycles);
 router.post(  '/admin/hr/performance/cycles',                        protect, admin, goalCtrl.createCycle);
 router.get(   '/admin/hr/performance/cycles/:id',                    protect, admin, goalCtrl.getCycle);
 router.put(   '/admin/hr/performance/cycles/:id',                    protect, admin, goalCtrl.updateCycle);
 router.delete('/admin/hr/performance/cycles/:id',                    protect, admin, goalCtrl.deleteCycle);
 
-// ── Goal Categories ───────────────────────────────────────────────────────────
+// â”€â”€ Goal Categories â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/performance/goal-categories',               protect, admin, goalCtrl.getGoalCategories);
 router.post(  '/admin/hr/performance/goal-categories',               protect, admin, goalCtrl.createGoalCategory);
 router.put(   '/admin/hr/performance/goal-categories/:id',           protect, admin, goalCtrl.updateGoalCategory);
 router.delete('/admin/hr/performance/goal-categories/:id',           protect, admin, goalCtrl.deleteGoalCategory);
 
-// ── Goals ─────────────────────────────────────────────────────────────────────
+// â”€â”€ Goals â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/performance/goals',                         protect, admin, goalCtrl.getGoals);
 router.post(  '/admin/hr/performance/goals',                         protect, admin, goalCtrl.createGoal);
 router.get(   '/admin/hr/performance/goals/:id',                     protect, admin, goalCtrl.getGoal);
@@ -3828,7 +3827,7 @@ router.delete('/admin/hr/performance/goals/:id',                     protect, ad
 router.patch( '/admin/hr/performance/goals/:id/approve',             protect, admin, goalCtrl.approveGoal);
 router.patch( '/admin/hr/performance/goals/:id/progress',            protect, admin, goalCtrl.updateProgress);
 
-// ── Competencies ──────────────────────────────────────────────────────────────
+// â”€â”€ Competencies â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/performance/competencies',                  protect, admin, kpiCtrl.getCompetencies);
 router.post(  '/admin/hr/performance/competencies',                  protect, admin, kpiCtrl.createCompetency);
 router.get(   '/admin/hr/performance/competencies/:id',              protect, admin, kpiCtrl.getCompetency);
@@ -3837,7 +3836,7 @@ router.delete('/admin/hr/performance/competencies/:id',              protect, ad
 router.get(   '/admin/hr/performance/competency-assessments',        protect, admin, kpiCtrl.getCompetencyAssessments);
 router.post(  '/admin/hr/performance/competency-assessments',        protect, admin, kpiCtrl.createCompetencyAssessment);
 
-// ── KPIs ──────────────────────────────────────────────────────────────────────
+// â”€â”€ KPIs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/performance/kpis',                          protect, admin, kpiCtrl.getKPIs);
 router.post(  '/admin/hr/performance/kpis',                          protect, admin, kpiCtrl.createKPI);
 router.get(   '/admin/hr/performance/kpis/:id',                      protect, admin, kpiCtrl.getKPI);
@@ -3846,7 +3845,7 @@ router.delete('/admin/hr/performance/kpis/:id',                      protect, ad
 router.get(   '/admin/hr/performance/kpi-reviews',                   protect, admin, kpiCtrl.getKPIReviews);
 router.post(  '/admin/hr/performance/kpi-reviews',                   protect, admin, kpiCtrl.createKPIReview);
 
-// ── Performance Reviews ───────────────────────────────────────────────────────
+// â”€â”€ Performance Reviews â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/performance/reviews',                       protect, admin, perfReviewCtrl.getReviews);
 router.post(  '/admin/hr/performance/reviews',                       protect, admin, perfReviewCtrl.createReview);
 router.get(   '/admin/hr/performance/reviews/:id',                   protect, admin, perfReviewCtrl.getReview);
@@ -3855,20 +3854,20 @@ router.patch( '/admin/hr/performance/reviews/:id/self',              protect, ad
 router.patch( '/admin/hr/performance/reviews/:id/manager',           protect, admin, perfReviewCtrl.submitManagerReview);
 router.patch( '/admin/hr/performance/reviews/:id/finalize',          protect, admin, perfReviewCtrl.finalizeReview);
 
-// ── Appraisals ────────────────────────────────────────────────────────────────
+// â”€â”€ Appraisals â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/performance/appraisals',                    protect, admin, perfReviewCtrl.getAppraisals);
 router.post(  '/admin/hr/performance/appraisals',                    protect, admin, perfReviewCtrl.createAppraisal);
 router.get(   '/admin/hr/performance/appraisals/:id',                protect, admin, perfReviewCtrl.getAppraisal);
 router.put(   '/admin/hr/performance/appraisals/:id',                protect, admin, perfReviewCtrl.updateAppraisal);
 
-// ── Training Courses ──────────────────────────────────────────────────────────
+// â”€â”€ Training Courses â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/performance/training/courses',              protect, admin, trainingCtrl.getCourses);
 router.post(  '/admin/hr/performance/training/courses',              protect, admin, trainingCtrl.createCourse);
 router.get(   '/admin/hr/performance/training/courses/:id',          protect, admin, trainingCtrl.getCourse);
 router.put(   '/admin/hr/performance/training/courses/:id',          protect, admin, trainingCtrl.updateCourse);
 router.delete('/admin/hr/performance/training/courses/:id',          protect, admin, trainingCtrl.deleteCourse);
 
-// ── Training Sessions ─────────────────────────────────────────────────────────
+// â”€â”€ Training Sessions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/performance/training/sessions',             protect, admin, trainingCtrl.getSessions);
 router.post(  '/admin/hr/performance/training/sessions',             protect, admin, trainingCtrl.createSession);
 router.get(   '/admin/hr/performance/training/enrollments',          protect, admin, trainingCtrl.getEnrollments);
@@ -3876,7 +3875,7 @@ router.post(  '/admin/hr/performance/training/enroll',               protect, ad
 router.patch( '/admin/hr/performance/training/enrollments/:id/complete',  protect, admin, trainingCtrl.completeTraining);
 router.patch( '/admin/hr/performance/training/enrollments/:id/certificate', protect, admin, trainingCtrl.issueCertificate);
 
-// ── Learning Paths ────────────────────────────────────────────────────────────
+// â”€â”€ Learning Paths â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/performance/learning/paths',                protect, admin, learningCtrl.getLearningPaths);
 router.post(  '/admin/hr/performance/learning/paths',                protect, admin, learningCtrl.createLearningPath);
 router.get(   '/admin/hr/performance/learning/paths/:id',            protect, admin, learningCtrl.getLearningPath);
@@ -3884,17 +3883,17 @@ router.put(   '/admin/hr/performance/learning/paths/:id',            protect, ad
 router.delete('/admin/hr/performance/learning/paths/:id',            protect, admin, learningCtrl.deleteLearningPath);
 router.post(  '/admin/hr/performance/learning/paths/:id/assign',     protect, admin, learningCtrl.assignLearningPath);
 
-// ── Career Development ────────────────────────────────────────────────────────
+// â”€â”€ Career Development â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/performance/career/plans',                  protect, admin, learningCtrl.getCareerPlans);
 router.post(  '/admin/hr/performance/career/plans',                  protect, admin, learningCtrl.createCareerPlan);
 router.put(   '/admin/hr/performance/career/plans/:id',              protect, admin, learningCtrl.updateCareerPlan);
 router.get(   '/admin/hr/performance/career/skill-gaps',             protect, admin, learningCtrl.getSkillGapAnalyses);
 router.post(  '/admin/hr/performance/career/skill-gaps',             protect, admin, learningCtrl.createSkillGapAnalysis);
 
-// ── Certifications ────────────────────────────────────────────────────────────
+// â”€â”€ Certifications â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/hr/performance/certifications',                   protect, admin, trainingCtrl.getCertifications);
 
-// ── Succession Planning ───────────────────────────────────────────────────────
+// â”€â”€ Succession Planning â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/performance/succession',                    protect, admin, successionCtrl.getSuccessionPlans);
 router.post(  '/admin/hr/performance/succession',                    protect, admin, successionCtrl.createSuccessionPlan);
 router.get(   '/admin/hr/performance/succession/:id',                protect, admin, successionCtrl.getSuccessionPlan);
@@ -3902,22 +3901,22 @@ router.put(   '/admin/hr/performance/succession/:id',                protect, ad
 router.post(  '/admin/hr/performance/succession/:id/successors',     protect, admin, successionCtrl.addSuccessor);
 router.delete('/admin/hr/performance/succession/:id/successors/:eid',protect, admin, successionCtrl.removeSuccessor);
 
-// ── Promotion Recommendations ─────────────────────────────────────────────────
+// â”€â”€ Promotion Recommendations â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/performance/promotions',                    protect, admin, successionCtrl.getPromotionRecommendations);
 router.post(  '/admin/hr/performance/promotions',                    protect, admin, successionCtrl.createPromotionRecommendation);
 
-// ── Recognitions ──────────────────────────────────────────────────────────────
+// â”€â”€ Recognitions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/performance/recognitions',                  protect, admin, successionCtrl.getRecognitions);
 router.post(  '/admin/hr/performance/recognitions',                  protect, admin, successionCtrl.createRecognition);
 router.get(   '/admin/hr/performance/recognitions/:id',              protect, admin, successionCtrl.getRecognition);
 
-// ── Employee Feedback / 1:1 ───────────────────────────────────────────────────
+// â”€â”€ Employee Feedback / 1:1 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/performance/feedback',                      protect, admin, successionCtrl.getFeedbacks);
 router.post(  '/admin/hr/performance/feedback',                      protect, admin, successionCtrl.createFeedback);
 router.get(   '/admin/hr/performance/1on1',                          protect, admin, successionCtrl.getOneOnOnes);
 router.post(  '/admin/hr/performance/1on1',                          protect, admin, successionCtrl.createOneOnOne);
 
-// ── Announcements ─────────────────────────────────────────────────────────────
+// â”€â”€ Announcements â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get(   '/admin/hr/performance/announcements',                 protect, admin, perfReportCtrl.getAnnouncements);
 router.post(  '/admin/hr/performance/announcements',                 protect, admin, perfReportCtrl.createAnnouncement);
 router.get(   '/admin/hr/performance/announcements/:id',             protect, admin, perfReportCtrl.getAnnouncement);
@@ -3925,11 +3924,11 @@ router.put(   '/admin/hr/performance/announcements/:id',             protect, ad
 router.delete('/admin/hr/performance/announcements/:id',             protect, admin, perfReportCtrl.deleteAnnouncement);
 router.patch( '/admin/hr/performance/announcements/:id/publish',     protect, admin, perfReportCtrl.publishAnnouncement);
 
-// ── ESS Settings ──────────────────────────────────────────────────────────────
+// â”€â”€ ESS Settings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/hr/performance/ess-settings',                     protect, admin, perfReportCtrl.getESSSettings);
 router.put('/admin/hr/performance/ess-settings',                     protect, admin, perfReportCtrl.updateESSSettings);
 
-// ── Performance Reports ───────────────────────────────────────────────────────
+// â”€â”€ Performance Reports â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/admin/hr/performance/reports/goal-completion',          protect, admin, perfReportCtrl.getGoalCompletionReport);
 router.get('/admin/hr/performance/reports/kpi',                      protect, admin, perfReportCtrl.getKPIReport);
 router.get('/admin/hr/performance/reports/review-distribution',      protect, admin, perfReportCtrl.getReviewDistribution);
@@ -3938,13 +3937,13 @@ router.get('/admin/hr/performance/reports/recognition',              protect, ad
 router.get('/admin/hr/performance/reports/competency',               protect, admin, perfReportCtrl.getCompetencyReport);
 router.get('/admin/hr/performance/reports/overall',                  protect, admin, perfReportCtrl.getOverallPerformanceReport);
 
-// ── ESS Auth ──────────────────────────────────────────────────────────────────
+// â”€â”€ ESS Auth â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.post('/employee/auth/login',                                  essAuthCtrl.login);
 router.post('/employee/auth/logout',                                 protectEmployee, essAuthCtrl.logout);
 router.put(  '/employee/auth/change-password',                       protectEmployee, essAuthCtrl.changePassword);
 router.get(  '/employee/auth/me',                                    protectEmployee, essAuthCtrl.getProfile);
 
-// ── ESS Self-Service ──────────────────────────────────────────────────────────
+// â”€â”€ ESS Self-Service â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 router.get('/employee/self-service/dashboard',                       protectEmployee, essCtrl.getEssDashboard);
 router.get('/employee/self-service/attendance',                      protectEmployee, essCtrl.getMyAttendance);
 router.get('/employee/self-service/leave',                           protectEmployee, essCtrl.getMyLeave);
@@ -3956,9 +3955,9 @@ router.get('/employee/self-service/recognitions',                    protectEmpl
 router.get('/employee/self-service/feedback',                        protectEmployee, essCtrl.getMyFeedback);
 router.post('/employee/self-service/feedback',                       protectEmployee, essCtrl.submitFeedback);
 
-// ── Sprint 15A: Project Management ────────────────────────────────────────────
+// â”€â”€ Sprint 15A: Project Management â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const projDashCtrl   = require('../controllers/projectDashboardController');
-const projCtrl       = require('../controllers/projectController');
+const adminProjCtrl  = require('../controllers/projectController');
 const projTaskCtrl   = require('../controllers/projectTaskController');
 const milestoneCtrl  = require('../controllers/milestoneController');
 const kanbanCtrl     = require('../controllers/kanbanController');
@@ -3970,10 +3969,10 @@ const projReportCtrl = require('../controllers/projectReportController');
 router.get('/admin/projects/dashboard',                              protect, admin, projDashCtrl.getDashboard);
 
 // Static-path project sub-resources (must be before /:id routes)
-router.get('/admin/projects/templates',                              protect, admin, projCtrl.listTemplates);
-router.post('/admin/projects/templates',                             protect, admin, projCtrl.createTemplate);
-router.put('/admin/projects/templates/:id',                         protect, admin, projCtrl.updateTemplate);
-router.delete('/admin/projects/templates/:id',                      protect, admin, projCtrl.deleteTemplate);
+router.get('/admin/projects/templates',                              protect, admin, adminProjCtrl.listTemplates);
+router.post('/admin/projects/templates',                             protect, admin, adminProjCtrl.createTemplate);
+router.put('/admin/projects/templates/:id',                         protect, admin, adminProjCtrl.updateTemplate);
+router.delete('/admin/projects/templates/:id',                      protect, admin, adminProjCtrl.deleteTemplate);
 router.get('/admin/projects/roles',                                  protect, admin, milestoneCtrl.listProjectRoles);
 router.post('/admin/projects/roles',                                 protect, admin, milestoneCtrl.createProjectRole);
 router.put('/admin/projects/roles/:id',                              protect, admin, milestoneCtrl.updateProjectRole);
@@ -3991,9 +3990,9 @@ router.put('/admin/projects/settings',                               protect, ad
 router.get('/admin/projects/notifications',                          protect, admin, projReportCtrl.listProjectNotifications);
 router.get('/admin/projects/timesheets/summary',                     protect, admin, timesheetCtrl.getTimesheetSummary);
 // Sub-resource ID routes (must be before /:id)
-router.get('/admin/projects/phases/:id',                             protect, admin, projCtrl.listPhases);
-router.put('/admin/projects/phases/:id',                             protect, admin, projCtrl.updatePhase);
-router.delete('/admin/projects/phases/:id',                          protect, admin, projCtrl.deletePhase);
+router.get('/admin/projects/phases/:id',                             protect, admin, adminProjCtrl.listPhases);
+router.put('/admin/projects/phases/:id',                             protect, admin, adminProjCtrl.updatePhase);
+router.delete('/admin/projects/phases/:id',                          protect, admin, adminProjCtrl.deletePhase);
 router.get('/admin/projects/milestones/:id',                         protect, admin, milestoneCtrl.getMilestone);
 router.put('/admin/projects/milestones/:id',                         protect, admin, milestoneCtrl.updateMilestone);
 router.delete('/admin/projects/milestones/:id',                      protect, admin, milestoneCtrl.deleteMilestone);
@@ -4047,14 +4046,14 @@ router.delete('/admin/projects/calendar/:id',                        protect, ad
 router.put('/admin/projects/budget/:id',                             protect, admin, projReportCtrl.updateProjectBudget);
 router.put('/admin/projects/costs/:id',                              protect, admin, projReportCtrl.updateProjectCost);
 // /:id project routes
-router.get('/admin/projects',                                        protect, admin, projCtrl.listProjects);
-router.post('/admin/projects',                                       protect, admin, projCtrl.createProject);
-router.get('/admin/projects/:id',                                    protect, admin, projCtrl.getProject);
-router.put('/admin/projects/:id',                                    protect, admin, projCtrl.updateProject);
-router.delete('/admin/projects/:id',                                 protect, admin, projCtrl.deleteProject);
-router.patch('/admin/projects/:id/status',                           protect, admin, projCtrl.updateProjectStatus);
-router.get('/admin/projects/:id/phases',                             protect, admin, projCtrl.listPhases);
-router.post('/admin/projects/:id/phases',                            protect, admin, projCtrl.createPhase);
+router.get('/admin/projects',                                        protect, admin, adminProjCtrl.listProjects);
+router.post('/admin/projects',                                       protect, admin, adminProjCtrl.createProject);
+router.get('/admin/projects/:id',                                    protect, admin, adminProjCtrl.getProject);
+router.put('/admin/projects/:id',                                    protect, admin, adminProjCtrl.updateProject);
+router.delete('/admin/projects/:id',                                 protect, admin, adminProjCtrl.deleteProject);
+router.patch('/admin/projects/:id/status',                           protect, admin, adminProjCtrl.updateProjectStatus);
+router.get('/admin/projects/:id/phases',                             protect, admin, adminProjCtrl.listPhases);
+router.post('/admin/projects/:id/phases',                            protect, admin, adminProjCtrl.createPhase);
 router.get('/admin/projects/:id/milestones',                         protect, admin, milestoneCtrl.listMilestones);
 router.post('/admin/projects/:id/milestones',                        protect, admin, milestoneCtrl.createMilestone);
 router.get('/admin/projects/:id/tasks',                              protect, admin, projTaskCtrl.listTasks);
