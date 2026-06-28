@@ -323,7 +323,10 @@ describe('SparePart model', () => {
 // ─── Technician model ─────────────────────────────────────────────────────────
 describe('Technician model', () => {
   let Technician;
-  beforeAll(() => { Technician = require('../models/Technician'); });
+  beforeAll(async () => {
+    Technician = require('../models/Technician');
+    await Technician.createIndexes();
+  });
 
   it('creates a technician with required fields', async () => {
     const tech = await Technician.create({

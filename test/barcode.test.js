@@ -144,7 +144,10 @@ describe('Format Validation', () => {
 
 describe('Barcode Model', () => {
   let Barcode;
-  beforeAll(() => { Barcode = require('../models/Barcode'); });
+  beforeAll(async () => {
+    Barcode = require('../models/Barcode');
+    await Barcode.createIndexes();
+  });
 
   it('creates an EAN-13 barcode record', async () => {
     const doc = await Barcode.create({

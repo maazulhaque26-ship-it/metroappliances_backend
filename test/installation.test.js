@@ -286,8 +286,9 @@ describe('InstallationRequest model', () => {
 // ─── InstallationEngineer model ───────────────────────────────────────────────
 describe('InstallationEngineer model', () => {
   let InstallationEngineer;
-  beforeAll(() => {
+  beforeAll(async () => {
     InstallationEngineer = require('../models/InstallationEngineer');
+    await InstallationEngineer.createIndexes();
   });
 
   it('creates an engineer with required fields', async () => {

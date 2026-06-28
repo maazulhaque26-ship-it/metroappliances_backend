@@ -661,6 +661,10 @@ describe('PredictionHistory model', () => {
 
 // ─── PredictionSetting ───────────────────────────────────────────────────────
 describe('PredictionSetting model', () => {
+  beforeAll(async () => {
+    await PredictionSetting().createIndexes();
+  });
+
   it('creates with settingKey and settingValue', async () => {
     const s = await PredictionSetting().create({
       settingKey: 'test_algorithm_default', settingValue: 'linear_regression', category: 'algorithm',

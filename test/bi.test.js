@@ -110,6 +110,11 @@ describe('BIDashboard', () => {
 
 // ─────────────────────────────────────────────────────────────────────────────
 describe('BIKPITarget', () => {
+  beforeAll(async () => {
+    // Ensure the compound unique index is built before the constraint test runs
+    await BIKPITarget().createIndexes();
+  });
+
   it('auto-generates targetCode with BIT- prefix', async () => {
     const t = await BIKPITarget().create({ kpiName: 'revenue', period: '2026-06', targetValue: 5000000 });
     expect(t.targetCode).toMatch(/^BIT-\d{4}-\d{5}$/);

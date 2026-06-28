@@ -634,6 +634,10 @@ describe('OrganizationChart model', () => {
 
 // ============================================================================
 describe('HRSetting model', () => {
+  beforeAll(async () => {
+    await HRSetting().createIndexes();
+  });
+
   test('creates setting', async () => {
     const s = await HRSetting().create({ key: 'probation_months', value: 3, category: 'probation', description: 'Default probation duration' });
     expect(s._id).toBeTruthy();
