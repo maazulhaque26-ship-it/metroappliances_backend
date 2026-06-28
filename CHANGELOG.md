@@ -4,6 +4,26 @@ All notable changes are documented here. Format follows [Keep a Changelog](https
 
 ---
 
+## [1.0.1] — 2026-06-28
+
+### Removed (repository hygiene — no functional change)
+- Purged duplicated source trees that a monorepo merge had committed into the
+  backend repository: nested `backend/` (740 files) and `frontend/` (537 files)
+  directories, plus a stale root-level copy of the frontend (`src/`, `public/`,
+  `index.html`, `vite.config.js`, `vercel.json`, `tailwind.config.js`,
+  `postcss.config.js`). None of these were imported by `server.js` or any
+  backend module, served as static assets, or executed by the Jest test suite.
+
+### Added
+- `LICENSE` (proprietary) and `SECURITY.md` (security policy + disclosure process).
+
+### Verified
+- `npm test` — 34 suites / 1896 tests pass (unchanged before and after cleanup).
+- `node --check` passes on all backend source files.
+- Backend CI green; Render `/health` reports `db: connected`.
+
+---
+
 ## [1.0.0] — 2026-06-28
 
 ### Release Summary
