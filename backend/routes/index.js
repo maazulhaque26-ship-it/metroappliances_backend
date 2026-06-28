@@ -4184,5 +4184,642 @@ router.put('/admin/portfolio/:id',                        protect, admin, pfCtrl
 router.delete('/admin/portfolio/:id',                     protect, admin, pfCtrl.deletePortfolio);
 router.patch('/admin/portfolio/:id/status',               protect, admin, pfCtrl.updatePortfolioStatus);
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// SPRINT 15C — PMO Governance & Analytics
+// ═══════════════════════════════════════════════════════════════════════════════
+const pmoGovCtrl       = require('../controllers/pmoGovernanceController');
+const pmoBizCtrl       = require('../controllers/pmoBusinessController');
+const pmoKnowledgeCtrl = require('../controllers/pmoKnowledgeController');
+const pmoAuditCtrl     = require('../controllers/pmoAuditController');
+const pmoAnalyticsCtrl = require('../controllers/pmoAnalyticsController');
+
+// PMO Models (register on first require so mongoose.model() works)
+require('../models/PMOGovernanceBoard');
+require('../models/PMODecisionLog');
+require('../models/PMOSteeringCommittee');
+require('../models/PMOComplianceItem');
+require('../models/PMOBusinessCase');
+require('../models/PMOInvestmentRequest');
+require('../models/PMOProjectCharter');
+require('../models/PMOLessonsLearned');
+require('../models/PMOTemplate');
+require('../models/PMODocument');
+require('../models/PMOProjectAudit');
+require('../models/PMOProjectScorecard');
+
+// ── Analytics / Dashboard (no :id params — must be FIRST) ───────────────────
+router.get('/admin/pmo/dashboard',             protect, admin, pmoAnalyticsCtrl.getPMODashboard);
+router.get('/admin/pmo/analytics/evm',         protect, admin, pmoAnalyticsCtrl.getEVMAnalytics);
+router.get('/admin/pmo/analytics/risk-heatmap',protect, admin, pmoAnalyticsCtrl.getRiskHeatmap);
+router.get('/admin/pmo/analytics/budget',      protect, admin, pmoAnalyticsCtrl.getBudgetAnalytics);
+router.get('/admin/pmo/analytics/resource-forecast', protect, admin, pmoAnalyticsCtrl.getResourceForecast);
+router.get('/admin/pmo/analytics/benefits',    protect, admin, pmoAnalyticsCtrl.getBenefitRealization);
+router.get('/admin/pmo/analytics/alignment',   protect, admin, pmoAnalyticsCtrl.getStrategicAlignment);
+router.get('/admin/pmo/analytics/governance-report', protect, admin, pmoAnalyticsCtrl.getGovernanceReport);
+router.get('/admin/pmo/analytics/issue-trend', protect, admin, pmoAnalyticsCtrl.getIssueTrend);
+
+// ── Governance Boards ─────────────────────────────────────────────────────────
+router.get('/admin/pmo/boards',           protect, admin, pmoGovCtrl.listBoards);
+router.post('/admin/pmo/boards',          protect, admin, pmoGovCtrl.createBoard);
+router.get('/admin/pmo/boards/:id',       protect, admin, pmoGovCtrl.getBoard);
+router.put('/admin/pmo/boards/:id',       protect, admin, pmoGovCtrl.updateBoard);
+router.delete('/admin/pmo/boards/:id',    protect, admin, pmoGovCtrl.deleteBoard);
+
+// ── Decision Log ──────────────────────────────────────────────────────────────
+router.get('/admin/pmo/decisions',        protect, admin, pmoGovCtrl.listDecisions);
+router.post('/admin/pmo/decisions',       protect, admin, pmoGovCtrl.createDecision);
+router.get('/admin/pmo/decisions/:id',    protect, admin, pmoGovCtrl.getDecision);
+router.put('/admin/pmo/decisions/:id',    protect, admin, pmoGovCtrl.updateDecision);
+router.delete('/admin/pmo/decisions/:id', protect, admin, pmoGovCtrl.deleteDecision);
+
+// ── Steering Committees ───────────────────────────────────────────────────────
+router.get('/admin/pmo/committees',                   protect, admin, pmoGovCtrl.listCommittees);
+router.post('/admin/pmo/committees',                  protect, admin, pmoGovCtrl.createCommittee);
+router.get('/admin/pmo/committees/:id',               protect, admin, pmoGovCtrl.getCommittee);
+router.put('/admin/pmo/committees/:id',               protect, admin, pmoGovCtrl.updateCommittee);
+router.delete('/admin/pmo/committees/:id',            protect, admin, pmoGovCtrl.deleteCommittee);
+router.post('/admin/pmo/committees/:id/meetings',     protect, admin, pmoGovCtrl.addMeeting);
+
+// ── Compliance Tracking ───────────────────────────────────────────────────────
+router.get('/admin/pmo/compliance/summary',   protect, admin, pmoGovCtrl.getComplianceSummary);
+router.get('/admin/pmo/compliance',           protect, admin, pmoGovCtrl.listCompliance);
+router.post('/admin/pmo/compliance',          protect, admin, pmoGovCtrl.createCompliance);
+router.get('/admin/pmo/compliance/:id',       protect, admin, pmoGovCtrl.getCompliance);
+router.put('/admin/pmo/compliance/:id',       protect, admin, pmoGovCtrl.updateCompliance);
+router.delete('/admin/pmo/compliance/:id',    protect, admin, pmoGovCtrl.deleteCompliance);
+
+// ── Business Cases ────────────────────────────────────────────────────────────
+router.get('/admin/pmo/business-cases',               protect, admin, pmoBizCtrl.listBusinessCases);
+router.post('/admin/pmo/business-cases',              protect, admin, pmoBizCtrl.createBusinessCase);
+router.get('/admin/pmo/business-cases/:id',           protect, admin, pmoBizCtrl.getBusinessCase);
+router.put('/admin/pmo/business-cases/:id',           protect, admin, pmoBizCtrl.updateBusinessCase);
+router.delete('/admin/pmo/business-cases/:id',        protect, admin, pmoBizCtrl.deleteBusinessCase);
+router.patch('/admin/pmo/business-cases/:id/approve', protect, admin, pmoBizCtrl.approveBusinessCase);
+
+// ── Investment Requests ───────────────────────────────────────────────────────
+router.get('/admin/pmo/investment-requests',                protect, admin, pmoBizCtrl.listInvestmentRequests);
+router.post('/admin/pmo/investment-requests',               protect, admin, pmoBizCtrl.createInvestmentRequest);
+router.get('/admin/pmo/investment-requests/:id',            protect, admin, pmoBizCtrl.getInvestmentRequest);
+router.put('/admin/pmo/investment-requests/:id',            protect, admin, pmoBizCtrl.updateInvestmentRequest);
+router.delete('/admin/pmo/investment-requests/:id',         protect, admin, pmoBizCtrl.deleteInvestmentRequest);
+router.patch('/admin/pmo/investment-requests/:id/decide',   protect, admin, pmoBizCtrl.decideInvestmentRequest);
+
+// ── Project Charters ──────────────────────────────────────────────────────────
+router.get('/admin/pmo/charters',                protect, admin, pmoBizCtrl.listCharters);
+router.post('/admin/pmo/charters',               protect, admin, pmoBizCtrl.createCharter);
+router.get('/admin/pmo/charters/:id',            protect, admin, pmoBizCtrl.getCharter);
+router.put('/admin/pmo/charters/:id',            protect, admin, pmoBizCtrl.updateCharter);
+router.delete('/admin/pmo/charters/:id',         protect, admin, pmoBizCtrl.deleteCharter);
+router.patch('/admin/pmo/charters/:id/approve',  protect, admin, pmoBizCtrl.approveCharter);
+
+// ── Lessons Learned ───────────────────────────────────────────────────────────
+router.get('/admin/pmo/lessons/report',        protect, admin, pmoKnowledgeCtrl.getLessonsReport);
+router.get('/admin/pmo/lessons',               protect, admin, pmoKnowledgeCtrl.listLessons);
+router.post('/admin/pmo/lessons',              protect, admin, pmoKnowledgeCtrl.createLesson);
+router.get('/admin/pmo/lessons/:id',           protect, admin, pmoKnowledgeCtrl.getLesson);
+router.put('/admin/pmo/lessons/:id',           protect, admin, pmoKnowledgeCtrl.updateLesson);
+router.delete('/admin/pmo/lessons/:id',        protect, admin, pmoKnowledgeCtrl.deleteLesson);
+router.patch('/admin/pmo/lessons/:id/approve', protect, admin, pmoKnowledgeCtrl.approveLesson);
+
+// ── Templates / Methodology Library ──────────────────────────────────────────
+router.get('/admin/pmo/templates',             protect, admin, pmoKnowledgeCtrl.listTemplates);
+router.post('/admin/pmo/templates',            protect, admin, pmoKnowledgeCtrl.createTemplate);
+router.get('/admin/pmo/templates/:id',         protect, admin, pmoKnowledgeCtrl.getTemplate);
+router.put('/admin/pmo/templates/:id',         protect, admin, pmoKnowledgeCtrl.updateTemplate);
+router.delete('/admin/pmo/templates/:id',      protect, admin, pmoKnowledgeCtrl.deleteTemplate);
+
+// ── Document Repository ────────────────────────────────────────────────────────
+router.get('/admin/pmo/documents',             protect, admin, pmoKnowledgeCtrl.listDocuments);
+router.post('/admin/pmo/documents',            protect, admin, pmoKnowledgeCtrl.createDocument);
+router.get('/admin/pmo/documents/:id',         protect, admin, pmoKnowledgeCtrl.getDocument);
+router.put('/admin/pmo/documents/:id',         protect, admin, pmoKnowledgeCtrl.updateDocument);
+router.delete('/admin/pmo/documents/:id',      protect, admin, pmoKnowledgeCtrl.deleteDocument);
+
+// ── Project Audits ────────────────────────────────────────────────────────────
+router.get('/admin/pmo/audits/summary',                      protect, admin, pmoAuditCtrl.getAuditSummary);
+router.get('/admin/pmo/audits',                              protect, admin, pmoAuditCtrl.listAudits);
+router.post('/admin/pmo/audits',                             protect, admin, pmoAuditCtrl.createAudit);
+router.get('/admin/pmo/audits/:id',                          protect, admin, pmoAuditCtrl.getAudit);
+router.put('/admin/pmo/audits/:id',                          protect, admin, pmoAuditCtrl.updateAudit);
+router.delete('/admin/pmo/audits/:id',                       protect, admin, pmoAuditCtrl.deleteAudit);
+router.post('/admin/pmo/audits/:id/findings',                protect, admin, pmoAuditCtrl.addFinding);
+router.put('/admin/pmo/audits/:id/findings/:findingId',      protect, admin, pmoAuditCtrl.updateFinding);
+
+// ── Project Scorecards ─────────────────────────────────────────────────────────
+router.get('/admin/pmo/scorecards/health-report', protect, admin, pmoAuditCtrl.getScorecardHealthReport);
+router.get('/admin/pmo/scorecards',               protect, admin, pmoAuditCtrl.listScorecards);
+router.post('/admin/pmo/scorecards',              protect, admin, pmoAuditCtrl.createScorecard);
+router.get('/admin/pmo/scorecards/:id',           protect, admin, pmoAuditCtrl.getScorecard);
+router.put('/admin/pmo/scorecards/:id',           protect, admin, pmoAuditCtrl.updateScorecard);
+router.delete('/admin/pmo/scorecards/:id',        protect, admin, pmoAuditCtrl.deleteScorecard);
+
+// ══════════════════════════════════════════════════════════════════════════════
+// Sprint 15D — Workflow Automation & BPM
+// ══════════════════════════════════════════════════════════════════════════════
+const wfDefCtrl      = require('../controllers/workflowDefinitionController');
+const wfInstCtrl     = require('../controllers/workflowInstanceController');
+const wfApprCtrl     = require('../controllers/workflowApprovalController');
+const wfAutoCtrl     = require('../controllers/workflowAutomationController');
+const wfAnalCtrl     = require('../controllers/workflowAnalyticsController');
+
+// ── Analytics & Dashboard (static — must come before /:id) ───────────────────
+router.get('/admin/workflows/dashboard',                protect, admin, wfAnalCtrl.getBPMDashboard);
+router.get('/admin/workflows/analytics/performance',   protect, admin, wfAnalCtrl.getWorkflowPerformance);
+router.get('/admin/workflows/analytics/approvals',     protect, admin, wfAnalCtrl.getApprovalAnalytics);
+router.get('/admin/workflows/analytics/sla-compliance',protect, admin, wfAnalCtrl.getSLACompliance);
+router.get('/admin/workflows/analytics/escalations',   protect, admin, wfAnalCtrl.getEscalationReport);
+router.get('/admin/workflows/analytics/automation',    protect, admin, wfAnalCtrl.getAutomationReport);
+router.get('/admin/workflows/analytics/audit-trail',   protect, admin, wfAnalCtrl.getAuditTrail);
+router.get('/admin/workflows/analytics/department',    protect, admin, wfAnalCtrl.getDepartmentAnalytics);
+
+// ── Templates (static — before /:id) ─────────────────────────────────────────
+router.get('/admin/workflows/templates',               protect, admin, wfDefCtrl.listTemplates);
+router.post('/admin/workflows/templates',              protect, admin, wfDefCtrl.createTemplate);
+router.get('/admin/workflows/templates/:id',           protect, admin, wfDefCtrl.getTemplate);
+router.put('/admin/workflows/templates/:id',           protect, admin, wfDefCtrl.updateTemplate);
+router.delete('/admin/workflows/templates/:id',        protect, admin, wfDefCtrl.deleteTemplate);
+
+// ── Rules ─────────────────────────────────────────────────────────────────────
+router.get('/admin/workflows/rules',                   protect, admin, wfDefCtrl.listRules);
+router.post('/admin/workflows/rules',                  protect, admin, wfDefCtrl.createRule);
+router.get('/admin/workflows/rules/:id',               protect, admin, wfDefCtrl.getRule);
+router.put('/admin/workflows/rules/:id',               protect, admin, wfDefCtrl.updateRule);
+router.delete('/admin/workflows/rules/:id',            protect, admin, wfDefCtrl.deleteRule);
+
+// ── Conditions ────────────────────────────────────────────────────────────────
+router.get('/admin/workflows/conditions',              protect, admin, wfDefCtrl.listConditions);
+router.post('/admin/workflows/conditions',             protect, admin, wfDefCtrl.createCondition);
+router.get('/admin/workflows/conditions/:id',          protect, admin, wfDefCtrl.getCondition);
+router.put('/admin/workflows/conditions/:id',          protect, admin, wfDefCtrl.updateCondition);
+router.delete('/admin/workflows/conditions/:id',       protect, admin, wfDefCtrl.deleteCondition);
+
+// ── Steps (standalone) ───────────────────────────────────────────────────────
+router.get('/admin/workflows/steps/:id',               protect, admin, wfDefCtrl.getStep);
+router.put('/admin/workflows/steps/:id',               protect, admin, wfDefCtrl.updateStep);
+router.delete('/admin/workflows/steps/:id',            protect, admin, wfDefCtrl.deleteStep);
+
+// ── Transitions (standalone) ─────────────────────────────────────────────────
+router.put('/admin/workflows/transitions/:id',         protect, admin, wfDefCtrl.updateTransition);
+router.delete('/admin/workflows/transitions/:id',      protect, admin, wfDefCtrl.deleteTransition);
+
+// ── Triggers ──────────────────────────────────────────────────────────────────
+router.get('/admin/workflows/triggers',                protect, admin, wfDefCtrl.listTriggers);
+router.post('/admin/workflows/triggers',               protect, admin, wfDefCtrl.createTrigger);
+router.get('/admin/workflows/triggers/:id',            protect, admin, wfDefCtrl.getTrigger);
+router.put('/admin/workflows/triggers/:id',            protect, admin, wfDefCtrl.updateTrigger);
+router.delete('/admin/workflows/triggers/:id',         protect, admin, wfDefCtrl.deleteTrigger);
+router.post('/admin/workflows/triggers/:id/fire',      protect, admin, wfDefCtrl.fireTrigger);
+
+// ── Instances ─────────────────────────────────────────────────────────────────
+router.get('/admin/workflows/instances',               protect, admin, wfInstCtrl.listInstances);
+router.post('/admin/workflows/instances',              protect, admin, wfInstCtrl.createInstance);
+router.get('/admin/workflows/instances/my-pending',    protect, admin, wfInstCtrl.getMyPendingInstances);
+router.get('/admin/workflows/instances/my-initiated',  protect, admin, wfInstCtrl.getMyInitiatedInstances);
+router.get('/admin/workflows/instances/:id',           protect, admin, wfInstCtrl.getInstance);
+router.put('/admin/workflows/instances/:id',           protect, admin, wfInstCtrl.updateInstance);
+router.patch('/admin/workflows/instances/:id/start',   protect, admin, wfInstCtrl.startInstance);
+router.patch('/admin/workflows/instances/:id/cancel',  protect, admin, wfInstCtrl.cancelInstance);
+router.get('/admin/workflows/instances/:id/history',   protect, admin, wfInstCtrl.getInstanceHistory);
+router.post('/admin/workflows/instances/:id/comments', protect, admin, wfInstCtrl.addComment);
+router.get('/admin/workflows/instances/:id/comments',  protect, admin, wfInstCtrl.getComments);
+router.post('/admin/workflows/instances/:id/attachments', protect, admin, wfInstCtrl.addAttachment);
+router.get('/admin/workflows/instances/:id/attachments',  protect, admin, wfInstCtrl.getAttachments);
+
+// ── Approvals ─────────────────────────────────────────────────────────────────
+router.get('/admin/workflows/approvals',                    protect, admin, wfApprCtrl.listApprovals);
+router.get('/admin/workflows/approvals/pending',            protect, admin, wfApprCtrl.getPendingApprovals);
+router.post('/admin/workflows/approvals/bulk-approve',      protect, admin, wfApprCtrl.bulkApprove);
+router.get('/admin/workflows/approvals/history/:instanceId',protect, admin, wfApprCtrl.getApprovalHistory);
+router.get('/admin/workflows/approvals/:id',                protect, admin, wfApprCtrl.getApproval);
+router.patch('/admin/workflows/approvals/:id/approve',      protect, admin, wfApprCtrl.approveStep);
+router.patch('/admin/workflows/approvals/:id/reject',       protect, admin, wfApprCtrl.rejectStep);
+router.patch('/admin/workflows/approvals/:id/delegate',     protect, admin, wfApprCtrl.delegateApproval);
+router.patch('/admin/workflows/approvals/:id/recall',       protect, admin, wfApprCtrl.recallApproval);
+router.patch('/admin/workflows/approvals/:id/override',     protect, admin, wfApprCtrl.overrideApproval);
+
+// ── Escalations ───────────────────────────────────────────────────────────────
+router.get('/admin/workflows/escalations',                      protect, admin, wfAutoCtrl.listEscalations);
+router.post('/admin/workflows/escalations',                     protect, admin, wfAutoCtrl.createEscalation);
+router.get('/admin/workflows/escalations/:id',                  protect, admin, wfAutoCtrl.getEscalation);
+router.patch('/admin/workflows/escalations/:id/acknowledge',    protect, admin, wfAutoCtrl.acknowledgeEscalation);
+router.patch('/admin/workflows/escalations/:id/resolve',        protect, admin, wfAutoCtrl.resolveEscalation);
+
+// ── SLAs ──────────────────────────────────────────────────────────────────────
+router.get('/admin/workflows/slas/breaches',           protect, admin, wfAutoCtrl.getSLABreaches);
+router.get('/admin/workflows/slas',                    protect, admin, wfAutoCtrl.listSLAs);
+router.post('/admin/workflows/slas',                   protect, admin, wfAutoCtrl.createSLA);
+router.get('/admin/workflows/slas/:id',                protect, admin, wfAutoCtrl.getSLA);
+router.put('/admin/workflows/slas/:id',                protect, admin, wfAutoCtrl.updateSLA);
+router.delete('/admin/workflows/slas/:id',             protect, admin, wfAutoCtrl.deleteSLA);
+
+// ── Notifications ─────────────────────────────────────────────────────────────
+router.get('/admin/workflows/notifications',                protect, admin, wfAutoCtrl.listNotifications);
+router.post('/admin/workflows/notifications/mark-all-read', protect, admin, wfAutoCtrl.markAllNotificationsRead);
+router.patch('/admin/workflows/notifications/:id/read',     protect, admin, wfAutoCtrl.markNotificationRead);
+
+// ── Workflow Definitions (/:id last to avoid shadowing static routes) ─────────
+router.get('/admin/workflows',                         protect, admin, wfDefCtrl.listWorkflows);
+router.post('/admin/workflows',                        protect, admin, wfDefCtrl.createWorkflow);
+router.get('/admin/workflows/:id',                     protect, admin, wfDefCtrl.getWorkflow);
+router.put('/admin/workflows/:id',                     protect, admin, wfDefCtrl.updateWorkflow);
+router.delete('/admin/workflows/:id',                  protect, admin, wfDefCtrl.deleteWorkflow);
+router.patch('/admin/workflows/:id/activate',          protect, admin, wfDefCtrl.activateWorkflow);
+router.patch('/admin/workflows/:id/deactivate',        protect, admin, wfDefCtrl.deactivateWorkflow);
+
+// ── Steps (nested under workflow) ────────────────────────────────────────────
+router.get('/admin/workflows/:workflowId/steps',       protect, admin, wfDefCtrl.listSteps);
+router.post('/admin/workflows/:workflowId/steps',      protect, admin, wfDefCtrl.createStep);
+
+// ── Transitions (nested under workflow) ──────────────────────────────────────
+router.get('/admin/workflows/:workflowId/transitions', protect, admin, wfDefCtrl.listTransitions);
+router.post('/admin/workflows/:workflowId/transitions',protect, admin, wfDefCtrl.createTransition);
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Sprint 15E — Document Management System (DMS) & Knowledge Base
+// ═══════════════════════════════════════════════════════════════════════════
+const docLib  = require('../controllers/documentLibraryController');
+const docWf   = require('../controllers/documentWorkflowController');
+const docAna  = require('../controllers/documentAnalyticsController');
+const kbCtrl  = require('../controllers/knowledgeBaseController');
+
+// ── DMS Dashboard & Analytics ──────────────────────────────────────────────
+router.get('/admin/documents/dashboard',              protect, admin, docAna.getDMSDashboard);
+router.get('/admin/documents/analytics/activity',     protect, admin, docAna.getDocumentActivity);
+router.get('/admin/documents/analytics/expiry',       protect, admin, docAna.getExpiryReport);
+router.get('/admin/documents/analytics/retention',    protect, admin, docAna.getRetentionReport);
+router.get('/admin/documents/analytics/reviews',      protect, admin, docAna.getReviewReport);
+router.get('/admin/documents/analytics/audit',        protect, admin, docAna.getDocumentAuditTrail);
+router.get('/admin/documents/analytics/knowledge',    protect, admin, docAna.getKnowledgeUsageReport);
+
+// ── Document Search ────────────────────────────────────────────────────────
+router.get('/admin/documents/search',                 protect, admin, docLib.searchDocuments);
+router.get('/admin/documents/my',                     protect, admin, docLib.getMyDocuments);
+router.get('/admin/documents/favorites',              protect, admin, docLib.getMyFavorites);
+router.get('/admin/documents/recent',                 protect, admin, docLib.getRecentDocuments);
+
+// ── Expiring & Review-Due ──────────────────────────────────────────────────
+router.get('/admin/documents/expiring',               protect, admin, docWf.getExpiringDocuments);
+router.get('/admin/documents/reviews/overdue',        protect, admin, docWf.getOverdueReviews);
+router.get('/admin/documents/approvals/pending',      protect, admin, docWf.getPendingApprovals);
+
+// ── Folders ────────────────────────────────────────────────────────────────
+router.get('/admin/documents/folders',                protect, admin, docLib.listFolders);
+router.post('/admin/documents/folders',               protect, admin, docLib.createFolder);
+router.put('/admin/documents/folders/:id',            protect, admin, docLib.updateFolder);
+router.delete('/admin/documents/folders/:id',         protect, admin, docLib.deleteFolder);
+
+// ── Categories ─────────────────────────────────────────────────────────────
+router.get('/admin/documents/categories',             protect, admin, docLib.listCategories);
+router.post('/admin/documents/categories',            protect, admin, docLib.createCategory);
+router.put('/admin/documents/categories/:id',         protect, admin, docLib.updateCategory);
+router.delete('/admin/documents/categories/:id',      protect, admin, docLib.deleteCategory);
+
+// ── Tags ───────────────────────────────────────────────────────────────────
+router.get('/admin/documents/tags',                   protect, admin, docLib.listTags);
+router.post('/admin/documents/tags',                  protect, admin, docLib.createTag);
+router.delete('/admin/documents/tags/:id',            protect, admin, docLib.deleteTag);
+
+// ── Templates ──────────────────────────────────────────────────────────────
+router.get('/admin/documents/templates',              protect, admin, docLib.listTemplates);
+router.post('/admin/documents/templates',             protect, admin, docLib.createTemplate);
+router.post('/admin/documents/templates/:id/file',    protect, admin, serviceUpload.single('file'), docLib.uploadTemplateFile);
+router.post('/admin/documents/templates/:id/use',     protect, admin, docLib.createFromTemplate);
+router.put('/admin/documents/templates/:id',          protect, admin, docLib.updateTemplate);
+router.delete('/admin/documents/templates/:id',       protect, admin, docLib.deleteTemplate);
+
+// ── Retention Policies ─────────────────────────────────────────────────────
+router.get('/admin/documents/retention',              protect, admin, docWf.listRetentionPolicies);
+router.post('/admin/documents/retention',             protect, admin, docWf.createRetentionPolicy);
+router.post('/admin/documents/retention/:id/apply',   protect, admin, docWf.applyRetentionPolicy);
+router.put('/admin/documents/retention/:id',          protect, admin, docWf.updateRetentionPolicy);
+router.delete('/admin/documents/retention/:id',       protect, admin, docWf.deleteRetentionPolicy);
+
+// ── Archive ────────────────────────────────────────────────────────────────
+router.get('/admin/documents/archive',                protect, admin, docWf.listArchives);
+router.post('/admin/documents/archive/:id/restore',   protect, admin, docWf.restoreDocument);
+
+// ── Reviews ────────────────────────────────────────────────────────────────
+router.get('/admin/documents/reviews',                protect, admin, docWf.listReviews);
+router.post('/admin/documents/reviews',               protect, admin, docWf.createReview);
+router.patch('/admin/documents/reviews/:id/complete', protect, admin, docWf.completeReview);
+
+// ── Approvals ──────────────────────────────────────────────────────────────
+router.get('/admin/documents/approvals',              protect, admin, docWf.listApprovals);
+router.post('/admin/documents/approvals',             protect, admin, docWf.createApproval);
+router.patch('/admin/documents/approvals/:id/approve',protect, admin, docWf.approveDocument);
+router.patch('/admin/documents/approvals/:id/reject', protect, admin, docWf.rejectDocument);
+
+// ── Documents CRUD (/:id last to avoid shadowing) ─────────────────────────
+router.get('/admin/documents',                        protect, admin, docLib.listDocuments);
+router.post('/admin/documents',                       protect, admin, docLib.createDocument);
+router.get('/admin/documents/:id',                    protect, admin, docLib.getDocument);
+router.put('/admin/documents/:id',                    protect, admin, docLib.updateDocument);
+router.delete('/admin/documents/:id',                 protect, admin, docLib.deleteDocument);
+
+// ── Document File & Actions ────────────────────────────────────────────────
+router.post('/admin/documents/:id/upload',            protect, admin, serviceUpload.single('file'), docLib.uploadDocumentFile);
+router.post('/admin/documents/:id/checkout',          protect, admin, docLib.checkOutDocument);
+router.post('/admin/documents/:id/checkin',           protect, admin, docLib.checkInDocument);
+router.post('/admin/documents/:id/favorite',          protect, admin, docLib.toggleFavorite);
+router.get('/admin/documents/:id/download',           protect, admin, docLib.downloadDocument);
+router.post('/admin/documents/:id/publish',           protect, admin, docWf.publishDocument);
+router.post('/admin/documents/:id/archive',           protect, admin, docWf.archiveDocument);
+
+// ── Document Versions ──────────────────────────────────────────────────────
+router.get('/admin/documents/:id/versions',           protect, admin, docLib.listVersions);
+router.post('/admin/documents/:id/versions/:verId/restore', protect, admin, docLib.restoreVersion);
+
+// ── Document Comments ──────────────────────────────────────────────────────
+router.get('/admin/documents/:id/comments',           protect, admin, docLib.listComments);
+router.post('/admin/documents/:id/comments',          protect, admin, docLib.addComment);
+router.delete('/admin/documents/:id/comments/:cmtId', protect, admin, docLib.deleteComment);
+
+// ── Document Permissions ───────────────────────────────────────────────────
+router.get('/admin/documents/:id/permissions',        protect, admin, docLib.listPermissions);
+router.post('/admin/documents/:id/permissions',       protect, admin, docLib.grantPermission);
+router.delete('/admin/documents/:id/permissions/:permId', protect, admin, docLib.revokePermission);
+
+// ── Document Sharing ───────────────────────────────────────────────────────
+router.get('/admin/documents/:id/shares',             protect, admin, docLib.listShares);
+router.post('/admin/documents/:id/share',             protect, admin, docLib.shareDocument);
+router.delete('/admin/documents/:id/shares/:shareId', protect, admin, docLib.revokeShare);
+
+// ── Document Signatures ────────────────────────────────────────────────────
+router.get('/admin/documents/:id/signatures',         protect, admin, docWf.listSignatures);
+router.post('/admin/documents/:id/signatures',        protect, admin, docWf.requestSignature);
+router.patch('/admin/documents/:id/signatures/:sigId/sign',    protect, admin, docWf.signDocument);
+router.patch('/admin/documents/:id/signatures/:sigId/decline', protect, admin, docWf.declineSignature);
+
+// ── Knowledge Base Categories ──────────────────────────────────────────────
+router.get('/admin/knowledge/categories',             protect, admin, kbCtrl.listCategories);
+router.post('/admin/knowledge/categories',            protect, admin, kbCtrl.createCategory);
+router.put('/admin/knowledge/categories/:id',         protect, admin, kbCtrl.updateCategory);
+router.delete('/admin/knowledge/categories/:id',      protect, admin, kbCtrl.deleteCategory);
+
+// ── Knowledge Base Articles — static sub-paths FIRST ─────────────────────
+router.get('/admin/knowledge/search',                 protect, admin, kbCtrl.searchArticles);
+router.get('/admin/knowledge/popular',                protect, admin, kbCtrl.getPopularArticles);
+router.get('/admin/knowledge/bookmarks',              protect, admin, kbCtrl.getMyBookmarks);
+
+// ── Knowledge Base Articles CRUD ──────────────────────────────────────────
+router.get('/admin/knowledge',                        protect, admin, kbCtrl.listArticles);
+router.post('/admin/knowledge',                       protect, admin, kbCtrl.createArticle);
+router.get('/admin/knowledge/:id',                    protect, admin, kbCtrl.getArticle);
+router.put('/admin/knowledge/:id',                    protect, admin, kbCtrl.updateArticle);
+router.delete('/admin/knowledge/:id',                 protect, admin, kbCtrl.deleteArticle);
+
+// ── Knowledge Base Article Actions ────────────────────────────────────────
+router.post('/admin/knowledge/:id/publish',           protect, admin, kbCtrl.publishArticle);
+router.post('/admin/knowledge/:id/archive',           protect, admin, kbCtrl.archiveArticle);
+router.post('/admin/knowledge/:id/bookmark',          protect, admin, kbCtrl.toggleBookmark);
+router.delete('/admin/knowledge/:id/bookmarks/:bmId', protect, admin, kbCtrl.deleteBookmark);
+router.get('/admin/knowledge/:id/related',            protect, admin, kbCtrl.getRelatedArticles);
+router.get('/admin/knowledge/:id/feedback',           protect, admin, kbCtrl.listFeedback);
+router.post('/admin/knowledge/:id/feedback',          protect, admin, kbCtrl.addFeedback);
+router.get('/admin/knowledge/:id/revisions',          protect, admin, kbCtrl.listRevisions);
+router.get('/admin/knowledge/:id/revisions/:revId',   protect, admin, kbCtrl.getRevision);
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Sprint 16A — Enterprise Business Intelligence & Executive Analytics
+// ═══════════════════════════════════════════════════════════════════════════
+const biDash  = require('../controllers/biDashboardController');
+const biKPI   = require('../controllers/biKPIController');
+const biAna   = require('../controllers/biAnalyticsController');
+const biRpt   = require('../controllers/biReportController');
+const biCfg   = require('../controllers/biConfigController');
+
+// ── Executive Dashboards ──────────────────────────────────────────────────────
+router.get('/admin/bi/executive/ceo',             protect, admin, biDash.getCEODashboard);
+router.get('/admin/bi/executive/coo',             protect, admin, biDash.getCOODashboard);
+router.get('/admin/bi/executive/cfo',             protect, admin, biDash.getCFODashboard);
+router.get('/admin/bi/executive/chro',            protect, admin, biDash.getCHRODashboard);
+router.get('/admin/bi/executive/operations',      protect, admin, biDash.getOperationsDashboard);
+router.get('/admin/bi/executive/manufacturing',   protect, admin, biDash.getManufacturingDashboard);
+router.get('/admin/bi/executive/supply-chain',    protect, admin, biDash.getSupplyChainDashboard);
+router.get('/admin/bi/executive/sales',           protect, admin, biDash.getSalesExecutiveDashboard);
+router.get('/admin/bi/executive/customer',        protect, admin, biDash.getCustomerDashboard);
+router.get('/admin/bi/executive/projects',        protect, admin, biDash.getProjectsDashboard);
+router.get('/admin/bi/executive/enterprise',      protect, admin, biDash.getEnterpriseHealthDashboard);
+
+// ── KPI Engine ────────────────────────────────────────────────────────────────
+router.get(   '/admin/bi/kpis',                   protect, admin, biKPI.getAllKPIs);
+router.get(   '/admin/bi/kpis/check-alerts',      protect, admin, biKPI.checkAlerts);
+router.get(   '/admin/bi/kpi-targets',            protect, admin, biKPI.getKPITargets);
+router.post(  '/admin/bi/kpi-targets',            protect, admin, biKPI.createKPITarget);
+router.put(   '/admin/bi/kpi-targets/:id',        protect, admin, biKPI.updateKPITarget);
+router.delete('/admin/bi/kpi-targets/:id',        protect, admin, biKPI.deleteKPITarget);
+router.get(   '/admin/bi/kpis/:name/trend',       protect, admin, biKPI.getKPITrend);
+router.get(   '/admin/bi/kpis/:name',             protect, admin, biKPI.getKPI);
+
+// ── Analytics ─────────────────────────────────────────────────────────────────
+router.get('/admin/bi/analytics/cross-module',    protect, admin, biAna.getCrossModuleAnalytics);
+router.get('/admin/bi/analytics/trends',          protect, admin, biAna.getTrendAnalysis);
+router.get('/admin/bi/analytics/yoy',             protect, admin, biAna.getYoYComparison);
+router.get('/admin/bi/analytics/mom',             protect, admin, biAna.getMoMComparison);
+router.get('/admin/bi/analytics/qoq',             protect, admin, biAna.getQoQComparison);
+router.get('/admin/bi/analytics/forecast',        protect, admin, biAna.getForecast);
+router.get('/admin/bi/analytics/variance',        protect, admin, biAna.getVarianceAnalysis);
+router.get('/admin/bi/analytics/benchmarks',      protect, admin, biAna.getBenchmarks);
+router.get('/admin/bi/analytics/drilldown',       protect, admin, biAna.getDrillDown);
+router.get('/admin/bi/analytics/heatmap/:module', protect, admin, biAna.getHeatmap);
+
+// ── Reports & Board Packs ─────────────────────────────────────────────────────
+router.get(   '/admin/bi/board-pack',             protect, admin, biRpt.getBoardPack);
+router.get(   '/admin/bi/management-summary',     protect, admin, biRpt.getManagementSummary);
+router.get(   '/admin/bi/scorecards/:dept',       protect, admin, biRpt.getDepartmentScorecard);
+router.get(   '/admin/bi/reports',                protect, admin, biRpt.listReports);
+router.post(  '/admin/bi/reports',                protect, admin, biRpt.createReport);
+router.get(   '/admin/bi/reports/export/:format', protect, admin, biRpt.exportBoardPack);
+router.get(   '/admin/bi/reports/:id/generate',   protect, admin, biRpt.generateReport);
+router.get(   '/admin/bi/reports/:id',            protect, admin, biRpt.getReport);
+router.put(   '/admin/bi/reports/:id',            protect, admin, biRpt.updateReport);
+router.delete('/admin/bi/reports/:id',            protect, admin, biRpt.deleteReport);
+
+// ── Config: Dashboards ────────────────────────────────────────────────────────
+router.get(   '/admin/bi/dashboards',             protect, admin, biCfg.listDashboards);
+router.post(  '/admin/bi/dashboards',             protect, admin, biCfg.createDashboard);
+router.get(   '/admin/bi/dashboards/:id',         protect, admin, biCfg.getDashboard);
+router.put(   '/admin/bi/dashboards/:id',         protect, admin, biCfg.updateDashboard);
+router.delete('/admin/bi/dashboards/:id',         protect, admin, biCfg.deleteDashboard);
+
+// ── Config: Alerts ────────────────────────────────────────────────────────────
+router.get(   '/admin/bi/alerts',                 protect, admin, biCfg.listAlerts);
+router.post(  '/admin/bi/alerts',                 protect, admin, biCfg.createAlert);
+router.patch( '/admin/bi/alerts/:id/toggle',      protect, admin, biCfg.toggleAlert);
+router.get(   '/admin/bi/alerts/:id',             protect, admin, biCfg.getAlert);
+router.put(   '/admin/bi/alerts/:id',             protect, admin, biCfg.updateAlert);
+router.delete('/admin/bi/alerts/:id',             protect, admin, biCfg.deleteAlert);
+
+// ── Config: Bookmarks ─────────────────────────────────────────────────────────
+router.get(   '/admin/bi/bookmarks',              protect, admin, biCfg.listBookmarks);
+router.post(  '/admin/bi/bookmarks',              protect, admin, biCfg.createBookmark);
+router.patch( '/admin/bi/bookmarks/:id/default',  protect, admin, biCfg.setDefaultBookmark);
+router.delete('/admin/bi/bookmarks/:id',          protect, admin, biCfg.deleteBookmark);
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Sprint 16B — Enterprise AI Forecasting & Predictive Intelligence
+// ═══════════════════════════════════════════════════════════════════════════
+const aiFC   = require('../controllers/aiForecastController');
+const aiAnom = require('../controllers/aiAnomalyController');
+const aiRec  = require('../controllers/aiRecommendationController');
+const aiDash = require('../controllers/aiDashboardController');
+const aiCfg  = require('../controllers/aiConfigController');
+
+// AI Dashboard & Insights
+router.get('/admin/ai/dashboard',                protect, admin, aiDash.getAIDashboard);
+router.get('/admin/ai/dashboard/accuracy',       protect, admin, aiDash.getForecastAccuracy);
+router.get('/admin/ai/dashboard/insights',       protect, admin, aiDash.getAIInsights);
+
+// Scenarios
+router.get('/admin/ai/scenarios',                protect, admin, aiDash.getScenarios);
+router.post('/admin/ai/scenarios',               protect, admin, aiDash.createScenario);
+router.get('/admin/ai/scenarios/compare',        protect, admin, aiDash.compareScenarios);
+router.delete('/admin/ai/scenarios/:id',         protect, admin, aiDash.deleteScenario);
+
+// Prediction History
+router.get('/admin/ai/history',                  protect, admin, aiDash.getPredictionHistory);
+router.get('/admin/ai/history/accuracy',         protect, admin, aiCfg.getModelPerformance);
+
+// Forecasts — list & detail
+router.get('/admin/ai/forecasts',                protect, admin, aiFC.listForecasts);
+router.get('/admin/ai/forecasts/:id',            protect, admin, aiFC.getForecast);
+router.delete('/admin/ai/forecasts/:id',         protect, admin, aiFC.deleteForecast);
+
+// Forecasts — generate by type
+router.post('/admin/ai/forecasts/sales',         protect, admin, aiFC.generateSalesForecast);
+router.post('/admin/ai/forecasts/demand',        protect, admin, aiFC.generateDemandForecast);
+router.post('/admin/ai/forecasts/inventory',     protect, admin, aiFC.generateInventoryForecast);
+router.post('/admin/ai/forecasts/production',    protect, admin, aiFC.generateProductionForecast);
+router.post('/admin/ai/forecasts/cashflow',      protect, admin, aiFC.generateCashFlowForecast);
+router.post('/admin/ai/forecasts/revenue',       protect, admin, aiFC.generateRevenueForecast);
+router.post('/admin/ai/forecasts/expense',       protect, admin, aiFC.generateExpenseForecast);
+router.post('/admin/ai/forecasts/workforce',     protect, admin, aiFC.generateWorkforceForecast);
+router.post('/admin/ai/forecasts/maintenance',   protect, admin, aiFC.generateMaintenanceForecast);
+router.post('/admin/ai/forecasts/warranty',      protect, admin, aiFC.generateWarrantyForecast);
+router.post('/admin/ai/forecasts/projects',      protect, admin, aiFC.generateProjectForecast);
+
+// Anomalies
+router.get('/admin/ai/anomalies',                protect, admin, aiAnom.listAnomalies);
+router.get('/admin/ai/anomalies/stats',          protect, admin, aiAnom.getAnomalyStats);
+router.post('/admin/ai/anomalies/detect',        protect, admin, aiAnom.detectAllAnomalies);
+router.post('/admin/ai/anomalies/detect/demand', protect, admin, aiAnom.detectDemandAnomalies);
+router.post('/admin/ai/anomalies/detect/inventory', protect, admin, aiAnom.detectInventoryAnomalies);
+router.post('/admin/ai/anomalies/detect/cash',   protect, admin, aiAnom.detectCashAnomalies);
+router.post('/admin/ai/anomalies/detect/production', protect, admin, aiAnom.detectProductionAnomalies);
+router.patch('/admin/ai/anomalies/:id/resolve',  protect, admin, aiAnom.resolveAnomaly);
+
+// Recommendations
+router.get('/admin/ai/recommendations',          protect, admin, aiRec.listRecommendations);
+router.get('/admin/ai/recommendations/stats',    protect, admin, aiRec.getRecommendationStats);
+router.post('/admin/ai/recommendations/generate',           protect, admin, aiRec.generateAllRecommendations);
+router.post('/admin/ai/recommendations/generate/inventory', protect, admin, aiRec.generateInventoryRecommendations);
+router.post('/admin/ai/recommendations/generate/production',protect, admin, aiRec.generateProductionRecommendations);
+router.post('/admin/ai/recommendations/generate/hr',        protect, admin, aiRec.generateHRRecommendations);
+router.post('/admin/ai/recommendations/generate/maintenance',protect, admin, aiRec.generateMaintenanceRecommendations);
+router.patch('/admin/ai/recommendations/:id/status', protect, admin, aiRec.updateRecommendationStatus);
+
+// Config — Settings
+router.get('/admin/ai/settings',                 protect, admin, aiCfg.listSettings);
+router.put('/admin/ai/settings/:key',            protect, admin, aiCfg.updateSetting);
+router.post('/admin/ai/settings/seed',           protect, admin, aiCfg.seedDefaultSettings);
+
+// Config — Forecast Models
+router.get('/admin/ai/models',                   protect, admin, aiCfg.getForecastModels);
+router.post('/admin/ai/models',                  protect, admin, aiCfg.createForecastModel);
+router.put('/admin/ai/models/:id',               protect, admin, aiCfg.updateForecastModel);
+router.delete('/admin/ai/models/:id',            protect, admin, aiCfg.deleteForecastModel);
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SPRINT 16C — AI Copilot & Intelligent Automation  /api/admin/copilot/*
+// ─────────────────────────────────────────────────────────────────────────────
+const cplt   = require('../controllers/copilotController');
+const aiAsst = require('../controllers/aiAssistantController');
+const aiIns  = require('../controllers/aiInsightController');
+const autom  = require('../controllers/automationController');
+const know   = require('../controllers/knowledgeController');
+
+// Conversations
+router.get('/admin/copilot/conversations',               protect, admin, cplt.listConversations);
+router.post('/admin/copilot/conversations',              protect, admin, cplt.createConversation);
+router.get('/admin/copilot/conversations/:id',           protect, admin, cplt.getConversation);
+router.delete('/admin/copilot/conversations/:id',        protect, admin, cplt.deleteConversation);
+router.post('/admin/copilot/conversations/:id/message',  protect, admin, cplt.sendMessage);
+
+// Suggestions
+router.get('/admin/copilot/suggestions',                 protect, admin, cplt.getSuggestions);
+router.post('/admin/copilot/suggestions/generate',       protect, admin, cplt.generateSuggestions);
+router.patch('/admin/copilot/suggestions/:id/apply',     protect, admin, cplt.applySuggestion);
+router.patch('/admin/copilot/suggestions/:id/dismiss',   protect, admin, cplt.dismissSuggestion);
+
+// Tasks & Actions
+router.get('/admin/copilot/tasks',                       protect, admin, cplt.listTasks);
+router.post('/admin/copilot/tasks',                      protect, admin, cplt.createTask);
+router.get('/admin/copilot/tasks/:id',                   protect, admin, cplt.getTask);
+router.get('/admin/copilot/actions',                     protect, admin, cplt.listActions);
+
+// Insights
+router.post('/admin/copilot/insights/daily-briefing',    protect, admin, aiIns.generateDailyBriefing);
+router.post('/admin/copilot/insights/dept-summary',      protect, admin, aiIns.generateDeptSummary);
+router.post('/admin/copilot/insights/kpi-digest',        protect, admin, aiIns.generateKPIDigest);
+router.post('/admin/copilot/insights/monthly-summary',   protect, admin, aiIns.generateMonthlySummary);
+router.post('/admin/copilot/insights/risk-summary',      protect, admin, aiIns.generateRiskSummary);
+router.post('/admin/copilot/insights/opportunity-summary', protect, admin, aiIns.generateOpportunitySummary);
+router.get('/admin/copilot/insights',                    protect, admin, aiIns.listInsights);
+router.get('/admin/copilot/insights/:id',                protect, admin, aiIns.getInsight);
+router.delete('/admin/copilot/insights/:id',             protect, admin, aiIns.deleteInsight);
+
+// Automation — Rules
+router.get('/admin/copilot/automation/stats',            protect, admin, autom.getAutomationStats);
+router.get('/admin/copilot/automation/rules',            protect, admin, autom.listRules);
+router.post('/admin/copilot/automation/rules',           protect, admin, autom.createRule);
+router.get('/admin/copilot/automation/rules/:id',        protect, admin, autom.getRule);
+router.put('/admin/copilot/automation/rules/:id',        protect, admin, autom.updateRule);
+router.delete('/admin/copilot/automation/rules/:id',     protect, admin, autom.deleteRule);
+router.patch('/admin/copilot/automation/rules/:id/toggle', protect, admin, autom.toggleRule);
+router.post('/admin/copilot/automation/rules/:id/execute', protect, admin, autom.executeRule);
+router.post('/admin/copilot/automation/rules/:id/test',  protect, admin, autom.testRule);
+
+// Automation — Executions & History
+router.get('/admin/copilot/automation/executions',       protect, admin, autom.listExecutions);
+router.get('/admin/copilot/automation/executions/:id',   protect, admin, autom.getExecution);
+router.get('/admin/copilot/automation/history',          protect, admin, autom.listHistory);
+
+// Automation — Templates
+router.get('/admin/copilot/automation/templates',        protect, admin, autom.listTemplates);
+router.post('/admin/copilot/automation/templates/seed',  protect, admin, autom.seedBuiltInTemplates);
+router.post('/admin/copilot/automation/templates/:id/create-rule', protect, admin, autom.createFromTemplate);
+
+// Knowledge Base
+router.get('/admin/copilot/knowledge',                   protect, admin, know.listKnowledge);
+router.post('/admin/copilot/knowledge',                  protect, admin, know.createKnowledge);
+router.get('/admin/copilot/knowledge/search',            protect, admin, know.searchKnowledge);
+router.post('/admin/copilot/knowledge/seed',             protect, admin, know.seedBuiltInKnowledge);
+router.get('/admin/copilot/knowledge/module/:module',    protect, admin, know.getByModule);
+router.get('/admin/copilot/knowledge/:id',               protect, admin, know.getKnowledge);
+router.put('/admin/copilot/knowledge/:id',               protect, admin, know.updateKnowledge);
+router.delete('/admin/copilot/knowledge/:id',            protect, admin, know.deleteKnowledge);
+router.post('/admin/copilot/knowledge/:id/use',          protect, admin, know.incrementUseCount);
+
+// Assistants
+router.get('/admin/copilot/assistants',                  protect, admin, aiAsst.listAssistants);
+router.post('/admin/copilot/assistants',                 protect, admin, aiAsst.createAssistant);
+router.post('/admin/copilot/assistants/seed',            protect, admin, aiAsst.seedDefaultAssistants);
+router.get('/admin/copilot/assistants/:id',              protect, admin, aiAsst.getAssistant);
+router.put('/admin/copilot/assistants/:id',              protect, admin, aiAsst.updateAssistant);
+router.delete('/admin/copilot/assistants/:id',           protect, admin, aiAsst.deleteAssistant);
+
+// Prompts
+router.get('/admin/copilot/prompts',                     protect, admin, aiAsst.listPrompts);
+router.post('/admin/copilot/prompts',                    protect, admin, aiAsst.createPrompt);
+router.post('/admin/copilot/prompts/seed',               protect, admin, aiAsst.seedBuiltInPrompts);
+router.get('/admin/copilot/prompts/:id',                 protect, admin, aiAsst.getPrompt);
+router.put('/admin/copilot/prompts/:id',                 protect, admin, aiAsst.updatePrompt);
+router.delete('/admin/copilot/prompts/:id',              protect, admin, aiAsst.deletePrompt);
+router.post('/admin/copilot/prompts/:id/use',            protect, admin, aiAsst.incrementPromptUse);
+
+// Feedback
+router.post('/admin/copilot/feedback',                   protect, admin, aiAsst.submitFeedback);
+router.get('/admin/copilot/feedback/stats',              protect, admin, aiAsst.getFeedbackStats);
+
 module.exports = router;
 
