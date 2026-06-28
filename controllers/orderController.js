@@ -209,7 +209,7 @@ exports.getAllOrders = async (req, res, next) => {
     const filter = {};
     if (req.query.status) filter.status = req.query.status;
     if (req.query.search) {
-      filter.orderNumber = { $regex: req.query.search.replace(/^#/, ''), $options: 'i' };
+      filter.orderNumber = { $regex: req.query.search.replace(/^#/, '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: 'i' };
     }
 
     const [orders, total] = await Promise.all([

@@ -1,15 +1,16 @@
-const express      = require('express');
-const http         = require('http');
-const { Server }   = require('socket.io');
-const mongoose     = require('mongoose');
-const dotenv       = require('dotenv');
-const cors         = require('cors');
-const helmet       = require('helmet');
-const morgan       = require('morgan');
-const cookieParser = require('cookie-parser');
-const rateLimit    = require('express-rate-limit');
-const path         = require('path');
-const fs           = require('fs');
+const express          = require('express');
+const http             = require('http');
+const { Server }       = require('socket.io');
+const mongoose         = require('mongoose');
+const dotenv           = require('dotenv');
+const cors             = require('cors');
+const helmet           = require('helmet');
+const morgan           = require('morgan');
+const cookieParser     = require('cookie-parser');
+const rateLimit        = require('express-rate-limit');
+const mongoSanitize    = require('express-mongo-sanitize');
+const path             = require('path');
+const fs               = require('fs');
 
 const routes = require('./routes/index');
 const { connectDB, isDbConnected, dbStatus } = require('./config/db');
@@ -121,6 +122,10 @@ app.use(cookieParser());
 app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: true, limit: '2mb' }));
 
+// ─── MongoDB Injection Protection ─────────────────────────────────────────────
+// Strips keys containing '$' or '.' from req.body, req.query, req.params
+app.use(mongoSanitize({ replaceWith: '_' }));
+
 // ─── Static: serve uploaded images ───────────────────────────────────────────
 app.use('/uploads', (req, res, next) => {
   res.header('Cross-Origin-Resource-Policy', 'cross-origin');
@@ -157,11 +162,13 @@ app.use('/api/auth/login',                 authLimiter);
 app.use('/api/dealer/auth/register',       authLimiter);
 app.use('/api/dealer/auth/login',          authLimiter);
 app.use('/api/dealer/auth/forgot-password', authLimiter);
-// Agent / Warehouse / Supplier login — same brute-force protection
+// All portal auth login endpoints — same brute-force protection
 app.use('/api/agent/auth/login',           authLimiter);
 app.use('/api/warehouse/auth/login',       authLimiter);
 app.use('/api/supplier/auth/login',        authLimiter);
 app.use('/api/engineer/auth/login',        authLimiter);
+app.use('/api/technician/auth/login',      authLimiter);
+app.use('/api/employee/auth/login',        authLimiter);
 app.use('/api',                            apiLimiter, dbGuard, routes);
 
 // ─── 404 ──────────────────────────────────────────────────────────────────────
@@ -171,11 +178,13 @@ app.use((req, res) => {
 
 // ─── Global error handler ─────────────────────────────────────────────────────
 app.use((err, req, res, next) => {
+  const status = err.statusCode || err.status || 500;
   console.error(err.stack);
-  res.status(err.statusCode || 500).json({
-    success: false,
-    message: err.message || 'Internal Server Error',
-  });
+  // Don't leak internal error details to clients in production
+  const message = status < 500 || process.env.NODE_ENV !== 'production'
+    ? (err.message || 'Internal Server Error')
+    : 'Internal Server Error';
+  res.status(status).json({ success: false, message });
 });
 
 // ─── Start ────────────────────────────────────────────────────────────────────

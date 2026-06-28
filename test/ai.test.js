@@ -6,7 +6,7 @@
  */
 const mongoose = require('mongoose');
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/metroappliances_test';
+const MONGO_URI = process.env.MONGO_TEST_URI || 'mongodb://localhost:27017/metro_test_ai';
 
 // Lazy model accessor — avoids OverwriteModelError
 const M = (name) => mongoose.model(name);

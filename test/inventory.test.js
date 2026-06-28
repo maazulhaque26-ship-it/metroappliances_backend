@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { describe, it, expect, beforeAll, afterAll } = require('@jest/globals');
 
 beforeAll(async () => {
-  await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/ecommerce_test');
+  await mongoose.connect(process.env.MONGO_TEST_URI || 'mongodb://localhost:27017/metro_test_inventory');
 });
 
 afterAll(async () => {

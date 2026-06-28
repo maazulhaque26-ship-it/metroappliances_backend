@@ -4729,5 +4729,97 @@ router.post('/admin/ai/models',                  protect, admin, aiCfg.createFor
 router.put('/admin/ai/models/:id',               protect, admin, aiCfg.updateForecastModel);
 router.delete('/admin/ai/models/:id',            protect, admin, aiCfg.deleteForecastModel);
 
+// ─────────────────────────────────────────────────────────────────────────────
+// SPRINT 16C — AI Copilot & Intelligent Automation  /api/admin/copilot/*
+// ─────────────────────────────────────────────────────────────────────────────
+const cplt   = require('../controllers/copilotController');
+const aiAsst = require('../controllers/aiAssistantController');
+const aiIns  = require('../controllers/aiInsightController');
+const autom  = require('../controllers/automationController');
+const know   = require('../controllers/knowledgeController');
+
+// Conversations
+router.get('/admin/copilot/conversations',               protect, admin, cplt.listConversations);
+router.post('/admin/copilot/conversations',              protect, admin, cplt.createConversation);
+router.get('/admin/copilot/conversations/:id',           protect, admin, cplt.getConversation);
+router.delete('/admin/copilot/conversations/:id',        protect, admin, cplt.deleteConversation);
+router.post('/admin/copilot/conversations/:id/message',  protect, admin, cplt.sendMessage);
+
+// Suggestions
+router.get('/admin/copilot/suggestions',                 protect, admin, cplt.getSuggestions);
+router.post('/admin/copilot/suggestions/generate',       protect, admin, cplt.generateSuggestions);
+router.patch('/admin/copilot/suggestions/:id/apply',     protect, admin, cplt.applySuggestion);
+router.patch('/admin/copilot/suggestions/:id/dismiss',   protect, admin, cplt.dismissSuggestion);
+
+// Tasks & Actions
+router.get('/admin/copilot/tasks',                       protect, admin, cplt.listTasks);
+router.post('/admin/copilot/tasks',                      protect, admin, cplt.createTask);
+router.get('/admin/copilot/tasks/:id',                   protect, admin, cplt.getTask);
+router.get('/admin/copilot/actions',                     protect, admin, cplt.listActions);
+
+// Insights
+router.post('/admin/copilot/insights/daily-briefing',    protect, admin, aiIns.generateDailyBriefing);
+router.post('/admin/copilot/insights/dept-summary',      protect, admin, aiIns.generateDeptSummary);
+router.post('/admin/copilot/insights/kpi-digest',        protect, admin, aiIns.generateKPIDigest);
+router.post('/admin/copilot/insights/monthly-summary',   protect, admin, aiIns.generateMonthlySummary);
+router.post('/admin/copilot/insights/risk-summary',      protect, admin, aiIns.generateRiskSummary);
+router.post('/admin/copilot/insights/opportunity-summary', protect, admin, aiIns.generateOpportunitySummary);
+router.get('/admin/copilot/insights',                    protect, admin, aiIns.listInsights);
+router.get('/admin/copilot/insights/:id',                protect, admin, aiIns.getInsight);
+router.delete('/admin/copilot/insights/:id',             protect, admin, aiIns.deleteInsight);
+
+// Automation — Rules
+router.get('/admin/copilot/automation/stats',            protect, admin, autom.getAutomationStats);
+router.get('/admin/copilot/automation/rules',            protect, admin, autom.listRules);
+router.post('/admin/copilot/automation/rules',           protect, admin, autom.createRule);
+router.get('/admin/copilot/automation/rules/:id',        protect, admin, autom.getRule);
+router.put('/admin/copilot/automation/rules/:id',        protect, admin, autom.updateRule);
+router.delete('/admin/copilot/automation/rules/:id',     protect, admin, autom.deleteRule);
+router.patch('/admin/copilot/automation/rules/:id/toggle', protect, admin, autom.toggleRule);
+router.post('/admin/copilot/automation/rules/:id/execute', protect, admin, autom.executeRule);
+router.post('/admin/copilot/automation/rules/:id/test',  protect, admin, autom.testRule);
+
+// Automation — Executions & History
+router.get('/admin/copilot/automation/executions',       protect, admin, autom.listExecutions);
+router.get('/admin/copilot/automation/executions/:id',   protect, admin, autom.getExecution);
+router.get('/admin/copilot/automation/history',          protect, admin, autom.listHistory);
+
+// Automation — Templates
+router.get('/admin/copilot/automation/templates',        protect, admin, autom.listTemplates);
+router.post('/admin/copilot/automation/templates/seed',  protect, admin, autom.seedBuiltInTemplates);
+router.post('/admin/copilot/automation/templates/:id/create-rule', protect, admin, autom.createFromTemplate);
+
+// Knowledge Base
+router.get('/admin/copilot/knowledge',                   protect, admin, know.listKnowledge);
+router.post('/admin/copilot/knowledge',                  protect, admin, know.createKnowledge);
+router.get('/admin/copilot/knowledge/search',            protect, admin, know.searchKnowledge);
+router.post('/admin/copilot/knowledge/seed',             protect, admin, know.seedBuiltInKnowledge);
+router.get('/admin/copilot/knowledge/module/:module',    protect, admin, know.getByModule);
+router.get('/admin/copilot/knowledge/:id',               protect, admin, know.getKnowledge);
+router.put('/admin/copilot/knowledge/:id',               protect, admin, know.updateKnowledge);
+router.delete('/admin/copilot/knowledge/:id',            protect, admin, know.deleteKnowledge);
+router.post('/admin/copilot/knowledge/:id/use',          protect, admin, know.incrementUseCount);
+
+// Assistants
+router.get('/admin/copilot/assistants',                  protect, admin, aiAsst.listAssistants);
+router.post('/admin/copilot/assistants',                 protect, admin, aiAsst.createAssistant);
+router.post('/admin/copilot/assistants/seed',            protect, admin, aiAsst.seedDefaultAssistants);
+router.get('/admin/copilot/assistants/:id',              protect, admin, aiAsst.getAssistant);
+router.put('/admin/copilot/assistants/:id',              protect, admin, aiAsst.updateAssistant);
+router.delete('/admin/copilot/assistants/:id',           protect, admin, aiAsst.deleteAssistant);
+
+// Prompts
+router.get('/admin/copilot/prompts',                     protect, admin, aiAsst.listPrompts);
+router.post('/admin/copilot/prompts',                    protect, admin, aiAsst.createPrompt);
+router.post('/admin/copilot/prompts/seed',               protect, admin, aiAsst.seedBuiltInPrompts);
+router.get('/admin/copilot/prompts/:id',                 protect, admin, aiAsst.getPrompt);
+router.put('/admin/copilot/prompts/:id',                 protect, admin, aiAsst.updatePrompt);
+router.delete('/admin/copilot/prompts/:id',              protect, admin, aiAsst.deletePrompt);
+router.post('/admin/copilot/prompts/:id/use',            protect, admin, aiAsst.incrementPromptUse);
+
+// Feedback
+router.post('/admin/copilot/feedback',                   protect, admin, aiAsst.submitFeedback);
+router.get('/admin/copilot/feedback/stats',              protect, admin, aiAsst.getFeedbackStats);
+
 module.exports = router;
 

@@ -48,6 +48,11 @@ const orderSchema = new mongoose.Schema({
   deliveredAt: Date,
 }, { timestamps: true });
 
+// Compound indexes for common query patterns
+orderSchema.index({ user: 1, createdAt: -1 });
+orderSchema.index({ status: 1, createdAt: -1 });
+orderSchema.index({ paymentStatus: 1 });
+
 orderSchema.pre('save', function (next) {
   if (!this.orderNumber) {
     this.orderNumber = 'HK' + Date.now().toString().slice(-8) + Math.floor(1000 + Math.random() * 9000);

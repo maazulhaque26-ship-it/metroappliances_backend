@@ -285,7 +285,7 @@ exports.getAgencies = async (req, res) => {
     const skip  = (page - 1) * limit;
 
     const filter = { isDeleted: false };
-    if (req.query.search) filter.name = { $regex: req.query.search, $options: 'i' };
+    if (req.query.search) filter.name = { $regex: req.query.search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: 'i' };
 
     const [data, total] = await Promise.all([
       RecruitmentAgency().find(filter).sort({ name: 1 }).skip(skip).limit(limit).lean(),
