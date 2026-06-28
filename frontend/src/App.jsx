@@ -488,6 +488,74 @@ const AdminResourceCapacity    = lazy(() => import('./pages/admin/AdminResourceC
 const AdminPortfolioExecutive  = lazy(() => import('./pages/admin/AdminPortfolioExecutive'));
 const AdminPortfolioReports    = lazy(() => import('./pages/admin/AdminPortfolioReports'));
 const AdminPortfolioFinance    = lazy(() => import('./pages/admin/AdminPortfolioFinance'));
+// Sprint 15C: PMO Governance & Analytics
+const AdminPMODashboard          = lazy(() => import('./pages/admin/AdminPMODashboard'));
+const AdminPMOGovernance         = lazy(() => import('./pages/admin/AdminPMOGovernance'));
+const AdminPMOCompliance         = lazy(() => import('./pages/admin/AdminPMOCompliance'));
+const AdminPMOBusinessCase       = lazy(() => import('./pages/admin/AdminPMOBusinessCase'));
+const AdminPMOInvestmentRequests = lazy(() => import('./pages/admin/AdminPMOInvestmentRequests'));
+const AdminPMOCharters           = lazy(() => import('./pages/admin/AdminPMOCharters'));
+const AdminPMOLessonsLearned     = lazy(() => import('./pages/admin/AdminPMOLessonsLearned'));
+const AdminPMOTemplates          = lazy(() => import('./pages/admin/AdminPMOTemplates'));
+const AdminPMODocuments          = lazy(() => import('./pages/admin/AdminPMODocuments'));
+const AdminPMOAudit              = lazy(() => import('./pages/admin/AdminPMOAudit'));
+const AdminPMOScorecard          = lazy(() => import('./pages/admin/AdminPMOScorecard'));
+const AdminPMOAnalytics          = lazy(() => import('./pages/admin/AdminPMOAnalytics'));
+// ── Sprint 15D: Workflow Automation & BPM ────────────────────────────────────
+const AdminBPMDashboard          = lazy(() => import('./pages/admin/AdminBPMDashboard'));
+const AdminWorkflowDesigner      = lazy(() => import('./pages/admin/AdminWorkflowDesigner'));
+const AdminWorkflowTemplates     = lazy(() => import('./pages/admin/AdminWorkflowTemplates'));
+const AdminWorkflowInstances     = lazy(() => import('./pages/admin/AdminWorkflowInstances'));
+const AdminWorkflowApprovals     = lazy(() => import('./pages/admin/AdminWorkflowApprovals'));
+const AdminWorkflowEscalations   = lazy(() => import('./pages/admin/AdminWorkflowEscalations'));
+const AdminWorkflowSLA           = lazy(() => import('./pages/admin/AdminWorkflowSLA'));
+const AdminWorkflowHistory       = lazy(() => import('./pages/admin/AdminWorkflowHistory'));
+const AdminWorkflowAnalytics     = lazy(() => import('./pages/admin/AdminWorkflowAnalytics'));
+const AdminWorkflowRules         = lazy(() => import('./pages/admin/AdminWorkflowRules'));
+const AdminWorkflowTriggers      = lazy(() => import('./pages/admin/AdminWorkflowTriggers'));
+const AdminWorkflowReports       = lazy(() => import('./pages/admin/AdminWorkflowReports'));
+// ── Sprint 15E: Enterprise Document Management System (DMS) ─────────────────
+const AdminDMSDashboard          = lazy(() => import('./pages/admin/AdminDMSDashboard'));
+const AdminDocumentFolders       = lazy(() => import('./pages/admin/AdminDocumentFolders'));
+const AdminDocumentLibrary       = lazy(() => import('./pages/admin/AdminDocumentLibrary'));
+const AdminDocumentDetail        = lazy(() => import('./pages/admin/AdminDocumentDetail'));
+const AdminKnowledgeBase         = lazy(() => import('./pages/admin/AdminKnowledgeBase'));
+const AdminKnowledgeDetail       = lazy(() => import('./pages/admin/AdminKnowledgeDetail'));
+const AdminDocumentTemplates     = lazy(() => import('./pages/admin/AdminDocumentTemplates'));
+const AdminDocumentReviewQueue   = lazy(() => import('./pages/admin/AdminDocumentReviewQueue'));
+const AdminDocumentRetention     = lazy(() => import('./pages/admin/AdminDocumentRetention'));
+const AdminDocumentArchive       = lazy(() => import('./pages/admin/AdminDocumentArchive'));
+const AdminDocumentReports       = lazy(() => import('./pages/admin/AdminDocumentReports'));
+const AdminDocumentSettings      = lazy(() => import('./pages/admin/AdminDocumentSettings'));
+// ── Sprint 16A: Enterprise Business Intelligence & Executive Analytics ────────
+const AdminBIExecutiveDashboard  = lazy(() => import('./pages/admin/AdminBIExecutiveDashboard'));
+const AdminBIExecutive           = lazy(() => import('./pages/admin/AdminBIExecutive'));
+const AdminBIBoardReports        = lazy(() => import('./pages/admin/AdminBIBoardReports'));
+const AdminBIDepartmentAnalytics = lazy(() => import('./pages/admin/AdminBIDepartmentAnalytics'));
+const AdminBIKPIExplorer         = lazy(() => import('./pages/admin/AdminBIKPIExplorer'));
+const AdminBITrendAnalytics      = lazy(() => import('./pages/admin/AdminBITrendAnalytics'));
+const AdminBIBenchmark           = lazy(() => import('./pages/admin/AdminBIBenchmark'));
+const AdminBIEnterpriseHealth    = lazy(() => import('./pages/admin/AdminBIEnterpriseHealth'));
+const AdminBIReportBuilder       = lazy(() => import('./pages/admin/AdminBIReportBuilder'));
+const AdminBIDashboardSettings   = lazy(() => import('./pages/admin/AdminBIDashboardSettings'));
+// ── Sprint 16B: Enterprise AI Forecasting & Predictive Intelligence ───────────
+const AdminAIDashboard           = lazy(() => import('./pages/admin/AdminAIDashboard'));
+const AdminAIForecastCenter      = lazy(() => import('./pages/admin/AdminAIForecastCenter'));
+const AdminAIPredictions         = lazy(() => import('./pages/admin/AdminAIPredictions'));
+const AdminAIRecommendations     = lazy(() => import('./pages/admin/AdminAIRecommendations'));
+const AdminAIAnomalyCenter       = lazy(() => import('./pages/admin/AdminAIAnomalyCenter'));
+const AdminAIScenarioComparison  = lazy(() => import('./pages/admin/AdminAIScenarioComparison'));
+const AdminAIForecastReports     = lazy(() => import('./pages/admin/AdminAIForecastReports'));
+const AdminAIPredictionSettings  = lazy(() => import('./pages/admin/AdminAIPredictionSettings'));
+// Sprint 16C — AI Copilot & Intelligent Automation
+const AdminAICopilot             = lazy(() => import('./pages/admin/AdminAICopilot'));
+const AdminAIChat                = lazy(() => import('./pages/admin/AdminAIChat'));
+const AdminAutomationCenter      = lazy(() => import('./pages/admin/AdminAutomationCenter'));
+const AdminCopilotRules          = lazy(() => import('./pages/admin/AdminCopilotRules'));
+const AdminExecutiveBriefing     = lazy(() => import('./pages/admin/AdminExecutiveBriefing'));
+const AdminAIInsights            = lazy(() => import('./pages/admin/AdminAIInsights'));
+const AdminRecommendationCenter  = lazy(() => import('./pages/admin/AdminRecommendationCenter'));
+const AdminKnowledgeAssistant    = lazy(() => import('./pages/admin/AdminKnowledgeAssistant'));
 // ESS Portal
 const EmployeeLogin              = lazy(() => import('./pages/employee/EmployeeLogin'));
 const EmployeeLayout             = lazy(() => import('./pages/employee/EmployeeLayout'));
@@ -1306,6 +1374,74 @@ export default function App() {
         <Route path="/admin/portfolio/finance"               element={<AdminRoute><AdminPortfolioFinance /></AdminRoute>} />
         <Route path="/admin/portfolio/reports"               element={<AdminRoute><AdminPortfolioReports /></AdminRoute>} />
         <Route path="/admin/portfolio/:id"                   element={<AdminRoute><AdminPortfolioDetail /></AdminRoute>} />
+        {/* Sprint 15C: PMO Governance & Analytics */}
+        <Route path="/admin/pmo/dashboard"        element={<AdminRoute><AdminPMODashboard /></AdminRoute>} />
+        <Route path="/admin/pmo/analytics"        element={<AdminRoute><AdminPMOAnalytics /></AdminRoute>} />
+        <Route path="/admin/pmo/governance"       element={<AdminRoute><AdminPMOGovernance /></AdminRoute>} />
+        <Route path="/admin/pmo/compliance"       element={<AdminRoute><AdminPMOCompliance /></AdminRoute>} />
+        <Route path="/admin/pmo/business-cases"   element={<AdminRoute><AdminPMOBusinessCase /></AdminRoute>} />
+        <Route path="/admin/pmo/investments"      element={<AdminRoute><AdminPMOInvestmentRequests /></AdminRoute>} />
+        <Route path="/admin/pmo/charters"         element={<AdminRoute><AdminPMOCharters /></AdminRoute>} />
+        <Route path="/admin/pmo/lessons"          element={<AdminRoute><AdminPMOLessonsLearned /></AdminRoute>} />
+        <Route path="/admin/pmo/templates"        element={<AdminRoute><AdminPMOTemplates /></AdminRoute>} />
+        <Route path="/admin/pmo/documents"        element={<AdminRoute><AdminPMODocuments /></AdminRoute>} />
+        <Route path="/admin/pmo/audits"           element={<AdminRoute><AdminPMOAudit /></AdminRoute>} />
+        <Route path="/admin/pmo/scorecards"       element={<AdminRoute><AdminPMOScorecard /></AdminRoute>} />
+        {/* Sprint 15D: Workflow Automation & BPM */}
+        <Route path="/admin/bpm/dashboard"         element={<AdminRoute><AdminBPMDashboard /></AdminRoute>} />
+        <Route path="/admin/bpm/designer"          element={<AdminRoute><AdminWorkflowDesigner /></AdminRoute>} />
+        <Route path="/admin/bpm/templates"         element={<AdminRoute><AdminWorkflowTemplates /></AdminRoute>} />
+        <Route path="/admin/bpm/instances"         element={<AdminRoute><AdminWorkflowInstances /></AdminRoute>} />
+        <Route path="/admin/bpm/approvals"         element={<AdminRoute><AdminWorkflowApprovals /></AdminRoute>} />
+        <Route path="/admin/bpm/escalations"       element={<AdminRoute><AdminWorkflowEscalations /></AdminRoute>} />
+        <Route path="/admin/bpm/sla"               element={<AdminRoute><AdminWorkflowSLA /></AdminRoute>} />
+        <Route path="/admin/bpm/history"           element={<AdminRoute><AdminWorkflowHistory /></AdminRoute>} />
+        <Route path="/admin/bpm/analytics"         element={<AdminRoute><AdminWorkflowAnalytics /></AdminRoute>} />
+        <Route path="/admin/bpm/rules"             element={<AdminRoute><AdminWorkflowRules /></AdminRoute>} />
+        <Route path="/admin/bpm/triggers"          element={<AdminRoute><AdminWorkflowTriggers /></AdminRoute>} />
+        <Route path="/admin/bpm/reports"           element={<AdminRoute><AdminWorkflowReports /></AdminRoute>} />
+        {/* Sprint 15E: Enterprise Document Management System */}
+        <Route path="/admin/dms/dashboard"     element={<AdminRoute><AdminDMSDashboard /></AdminRoute>} />
+        <Route path="/admin/dms/folders"       element={<AdminRoute><AdminDocumentFolders /></AdminRoute>} />
+        <Route path="/admin/dms/library"       element={<AdminRoute><AdminDocumentLibrary /></AdminRoute>} />
+        <Route path="/admin/dms/library/:id"   element={<AdminRoute><AdminDocumentDetail /></AdminRoute>} />
+        <Route path="/admin/dms/knowledge"     element={<AdminRoute><AdminKnowledgeBase /></AdminRoute>} />
+        <Route path="/admin/dms/knowledge/:id" element={<AdminRoute><AdminKnowledgeDetail /></AdminRoute>} />
+        <Route path="/admin/dms/templates"     element={<AdminRoute><AdminDocumentTemplates /></AdminRoute>} />
+        <Route path="/admin/dms/reviews"       element={<AdminRoute><AdminDocumentReviewQueue /></AdminRoute>} />
+        <Route path="/admin/dms/retention"     element={<AdminRoute><AdminDocumentRetention /></AdminRoute>} />
+        <Route path="/admin/dms/archive"       element={<AdminRoute><AdminDocumentArchive /></AdminRoute>} />
+        <Route path="/admin/dms/reports"       element={<AdminRoute><AdminDocumentReports /></AdminRoute>} />
+        <Route path="/admin/dms/settings"      element={<AdminRoute><AdminDocumentSettings /></AdminRoute>} />
+        {/* Sprint 16A: Enterprise BI & Executive Analytics */}
+        <Route path="/admin/bi-exec/dashboard"   element={<AdminRoute><AdminBIExecutiveDashboard /></AdminRoute>} />
+        <Route path="/admin/bi-exec/executive"   element={<AdminRoute><AdminBIExecutive /></AdminRoute>} />
+        <Route path="/admin/bi-exec/board"       element={<AdminRoute><AdminBIBoardReports /></AdminRoute>} />
+        <Route path="/admin/bi-exec/department"  element={<AdminRoute><AdminBIDepartmentAnalytics /></AdminRoute>} />
+        <Route path="/admin/bi-exec/kpis"        element={<AdminRoute><AdminBIKPIExplorer /></AdminRoute>} />
+        <Route path="/admin/bi-exec/trends"      element={<AdminRoute><AdminBITrendAnalytics /></AdminRoute>} />
+        <Route path="/admin/bi-exec/benchmark"   element={<AdminRoute><AdminBIBenchmark /></AdminRoute>} />
+        <Route path="/admin/bi-exec/health"      element={<AdminRoute><AdminBIEnterpriseHealth /></AdminRoute>} />
+        <Route path="/admin/bi-exec/reports"     element={<AdminRoute><AdminBIReportBuilder /></AdminRoute>} />
+        <Route path="/admin/bi-exec/settings"    element={<AdminRoute><AdminBIDashboardSettings /></AdminRoute>} />
+        {/* Sprint 16B: Enterprise AI Forecasting & Predictive Intelligence */}
+        <Route path="/admin/ai/dashboard"    element={<AdminRoute><AdminAIDashboard /></AdminRoute>} />
+        <Route path="/admin/ai/forecasts"    element={<AdminRoute><AdminAIForecastCenter /></AdminRoute>} />
+        <Route path="/admin/ai/predictions"  element={<AdminRoute><AdminAIPredictions /></AdminRoute>} />
+        <Route path="/admin/ai/recommendations" element={<AdminRoute><AdminAIRecommendations /></AdminRoute>} />
+        <Route path="/admin/ai/anomalies"    element={<AdminRoute><AdminAIAnomalyCenter /></AdminRoute>} />
+        <Route path="/admin/ai/scenarios"    element={<AdminRoute><AdminAIScenarioComparison /></AdminRoute>} />
+        <Route path="/admin/ai/reports"      element={<AdminRoute><AdminAIForecastReports /></AdminRoute>} />
+        <Route path="/admin/ai/settings"     element={<AdminRoute><AdminAIPredictionSettings /></AdminRoute>} />
+        {/* Sprint 16C — AI Copilot */}
+        <Route path="/admin/ai-copilot/dashboard"       element={<AdminRoute><AdminAICopilot /></AdminRoute>} />
+        <Route path="/admin/ai-copilot/chat"            element={<AdminRoute><AdminAIChat /></AdminRoute>} />
+        <Route path="/admin/ai-copilot/automation"      element={<AdminRoute><AdminAutomationCenter /></AdminRoute>} />
+        <Route path="/admin/ai-copilot/rules"           element={<AdminRoute><AdminCopilotRules /></AdminRoute>} />
+        <Route path="/admin/ai-copilot/briefing"        element={<AdminRoute><AdminExecutiveBriefing /></AdminRoute>} />
+        <Route path="/admin/ai-copilot/insights"        element={<AdminRoute><AdminAIInsights /></AdminRoute>} />
+        <Route path="/admin/ai-copilot/recommendations" element={<AdminRoute><AdminRecommendationCenter /></AdminRoute>} />
+        <Route path="/admin/ai-copilot/knowledge"       element={<AdminRoute><AdminKnowledgeAssistant /></AdminRoute>} />
         {/* ESS Portal */}
         <Route path="/employee/login" element={<PageWrapper><EmployeeLogin /></PageWrapper>} />
         <Route path="/employee" element={<EmployeeRoute><EmployeeLayout /></EmployeeRoute>}>
